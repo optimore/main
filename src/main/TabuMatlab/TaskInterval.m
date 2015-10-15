@@ -18,23 +18,25 @@ cost = 0;
 
 n=model.n;
 
-for i=1:n-1
-    start1 = model.start_t(i)
-    end1 = start1 + model.length(i)
-    for j=i+1:n
-        start2 = model.start_t(j)
-        end2 = start2 + model.length(j)
-        
-        if start1 < start2  && start2 < end1
-            cost = end1 - start2;
-            if end2 < end1
-                cost = cost - (end1 -end2);
-            end
-        end
+for i=1:n
+    start_t = model.start_t(i);
+    end_t = model.end_t(i);
+    start_min = model.min_start_t(i);
+    end_max = model.min_start_t(i);
+    
+    if start_t < start_min
+        cost = abs(start_t - start_min);
     end
-end
+    
+    if end_t > end_max
+        cost = abs(start - end_max);
+    end
+    
+
 
 C = C + cost;
+
+end
 % 
 % Old code
 % n=numel(tour);
