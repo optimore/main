@@ -20,7 +20,7 @@ for i=1:Ntasksn-1
     
     while x==0
         end_time = listofstartingpoints(i+1)-randi(space_param,1,1);
-        if listofstartingpoints(i+1) > end_time
+        if listofstartingpoints(i+1) > end_time && end_time > listofstartingpoints(i)
             Listoflength = [Listoflength; end_time-listofstartingpoints(i)];
             end_time_vector = [end_time_vector; end_time];
             x=1;
@@ -31,7 +31,7 @@ end
 
 while x==0
     end_time = L-randi(space_param,1,1);
-    if listofstartingpoints(end) < end_time
+    if listofstartingpoints(end) < end_time && end_time > listofstartingpoints(i)
         Listoflength = [Listoflength; end_time-listofstartingpoints(end)];
         end_time_vector = [end_time_vector; end_time];
         x=1;
