@@ -29,6 +29,15 @@ for i=1:Ntasksn-1
     x=0;
 end
 
+while x==0
+    end_time = L-randi(space_param,1,1);
+    if listofstartingpoints(end) < end_time
+        Listoflength = [Listoflength; end_time-listofstartingpoints(end)];
+        end_time_vector = [end_time_vector; end_time];
+        x=1;
+    end
+end
+
 %specialbehandla sista. end_time måste vara mindre än L.
 
 

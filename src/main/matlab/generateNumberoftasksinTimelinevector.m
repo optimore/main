@@ -1,4 +1,4 @@
-function [ output_args ] = generateNumberoftasksinTimelinevector( Ntasks, Ntimelines )
+function [ NumberoftasksinTimelinevector ] = generateNumberoftasksinTimelinevector( Ntasks, Ntimelines )
 %UNTITLED6 Summary of this function goes here
 %   Detailed explanation goes here
 x=0;

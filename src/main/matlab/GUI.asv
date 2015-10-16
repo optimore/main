@@ -73,6 +73,8 @@ checkbox = uicontrol(f2,'Style','checkbox',...
             
             print_correct();
         end
+        
+        
     end
 
 ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.05,0.9,0.9]);
@@ -352,7 +354,6 @@ lb3 = uicontrol(f,'Style','listbox',...
             genlistofstartpts,gentasks, attrgen_unif, ...
             gendepmatrix,gendepattr, 12, 1, 1, 1, 1);
         
-        
         % Måste konvertera lång Timelinesolution och attributes till
         % cell-array vid inläsning.
         
@@ -412,12 +413,10 @@ ylabel('Objective function');
     end
 
     function print_arrows
-        for i=1:size(DependencyMatrix,1)
-            x_start = TimelineSolution{}()
-            x_end = TimelineSolution{}()
-            y_start = 
-            y_end = 
-        end
+        
+        
+        
     end
+
 
 end

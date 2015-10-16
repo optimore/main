@@ -11,7 +11,7 @@ first_start_time = randi(space_param,1,1)-1;
 
 while x==0
     
-    start_time_vector = [first_start_time; randi(L-first_start_time-1,N,1)+first_start_time];
+    start_time_vector = [first_start_time; randi(L-first_start_time-1,N-1,1)+first_start_time];
     
     start_time_vector = sort(start_time_vector);
     
