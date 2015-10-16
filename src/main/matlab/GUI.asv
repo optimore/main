@@ -11,10 +11,13 @@ DependencyAttribute = [];
 
 testdataiterator = ones(3,1);
 
+% Antal tasks
 N = 100;
 
+% Antal tidssteg
 L = 100000000;
 
+% Antal tidslinjer
 T = 5;
 
 
@@ -73,8 +76,6 @@ checkbox = uicontrol(f2,'Style','checkbox',...
             
             print_correct();
         end
-        
-        
     end
 
 ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.05,0.9,0.9]);
@@ -354,6 +355,7 @@ lb3 = uicontrol(f,'Style','listbox',...
             genlistofstartpts,gentasks, attrgen_unif, ...
             gendepmatrix,gendepattr, 12, 1, 1, 1, 1);
         
+        
         % Måste konvertera lång Timelinesolution och attributes till
         % cell-array vid inläsning.
         
@@ -413,10 +415,16 @@ ylabel('Objective function');
     end
 
     function print_arrows
-        
-        
-        
+        for i=1:size(DependencyMatrix,1)
+            task1_start = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1));
+            task1_length = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1));
+            task2_start = TimelineSolution{DependencyMatrix(i,3)}(DependencyMatrix(i,1));
+            
+            x_start = 
+            x_end = TimelineSolution{DependencyMatrix(i,4)}()
+            y_start = 
+            y_end = 
+        end
     end
-
 
 end

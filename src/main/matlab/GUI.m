@@ -11,10 +11,13 @@ DependencyAttribute = [];
 
 testdataiterator = ones(3,1);
 
+% Antal tasks
 N = 100;
 
+% Antal tidssteg
 L = 100000000;
 
+% Antal tidslinjer
 T = 5;
 
 
@@ -57,12 +60,12 @@ difficulty_number = 1;
 f2 = figure('Visible','on','Position',[10,100,1400,1000]);
 
 checkbox = uicontrol(f2,'Style','checkbox',...
-                'String','Display file extension',...
+                'String','Display dependencies (star denotes the endpoint of a dependency)',...
                 'Units','normalized', ...
-                'Value',1,'Position',[0.45 0.05 0.1 0.05], ...
+                'Value',0,'Position',[0.35 0.05 0.3 0.05], ...
                 'Callback', @checkbox_callback);
             
-    function checkbox_callback
+    function checkbox_callback(hObject, eventdata, handles)
         if (get(hObject,'Value') == 1)
             
             print_correct();
@@ -75,7 +78,7 @@ checkbox = uicontrol(f2,'Style','checkbox',...
         end
     end
 
-ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.05,0.9,0.9]);
+ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.9]);
 
 %%%%%%%%%% Figur 2
 f = figure('Visible','on','Position',[160,200,1200,800]);
@@ -350,7 +353,7 @@ lb3 = uicontrol(f,'Style','listbox',...
         % Hämta information från var knapparna befinner sig.
         [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, genlistoflen, ...
             genlistofstartpts,gentasks, attrgen_unif, ...
-            gendepmatrix,gendepattr, 12, 1, 1, 1, 1);
+            gendepmatrix,gendepattr, 20, 1, 1, 1, 1);
         
         
         % Måste konvertera lång Timelinesolution och attributes till
@@ -392,7 +395,7 @@ ylabel('Objective function');
         
         cla reset
         
-        axis([-0.1*L,1.1*L,0.5,T+0.5])
+        axis([-0.1*L,1.1*L,0,T+1])
         set(gca,'FontSize',10);
         title('Plot of timelines and tasks');
         xlabel('Time');
@@ -413,10 +416,43 @@ ylabel('Objective function');
 
     function print_arrows
         for i=1:size(DependencyMatrix,1)
-            x_start = TimelineSolution{}()
-            x_end = TimelineSolution{}()
-            y_start = 
-            y_end = 
+            set(0, 'currentfigure', f2);
+            
+            set(f2, 'currentaxes', ha2);
+            hold(ha2, 'on')
+            task1_start = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1),1);
+            task1_length = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1),2);
+            task2_start = TimelineSolution{DependencyMatrix(i,4)}(DependencyMatrix(i,3),1);
+            
+            x_start = task1_start+task1_length;
+            x_end = task2_start;
+            y_start = DependencyMatrix(i,2);
+            y_end = DependencyMatrix(i,4);
+            
+            % line([x_start, x_end], [y_start, y_end],'Color',[0.1,0.8,0.1])
+            
+            
+            
+            X = [x_start x_end];
+            Y = [y_start y_end];
+            % intermediate point (you have to choose your own)
+            Xi = mean(X);
+            Yi = mean(Y) + 0.5*(y_end-y_start)+0.1;
+            
+            Xa = [X(1) Xi X(2)];
+            Ya = [Y(1) Yi Y(2)];
+            
+            t  = 1:numel(Xa);
+            ts = linspace(min(t),max(t),numel(Xa)*10); % has to be a fine grid
+            xx = spline(t,Xa,ts);
+            yy = spline(t,Ya,ts);
+            
+            plot(xx,yy); hold on; % curve
+            
+            
+            plot(x_end,y_end,'Marker','p','Color',[.88 .48 0],'MarkerSize',10)
+            hold(ha2, 'off')
+            set(0, 'currentfigure', f);
         end
     end
 
