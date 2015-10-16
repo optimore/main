@@ -1,11 +1,11 @@
 function [ TimelineSolution, TimelineAttributeList, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, generatelistoflength, ...
     generatelistofstartingpoints,generateNumberoftasksinTimelinevector, Attributegenerator, ...
-    Generatedependencymatrix,Generatedependencyattributes,Ndependencies, variance1, mu1, variance2, mu2)
+    Generatedependencymatrix,Generatedependencyattributes,Ndependencies, variance1, mu1, variance2, mu2, occupancy, genlistoflengths_startpts)
 %UNTITLED11 Summary of this function goes here
 %   Detailed explanation goes here
 
 TimelineSolution = createsolution(N,L,T,generatelistoflength, ...
-    generatelistofstartingpoints,generateNumberoftasksinTimelinevector);
+    generatelistofstartingpoints,generateNumberoftasksinTimelinevector, occupancy, genlistoflengths_startpts);
 
 TimelineAttributeList={};
 

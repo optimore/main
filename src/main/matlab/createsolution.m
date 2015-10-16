@@ -1,4 +1,4 @@
-function [TimelineSolution] = createsolution(N, L, T,generatelistoflength,generatelistofstartingpoints,generateNumberoftasksinTimelinevector)
+function [TimelineSolution] = createsolution(N, L, T,generatelistoflength,generatelistofstartingpoints,generateNumberoftasksinTimelinevector, occupancy, genlistoflengths_startpts)
 %UNTITLED10 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -10,11 +10,12 @@ TimelineSolution = {};
 for n=1:T
     
 	N=NumberoftasksinTimelinevector(n);
-    listofstartingpoints= generatelistofstartingpoints(L, N);
+%     listofstartingpoints= generatelistofstartingpoints(L, N);
     % size(listofstartingpoints,1)
     % genlistoflength måste nog moddas lite.
-    listoflength=generatelistoflength(listofstartingpoints,L);
-    
+%     listoflength=generatelistoflength(listofstartingpoints,L);
+    [listofstartingpoints, listoflength] = genlistoflengths_startpts(L, N, occupancy);
+
     TimelineSolution{n} = [listofstartingpoints, listoflength];
 end
 
