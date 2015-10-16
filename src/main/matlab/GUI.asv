@@ -20,6 +20,9 @@ L = 100000000;
 % Antal tidslinjer
 T = 5;
 
+% Antal data att skapa
+Num_data = 1;
+
 
 bool1 = 0;
 while bool1==0
@@ -60,12 +63,12 @@ difficulty_number = 1;
 f2 = figure('Visible','on','Position',[10,100,1400,1000]);
 
 checkbox = uicontrol(f2,'Style','checkbox',...
-                'String','Display file extension',...
+                'String','Display dependencies (star denotes the endpoint of a dependency)',...
                 'Units','normalized', ...
-                'Value',1,'Position',[0.45 0.05 0.1 0.05], ...
+                'Value',0,'Position',[0.35 0.03 0.3 0.05], ...
                 'Callback', @checkbox_callback);
             
-    function checkbox_callback
+    function checkbox_callback(hObject, eventdata, handles)
         if (get(hObject,'Value') == 1)
             
             print_correct();
@@ -78,10 +81,10 @@ checkbox = uicontrol(f2,'Style','checkbox',...
         end
     end
 
-ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.05,0.9,0.9]);
+ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
 
 %%%%%%%%%% Figur 2
-f = figure('Visible','on','Position',[160,200,1200,800]);
+f = figure('Visible','on','Position',[160,200,1600,800]);
 
 p = uipanel('Title','Data creation',...
     'Position',[0.49 0.63 0.41 0.32]);
@@ -96,6 +99,74 @@ testdataload    = uicontrol('Style','pushbutton',...
 
     function testdataload_callback(source,eventdata)
         
+    end
+
+txtbox1 = uicontrol('Style','edit',...
+    'String',num2str(L), 'Units','normalized',...
+    'Position',[0.15 0.3 0.05 0.02],...
+    'Callback',@txt1_callback);
+
+    function txt1_callback(source,eventdata)
+        L_prel = str2num(get(txtbox1,'String'));
+        if isnumeric(L_prel) && ~isempty(L_prel) && ...
+                L_prel > 0 && L_prel == floor(L_prel)
+            
+            L = L_prel;
+        else
+            set(txtbox1,'String',num2str(L));
+            
+        end
+    end
+
+txtbox2 = uicontrol('Style','edit',...
+    'String',num2str(T), 'Units','normalized',...
+    'Position',[0.15 0.35 0.05 0.02],...
+    'Callback',@txt2_callback);
+
+    function txt2_callback(source,eventdata)
+        L_prel = str2num(get(txtbox2,'String'));
+        if isnumeric(L_prel) && ~isempty(L_prel) && ...
+                L_prel > 0 && L_prel == floor(L_prel)
+            
+            L = L_prel;
+        else
+            set(txtbox2,'String',num2str(L));
+            
+        end
+    end
+
+txtbox3 = uicontrol('Style','edit',...
+    'String',num2str(N), 'Units','normalized',...
+    'Position',[0.15 0.4 0.05 0.02],...
+    'Callback',@txt3_callback);
+
+    function txt3_callback(source,eventdata)
+        L_prel = str2num(get(txtbox3,'String'));
+        if isnumeric(L_prel) && ~isempty(L_prel) && ...
+                L_prel > 0 && L_prel == floor(L_prel)
+            
+            L = L_prel;
+        else
+            set(txtbox3,'String',num2str(L));
+            
+        end
+    end
+
+txtbox4 = uicontrol('Style','edit',...
+    'String',num2str(Num_data), 'Units','normalized',...
+    'Position',[0.15 0.45 0.05 0.02],...
+    'Callback',@txt4_callback);
+
+    function txt4_callback(source,eventdata)
+        Num_data_prel = str2num(get(txtbox4,'String'));
+        if isnumeric(Num_data_prel) && ~isempty(Num_data_prel) && ...
+                Num_data_prel > 0 && Num_data_prel == floor(Num_data_prel)
+            
+            Num_data = Num_data_prel;
+        else
+            set(txtbox4,'String',num2str(Num_data));
+            
+        end
     end
 
 testdatasave    = uicontrol('Style','pushbutton',...
@@ -125,15 +196,15 @@ testdatasave    = uicontrol('Style','pushbutton',...
     end
 
 testresultsave    = uicontrol('Style','pushbutton',...
-    'String','Save test results', 'Units','normalized','Position',[0.5,0.34,0.2,0.05],...
-    'Callback',@testresultsave_callback);
+    'String','Save test results', 'Units','normalized','Position',[0.05,0.2,0.2,0.05],...
+    'Callback',@testresultsave_callback,'Enable','off');
 
     function testresultsave_callback(source,eventdata)
         
     end
 
 run_tabu    = uicontrol('Style','pushbutton',...
-    'String','Run tabu search', 'Units','normalized','Position',[0.72,0.34,0.2,0.05],...
+    'String','Run tabu search', 'Units','normalized','Position',[0.05,0.05,0.2,0.05],...
     'Callback',@run_tabu_callback, ...
     'Enable','off');
 
@@ -142,7 +213,7 @@ run_tabu    = uicontrol('Style','pushbutton',...
     end
 
 run_lns    = uicontrol('Style','pushbutton',...
-    'String','Run large neighborhood search', 'Units','normalized','Position',[0.72,0.39,0.2,0.05],...
+    'String','Run large neighborhood search', 'Units','normalized','Position',[0.05,0.1,0.2,0.05],...
     'Callback',@run_lns_callback, ...
     'Enable','off');
 
@@ -151,7 +222,7 @@ run_lns    = uicontrol('Style','pushbutton',...
     end
 
 run_lp    = uicontrol('Style','pushbutton',...
-    'String','Run MIP method', 'Units','normalized','Position',[0.72,0.44,0.2,0.05],...
+    'String','Run MIP method', 'Units','normalized','Position',[0.05,0.15,0.2,0.05],...
     'Callback',@run_lp_callback, ...
     'Enable','off');
 
@@ -159,7 +230,7 @@ run_lp    = uicontrol('Style','pushbutton',...
         
     end
 
-ha1 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.4,0.4,0.55]);
+ha1 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.6,0.3,0.3]);
 
 distribution_group = uibuttongroup(f,'Title','Dependency distribution',...
     'Position',[.5 .85 .20 .08]);
@@ -353,7 +424,7 @@ lb3 = uicontrol(f,'Style','listbox',...
         % Hämta information från var knapparna befinner sig.
         [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, genlistoflen, ...
             genlistofstartpts,gentasks, attrgen_unif, ...
-            gendepmatrix,gendepattr, 12, 1, 1, 1, 1);
+            gendepmatrix,gendepattr, 20, 1, 1, 1, 1);
         
         
         % Måste konvertera lång Timelinesolution och attributes till
@@ -395,7 +466,7 @@ ylabel('Objective function');
         
         cla reset
         
-        axis([-0.1*L,1.1*L,0.5,T+0.5])
+        axis([-0.1*L,1.1*L,0,T+1])
         set(gca,'FontSize',10);
         title('Plot of timelines and tasks');
         xlabel('Time');
@@ -416,14 +487,43 @@ ylabel('Objective function');
 
     function print_arrows
         for i=1:size(DependencyMatrix,1)
-            task1_start = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1));
-            task1_length = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1));
-            task2_start = TimelineSolution{DependencyMatrix(i,3)}(DependencyMatrix(i,1));
+            set(0, 'currentfigure', f2);
             
-            x_start = 
-            x_end = TimelineSolution{DependencyMatrix(i,4)}()
-            y_start = 
-            y_end = 
+            set(f2, 'currentaxes', ha2);
+            hold(ha2, 'on')
+            task1_start = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1),1);
+            task1_length = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1),2);
+            task2_start = TimelineSolution{DependencyMatrix(i,4)}(DependencyMatrix(i,3),1);
+            
+            x_start = task1_start+task1_length;
+            x_end = task2_start;
+            y_start = DependencyMatrix(i,2);
+            y_end = DependencyMatrix(i,4);
+            
+            % line([x_start, x_end], [y_start, y_end],'Color',[0.1,0.8,0.1])
+            
+            
+            
+            X = [x_start x_end];
+            Y = [y_start y_end];
+            % intermediate point (you have to choose your own)
+            Xi = mean(X);
+            Yi = mean(Y) + 0.5*(y_end-y_start)+0.1;
+            
+            Xa = [X(1) Xi X(2)];
+            Ya = [Y(1) Yi Y(2)];
+            
+            t  = 1:numel(Xa);
+            ts = linspace(min(t),max(t),numel(Xa)*10); % has to be a fine grid
+            xx = spline(t,Xa,ts);
+            yy = spline(t,Ya,ts);
+            
+            plot(xx,yy); hold on; % curve
+            
+            
+            plot(x_end,y_end,'Marker','p','Color',[.88 .48 0],'MarkerSize',10)
+            hold(ha2, 'off')
+            set(0, 'currentfigure', f);
         end
     end
 

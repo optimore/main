@@ -3,7 +3,7 @@ function [start_time_vector] = generatelistofstartingpoints(L, N)
 %   Detailed explanation goes here
 x=0;
 
-space_param = floor(L/N/5);
+space_param = floor(L/N/3);
 
 start_time_vector = [];
 

@@ -22,7 +22,7 @@ for i=1:size(DependencyMatrix,1)
     rand2 = randi(Scaling,1,1)-1;
     
     fdmin = max(0,task2_begin-task1_end-rand1);
-    fdmax = min(L-task1_end,task2_end-task1_end+rand2);
+    fdmax = min(L-(task2_end-task2_begin),task2_begin-task1_end+rand2);
     
     DependencyAttribute(i,:) = [fdmin, fdmax];
     

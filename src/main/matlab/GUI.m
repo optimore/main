@@ -18,7 +18,13 @@ N = 100;
 L = 100000000;
 
 % Antal tidslinjer
-T = 5;
+T = 10;
+
+% Antal data att skapa
+Num_data = 1;
+
+% Antal dependencies
+Ndeps=20;
 
 
 bool1 = 0;
@@ -62,7 +68,7 @@ f2 = figure('Visible','on','Position',[10,100,1400,1000]);
 checkbox = uicontrol(f2,'Style','checkbox',...
                 'String','Display dependencies (star denotes the endpoint of a dependency)',...
                 'Units','normalized', ...
-                'Value',0,'Position',[0.35 0.05 0.3 0.05], ...
+                'Value',0,'Position',[0.35 0.03 0.3 0.05], ...
                 'Callback', @checkbox_callback);
             
     function checkbox_callback(hObject, eventdata, handles)
@@ -78,10 +84,10 @@ checkbox = uicontrol(f2,'Style','checkbox',...
         end
     end
 
-ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.9]);
+ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
 
 %%%%%%%%%% Figur 2
-f = figure('Visible','on','Position',[160,200,1200,800]);
+f = figure('Visible','on','Position',[160,200,1600,800]);
 
 p = uipanel('Title','Data creation',...
     'Position',[0.49 0.63 0.41 0.32]);
@@ -92,11 +98,112 @@ testdatagen    = uicontrol('Style','pushbutton',...
 
 testdataload    = uicontrol('Style','pushbutton',...
     'String','Load test data', 'Units','normalized','Position',[0.5,0.44,0.2,0.05],...
-    'Callback',@testdataload_callback);
+    'Callback',@testdataload_callback, ...
+    'Enable','off');
 
     function testdataload_callback(source,eventdata)
         
     end
+
+txtbox1 = uicontrol('Style','edit',...
+    'String',num2str(L), 'Units','normalized',...
+    'Position',[0.85 0.4 0.05 0.02],...
+    'Callback',@txt1_callback);
+
+    function txt1_callback(source,eventdata)
+        L_prel = str2num(get(txtbox1,'String'));
+        if isnumeric(L_prel) && ~isempty(L_prel) && ...
+                L_prel > 0 && L_prel == floor(L_prel)
+            
+            L = L_prel;
+        else
+            set(txtbox1,'String',num2str(L));
+            
+        end
+    end
+
+txtbox2 = uicontrol('Style','edit',...
+    'String',num2str(T), 'Units','normalized',...
+    'Position',[0.85 0.45 0.05 0.02],...
+    'Callback',@txt2_callback);
+
+    function txt2_callback(source,eventdata)
+        T_prel = str2num(get(txtbox2,'String'));
+        if isnumeric(T_prel) && ~isempty(T_prel) && ...
+                T_prel > 0 && T_prel == floor(T_prel)
+            
+            T = T_prel;
+        else
+            set(txtbox2,'String',num2str(T));
+            
+        end
+    end
+
+txtbox3 = uicontrol('Style','edit',...
+    'String',num2str(N), 'Units','normalized',...
+    'Position',[0.85 0.5 0.05 0.02],...
+    'Callback',@txt3_callback);
+
+    function txt3_callback(source,eventdata)
+        N_prel = str2num(get(txtbox3,'String'));
+        if isnumeric(N_prel) && ~isempty(N_prel) && ...
+                N_prel > 0 && N_prel == floor(N_prel)
+            
+            N = N_prel;
+        else
+            set(txtbox3,'String',num2str(N));
+            
+        end
+    end
+
+txtbox4 = uicontrol('Style','edit',...
+    'String',num2str(Num_data), 'Units','normalized',...
+    'Position',[0.85 0.55 0.05 0.02],...
+    'Callback',@txt4_callback);
+
+    function txt4_callback(source,eventdata)
+        Num_data_prel = str2num(get(txtbox4,'String'));
+        if isnumeric(Num_data_prel) && ~isempty(Num_data_prel) && ...
+                Num_data_prel > 0 && Num_data_prel == floor(Num_data_prel)
+            
+            Num_data = Num_data_prel;
+        else
+            set(txtbox4,'String',num2str(Num_data));
+            
+        end
+    end
+
+txtbox5 = uicontrol('Style','edit',...
+    'String',num2str(Ndeps), 'Units','normalized',...
+    'Position',[0.85 0.35 0.05 0.02],...
+    'Callback',@txt5_callback);
+
+    function txt5_callback(source,eventdata)
+        Ndeps_prel = str2num(get(txtbox5,'String'));
+        if isnumeric(Ndeps_prel) && ~isempty(Ndeps_prel) && ...
+                Ndeps_prel > 0 && Ndeps_prel == floor(Ndeps_prel)
+            
+            Ndeps = Ndeps_prel;
+        else
+            set(txtbox5,'String',num2str(Ndeps));
+            
+        end
+    end
+
+static_text1 = uicontrol('Style','text','String','#Data sets:', 'Units','normalized',...
+    'Position',[0.74,0.55,0.10,0.02]);
+
+static_text2 = uicontrol('Style','text','String','#Tasks (approximately):', 'Units','normalized',...
+    'Position',[0.74,0.5,0.10,0.02]);
+
+static_text3 = uicontrol('Style','text','String','#Time-lines:', 'Units','normalized',...
+    'Position',[0.74,0.45,0.10,0.02]);
+
+static_text4 = uicontrol('Style','text','String','#Time steps:', 'Units','normalized',...
+    'Position',[0.74,0.4,0.10,0.02]);
+
+static_text5 = uicontrol('Style','text','String','#Dependencies (approximately):', 'Units','normalized',...
+    'Position',[0.74,0.35,0.10,0.02]);
 
 testdatasave    = uicontrol('Style','pushbutton',...
     'String','Save test data', 'Units','normalized','Position',[0.5,0.39,0.2,0.05],...
@@ -125,15 +232,15 @@ testdatasave    = uicontrol('Style','pushbutton',...
     end
 
 testresultsave    = uicontrol('Style','pushbutton',...
-    'String','Save test results', 'Units','normalized','Position',[0.5,0.34,0.2,0.05],...
-    'Callback',@testresultsave_callback);
+    'String','Save test results', 'Units','normalized','Position',[0.05,0.2,0.2,0.05],...
+    'Callback',@testresultsave_callback,'Enable','off');
 
     function testresultsave_callback(source,eventdata)
         
     end
 
 run_tabu    = uicontrol('Style','pushbutton',...
-    'String','Run tabu search', 'Units','normalized','Position',[0.72,0.34,0.2,0.05],...
+    'String','Run tabu search', 'Units','normalized','Position',[0.05,0.05,0.2,0.05],...
     'Callback',@run_tabu_callback, ...
     'Enable','off');
 
@@ -142,7 +249,7 @@ run_tabu    = uicontrol('Style','pushbutton',...
     end
 
 run_lns    = uicontrol('Style','pushbutton',...
-    'String','Run large neighborhood search', 'Units','normalized','Position',[0.72,0.39,0.2,0.05],...
+    'String','Run large neighborhood search', 'Units','normalized','Position',[0.05,0.1,0.2,0.05],...
     'Callback',@run_lns_callback, ...
     'Enable','off');
 
@@ -151,7 +258,7 @@ run_lns    = uicontrol('Style','pushbutton',...
     end
 
 run_lp    = uicontrol('Style','pushbutton',...
-    'String','Run MIP method', 'Units','normalized','Position',[0.72,0.44,0.2,0.05],...
+    'String','Run MIP method', 'Units','normalized','Position',[0.05,0.15,0.2,0.05],...
     'Callback',@run_lp_callback, ...
     'Enable','off');
 
@@ -159,7 +266,7 @@ run_lp    = uicontrol('Style','pushbutton',...
         
     end
 
-ha1 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.4,0.4,0.55]);
+% ha1 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.6,0.3,0.3]);
 
 distribution_group = uibuttongroup(f,'Title','Dependency distribution',...
     'Position',[.5 .85 .20 .08]);
@@ -304,19 +411,6 @@ lb3 = uicontrol(f,'Style','listbox',...
                 'Position',[0.72 0.05 0.2 0.2],'Value',1, ...
                 'Enable','off');
 
-    function txtbox1_callback(source,eventdata)
-        
-    end
-
-
-    function txtbox2_callback(source,eventdata)
-        
-    end
-
-    function txtbox3_callback(source,eventdata)
-        
-    end
-
     function distr1_callback(source,eventdata)
         
     end
@@ -343,6 +437,8 @@ lb3 = uicontrol(f,'Style','listbox',...
 
     function testdatagen_callback(source,eventdata)
         
+        set(checkbox,'Value',0);
+        
         genlistoflen = @(listofstartingpoints,L) generatelistoflength(listofstartingpoints,L);
         genlistofstartpts = @(L, N) generatelistofstartingpoints(L, N);
         gentasks = @( Ntasks, Ntimelines ) generateNumberoftasksinTimelinevector( Ntasks, Ntimelines );
@@ -351,9 +447,16 @@ lb3 = uicontrol(f,'Style','listbox',...
         gendepattr = @(TimelineSolution,DependencyMatrix, variance, mu, L, N, T) Generatedependencyattributes(TimelineSolution,DependencyMatrix, variance, mu, L, N, T);
         
         % Hämta information från var knapparna befinner sig.
+        TimelineSolution = [];
+        attributes = [];
+        DependencyMatrix = [];
+        DependencyAttribute = [];
+        
+        
         [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, genlistoflen, ...
             genlistofstartpts,gentasks, attrgen_unif, ...
-            gendepmatrix,gendepattr, 20, 1, 1, 1, 1);
+            gendepmatrix,gendepattr, Ndeps, 1, 1, 1, 1);
+        
         
         
         % Måste konvertera lång Timelinesolution och attributes till
@@ -364,10 +467,10 @@ lb3 = uicontrol(f,'Style','listbox',...
     end
 
 
-plot(1./(1:0.1:10));
-title('Rate of convergence vs iterations');
-xlabel('Number of iterations');
-ylabel('Objective function');
+% plot(1./(1:0.1:10));
+% title('Rate of convergence vs iterations');
+% xlabel('Number of iterations');
+% ylabel('Objective function');
 
 
 

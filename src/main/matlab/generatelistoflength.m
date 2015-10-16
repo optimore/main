@@ -4,7 +4,7 @@ function Listoflength = generatelistoflength(listofstartingpoints,L)
 
 Ntasksn = length(listofstartingpoints);
 
-density_param = 0.2;
+density_param = 0.6;
 
 space_param = floor(L/Ntasksn*density_param);
 
