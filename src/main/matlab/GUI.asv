@@ -8,6 +8,10 @@ TimelineSolution = [];
 attributes = [];
 DependencyMatrix = [];
 DependencyAttribute = [];
+TimelineSolution_mater = [];
+attributes_mater = [];
+DependencyMatrix_mater = [];
+DependencyAttribute_mater = [];
 
 testdataiterator = ones(3,1);
 
@@ -18,10 +22,16 @@ N = 100;
 L = 100000000;
 
 % Antal tidslinjer
-T = 5;
+T = 10;
 
 % Antal data att skapa
 Num_data = 1;
+
+% Antal dependencies
+Ndeps=20;
+
+% Hur stor del av tidlinjerna som är besatta
+occupancy = 0.5;
 
 
 bool1 = 0;
@@ -95,7 +105,8 @@ testdatagen    = uicontrol('Style','pushbutton',...
 
 testdataload    = uicontrol('Style','pushbutton',...
     'String','Load test data', 'Units','normalized','Position',[0.5,0.44,0.2,0.05],...
-    'Callback',@testdataload_callback);
+    'Callback',@testdataload_callback, ...
+    'Enable','off');
 
     function testdataload_callback(source,eventdata)
         
@@ -103,7 +114,7 @@ testdataload    = uicontrol('Style','pushbutton',...
 
 txtbox1 = uicontrol('Style','edit',...
     'String',num2str(L), 'Units','normalized',...
-    'Position',[0.15 0.3 0.05 0.02],...
+    'Position',[0.85 0.4 0.05 0.02],...
     'Callback',@txt1_callback);
 
     function txt1_callback(source,eventdata)
@@ -120,41 +131,41 @@ txtbox1 = uicontrol('Style','edit',...
 
 txtbox2 = uicontrol('Style','edit',...
     'String',num2str(T), 'Units','normalized',...
-    'Position',[0.15 0.35 0.05 0.02],...
+    'Position',[0.85 0.45 0.05 0.02],...
     'Callback',@txt2_callback);
 
     function txt2_callback(source,eventdata)
-        L_prel = str2num(get(txtbox2,'String'));
-        if isnumeric(L_prel) && ~isempty(L_prel) && ...
-                L_prel > 0 && L_prel == floor(L_prel)
+        T_prel = str2num(get(txtbox2,'String'));
+        if isnumeric(T_prel) && ~isempty(T_prel) && ...
+                T_prel > 0 && T_prel == floor(T_prel)
             
-            L = L_prel;
+            T = T_prel;
         else
-            set(txtbox2,'String',num2str(L));
+            set(txtbox2,'String',num2str(T));
             
         end
     end
 
 txtbox3 = uicontrol('Style','edit',...
     'String',num2str(N), 'Units','normalized',...
-    'Position',[0.15 0.4 0.05 0.02],...
+    'Position',[0.85 0.5 0.05 0.02],...
     'Callback',@txt3_callback);
 
     function txt3_callback(source,eventdata)
-        L_prel = str2num(get(txtbox3,'String'));
-        if isnumeric(L_prel) && ~isempty(L_prel) && ...
-                L_prel > 0 && L_prel == floor(L_prel)
+        N_prel = str2num(get(txtbox3,'String'));
+        if isnumeric(N_prel) && ~isempty(N_prel) && ...
+                N_prel > 0 && N_prel == floor(N_prel)
             
-            L = L_prel;
+            N = N_prel;
         else
-            set(txtbox3,'String',num2str(L));
+            set(txtbox3,'String',num2str(N));
             
         end
     end
 
 txtbox4 = uicontrol('Style','edit',...
     'String',num2str(Num_data), 'Units','normalized',...
-    'Position',[0.15 0.45 0.05 0.02],...
+    'Position',[0.85 0.55 0.05 0.02],...
     'Callback',@txt4_callback);
 
     function txt4_callback(source,eventdata)
@@ -168,6 +179,38 @@ txtbox4 = uicontrol('Style','edit',...
             
         end
     end
+
+txtbox5 = uicontrol('Style','edit',...
+    'String',num2str(Ndeps), 'Units','normalized',...
+    'Position',[0.85 0.35 0.05 0.02],...
+    'Callback',@txt5_callback);
+
+    function txt5_callback(source,eventdata)
+        Ndeps_prel = str2num(get(txtbox5,'String'));
+        if isnumeric(Ndeps_prel) && ~isempty(Ndeps_prel) && ...
+                Ndeps_prel > 0 && Ndeps_prel == floor(Ndeps_prel)
+            
+            Ndeps = Ndeps_prel;
+        else
+            set(txtbox5,'String',num2str(Ndeps));
+            
+        end
+    end
+
+static_text1 = uicontrol('Style','text','String','#Data sets:', 'Units','normalized',...
+    'Position',[0.74,0.55,0.10,0.02]);
+
+static_text2 = uicontrol('Style','text','String','#Tasks (approximately):', 'Units','normalized',...
+    'Position',[0.74,0.5,0.10,0.02]);
+
+static_text3 = uicontrol('Style','text','String','#Time-lines:', 'Units','normalized',...
+    'Position',[0.74,0.45,0.10,0.02]);
+
+static_text4 = uicontrol('Style','text','String','#Time steps:', 'Units','normalized',...
+    'Position',[0.74,0.4,0.10,0.02]);
+
+static_text5 = uicontrol('Style','text','String','#Dependencies (approximately):', 'Units','normalized',...
+    'Position',[0.74,0.35,0.10,0.02]);
 
 testdatasave    = uicontrol('Style','pushbutton',...
     'String','Save test data', 'Units','normalized','Position',[0.5,0.39,0.2,0.05],...
@@ -230,7 +273,7 @@ run_lp    = uicontrol('Style','pushbutton',...
         
     end
 
-ha1 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.6,0.3,0.3]);
+% ha1 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.6,0.3,0.3]);
 
 distribution_group = uibuttongroup(f,'Title','Dependency distribution',...
     'Position',[.5 .85 .20 .08]);
@@ -355,13 +398,29 @@ uicontrol(f,'Style','slider',...
                 'SliderStep',[0.05 0.2], ...
                 'Units','normalized',...
                 'Position',[0.71 0.77 0.08 0.02]);
+            
+            
 
+htext6  = uicontrol('Style','text','String','Level of occupancy', 'Units','normalized',...
+    'Position',[0.31,0.8,0.08,0.03]);
+            
+slider5 = uicontrol(f,'Style','slider',...
+                'Min',0.05,'Max',0.95,'Value',0.5,...
+                'SliderStep',[0.05 0.1], ...
+                'Units','normalized',...
+                'Position',[0.31 0.77 0.08 0.02], ...
+                'Callback',@slider5_cb);
+            
+    function slider5_cb(source,eventdata)
+        occupancy = get(slider5,'Value');
+    end
 
 
 lb1 = uicontrol(f,'Style','listbox',...
                 'String',{'Test data 1','Test data 2','Test data 3','Test data 4'},...
                 'Units','normalized',...
-                'Position',[0.28 0.05 0.2 0.2],'Value',1);
+                'Position',[0.28 0.05 0.2 0.2],'Value',1, ...
+                'Enable','off');
             
 lb2 = uicontrol(f,'Style','listbox',...
                 'String',{'Test data 1','Test data 2','Test data 3','Test data 4'},...
@@ -374,19 +433,6 @@ lb3 = uicontrol(f,'Style','listbox',...
                 'Units','normalized',...
                 'Position',[0.72 0.05 0.2 0.2],'Value',1, ...
                 'Enable','off');
-
-    function txtbox1_callback(source,eventdata)
-        
-    end
-
-
-    function txtbox2_callback(source,eventdata)
-        
-    end
-
-    function txtbox3_callback(source,eventdata)
-        
-    end
 
     function distr1_callback(source,eventdata)
         
@@ -414,7 +460,10 @@ lb3 = uicontrol(f,'Style','listbox',...
 
     function testdatagen_callback(source,eventdata)
         
+        set(checkbox,'Value',0);
+        
         genlistoflen = @(listofstartingpoints,L) generatelistoflength(listofstartingpoints,L);
+        genlistoflst = @(L, N, occupancy) genlistoflengths_startpts(L, N, occupancy);
         genlistofstartpts = @(L, N) generatelistofstartingpoints(L, N);
         gentasks = @( Ntasks, Ntimelines ) generateNumberoftasksinTimelinevector( Ntasks, Ntimelines );
         attrgen_unif = @(TimelineSolution,L,variance,mu) Attributegenerator_uniform(TimelineSolution,L,variance,mu);
@@ -422,9 +471,26 @@ lb3 = uicontrol(f,'Style','listbox',...
         gendepattr = @(TimelineSolution,DependencyMatrix, variance, mu, L, N, T) Generatedependencyattributes(TimelineSolution,DependencyMatrix, variance, mu, L, N, T);
         
         % Hämta information från var knapparna befinner sig.
+        TimelineSolution_mater = [];
+        attributes_mater = [];
+        DependencyMatrix_mater = [];
+        DependencyAttribute_mater = [];
+        TimelineSolution = [];
+        attributes = [];
+        DependencyMatrix = [];
+        DependencyAttribute = [];
+        
+        for it=1:Num_data
         [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, genlistoflen, ...
             genlistofstartpts,gentasks, attrgen_unif, ...
-            gendepmatrix,gendepattr, 20, 1, 1, 1, 1);
+            gendepmatrix,gendepattr, Ndeps, 1, 1, 1, 1, occupancy, genlistoflst);
+        
+        for k=1:length(TimelineSolution)
+            TimelineSolution_mater = [TimelineSolution_mater; TimelineSolution{k}, k*ones(size(TimelineSolution{k},1),1),
+        end
+        
+        end
+        
         
         
         % Måste konvertera lång Timelinesolution och attributes till
@@ -435,10 +501,10 @@ lb3 = uicontrol(f,'Style','listbox',...
     end
 
 
-plot(1./(1:0.1:10));
-title('Rate of convergence vs iterations');
-xlabel('Number of iterations');
-ylabel('Objective function');
+% plot(1./(1:0.1:10));
+% title('Rate of convergence vs iterations');
+% xlabel('Number of iterations');
+% ylabel('Objective function');
 
 
 

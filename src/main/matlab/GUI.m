@@ -8,8 +8,13 @@ TimelineSolution = [];
 attributes = [];
 DependencyMatrix = [];
 DependencyAttribute = [];
+TimelineSolution_mater = [];
+attributes_mater = [];
+DependencyMatrix_mater = [];
+DependencyAttribute_mater = [];
 
-testdataiterator = ones(3,1);
+% testdataiterator = ones(3,1);
+testdataiterator = 1;
 
 % Antal tasks
 N = 100;
@@ -32,33 +37,33 @@ occupancy = 0.5;
 
 bool1 = 0;
 while bool1==0
-    testfile = strcat('../../test/testdata/TimelineSolution','A',num2str(testdataiterator(1)), '.dat');
+    testfile = strcat('../../test/testdata/TimelineSolution',num2str(testdataiterator), '.dat');
     if exist(testfile, 'file') == 2
-        testdataiterator(1) = testdataiterator(1) + 1;
+        testdataiterator = testdataiterator + 1;
     else
         bool1 = 1;
     end
 end
 
-bool2 = 0;
-while bool2==0
-    testfile = strcat('../../test/testdata/TimelineSolution','B',num2str(testdataiterator(2)), '.dat');
-    if exist(testfile, 'file') == 2
-        testdataiterator(2) = testdataiterator(2) + 1;
-    else
-        bool2 = 1;
-    end
-end
-
-bool3 = 0;
-while bool3==0
-    testfile = strcat('../../test/testdata/TimelineSolution','C',num2str(testdataiterator(3)), '.dat');
-    if exist(testfile, 'file') == 2
-        testdataiterator(3) = testdataiterator(3) + 1;
-    else
-        bool3 = 1;
-    end
-end
+% bool2 = 0;
+% while bool2==0
+%     testfile = strcat('../../test/testdata/TimelineSolution','B',num2str(testdataiterator(2)), '.dat');
+%     if exist(testfile, 'file') == 2
+%         testdataiterator(2) = testdataiterator(2) + 1;
+%     else
+%         bool2 = 1;
+%     end
+% end
+% 
+% bool3 = 0;
+% while bool3==0
+%     testfile = strcat('../../test/testdata/TimelineSolution','C',num2str(testdataiterator(3)), '.dat');
+%     if exist(testfile, 'file') == 2
+%         testdataiterator(3) = testdataiterator(3) + 1;
+%     else
+%         bool3 = 1;
+%     end
+% end
 
 
 
@@ -213,23 +218,37 @@ testdatasave    = uicontrol('Style','pushbutton',...
     'Callback',@testdatasave_callback);
 
     function testdatasave_callback(source,eventdata)
-        UserFile1 = strcat('../../test/testdata/TimelineSolution', difficulty,num2str(testdataiterator(difficulty_number)), '.dat');
-        UserFile2 = strcat('../../test/testdata/TimelineAttributes', difficulty,num2str(testdataiterator(difficulty_number)), '.dat');
-        UserFile3 = strcat('../../test/testdata/DependencyMatrix', difficulty,num2str(testdataiterator(difficulty_number)), '.dat');
-        UserFile4 = strcat('../../test/testdata/DependencyAttributes', difficulty,num2str(testdataiterator(difficulty_number)), '.dat');
-        fil1 = [];
-        fil2 = [];
-        for it=1:length(TimelineSolution)
-            fil1 = [fil1; TimelineSolution{it}, it*ones(size(TimelineSolution{it},1),1)];
-            fil2 = [fil2; attributes{it}, it*ones(size(TimelineSolution{it},1),1)];
-        end
-        fil3 = DependencyMatrix;
-        fil4 = DependencyAttribute;
+        UserFile1 = strcat('../../test/testdata/TimelineSolution',num2str(testdataiterator), '.dat');
+        UserFile2 = strcat('../../test/testdata/TimelineAttributes',num2str(testdataiterator), '.dat');
+        UserFile3 = strcat('../../test/testdata/DependencyMatrix',num2str(testdataiterator), '.dat');
+        UserFile4 = strcat('../../test/testdata/DependencyAttributes',num2str(testdataiterator), '.dat');
+%         UserFile5 = strcat('../../test/testdata/Testinfo',num2str(testdataiterator), '.mat');
+%         fil1 = [];
+%         fil2 = [];
+%         for it=1:length(TimelineSolution)
+%             fil1 = [fil1; TimelineSolution{it}, it*ones(size(TimelineSolution{it},1),1)];
+%             fil2 = [fil2; attributes{it}, it*ones(size(TimelineSolution{it},1),1)];
+%         end
+        fil1 = TimelineSolution_mater;
+        fil2 = attributes_mater;
+        fil3 = DependencyMatrix_mater;
+        fil4 = DependencyAttribute_mater;
+        
+        
+%         fil5 = strcat('N = ', num2str(N), '\n', ...
+%             'L = ', num2str(L), '\n', ...
+%             'T = ', num2str(T), '\n', ...
+%             'Num_data = ', num2str(Num_data), '\n', ...
+%             'Ndeps = ', num2str(Ndeps), '\n', ...
+%             'occupancy = ', num2str(occupancy), '\n');
+%         fil5 = strcat('N');
         
         save(UserFile1, 'fil1', '-ascii')
         save(UserFile2, 'fil2', '-ascii')
         save(UserFile3, 'fil3', '-ascii')
         save(UserFile4, 'fil4', '-ascii')
+%         save(UserFile5, 'fil5')
+
         
         testdataiterator = testdataiterator+1;
     end
@@ -467,16 +486,27 @@ lb3 = uicontrol(f,'Style','listbox',...
         gendepattr = @(TimelineSolution,DependencyMatrix, variance, mu, L, N, T) Generatedependencyattributes(TimelineSolution,DependencyMatrix, variance, mu, L, N, T);
         
         % Hämta information från var knapparna befinner sig.
+        TimelineSolution_mater = [];
+        attributes_mater = [];
+        DependencyMatrix_mater = [];
+        DependencyAttribute_mater = [];
         TimelineSolution = [];
         attributes = [];
         DependencyMatrix = [];
         DependencyAttribute = [];
         
-        
-        [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, genlistoflen, ...
-            genlistofstartpts,gentasks, attrgen_unif, ...
-            gendepmatrix,gendepattr, Ndeps, 1, 1, 1, 1, occupancy, genlistoflst);
-        
+        for it=1:Num_data
+            [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, genlistoflen, ...
+                genlistofstartpts,gentasks, attrgen_unif, ...
+                gendepmatrix,gendepattr, Ndeps, 1, 1, 1, 1, occupancy, genlistoflst);
+            
+            for k=1:length(TimelineSolution)
+                TimelineSolution_mater = [TimelineSolution_mater; TimelineSolution{k}, k*ones(size(TimelineSolution{k},1),1), it*ones(size(TimelineSolution{k},1),1)];
+                attributes_mater = [attributes_mater; attributes{k}, k*ones(size(attributes{k},1),1), it*ones(size(attributes{k},1),1)];
+            end
+            DependencyMatrix_mater = [DependencyMatrix_mater; DependencyMatrix, it*ones(size(DependencyMatrix,1),1)];
+            DependencyAttribute_mater = [DependencyAttribute_mater; DependencyAttribute, it*ones(size(DependencyAttribute,1),1)];
+        end
         
         
         % Måste konvertera lång Timelinesolution och attributes till
