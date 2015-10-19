@@ -9,7 +9,7 @@ space_param = floor((TimelineSolution(2)-TimelineSolution(1))*(sqrt(variance)+mu
 
 rand1 = randi(space_param,1,1)-1;
 rand2 = randi(space_param,1,1)-1;
-TimelineAttribute = [TimelineSolution(1)-rand1, TimelineSolution(2)+rand2];
+TimelineAttribute = [max(0,TimelineSolution(1)-rand1), min(L,TimelineSolution(2)+rand2)];
 
 end
 

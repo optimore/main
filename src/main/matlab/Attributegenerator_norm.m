@@ -8,7 +8,7 @@ sigma = scaling*sqrt(variance);
 
 rand1 = norminv(rand(1,1),TimelineSolution(1)-mu*scaling,sigma);
 rand2 = norminv(rand(1,1),TimelineSolution(2)+mu*scaling,sigma);
-TimelineAttribute = [rand1, rand2];
+TimelineAttribute = [max(0,rand1), min(L,rand2)];
 
 end
 
