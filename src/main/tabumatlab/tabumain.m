@@ -10,38 +10,54 @@ function statuscode = tabumain(dataPath,modelParameters,logPath)
 
 % Linköping University, Linköping
 
+statuscode = 0;
 
-% dataPath = '/edu/vicbe348/Repo/optimore/guitest/src/test';
+try
+    % 1. Setup logging
+    
+    logfile = GetLog(logPath);
 
+    % 2. Read data and data parameters
+    data = GetData(dataPath);
 
-% . Setup logging
+    % 3. Create model
+    model = CombindModelsFromParameters(modelParameters,data.parameters);
 
-logfile = GetLog(logPath)
+    % 4. Starting condition from model
+    % model.start
+    
+    
+    % 5. Perform tabu
+    conditionsAreNotMet = 1;
+    while conditionsAreNotMet
+        try
+            model.actionList = GetActionList(model,data);
+            data.data = DoAction(model,data);
 
-% . Read data and data parameters
-data = GetData(dataPath);
+            model = evaluateNextStep(model,data);
 
-% . Create model
-model = CombindModelsFromParameters(modelParameters,data.parameters);
-
-% . Starting condition from model
-
-model.start
-
-
-
-
-CostFunction
-CombindModelsFromParameters
-DoAction
-CreateActionList
-
-ModelSelection
-
-
----
-DoInsertion
-DoReversion
-DoSwap
-
+            if model.conditionAreMet
+                conditionsAreNotMet = 0;
+            end
+        catch err
+           % fprintf(logfile,[err.stack,'\n'])
+            rethrow(err);
+        end
+    end
+    
+    
+    % . If all was successful, then set statuscode to 1
+    statuscode = 1;
+    
+catch err
+    % In case of an error, set statuscode to -1
+    statuscode = -1;
+    disp(err.stack)
+    fprintf(logfile,['Error in: ', err.stack.name, '\nFile: ', ... 
+        err.stack.file, '\nLine: ', int2str(err.stack.line), ... 
+        '\nClosing tabu-log due to fatal error', ... 
+        '\n-------------------------------\n']);
+    
+    fclose('all');
+end
 end

@@ -1,0 +1,12 @@
+clc;
+
+% This funcion is in guitest
+% logPath = CreateLog()
+
+dataPath = 'src/test/testdata/firsttestdataexampel.dat';
+modelParameters = {[1,2,3]};
+logPath = 'target/logs/2015-10-28T14-15-31.log';
+
+addpath 'src/main/tabumatlab'
+tabustatus = tabumain(dataPath,modelParameters{1},logPath)
+rmpath 'src/main/tabumatlab'

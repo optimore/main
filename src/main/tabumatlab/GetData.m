@@ -1,4 +1,4 @@
-function model=GetData(dataDirectory)
+function data=GetData(dataDirectory)
 %% Combind models from parameters
 % This function creates a model from given parameters
 % Created by: Victor Bergelin
@@ -8,22 +8,8 @@ function model=GetData(dataDirectory)
 % 0.01: file setup
 % Linköping University, Linköping
 
-model = modelParameters
+data.data = dataDirectory;
 
-switch par.cmp
-    case 1
-        % A - data
-        depmean = 0;
-    case 2
-        % B - data
-        
-        print('no B-data');
-        % depmean = 3;        
-    case 3
-        % C - data
-        
-        print('no C-data');
-        depmean = 30;
-    end
+data.parameters = 'parameters';
 
 end

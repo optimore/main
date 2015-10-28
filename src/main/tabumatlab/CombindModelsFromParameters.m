@@ -8,24 +8,6 @@ function model=CombindModelFromParameters(modelParameters,dataParameters)
 % 0.01: file setup
 % Linköping University, Linköping
 
-model = modelParameters
-
-switch par.cmp
-    case 1
-        % A - data
-        depmean = 0;
-    case 2
-        % B - data
-        
-        print('no B-data');
-        % depmean = 3;        
-    case 3
-        % C - data
-        
-        print('no C-data');
-        depmean = 30;
-    end
-
-
+model = modelParameters;
 
 end

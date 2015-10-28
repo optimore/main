@@ -9,8 +9,12 @@ function logfile = GetLog(logPath)
 % Linköping University, Linköping
 
 try
-    logfile = fopen(logPath,'w')
-catch ME
-    fprintf ME
+    logfile = fopen(logPath,'a+');
+    
+    fprintf(logfile,['---------------------------------------\n', ...
+        'Tabu-log initiated\n']);
+    
+catch err
+    disp(err.stack);
 end
 
