@@ -1,4 +1,4 @@
-function statuscode = tabumain(dirpath)
+function statuscode = tabumain(dataPath,modelParameters)
 %% Tabu main launching script
 % This script is the over all launcher of the tabu search algorithm
 %
@@ -13,14 +13,30 @@ function statuscode = tabumain(dirpath)
 
 
 
+% . Read data and data parameters
+data = GetData(dataPath);
+
+% . Create model
+model = CombindModelsFromParameters(modelParameters,data.parameters);
+
+% . Starting condition from model
+
+model.start
+
+
 
 
 CostFunction
-CreateModelFromParameters
+CombindModelsFromParameters
 DoAction
+CreateActionList
+
+ModelSelection
+
+
+---
 DoInsertion
 DoReversion
 DoSwap
-CreateActionList
 
 end

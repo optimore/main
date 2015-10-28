@@ -1,4 +1,4 @@
-function model=GetData(dataDirectory)
+function model=CombindModelFromParameters(modelParameters,dataParameters)
 %% Combind models from parameters
 % This function creates a model from given parameters
 % Created by: Victor Bergelin
