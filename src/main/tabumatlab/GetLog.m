@@ -8,6 +8,9 @@ function logfile = GetLog(logPath)
 % 0.01: file setup
 % Linköping University, Linköping
 
-
+try
+    logfile = fopen(logPath,'w')
+catch ME
+    fprintf ME
 end
 

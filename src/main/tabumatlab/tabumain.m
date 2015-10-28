@@ -11,6 +11,8 @@ function statuscode = tabumain(dataPath,modelParameters,logPath)
 % Linköping University, Linköping
 
 
+% dataPath = '/edu/vicbe348/Repo/optimore/guitest/src/test';
+
 
 % . Setup logging
 
