@@ -10,10 +10,18 @@ function statuscode = tabumain(dataPath,modelParameters)
 
 % Linköping University, Linköping
 
-% 1. Create model
+
+
+
+% . Read data
+data = 
+
+
+
+% . Create model
 model = CombindModelsFromParameters(modelParameters)
 
-% 2. Starting condition from model
+% . Starting condition from model
 
 model.start
 
