@@ -17,3 +17,9 @@ end
 
 end
 
+
+model.Phases: 
+    {phasename phaseChangeFactor
+    
+    
+    }

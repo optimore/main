@@ -1,4 +1,4 @@
-function statuscode = tabumain(dataParameters, modelParameters, logParameters, resultParameters)
+function statuscode = tabumain(dataPath,modelParameters,logPath,resultParameters)
 %% Tabu main launching script
 % This script is the over all launcher of the tabu search algorithm
 %
@@ -14,10 +14,10 @@ statuscode = 0;
 
 try
     % 1. Setup logging
-    logfile = GetLog(logParameters.path);
+    logfile = GetLog(logPath);
 
     % 2. Read data and data parameters
-    data = GetData(dataParameters);
+    data = GetData(dataPath);
 
     % data now contains:
     % data.data
@@ -36,13 +36,9 @@ try
             model.actionList = GetActionList(model,data);
             data = DoAction(model,data);
 
-            % Evaluate current phase:
+            % Evaluate cur
             model = EvaluateNextStep(model,data);
 
-            % Evaluate if condation are met:
-            model.conditionsAreMet = AreConditionsMet(data)
-            
-            
             if model.conditionAreMet
                 conditionsAreNotMet = 0;
             end
