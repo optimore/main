@@ -1,4 +1,4 @@
-function model=CombindModelFromParameters(modelParameters,dataParameters)
+function model=CombindModelFromParameters(model,data)
 %% Combind models from parameters
 % This function creates a model from given parameters
 % Created by: Victor Bergelin
@@ -7,6 +7,11 @@ function model=CombindModelFromParameters(modelParameters,dataParameters)
 % 0.02: minor development, not tested
 % 0.01: file setup
 % Linköping University, Linköping
+
+
+
+
+
 
 model = modelParameters;
 

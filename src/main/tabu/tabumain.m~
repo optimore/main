@@ -14,7 +14,7 @@ statuscode = 0;
 
 try
     % 1. Setup logging
-    log = GetLog(logParameters.path);
+    logfile = GetLog(logParameters.path);
 
     % 2. Read data and data parameters
     data = GetData(dataParameters);
@@ -24,7 +24,7 @@ try
     % data.parameters
     
     % 3. Create model
-    model = CombindModelsFromParameters(modelParameters,data);
+    model = CombindModelsFromParameters(modelParameters,data.parameters);
 
     % 4. Starting condition from model
     data = StartingCondition(model,data);
@@ -56,15 +56,15 @@ try
     % . If all was successful, then set statuscode to 1
     statuscode = 1;
     
-    fprintf(log, ['Tabu search finished successfully.\nClosing log: ', ... 
+    fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
     fclose('all');
     
 catch err
     % In case of an error, set statuscode to -1
     statuscode = -1;
-    fprintf(log,getReport(err,'extended'));
-    fprintf(log, ['\nClosing tabu-log due to fatal error: ', ... 
+    fprintf(logfile,getReport(err,'extended'));
+    fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
     fclose('all');
 end

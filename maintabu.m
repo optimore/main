@@ -11,5 +11,5 @@ logParameters.id = 1;
 resultParameters.path = 'target/results/resultPath/';
 
 addpath 'src/main/tabu';
-runstatus = tabumain(dataParameters,modelParameters{1},logParameters,resultParameters)
+runstatus = tabumain(dataParameters,modelParameters.tabu{1},logParameters,resultParameters)
 rmpath 'src/main/tabu';

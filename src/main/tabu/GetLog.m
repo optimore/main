@@ -12,7 +12,7 @@ try
     logfile = fopen(logPath,'a+');
     
     fprintf(logfile,['---------------------------------------\n', ...
-        'Tabu-log initiated\n']);
+        'Tabu-log initiated: ', datestr(now()), '\n\n']);
     
 catch err
     disp(err.stack);
