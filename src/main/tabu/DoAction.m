@@ -5,7 +5,6 @@ function status = DoAction( model,data,actionList,logfile )
 
 status = 0;
 try
-
     
     
     status = 1;

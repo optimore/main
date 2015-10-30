@@ -23,34 +23,26 @@ try
     
     for i = 1:nrTasks
         for ii = 1:nrActions
-            % 3.1 Find new solution:
-            % Copy all task positions
-            tempSolution = zeros(nrTasks,2)
-            tempSolution(:,1) = data.tasks(:,1);
-            tempSolution(:,2) = data.tasks(:,6);
-            % Move one solution
-            tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
             
             
-            % 3.2 search tabu list:
-            % *** NEEDS IMPLEMENTATION ***
             
+            action.cost = 23
+            action.actionSolution = data.tasks
             
-            % Calculate cost *** Needs implementation ***
-            action.cost = CostFunction(data,tempSolution,weights);
-            action.actionSolution = tempSolution;
-            
-            % Save action to actionlist
             actionList{actionId} = action;
             
-            % Increase iterator
+            % increase iterator
             actionId = actionId + 1;
         end
+
     end
+
+    status = 1;
 catch err
-    fprintf(logfile, getReport(err,'extended')); 
-    rethrow(err)
+    
+    status = -1
 end
+        
 
 end
 

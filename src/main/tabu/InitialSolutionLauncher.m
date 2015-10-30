@@ -8,11 +8,13 @@ function status = InitialSolutionLauncher(model,data,logfile)
 try
     switch model.initialSolution
         case {1}
-            disp('launching tabu phase instance 1');
             status = SimpleSortAndPlace(data);
         case {2}
-            disp('launching tabu phase instance 2');
-            status = instance1(data);
+            msg = 'No initial solution for id 2 exist';
+            disp(msg);
+            error(msg);
+            
+            %status = instance2(data);
         otherwise
             disp('unknown instance');
     end

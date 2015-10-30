@@ -1,20 +1,24 @@
-function status = TabuInstanceLauncher(model, data, logfile, results)
-%TABUINSTANCELAUNCHER Summary of this function goes here
-%   Detailed explanation goes here
+function actionList = TabuInstanceLauncher(model, data, tabuList, logfile)
+%TABUINSTANCELAUNCHER Launches the active instance for the phase
+% Detailed explanation goes here
+% version
+% 0.01: minimal usage implementation for one instance and phase
 
 try
     switch model.activePhase
         case {1}
-            disp('launching tabu phase instance 1');
-            status = SimpleMoveOneTask(data);
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
         case {2}
-            disp('launching tabu phase instance 2');
-            %status = instance1(data);
+            msg = 'No instance for id 2 exist';
+            disp(msg);
+            error(msg);
+            %status = instance2(data);
         otherwise
             disp('unknown instance');
     end
 catch err
    fprintf(logfile, getReport(err,'extended')); 
+   rethrow(err)
 end
 
 end

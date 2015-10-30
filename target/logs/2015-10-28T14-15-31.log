@@ -1,0 +1,244 @@
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 17:51:08
+
+Tabu search finished successfully.
+Closing log: 30-Oct-2015 17:51:08
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 17:51:26
+
+Tabu search finished successfully.
+Closing log: 30-Oct-2015 17:51:26
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 17:54:31
+
+Cell contents reference from a non-cell array object.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 49)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',49,0)">line 49</a>)
+actionList{32}
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+Fatal error in tabu search, quiting search
+Cell contents reference from a non-cell array object.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 49)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',49,0)">line 49</a>)
+actionList{32}
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+Closing tabu-log due to fatal error: 30-Oct-2015 17:54:31
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 17:55:38
+
+Tabu search finished successfully.
+Closing log: 30-Oct-2015 17:55:38
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 17:56:14
+
+Tabu search finished successfully.
+Closing log: 30-Oct-2015 17:56:14
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 17:57:01
+
+Attempted to access tempSolution(1,6); index out of bounds because size(tempSolution)=[8,1].
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 29)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',29,0)">line 29</a>)
+            tempSolution(i,6) = tempSolution(i,6)+posibleTaskActions(ii);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+Attempted to access tempSolution(1,6); index out of bounds because size(tempSolution)=[8,1].
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 29)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',29,0)">line 29</a>)
+            tempSolution(i,6) = tempSolution(i,6)+posibleTaskActions(ii);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+Fatal error in tabu search, quiting search
+Attempted to access tempSolution(1,6); index out of bounds because size(tempSolution)=[8,1].
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 29)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',29,0)">line 29</a>)
+            tempSolution(i,6) = tempSolution(i,6)+posibleTaskActions(ii);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+Closing tabu-log due to fatal error: 30-Oct-2015 17:57:01
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 17:58:21
+
+Attempted to access tempSolution(1,6); index out of bounds because numel(tempSolution)=1.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 29)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',29,0)">line 29</a>)
+            tempSolution(i,6) = tempSolution(i,6)+posibleTaskActions(ii);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+Attempted to access tempSolution(1,6); index out of bounds because numel(tempSolution)=1.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 29)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',29,0)">line 29</a>)
+            tempSolution(i,6) = tempSolution(i,6)+posibleTaskActions(ii);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+
+Fatal error in tabu search, quiting search
+Attempted to access tempSolution(1,6); index out of bounds because numel(tempSolution)=1.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 29)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',29,0)">line 29</a>)
+            tempSolution(i,6) = tempSolution(i,6)+posibleTaskActions(ii);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+Closing tabu-log due to fatal error: 30-Oct-2015 17:58:21
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 17:59:20
+
+Attempted to access tempSolution(1,6); index out of bounds because size(tempSolution)=[8,1].
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 29)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',29,0)">line 29</a>)
+            tempSolution(i,6) = tempSolution(i,6)+posibleTaskActions(ii);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+Attempted to access tempSolution(1,6); index out of bounds because size(tempSolution)=[8,1].
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 29)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',29,0)">line 29</a>)
+            tempSolution(i,6) = tempSolution(i,6)+posibleTaskActions(ii);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+
+Fatal error in tabu search, quiting search
+Attempted to access tempSolution(1,6); index out of bounds because size(tempSolution)=[8,1].
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 29)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',29,0)">line 29</a>)
+            tempSolution(i,6) = tempSolution(i,6)+posibleTaskActions(ii);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 48)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',48,0)">line 48</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+Closing tabu-log due to fatal error: 30-Oct-2015 17:59:20
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 18:00:14
+
+Tabu search finished successfully.
+Closing log: 30-Oct-2015 18:00:15
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 30-Oct-2015 18:00:21
+
+Tabu search finished successfully.
+Closing log: 30-Oct-2015 18:00:21
+---------------------------------------

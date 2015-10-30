@@ -1,8 +1,16 @@
-function cost = CostFunction(data,model)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+function cost = CostFunction(data,tempSolution,weights)
+% This is wrapper for all cost functions, dependencies, overlap and bounds
+%   
 
-model.activePhase
+% Calculate different cost functions
+costDependencies = DependencyCost(data,model)
+costOverlap = OverlapCost(data,model)
+costBounds = BoundsCost(data,model)
+
+% Calculate costs with weights
+cost =  weights(1)*costDependencies + ...
+        weights(2)*costOverlap + ...
+        weights(3)*costBounds;
 
 end
 

@@ -59,7 +59,7 @@ try
                 conditionsAreNotMet = 0;
             end
         catch err
-            fprintf(logfile,'Fatal error in tabu search, quiting search\n')
+            fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);
         end
     end

@@ -1,0 +1,13 @@
+function cost = CostFunction(data,model,weights)
+% This is wrapper for all cost functions, dependencies, overlap and bounds
+%   
+
+costDependencies = DependencyCost(data,model)
+costOverlap = OverlapCost(data,model)
+costBounds = BoundsCost(data,model)
+
+cost = weights(1)*costDependencies + weights(2)*costOverlap + weights(1)
+model.activePhase
+
+end
+
