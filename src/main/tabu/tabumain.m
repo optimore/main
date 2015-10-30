@@ -24,7 +24,7 @@ try
     % logfile.parameters = logfileParameters;
     
     % 2. Read data and data parameters
-    data = GetData(dataParameters);
+    data = GetData(dataParameters,logfile);
     data.parameters = dataParameters;
     
     % 3. Create model
@@ -36,7 +36,7 @@ try
     result.parameters = resultParameters;
     
     % 5. Initial solution from model *** NEED IMPLEMENTATION ***
-    data = StartingCondition(model,data);   
+    data = StartingConditionLauncher(model,data);   
     
     % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;

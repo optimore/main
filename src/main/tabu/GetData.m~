@@ -24,9 +24,9 @@ try
  
     % 2. Create task representation
     nrtasks = length(timelineAttr);
-    data.taskcolumnname = {'id','first start time','last end time', ...
+    data.taskcolumnname = ['id','first start time','last end time', ...
         'timeline id', 'task length', ...
-        'actual start time placement (so that the task can move; =0 now)'};
+        'actual start time placement (so that the task can move )']
     data.tasks = zeros(nrtasks,6);
     data.tasks(:,1) = [1:nrtasks]';
     data.tasks(:,2:4) = timelineAttr(:,1:3);
@@ -42,7 +42,7 @@ try
         data.dependencies(i,3:4) = depencencyAttr(i,1:2);
     end
     
-    % Uncomment to print the tasks and dependencies:
+    % Uncomment to print tasks and dependencies:
     % data.tasks
     % data.dependencies
     

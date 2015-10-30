@@ -1,5 +1,5 @@
-function status = TabuInstanseLauncher(model, data, logfile, results)
-%TABUINSTANSELAUNCHER Summary of this function goes here
+function status = TabuInstanceLauncher(model, data, logfile, results)
+%TABUINSTANCELAUNCHER Summary of this function goes here
 %   Detailed explanation goes here
 
 try
@@ -9,10 +9,9 @@ try
             status = MoveOneTask01(data);
         case {2}
             disp('launching tabu phase instance 2');
-            status = instance1(data);
+            %status = instance1(data);
         otherwise
             disp('unknown instance');
-
     end
 catch err
    fprintf(logfile, getReport(err,'extended')); 

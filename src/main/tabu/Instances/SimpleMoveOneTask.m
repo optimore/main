@@ -1,4 +1,4 @@
-function status = MoveOneTask01(data)
+function status = SimpleMoveOneTask(data)
 %% Phase instance 1 in tabu search
 % This instance will move one task with different step length eatch iteration
 % The stoping criteria is costfunction = 0

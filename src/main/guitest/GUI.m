@@ -1,6 +1,6 @@
+function status = GUI()
 % Här måste vi kunna läsa/skriva testdata ifrån en fil.
-function GUI
-
+status = 1
 close all;
 
 TimelineSolution = [];
