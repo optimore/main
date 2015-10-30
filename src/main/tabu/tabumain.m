@@ -7,7 +7,9 @@ function statuscode = tabumain(dataParameters, modelParameters, logParameters, r
 % Created by: Victor Bergelin
 % Date created:
 % Version number 0.01
-
+% 0.02: better structure and always run with status 1
+%
+%
 % Linköping University, Linköping
 
 statuscode = 0;
