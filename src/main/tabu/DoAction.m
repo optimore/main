@@ -1,4 +1,4 @@
-function status = DoAction( model,data,logfile )
+function status = DoAction( model,data,actionList,logfile )
 %DOACTION Summary of this function goes here
 %   Detailed explanation goes here
 

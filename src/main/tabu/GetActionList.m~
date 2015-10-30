@@ -4,11 +4,10 @@ function actionList = GetActionList(model, data, tabuList, logfile)
 %   structarray('cost',val,'tasks setup',full task solution)
 %   - uses model.activePhase for getting tabu instance'
 %   - uses TabuInstanceLauncher to get the tabu instance
-%  
-% version:
+%   
+%   Is run as actionList = GetActionList(model,data,tabuList,logfile);
 %
-% 0.01: minimal implementation, no tabulist
-
+% v0.01: minimal implementation, no tabulist
 
 
 

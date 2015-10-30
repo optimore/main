@@ -19,31 +19,34 @@ statuscode = 0;
 % addpath 'src/main/tabu/Instances';
 
 try
-    % 1. Setup logging
+    % 1. Setup logging *** DONE ***
     logfile = GetLog(logfileParameters);
     % logfile.parameters = logfileParameters;
     
-    % 2. Read data and data parameters
+    % 2. Read data and data parameters *** DONE ***
     data = GetData(dataParameters,logfile);
     data.parameters = dataParameters;
     
-    % 3. Create model
-    model = CreateModel(tabuParameters);
+    % 3. Create model *** DONE ***
+    model = CreateModel(tabuParameters,logfile);
     model.parameters = tabuParameters;
     
     % 4. Create result *** NEED IMPLEMENTATION ***
-    result = CreateResult(resultParameters);
+    result = CreateResult(resultParameters,logfile);
     result.parameters = resultParameters;
     
-    % 5. Initial solution from model *** NEED IMPLEMENTATION ***
-    data = StartingConditionLauncher(model,data);   
+    % 5. Initial solution from model *** DONE ***
+    status = InitialSolutionLauncher(model,data,logfile);   
+    
+    % 6. Initiate tabu list from model *** NEED IMPLEMENTATION ***
+    tabuList = CreateTabuList(model);
     
     % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;
     while conditionsAreNotMet
         try
-            % model.actionList = GetActionList(model,data);
-            data = DoAction(model,data,logfile);
+            actionList = GetActionList(model,data,tabuList,logfile);
+            data = DoAction(model,data,actionList,logfile);
 
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);

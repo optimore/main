@@ -6,7 +6,7 @@ function status = SimpleMoveOneTask(data)
 % 0.01: initial testing with -10, -1, 1, 10 steps
 %
 
-disp('Running MoveOneTask01');
+disp('Running SimpleMoveOneTask');
 
 % 1. Instance setup and parameters. Add more fields as needed.
 instance = struct('description','move one task n steps', ...

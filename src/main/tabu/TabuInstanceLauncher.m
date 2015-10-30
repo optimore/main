@@ -6,7 +6,7 @@ try
     switch model.activePhase
         case {1}
             disp('launching tabu phase instance 1');
-            status = MoveOneTask01(data);
+            status = SimpleMoveOneTask(data);
         case {2}
             disp('launching tabu phase instance 2');
             %status = instance1(data);
