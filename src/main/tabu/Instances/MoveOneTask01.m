@@ -6,13 +6,14 @@ function status = MoveOneTask01(data)
 % 0.01: initial testing with -10, -1, 1, 10 steps
 %
 
-
-
-
-
+% 1. Initiate:
 disp('running MoveOneTask01');
 
 
+% 2. 
+
+
+% 3. 
 
 
 

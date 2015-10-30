@@ -14,7 +14,7 @@ dateName = datestr(now(),'yyyy-mm-ddTHH-MM-SS')
 logpath = [dateName,'.log'];
 
 
-% 2. Create file
+% 2. Create file and close
 try
     fclose(fopen([relativeLogPath,logpath], 'w'));
 catch ME

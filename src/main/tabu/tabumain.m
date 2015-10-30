@@ -31,15 +31,14 @@ try
     model = CreateModel(tabuParameters);
     model.parameters = tabuParameters;
     
-    % 4. Create result
+    % 4. Create result *** NEED IMPLEMENTATION ***
     result = CreateResult(resultParameters);
     result.parameters = resultParameters;
     
-    
-    % 5. Initial solution from model
+    % 5. Initial solution from model *** NEED IMPLEMENTATION ***
     data = StartingCondition(model,data);   
     
-    % 6. Perform tabu
+    % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;
     while conditionsAreNotMet
         try

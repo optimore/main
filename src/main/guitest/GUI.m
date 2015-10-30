@@ -1,5 +1,4 @@
 % Här måste vi kunna läsa/skriva testdata ifrån en fil.
-
 function GUI
 
 close all;
