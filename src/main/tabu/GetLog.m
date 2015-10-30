@@ -1,4 +1,4 @@
-function logfile = GetLog(logPath)
+function logfile = GetLog(logfileParameters)
 %% Get log file from path
 % This function fetches the log and prepare it for logging test runs)
 % Created by: Victor Bergelin
@@ -9,7 +9,7 @@ function logfile = GetLog(logPath)
 % Linköping University, Linköping
 
 try
-    logfile = fopen(logPath,'a+');
+    logfile = fopen(logfileParameters.path,'a+');
     
     fprintf(logfile,['---------------------------------------\n', ...
         'Tabu-log initiated: ', datestr(now()), '\n\n']);

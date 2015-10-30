@@ -1,4 +1,4 @@
-function statuscode = tabumain(dataParameters, modelParameters, logParameters, resultParameters)
+function statuscode = tabumain(dataParameters, tabuParameters, logfileParameters, resultParameters)
 %% Tabu main launching script
 % This script is the over all launcher of the tabu search algorithm
 %
@@ -14,29 +14,37 @@ function statuscode = tabumain(dataParameters, modelParameters, logParameters, r
 
 statuscode = 0;
 
+% Add temporary paths
+% addpath 'src/main/tabu/InitialSolutions';
+% addpath 'src/main/tabu/Instances';
+
 try
     % 1. Setup logging
-    log = GetLog(logParameters.path);
-
+    logfile = GetLog(logfileParameters);
+    % logfile.parameters = logfileParameters;
+    
     % 2. Read data and data parameters
     data = GetData(dataParameters);
-
-    % data now contains:
-    % data.data
-    % data.parameters
+    data.parameters = dataParameters;
     
     % 3. Create model
-    model = CombindModelsFromParameters(modelParameters,data);
-
-    % 4. Starting condition from model
-    data = StartingCondition(model,data);
+    model = CreateModel(tabuParameters);
+    model.parameters = tabuParameters;
     
-    % 5. Perform tabu
+    % 4. Create result
+    result = CreateResult(resultParameters);
+    result.parameters = resultParameters;
+    
+    
+    % 5. Initial solution from model
+    data = StartingCondition(model,data);   
+    
+    % 6. Perform tabu
     conditionsAreNotMet = 1;
     while conditionsAreNotMet
         try
             % model.actionList = GetActionList(model,data);
-            % data = DoAction(model,data);
+            data = DoAction(model,data,logfile);
 
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
@@ -49,7 +57,7 @@ try
                 conditionsAreNotMet = 0;
             end
         catch err
-           % fprintf(logfile,[err.stack,'\n'])
+            fprintf(logfile,'Fatal error in tabu search, quiting search\n')
             rethrow(err);
         end
     end
@@ -58,16 +66,21 @@ try
     % . If all was successful, then set statuscode to 1
     statuscode = 1;
     
-    fprintf(log, ['Tabu search finished successfully.\nClosing log: ', ... 
+    fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
     fclose('all');
     
 catch err
     % In case of an error, set statuscode to -1
     statuscode = -1;
-    fprintf(log,getReport(err,'extended'));
-    fprintf(log, ['\nClosing tabu-log due to fatal error: ', ... 
+    fprintf(logfile, getReport(err,'extended'));
+    fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
     fclose('all');
 end
+
+% Remove temporary paths:
+% rmpath 'src/main/tabu/InitialSolutions';
+% rmpath 'src/main/tabu/Instances';
+
 end

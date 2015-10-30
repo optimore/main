@@ -8,8 +8,20 @@ function data=GetData(dataParameters)
 % 0.01: file setup
 % Linköping University, Linköping
 
-data.data = dataParameters;
-
-data.parameters = 'parameters';
+try
+    data.timelineAttr = load( ...
+        [dataParameters.path,'TimelineAttributes.dat']);
+        
+    data.depencencyAttr = load( ...
+        [dataParameters.path,'DependencyAttributes.dat']);
+    
+    data.depencencyMat = load( ...
+        [dataParameters.path,'DependencyMatrix.dat']);
+   
+catch err
+    fprintf(logfile, 'Error loading data');
+    fprintf(logfile, getReport(err,'extended'));
+    rethrow(err);
+end
 
 end
