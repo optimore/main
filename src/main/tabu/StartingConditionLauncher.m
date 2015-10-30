@@ -1,12 +1,14 @@
-function status = TabuInstanseLauncher(model, data, logfile, results)
-%TABUINSTANSELAUNCHER Summary of this function goes here
+function data = StartingConditionLauncher(model,data)
+%StartingConditionLauncher Summary of this function goes here
 %   Detailed explanation goes here
 
+
+model.activePhase
 try
-    switch model.activePhase
+    switch model.initialSolution
         case {1}
             disp('launching tabu phase instance 1');
-            status = MoveOneTask01(data);
+            status = SimpleSortAndPlace(data);
         case {2}
             disp('launching tabu phase instance 2');
             status = instance1(data);
@@ -18,4 +20,6 @@ catch err
    fprintf(logfile, getReport(err,'extended')); 
 end
 
+
 end
+

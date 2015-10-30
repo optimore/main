@@ -6,11 +6,15 @@ function status = MoveOneTask01(data)
 % 0.01: initial testing with -10, -1, 1, 10 steps
 %
 
-% 1. Initiate:
-disp('running MoveOneTask01');
+disp('Running MoveOneTask01');
 
+% 1. Instance setup and parameters. Add more fields as needed.
+instance = struct('description','move one task n steps', ...
+    'costweights',[1,1,1],'instanceparameter2','', ...
+    'instanceparameter3','','instanceparameter4','');
 
 % 2. 
+
 
 
 % 3. 
@@ -20,6 +24,13 @@ disp('running MoveOneTask01');
 status = 0;
 
 end
+
+
+
+
+
+
+
 
 
 % 
