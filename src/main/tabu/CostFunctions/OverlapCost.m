@@ -1,4 +1,4 @@
-function C=OverlapCost(model)
+function C=OverlapCost(data, model)
 %% Task Interval
 % needs comments!
 
