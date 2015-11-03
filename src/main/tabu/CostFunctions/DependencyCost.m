@@ -7,7 +7,7 @@ function C = DependencyCost(data)
 
 % Initially 0 cost
 C = 0;
-[no_dependencies, m] = size(data.dependencies)
+[no_dependencies, m] = size(data.dependencies);
 
 
 % Loop over all dependencies
@@ -34,7 +34,7 @@ for i=1:no_dependencies
        
    end
    
-   C = C + dep_cost
+   C = C + dep_cost;
    
 end
 

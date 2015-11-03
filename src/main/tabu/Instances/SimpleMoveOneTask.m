@@ -25,7 +25,7 @@ try
         for ii = 1:nrActions
             % 3.1 Find new solution:
             % Copy all task positions
-            tempSolution = zeros(nrTasks,2)
+            tempSolution = zeros(nrTasks,2);
             tempSolution(:,1) = data.tasks(:,1);
             tempSolution(:,2) = data.tasks(:,6);
             % Move one solution

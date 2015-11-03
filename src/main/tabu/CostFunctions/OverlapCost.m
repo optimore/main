@@ -45,7 +45,7 @@ for i=1:no_tasks-1
                     overlap = length_task1;
                 end
             end
-            C = C + overlap
+            C = C + overlap;
         end
     end   
 end

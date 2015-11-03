@@ -4,9 +4,9 @@ function cost = CostFunction(data, tempSolution, weights)
 
 % Calculate different cost functions *NEED IMPLEMENTATION*
 
-costDependencies = DependencyCost(data)
-costOverlap = OverlapCost(data)
-costBounds = BoundsCost(data)
+costDependencies = DependencyCost(data);
+costOverlap = OverlapCost(data);
+costBounds = BoundsCost(data);
 
 % Calculate costs with weights
 cost =  weights(1)*costDependencies + ...

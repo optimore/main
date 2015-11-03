@@ -25,7 +25,7 @@ for i=1:no_tasks
         
     end
     
-    C = C + bound_cost
+    C = C + bound_cost;
 
 end
 
