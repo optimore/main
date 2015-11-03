@@ -1,0 +1,212 @@
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:40:38
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:40:38
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:44:42
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:44:42
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:45:15
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:45:15
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:46:24
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:46:24
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:49:12
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:49:12
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:50:59
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:50:59
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:51:22
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:51:22
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:52:01
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:52:02
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:53:30
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:53:30
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:54:14
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:54:14
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:56:24
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 15:56:24
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:57:14
+
+
+
+Fatal error in tabu search, quiting search
+Subscripted assignment dimension mismatch.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 57)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',57,0)">line 57</a>)
+            A(i,:) = ([i, actionList{i}.cost])
+
+Closing tabu-log due to fatal error: 03-Nov-2015 15:57:15
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 15:57:35
+
+
+
+Fatal error in tabu search, quiting search
+Subscripted assignment dimension mismatch.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 58)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',58,0)">line 58</a>)
+                A(i,:) = ([i, actionList{i}.cost])
+
+Closing tabu-log due to fatal error: 03-Nov-2015 15:57:35
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:00:21
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 16:00:21
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:04:52
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 16:04:52
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:07:49
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 16:07:50
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:08:11
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 16:08:12
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:21:26
+
+
+
+Fatal error in tabu search, quiting search
+Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList')" style="font-weight:bold">GetActionList</a>
+Too many output arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 49)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',49,0)">line 49</a>)
+            [actionList,costList] = GetActionList(model,data,tabuList,logfile);
+
+Closing tabu-log due to fatal error: 03-Nov-2015 16:21:26
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:21:59
+
+Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask')" style="font-weight:bold">SimpleMoveOneTask</a>
+Too many output arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            [actionList,costList] = SimpleMoveOneTask(data, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 49)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',49,0)">line 49</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+
+Fatal error in tabu search, quiting search
+Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask')" style="font-weight:bold">SimpleMoveOneTask</a>
+Too many output arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('TabuInstanceLauncher', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m', 10)" style="font-weight:bold">TabuInstanceLauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/TabuInstanceLauncher.m',10,0)">line 10</a>)
+            [actionList,costList] = SimpleMoveOneTask(data, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetActionList', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m', 13)" style="font-weight:bold">GetActionList</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/GetActionList.m',13,0)">line 13</a>)
+actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 49)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',49,0)">line 49</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Closing tabu-log due to fatal error: 03-Nov-2015 16:22:00
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:22:35
+
+
+
+Fatal error in tabu search, quiting search
+Undefined function or variable 's'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 68)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',68,0)">line 68</a>)
+            min(arrayfun(@(x) x.totalcost, s))
+
+Closing tabu-log due to fatal error: 03-Nov-2015 16:22:36
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:23:00
+
+
+
+Fatal error in tabu search, quiting search
+Attempt to reference field of non-structure array.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain>@(x)x.totalcost', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 68)" style="font-weight:bold">tabumain>@(x)x.totalcost</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',68,0)">line 68</a>)
+            min(arrayfun(@(x) x.totalcost, actionList))
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 68)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',68,0)">line 68</a>)
+            min(arrayfun(@(x) x.totalcost, actionList))
+
+Closing tabu-log due to fatal error: 03-Nov-2015 16:23:01
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:27:37
+
+
+
+Fatal error in tabu search, quiting search
+Attempt to reference field of non-structure array.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain>@(x)x.totalcost', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 68)" style="font-weight:bold">tabumain>@(x)x.totalcost</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',68,0)">line 68</a>)
+            min(arrayfun(@(x) x.totalcost, actionList))
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 68)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',68,0)">line 68</a>)
+            min(arrayfun(@(x) x.totalcost, actionList))
+
+Closing tabu-log due to fatal error: 03-Nov-2015 16:27:38
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 16:27:48
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 16:27:49
+---------------------------------------

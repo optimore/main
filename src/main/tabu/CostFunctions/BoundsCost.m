@@ -1,4 +1,4 @@
-function C = BoundsCost(data)
+function C = BoundsCost(data,tempSolution)
 %% Tasks are outside their designated interval
 %   Detailed explanation goes here
 
@@ -11,7 +11,7 @@ overlap= 0;
 
 for i=1:no_tasks
     bound_cost = 0;
-    start_task = data.tasks(i,6);
+    start_task = tempSolution(i,2);
     end_task = start_task + data.tasks(i,5);
     
     start_min = data.tasks(i,2);

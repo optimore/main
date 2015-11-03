@@ -12,7 +12,6 @@ try
             msg = 'No instance for id 2 exist';
             disp(msg);
             error(msg);
-            %status = instance2(data);
         otherwise
             disp('unknown instance');
     end

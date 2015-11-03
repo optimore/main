@@ -1,4 +1,4 @@
-function C = DependencyCost(data)
+function C = DependencyCost(data,tempSolution)
 %% Calculates cost for pairs of dependenent tasks 
 % Finds the interval in which the second task in the dependency should start.
 % Calculates how much the placement of task two differes from this
@@ -17,8 +17,8 @@ for i=1:no_dependencies
    task_1 = data.dependencies(i,1);
    task_2 = data.dependencies(i,2);
    
-   start_task1 = data.tasks(task_1,6);
-   start_task2 = data.tasks(task_2,6);
+   start_task1 = tempSolution(task_1,2);
+   start_task2 = tempSolution(task_2,2);
     
    end_task1 = start_task1 + data.tasks(task_1,5);
    

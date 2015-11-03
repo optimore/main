@@ -1,4 +1,4 @@
-function status = InitialSolutionLauncher(model,data,logfile)
+function [status,data] = InitialSolutionLauncher(model,data,logfile)
 % This launcher initiates a given starting solution from a function call
 %
 % v 0.01 Launches SimpleSortAndPlace
@@ -8,7 +8,7 @@ function status = InitialSolutionLauncher(model,data,logfile)
 try
     switch model.initialSolution
         case {1}
-            status = SimpleSortAndPlace(data);
+            [status,data] = SimpleSortAndPlace(data);
         case {2}
             msg = 'No initial solution for id 2 exist';
             disp(msg);

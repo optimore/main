@@ -13,7 +13,7 @@ actionList = struct('cost',{},'actionSolution',{});
 % 2. Setup the instance with parameters. Add more variables here if needed:
 % this is unique for every instance type
 weights = [1,1,1];
-posibleTaskActions = [-10, -1, 1, 10];
+posibleTaskActions = [-400, -100, -1, 1, 100, 400];
 
 % 3. Iterate over and save posible solutions:
 try    
@@ -31,9 +31,9 @@ try
             % Move one solution
             tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
             
-            
             % Calculate cost *** Needs testing ***
             action.cost = CostFunction(data,tempSolution,weights);
+            action.totalcost = action.cost.total;
             action.actionSolution = tempSolution;
             
             % Save action to actionlist

@@ -29,7 +29,7 @@ try
         'actual start time placement (so that the task can move; =0 now)'};
     data.tasks = zeros(nrtasks,6);
     data.tasks(:,1) = [1:nrtasks]';
-    data.tasks(:,2:4) = timelineAttr(:,1:3);
+    data.tasks(:,2:4) = round(timelineAttr(:,1:3));
     data.tasks(:,5) = timelineSolution(:,2);
     
     % 3. Create dependency representation

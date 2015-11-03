@@ -17,3 +17,5 @@ resultParameters = struct('path','target/results/resultPath/');
 addpath(genpath('src/main/tabu')); %'src/main/tabu';
 runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
 rmpath(genpath('src/main/tabu')); % 'src/main/tabu';
+
+load('actionList')
