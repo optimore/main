@@ -1,4 +1,4 @@
-function actionList = SimpleMoveOneTask(data, tabuList, logfile)
+function actionList = SimpleMoveOneTask(data, logfile)
 %% Phase instance 1 in tabu search
 % This instance will move one task with different step length eatch iteration
 % The stoping criteria is costfunction = 0
@@ -32,11 +32,7 @@ try
             tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
             
             
-            % 3.2 search tabu list:
-            % *** NEEDS IMPLEMENTATION ***
-            
-            
-            % Calculate cost *** Needs implementation ***
+            % Calculate cost *** Needs testing ***
             action.cost = CostFunction(data,tempSolution,weights);
             action.actionSolution = tempSolution;
             

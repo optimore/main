@@ -7,7 +7,7 @@ function actionList = TabuInstanceLauncher(model, data, tabuList, logfile)
 try
     switch model.activePhase
         case {1}
-            actionList = SimpleMoveOneTask(data, tabuList, logfile);
+            actionList = SimpleMoveOneTask(data, logfile);
         case {2}
             msg = 'No instance for id 2 exist';
             disp(msg);

@@ -17,7 +17,6 @@ for i=1:no_tasks-1
     timeline1 = data.tasks(i,4);
     % Column 6: current solution
     start_task1 = data.tasks(i,6);
-    %min_start_task1 = data.tasks(i,2);
     length_task1 = data.tasks(i,5);
     end_task1 = start_task1 + length_task1;
     
@@ -27,7 +26,6 @@ for i=1:no_tasks-1
         % Compare tasks on the same timeline
         if timeline1 == timeline2
             start_task2 = data.tasks(j,6);
-            %min_start_task2 = model.tasks(j,2);
             length_task2 =  data.tasks(j,5);
             end_task2 = start_task2 + length_task2;
 

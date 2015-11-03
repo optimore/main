@@ -47,7 +47,7 @@ try
         try
             actionList = GetActionList(model,data,tabuList,logfile);
             data = DoAction(model,data,actionList,logfile);
-
+            
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
 

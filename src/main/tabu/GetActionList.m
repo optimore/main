@@ -12,5 +12,8 @@ function actionList = GetActionList(model, data, tabuList, logfile)
 
 actionList = TabuInstanceLauncher(model, data, tabuList, logfile);
 
+% TABU list ****
+
+
 end
 
