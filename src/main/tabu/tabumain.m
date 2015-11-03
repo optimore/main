@@ -40,7 +40,7 @@ try
     [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
     % 6. Initiate tabu list from model *** NEED IMPLEMENTATION ***
-    tabuList = CreateTabuList(model);
+    [status, tabuList] = CreateTabuList(model);
     
     % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;

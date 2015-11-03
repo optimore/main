@@ -210,3 +210,75 @@ Tabu-log initiated: 03-Nov-2015 16:27:48
 Tabu search finished successfully.
 Closing log: 03-Nov-2015 16:27:49
 ---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 17:20:44
+
+Undefined function or variable 'logfile'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('CreateTabuList', '/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/CreateTabuList.m', 25)" style="font-weight:bold">CreateTabuList</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/CreateTabuList.m',25,0)">line 25</a>)
+   fprintf(logfile, getReport(err,'extended')); 
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/tabumain.m', 43)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/tabumain.m',43,0)">line 43</a>)
+    [status, tabuList] = CreateTabuList(model);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/emeka813/Documents/TATA62/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+Closing tabu-log due to fatal error: 03-Nov-2015 17:20:45
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 17:21:29
+
+
+
+Fatal error in tabu search, quiting search
+Undefined function or variable 'tabuList'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/tabumain.m', 49)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/tabumain.m',49,0)">line 49</a>)
+            actionList = GetActionList(model,data,tabuList,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/emeka813/Documents/TATA62/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+Closing tabu-log due to fatal error: 03-Nov-2015 17:21:29
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 17:22:40
+
+Undefined function or variable 'logfile'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('CreateTabuList', '/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/CreateTabuList.m', 26)" style="font-weight:bold">CreateTabuList</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/CreateTabuList.m',26,0)">line 26</a>)
+   fprintf(logfile, getReport(err,'extended')); 
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/tabumain.m', 43)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/tabumain.m',43,0)">line 43</a>)
+    [status, tabuList] = CreateTabuList(model);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/emeka813/Documents/TATA62/tabu/maintabu.m', 18)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/maintabu.m',18,0)">line 18</a>)
+runstatus = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+Closing tabu-log due to fatal error: 03-Nov-2015 17:22:40
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 17:23:48
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 17:23:59
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 17:24:05
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 17:24:06
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 17:24:15
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 17:24:16
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 03-Nov-2015 17:25:04
+
+Tabu search finished successfully.
+Closing log: 03-Nov-2015 17:25:05
+---------------------------------------
