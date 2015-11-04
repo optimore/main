@@ -37,6 +37,9 @@ occupancy = 0.5;
 % Inga dependencies mellan timelines?
 constrain = 0;
 
+% antal dependencies per tasks
+dependency_level = Ndeps/N;
+
 % Olika standardavvikelser
 
 std1 = 0.5;
@@ -51,10 +54,10 @@ std9 = 0.5;
 
 % Väntevärden för några fördelningar
 
-mu1 = 1;
-mu2 = 2;
-mu3 = 3;
-mu4 = 4;
+mu1 = 0.5;
+mu2 = 0.5;
+mu3 = 0.5;
+mu4 = 0.5;
 
 % Korrigera dependencysannolikheter baserat på task lengths.
 
@@ -97,9 +100,17 @@ dist_sel7 = 0;
 dist_sel8 = 0;
 dist_sel9 = 0;
 
+% Väljare för dummy-läget
+density = 0;
+dep_intervals = 0;
+attr_intervals = 0;
+dep_intensity = 0;
 
 difficulty='A';
 difficulty_number = 50;
+
+% Kontinuerlig eller diskret svårighetsgrad
+diff_type = 0;
 
 bool1 = 0;
 
@@ -749,7 +760,10 @@ dep_low = uicontrol(dep_group,'Style','radiobutton','String','Low',...
     'Tag', 'rab_mode1');
 
     function dep_low_callback(source,eventdata)
-        
+        dependency_level = 0.05;
+        Ndeps = round(dependency_level*N);
+        dep_intensity = 0;
+        set(txtbox5,'String',num2str(Ndeps));
     end
 
 dep_high = uicontrol(dep_group,'Style','radiobutton','String','High',...
@@ -759,7 +773,10 @@ dep_high = uicontrol(dep_group,'Style','radiobutton','String','High',...
     'Tag', 'rab_mode2');
 
     function dep_high_callback(source,eventdata)
-        
+        dependency_level = 0.95;
+        Ndeps = round(dependency_level*N);
+        dep_intensity = 1;
+        set(txtbox5,'String',num2str(Ndeps));
     end
 
 %% Simple GUI: attributes interval %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -775,6 +792,20 @@ attr_short = uicontrol(attr_group,'Style','radiobutton','String','Short',...
 
     function attr_short_callback(source,eventdata)
         
+        %mintid
+        std3 = 0.1;
+        mu1 = 0.1;
+        
+        % maxtid
+        std5 = 0.1;
+        mu3 = 0.1;
+        
+        attr_intervals=0;
+        
+        set(ms2_slider,'Value',mu1);
+        set(dd2_slider,'Value',mu3);
+        set(dd_slider,'Value',std5);
+        set(ms_slider,'Value',std3);
     end
 
 attr_long = uicontrol(attr_group,'Style','radiobutton','String','Long',...
@@ -784,7 +815,20 @@ attr_long = uicontrol(attr_group,'Style','radiobutton','String','Long',...
     'Tag', 'rab_mode2');
 
     function attr_long_callback(source,eventdata)
+        %mintid
+        std3 = 0.4;
+        mu1 = 0.9;
         
+        % maxtid
+        std5 = 0.4;
+        mu3 = 0.9;
+        
+        attr_intervals=1;
+        
+        set(ms2_slider,'Value',mu1);
+        set(dd2_slider,'Value',mu3);
+        set(dd_slider,'Value',std5);
+        set(ms_slider,'Value',std3);
     end
 
 %% Simple GUI: density of tasks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -799,7 +843,9 @@ density_low = uicontrol(density_group,'Style','radiobutton','String','Low',...
     'Tag', 'rab_mode1');
 
     function density_low_callback(source,eventdata)
-        
+        occupancy = 0.1;
+        density = 0;
+        set(slider5,'Value',occupancy);
     end
 
 density_high = uicontrol(density_group,'Style','radiobutton','String','High',...
@@ -809,7 +855,9 @@ density_high = uicontrol(density_group,'Style','radiobutton','String','High',...
     'Tag', 'rab_mode2');
 
     function density_high_callback(source,eventdata)
-        
+        occupancy = 0.9;
+        density = 1;
+        set(slider5,'Value',occupancy);
     end
 
 %% Simple GUI: dependency intervals %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -824,7 +872,20 @@ depattr_short = uicontrol(depattr_group,'Style','radiobutton','String','Short',.
     'Tag', 'rab_mode1');
 
     function depattr_short_callback(source,eventdata)
+        %mintid
+        std6 = 0.1;
+        mu4 = 0.1;
         
+        %maxtid
+        std2 = 0.1;
+        mu2 = 0.1;
+        
+        dep_intervals=0;
+        
+        set(mint2_slider,'Value',mu4);
+        set(mint_slider,'Value',std6);
+        set(maxt_slider,'Value',std2);
+        set(maxt2_slider,'Value',mu2);
     end
 
 depattr_long = uicontrol(depattr_group,'Style','radiobutton','String','Long',...
@@ -834,7 +895,20 @@ depattr_long = uicontrol(depattr_group,'Style','radiobutton','String','Long',...
     'Tag', 'rab_mode2');
 
     function depattr_long_callback(source,eventdata)
+        %mintid
+        std6 = 0.4;
+        mu4 = 0.9;
         
+        % maxtid
+        std2 = 0.4;
+        mu2 = 0.9;
+        
+        dep_intervals = 1;
+        
+        set(mint2_slider,'Value',mu4);
+        set(mint_slider,'Value',std6);
+        set(maxt_slider,'Value',std2);
+        set(maxt2_slider,'Value',mu2);
     end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -853,6 +927,7 @@ set(allchild(density_group),'Enable','off');
         set(allchild(attr_group),'Enable','off');
         
         set(allchild(density_group),'Enable','off');
+        set(allchild(diff_type_selector),'Enable','off');
         
         % Ett fåtal disables, massa enables
         set(htext8,'Enable','on');
@@ -923,6 +998,7 @@ set(allchild(density_group),'Enable','off');
         set(htext7,'Enable','on');
         
         set(allchild(density_group),'Enable','on');
+        set(allchild(diff_type_selector),'Enable','on');
         
         % Ett fåtal enables, massa disables
         set(htext8,'Enable','off');
@@ -980,6 +1056,146 @@ set(allchild(density_group),'Enable','off');
         
         set(correct_checkbox,'Enable','off'); 
         set(constrain_checkbox,'Enable','off'); 
+        
+        update_fields();
+    end
+
+% Här händer det roliga, i någon mening.
+    function update_fields()
+        % Sätt värdena olika beroende på om low eller high osv är valt för
+        % olika inställningar.
+        % Behövs en bra interpolationsformel för att ta fram 
+        
+        set(correct_checkbox,'Value',1);
+        set(constrain_checkbox,'Value',0);
+        
+        constrain = 0;
+        rectify = 1;
+        
+        % Detta måste finslipas litet.
+        N = max(1,round(10000*difficulty_number^3/1000000));
+        L = 1000000000;
+        T = max(1,round(difficulty_number/3.3));
+        
+        % Måste ändra motsvarande button groups för nedanstående.
+        
+        distrib1 = norm_distr;
+        distrib2 = norm_distr;
+        distrib3 = norm_distr;
+        distrib4 = norm_distr;
+        distrib5 = norm_distr;
+        distrib6 = norm_distr;
+        distrib7 = norm_distr;
+        distrib8 = norm_distr;
+        distrib9 = norm_distr;
+        
+        dist_sel1 = 0;
+        dist_sel2 = 0;
+        dist_sel3 = 0;
+        dist_sel4 = 0;
+        dist_sel5 = 0;
+        dist_sel6 = 0;
+        dist_sel7 = 0;
+        dist_sel8 = 0;
+        dist_sel9 = 0;
+        
+        % task distr. across timlines
+        std8 = 0.4;
+        
+        % task spacing distr. 
+        std7 = 0.4;
+        
+        % task length distr.
+        std4 = 0.4;
+        
+        
+        if density == 0
+            % Ställ in slider + occupancy.
+            occupancy = 0.1;
+            set(slider5,'Value',occupancy);
+        else
+            occupancy = 0.9;
+            set(slider5,'Value',occupancy);
+        end
+        
+        if dep_intervals == 0
+            %mintid
+            std6 = 0.1;
+            mu4 = 0.1;
+            
+            %maxtid
+            std2 = 0.1;
+            mu2 = 0.1;
+        else
+            %mintid
+            std6 = 0.4;
+            mu4 = 0.9;
+            
+            %maxtid
+            std2 = 0.4;
+            mu2 = 0.9;
+        end
+        
+        if attr_intervals == 0
+            %mintid
+            std3 = 0.1;
+            mu1 = 0.1;
+            
+            % maxtid
+            std5 = 0.1;
+            mu3 = 0.1;
+        else
+            %mintid
+            std3 = 0.4;
+            mu1 = 0.9;
+            
+            % maxtid
+            std5 = 0.4;
+            mu3 = 0.9;
+        end
+        
+        % Inte så mycket här som behövs inom en if-sats. Däremot utanför.
+        if dep_intensity == 0
+            dependency_level = 0.05;
+            Ndeps = round(N*dependency_level);
+        else
+            dependency_level = 0.95;
+            Ndeps = round(N*dependency_level);
+        end
+        
+        % Ställ in txtbox:ar
+        set(txtbox1,'String',num2str(L));
+        set(txtbox2,'String',num2str(T));
+        set(txtbox3,'String',num2str(N));
+        set(txtbox5,'String',num2str(Ndeps));
+        
+        % Uppdatera sliders och val av fördelningar
+        set(distr3,'Value',1);
+        set(distr5,'Value',1);
+        set(dead_distr1,'Value',1);
+        set(mint_distr1,'Value',1);
+        set(taskdstr1,'Value',1);
+        
+        set(mint2_slider,'Value',mu4);
+        set(mint_slider,'Value',std6);
+        set(maxt_slider,'Value',std2);
+        set(maxt2_slider,'Value',mu2);
+        
+        set(ms2_slider,'Value',mu1);
+        set(dd2_slider,'Value',mu3);
+        set(dd_slider,'Value',std5);
+        set(ms_slider,'Value',std3);
+        
+        set(tdt_slider,'Value',std8);
+        set(slider5,'Value',occupancy);
+
+
+        set(tlength_distr1,'Value',1);
+        set(mode_distr1,'Value',1);
+        set(tl_slider,'Value',std4);
+
+
+        set(mode_std_slider,'Value',std7);
     end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -993,7 +1209,8 @@ diff_type_btn1 = uicontrol(diff_type_selector,'Style','radiobutton','String','Co
     'Tag', 'rab_mode1');
 
     function diff_type_btn1_callback(source,eventdata)
-        
+        diff_type = 0;
+        set(diff_slider,'SliderStep',[0.05 0.2]);
     end
 
 diff_type_btn2 = uicontrol(diff_type_selector,'Style','radiobutton','String','Discrete',...
@@ -1003,9 +1220,15 @@ diff_type_btn2 = uicontrol(diff_type_selector,'Style','radiobutton','String','Di
     'Tag', 'rab_mode2');
 
     function diff_type_btn2_callback(source,eventdata)
+        diff_type = 1;
+        difficulty_number = 50*round(difficulty_number/50);
         
         set(diff_slider,'Value',difficulty_number);
+        set(diff_slider,'SliderStep',[0.5 0.5]);
+        update_fields();
     end
+
+set(allchild(diff_type_selector),'Enable','off');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 diff_slider = uicontrol(f,'Style','slider',...
@@ -1017,7 +1240,18 @@ diff_slider = uicontrol(f,'Style','slider',...
     'Callback',@diff_cb);
 
     function diff_cb(source,eventdata)
+        if diff_type == 0
         difficulty_number = get(diff_slider,'Value');
+        else
+            difficulty_number = round(get(diff_slider,'Value')/50)*50;
+            
+            set(diff_slider,'Value',difficulty_number);
+            
+            
+        end
+        update_fields();
+        % Uppdatera  här alla fält, också när man aktiverar/avaktiverar
+        % detta reglage.
     end
 
 htext7  = uicontrol('Style','text','String','Level of difficulty:', 'Units','normalized',...
@@ -1165,6 +1399,8 @@ slider5 = uicontrol(f,'Style','slider',...
     function testdatagen_callback(source,eventdata)
         
         set(checkbox,'Value',0);
+        
+        timeline_selection=1;
         
         % Hämta information från var knapparna befinner sig.
         TimelineSolution_mater = [];
