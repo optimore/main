@@ -1401,6 +1401,7 @@ slider5 = uicontrol(f,'Style','slider',...
         set(checkbox,'Value',0);
         
         timeline_selection=1;
+        set(listbox1,'Value',timeline_selection);
         
         % Hämta information från var knapparna befinner sig.
         TimelineSolution_mater = [];
