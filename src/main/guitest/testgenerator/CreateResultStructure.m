@@ -1,4 +1,4 @@
-function [status, resultPath] = CreateResult()
+function [status, resultPath] = CreateResultStructure()
 %% Create one log file for each test
 % This function creates a log file and returns a path to the file
 % Created by: Victor Bergelin
@@ -9,19 +9,22 @@ function [status, resultPath] = CreateResult()
 % 0.01: file setup
 % Linköping University, Linköping
 
-% 1. Get path and name:
-relativeLogPath = 'target/results/';
+status = 0;
 
-dateName = datestr(now(),'yyyy-mm-ddTHH-MM-SS')
-resultPath = ['results_', dateName];
+% 1. Get path and name:
+resultPath = 'target/results/';
+
+dateName = datestr(now(),'yyyy-mm-ddTHH-MM-SS');
+resultPath = [resultPath,'results_', dateName];
 
 
 % 2. Create file and close
 try
     mkdir(resultPath)
-    %fclose(fopen([relativeLogPath,logpath], 'w'));
-catch ME
-     
+    status = 1;    
+catch err
+    status = -1;
+    rethrow(err)
 end
 
 % 3. Return file path and name

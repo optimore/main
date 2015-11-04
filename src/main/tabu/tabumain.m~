@@ -1,4 +1,4 @@
-function statuscode = tabumain(dataParameters, tabuParameters, logfileParameters, resultParameters)
+function status = tabumain(dataParameters, tabuParameters, logfileParameters, resultParameters)
 %% Tabu main launching script
 % This script is the over all launcher of the tabu search algorithm
 %
@@ -12,11 +12,9 @@ function statuscode = tabumain(dataParameters, tabuParameters, logfileParameters
 %
 % Linköping University, Linköping
 
-statuscode = 0;
+status = 0;
 
-% Add temporary paths
-% addpath 'src/main/tabu/InitialSolutions';
-% addpath 'src/main/tabu/Instances';
+% Add timing:
 tic
 
 try
@@ -44,12 +42,15 @@ try
     
     % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;
+    iterations = 1;
     while conditionsAreNotMet
         try
-            actionList = GetActionList(model,data,tabuList,logfile);
-
             
-            % Print actionlist:
+            % 6.1 Get actions in list with costs associated:
+            [status,actionList,costList] = GetActionList(model,data,tabuList,logfile);
+            
+            
+            % 6.1.1 Print actionlist:
             figure(1);
             nlist = size(actionList,2);
             A = zeros(nlist,4);
@@ -60,22 +61,24 @@ try
                 A(i,3) = actionList{i}.cost.bound;
                 A(i,4) = actionList{i}.cost.total;
             end
+            
             plot(A)
             legend('dep','over','bound','total')
+            pause(0.1)
             
-            % *** TEMPORARY SOLUTION!! ***
-            costList = A(:,4);
+            % 6.2 Iteration logging
+            fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
+            [status, data] = DoAction(model,data,actionList,costList,logfile);
             
+           
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
 
             % Evaluate if condation are met:
-            % model.conditionsAreMet = AreConditionsMet(data)
+            [status, conditionsAreNotMet] = AreConditionsMet(costList);
             
-            model.conditionAreMet = 1;
-            if model.conditionAreMet
-                conditionsAreNotMet = 0;
-            end
+            iterations = iterations + 1;
+
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);
@@ -84,7 +87,7 @@ try
     
     
     % . If all was successful, then set statuscode to 1
-    statuscode = 1;
+    status = 1;
     
     fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
@@ -92,7 +95,7 @@ try
     
 catch err
     % In case of an error, set statuscode to -1
-    statuscode = -1;
+    status = -1;
     fprintf(logfile, getReport(err,'extended'));
     fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ... 
         datestr(now()), '\n---------------------------------------\n']);

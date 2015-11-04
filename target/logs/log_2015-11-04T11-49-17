@@ -1,0 +1,14 @@
+---------------------------------------
+Tabu-log initiated: 04-Nov-2015 11:49:17
+
+Result file created: target/results/results_2015-11-04T11-49-17/tabu
+Output argument "result" (and maybe others) not assigned during call to "/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/CreateResult.m>CreateResult".
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 34)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',34,0)">line 34</a>)
+    result = CreateResult(resultParameters,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/vicbe348/Repo/optimore/tabu/maintabu.m', 26)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maintabu.m',26,0)">line 26</a>)
+    status = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters)
+
+Closing tabu-log due to fatal error: 04-Nov-2015 11:49:17
+---------------------------------------

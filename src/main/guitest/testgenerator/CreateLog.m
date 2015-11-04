@@ -16,7 +16,7 @@ status = 0;
 relativeLogPath = 'target/logs/';
 
 dateName = datestr(now(),'yyyy-mm-ddTHH-MM-SS');
-logPath = [relativeLogPath,dateName];
+logPath = [relativeLogPath,'log_',dateName];
 
 
 % 2. Create file and close

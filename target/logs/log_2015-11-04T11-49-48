@@ -1,6 +1,7 @@
 ---------------------------------------
-Tabu-log initiated: 04-Nov-2015 11:17:41
+Tabu-log initiated: 04-Nov-2015 11:49:48
 
+Result file created: target/results/results_2015-11-04T11-49-48/tabu
 Iteration nr: 1. Calculated 48 actions. Lowest cost is 1104.
 Iteration nr: 2. Calculated 48 actions. Lowest cost is 904.
 Iteration nr: 3. Calculated 48 actions. Lowest cost is 793.
@@ -17,3 +18,4 @@ Iteration nr: 13. Calculated 48 actions. Lowest cost is 530.
 Iteration nr: 14. Calculated 48 actions. Lowest cost is 523.
 Iteration nr: 15. Calculated 48 actions. Lowest cost is 515.
 Iteration nr: 16. Calculated 48 actions. Lowest cost is 409.
+Iteration nr: 17. Calculated 48 actions. Lowest cost is 400.

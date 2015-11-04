@@ -12,11 +12,11 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 %
 % Linköping University, Linköping
 
+DEBUGPLOT=1;
+
 status = 0;
 
-% Add temporary paths
-% addpath 'src/main/tabu/InitialSolutions';
-% addpath 'src/main/tabu/Instances';
+% Add timing:
 tic
 
 try
@@ -51,24 +51,25 @@ try
             % 6.1 Get actions in list with costs associated:
             [status,actionList,costList] = GetActionList(model,data,tabuList,logfile);
             
-            % save('actionList')
-            
-            % 6.1.1 Print actionlist:
-            figure(1);
-            nlist = size(actionList,2);
-            A = zeros(nlist,4);
-            for i = 1:nlist
-                % actionList{i}.cost
-                A(i,1) = actionList{i}.cost.dep;
-                A(i,2) = actionList{i}.cost.over;
-                A(i,3) = actionList{i}.cost.bound;
-                A(i,4) = actionList{i}.cost.total;
+            if DEBUGPLOT
+                % 6.1.1 Print actionlist:
+                figure(1);
+                nlist = size(actionList,2);
+                A = zeros(nlist,4);
+                for i = 1:nlist
+                    % actionList{i}.cost
+                    A(i,1) = actionList{i}.cost.dep;
+                    A(i,2) = actionList{i}.cost.over;
+                    A(i,3) = actionList{i}.cost.bound;
+                    A(i,4) = actionList{i}.cost.total;
+                end
+
+                plot(A)
+                legend('dep','over','bound','total')
+                pause(0.1)
             end
             
-            plot(A)
-            legend('dep','over','bound','total')
-            pause(0.1)
-            % 6.2
+            % 6.2 Iteration logging
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
             [status, data] = DoAction(model,data,actionList,costList,logfile);
             
@@ -81,6 +82,12 @@ try
             
             iterations = iterations + 1;
 
+            % End after 100 iterations
+            if iterations > 100
+                disp('Search ended after 100 iterations, no solution found.');
+                conditionsAreNotMet=0;
+            end
+            
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);
@@ -104,12 +111,14 @@ catch err
     fclose('all');
 end
 
-% Remove temporary paths:
-% rmpath 'src/main/tabu/InitialSolutions';
-% rmpath 'src/main/tabu/Instances';
-
 toc
 
 
 
 end
+
+
+
+% Catch user quit
+
+% Målfunktion / tid, ta varje sekund
