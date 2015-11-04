@@ -1,4 +1,4 @@
-function resultPath = CreateResult(resultParameters,logfile)
+function result = CreateResult(resultParameters,logfile)
 %CREATERESULT Summary of this function goes here
 %   Detailed explanation goes here
 %
@@ -13,7 +13,7 @@ resultId = resultParameters.id;
 resultPath = [resultPath,'/tabu'];
 
 try
-    fclose(fopen(resultPath, 'w'));
+    result = fopen(resultPath, 'w');
     fprintf(logfile, ['Result file created: ', resultPath, ...
         '\n\n']);
     status = 1;

@@ -1,4 +1,4 @@
-function [status,data] = DoAction( model,data,actionList,costList,logfile )
+function [status,data] = DoAction( model,data,actionList,costList,logfile,resultfile )
 %DOACTION Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -15,6 +15,8 @@ try
         
         fprintf(logfile, ['Calculated ',num2str(length(costList)), ...
         ' actions. Lowest cost is ', num2str(lowestCost),'.\n']);
+        timenow = toc;
+        fprintf(resultfile,[',',num2str(lowestCost),',',num2str(timenow),'\n']);
         
         % 2. Correlate with tabu list and
         break; % when not in tabu list

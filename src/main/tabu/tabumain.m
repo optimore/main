@@ -12,7 +12,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 %
 % Linköping University, Linköping
 
-DEBUGPLOT=1;
+DEBUGPLOT=0;
 
 status = 0;
 
@@ -33,8 +33,8 @@ try
     model.parameters = tabuParameters;
     
     % 4. Create result *** NEED IMPLEMENTATION ***
-    result = CreateResult(resultParameters,logfile);
-    result.parameters = resultParameters;
+    resultfile = CreateResult(resultParameters,logfile);
+    %result.parameters = resultParameters;
     
     % 5. Initial solution from model *** DONE ***
     [status,data] = InitialSolutionLauncher(model,data,logfile);   
@@ -71,8 +71,10 @@ try
             
             % 6.2 Iteration logging
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
-            [status, data] = DoAction(model,data,actionList,costList,logfile);
+            fprintf(resultfile, num2str(iterations));
+            [status, data] = DoAction(model,data,actionList,costList,logfile,resultfile);
             
+            fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
            
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
@@ -83,7 +85,7 @@ try
             iterations = iterations + 1;
 
             % End after 100 iterations
-            if iterations > 100
+            if iterations > 5000
                 disp('Search ended after 100 iterations, no solution found.');
                 conditionsAreNotMet=0;
             end
