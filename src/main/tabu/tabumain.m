@@ -44,6 +44,7 @@ try
     
     % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;
+    iterations = 1;
     while conditionsAreNotMet
         try
             
@@ -63,23 +64,23 @@ try
                 A(i,3) = actionList{i}.cost.bound;
                 A(i,4) = actionList{i}.cost.total;
             end
+            
             plot(A)
             legend('dep','over','bound','total')
-            
+            pause(0.1)
             % 6.2
-            data = DoAction(model,data,actionList,costList,logfile);
-                      
+            fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
+            [status, data] = DoAction(model,data,actionList,costList,logfile);
             
+           
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
 
             % Evaluate if condation are met:
-            model.conditionsAreMet = AreConditionsMet(data)
+            [status, conditionsAreNotMet] = AreConditionsMet(costList);
             
-            model.conditionAreMet = 1;
-            if model.conditionAreMet
-                conditionsAreNotMet = 0;
-            end
+            iterations = iterations + 1;
+
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);

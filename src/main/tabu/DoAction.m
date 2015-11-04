@@ -11,17 +11,15 @@ try
         
         % 1. Find action generating lowest cost
         [lowestCost, index] = min(costList);
+        data.tasks(:,6) = actionList{index}.actionSolution(:,2);
         
-        data.tasks(:,6) = actionList{index}.actionSolution;
-        disp('updated solution\n')
+        fprintf(logfile, ['Calculated ',num2str(length(costList)), ...
+        ' actions. Lowest cost is ', num2str(lowestCost),'.\n']);
         
         % 2. Correlate with tabu list and
         break; % when not in tabu list
         
-    end
-    
-    
-    
+    end  
     
     % 3 Choose action OR start from 1 with updated actionlist
     
