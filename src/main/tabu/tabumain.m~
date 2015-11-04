@@ -1,4 +1,4 @@
-function status = tabumain(dataParameters, tabuParameters, logfileParameters, resultParameters)
+function statuscode = tabumain(dataParameters, tabuParameters, logfileParameters, resultParameters)
 %% Tabu main launching script
 % This script is the over all launcher of the tabu search algorithm
 %
@@ -12,7 +12,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 %
 % Linköping University, Linköping
 
-status = 0;
+statuscode = 0;
 
 % Add temporary paths
 % addpath 'src/main/tabu/InitialSolutions';
@@ -46,13 +46,10 @@ try
     conditionsAreNotMet = 1;
     while conditionsAreNotMet
         try
+            actionList = GetActionList(model,data,tabuList,logfile);
+
             
-            % 6.1 Get actions in list with costs associated:
-            [status,actionList,costList] = GetActionList(model,data,tabuList,logfile);
-            
-            % save('actionList')
-            
-            % 6.1.1 Print actionlist:
+            % Print actionlist:
             figure(1);
             nlist = size(actionList,2);
             A = zeros(nlist,4);
@@ -66,15 +63,14 @@ try
             plot(A)
             legend('dep','over','bound','total')
             
-            % 6.2
-            data = DoAction(model,data,actionList,costList,logfile);
-                      
+            % *** TEMPORARY SOLUTION!! ***
+            costList = A(:,4);
             
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
 
             % Evaluate if condation are met:
-            model.conditionsAreMet = AreConditionsMet(data)
+            % model.conditionsAreMet = AreConditionsMet(data)
             
             model.conditionAreMet = 1;
             if model.conditionAreMet
@@ -88,7 +84,7 @@ try
     
     
     % . If all was successful, then set statuscode to 1
-    status = 1;
+    statuscode = 1;
     
     fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
@@ -96,7 +92,7 @@ try
     
 catch err
     % In case of an error, set statuscode to -1
-    status = -1;
+    statuscode = -1;
     fprintf(logfile, getReport(err,'extended'));
     fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ... 
         datestr(now()), '\n---------------------------------------\n']);

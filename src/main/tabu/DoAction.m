@@ -1,14 +1,27 @@
-function status = DoAction( model,data,actionList,logfile )
+function [status,data] = DoAction( model,data,actionList,costList,logfile )
 %DOACTION Summary of this function goes here
 %   Detailed explanation goes here
 
 
 status = 0;
 try
-   
-    % 1. Find action generating lowest cost
+    lowestcostnotfound = 1;
+
+    while lowestcostnotfound
+        
+        % 1. Find action generating lowest cost
+        [lowestCost, index] = min(costList);
+        
+        data.tasks(:,6) = actionList{index}.actionSolution;
+        disp('updated solution\n')
+        
+        % 2. Correlate with tabu list and
+        break; % when not in tabu list
+        
+    end
     
-    % 2. Correlate with tabu list
+    
+    
     
     % 3 Choose action OR start from 1 with updated actionlist
     

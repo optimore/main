@@ -1,4 +1,4 @@
-function actionList = TabuInstanceLauncher(model, data, tabuList, logfile)
+function [actionList,costList] = TabuInstanceLauncher(model, data, tabuList, logfile)
 %TABUINSTANCELAUNCHER Launches the active instance for the phase
 % Detailed explanation goes here
 % version
@@ -7,7 +7,7 @@ function actionList = TabuInstanceLauncher(model, data, tabuList, logfile)
 try
     switch model.activePhase
         case {1}
-            actionList = SimpleMoveOneTask(data, logfile);
+            [actionList,costList] = SimpleMoveOneTask(data, logfile);
         case {2}
             msg = 'No instance for id 2 exist';
             disp(msg);

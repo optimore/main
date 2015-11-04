@@ -1,4 +1,4 @@
-function actionList = SimpleMoveOneTask(data, logfile)
+function [actionList,costList] = SimpleMoveOneTask(data, logfile)
 %% Phase instance 1 in tabu search
 % This instance will move one task with different step length eatch iteration
 % The stoping criteria is costfunction = 0
@@ -6,9 +6,6 @@ function actionList = SimpleMoveOneTask(data, logfile)
 % version nr:
 % 0.01: initial testing with -10, -1, 1, 10 steps
 %
-
-% 1. create empty actionList:
-actionList = struct('cost',{},'actionSolution',{});
 
 % 2. Setup the instance with parameters. Add more variables here if needed:
 % this is unique for every instance type
@@ -20,6 +17,10 @@ try
     nrTasks = size(data.tasks,1);
     nrActions = length(posibleTaskActions);
     actionId = 1;
+    
+    % 3.0.1. create empty actionList and costList:
+    actionList = struct('cost',{},'actionSolution',{});
+    costList = zeros(nrActions*nrTasks,1);
     
     for i = 1:nrTasks
         for ii = 1:nrActions
@@ -38,6 +39,7 @@ try
             
             % Save action to actionlist
             actionList{actionId} = action;
+            costList(actionId) = action.totalcost;
             
             % Increase iterator
             actionId = actionId + 1;
