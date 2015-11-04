@@ -1,4 +1,4 @@
-function [status, tabuList] = CreateTabuList(model,data)
+function [status, tabuList] = CreateTabuList(model)
 %CREATETABULIST create tabu list from model
 % 
 % v0.01: file setup, need implementation
@@ -14,7 +14,7 @@ try
     switch model.phases
         case {1}
             % tabulist
-            listlength = 10;
+            listlength = 200;
         case {2}
             % no tabulist
             listlenght = 0; 
@@ -23,9 +23,8 @@ try
             
     end
     
-    [no_tasks, m] = size(data.tasks);
-    tabucell = num2cell(zeros(no_tasks, 1), 1);
-    tabuList(1:listlength, 1) = tabucell;
+    tabucell = num2cell(zeroes())
+    tabuList = zeros(listlength, 1);
     status = 1;
 
 catch err

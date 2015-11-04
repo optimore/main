@@ -40,7 +40,7 @@ try
     [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
     % 6. Initiate tabu list from model *** NEED IMPLEMENTATION ***
-    [status, tabuList] = CreateTabuList(model);
+    [status, tabuList] = CreateTabuList(model, data);
     
     % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;
@@ -70,7 +70,7 @@ try
             pause(0.1)
             % 6.2
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
-            [status, data] = DoAction(model,data,actionList,costList,logfile);
+            [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
             
            
             % Evaluate current phase:
