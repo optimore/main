@@ -23,7 +23,7 @@ try
     % 1. Setup logging *** DONE ***
     logfile = GetLog(logfileParameters);
     % logfile.parameters = logfileParameters;
-    
+
     % 2. Read data and data parameters *** DONE ***
     data = GetData(dataParameters,logfile);
     data.parameters = dataParameters;

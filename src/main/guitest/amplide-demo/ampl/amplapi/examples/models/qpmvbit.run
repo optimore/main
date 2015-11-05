@@ -1,0 +1,10 @@
+# Data tables in native AMPL format
+
+table assetstable IN (data_dir & "/assetsReturns.bit") :
+stockall<-[stockall] ,averret;
+
+
+table astrets IN  (data_dir & "/covar.bit") :
+[Asset, stockall],covar;
+
+
