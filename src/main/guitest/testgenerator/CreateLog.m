@@ -11,7 +11,7 @@ status = 1;
 relativeLogPath = 'target/logs/';
 
 dateName = datestr(now(),'yyyy-mm-ddTHH-MM-SS');
-logpath = [dateName,'.log'];
+logpath = ['log_',dateName];
 logpath = [relativeLogPath,logpath];
 
 

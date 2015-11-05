@@ -22,18 +22,15 @@ tic
 try
     % 1. Setup logging *** DONE ***
     logfile = GetLog(logfileParameters);
-    % logfile.parameters = logfileParameters;
 
     % 2. Read data and data parameters *** DONE ***
     data = GetData(dataParameters,logfile);
-    data.parameters = dataParameters;
     
     % 3. Create model *** DONE ***
     model = CreateModel(tabuParameters,logfile);
-    model.parameters = tabuParameters;
     
     % 4. Create result *** NEED IMPLEMENTATION ***
-    resultfile = CreateResult(resultParameters,logfile);
+    [resultfile,runId] = CreateResult(resultParameters,logfile);
     %result.parameters = resultParameters;
     
     % 5. Initial solution from model *** DONE ***
@@ -73,8 +70,9 @@ try
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
             [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
             
-            fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
+            % fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
            
+            
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
 
@@ -84,10 +82,8 @@ try
             iterations = iterations + 1;
 
             % End after 100 iterations
-            nrIterations = 3000;
+            nrIterations = 300;
             if iterations > nrIterations
-                disp(['Search ended after ',num2str(nrIterations), ...
-                    ' iterations, no solution found.']);
                 conditionsAreNotMet=0;
             end
             
@@ -103,7 +99,10 @@ try
     
     fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
-    fclose('all');
+    
+    % Close files:
+    fclose(resultfile);
+    fclose(logfile);
     
 catch err
     % In case of an error, set statuscode to -1
@@ -114,7 +113,8 @@ catch err
     fclose('all');
 end
 
-toc
+closetime = toc;
+
 
 end
 

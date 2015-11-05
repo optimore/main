@@ -10,6 +10,8 @@ function [status, tabuList] = CreateTabuList(model,data)
 % probably taking the instance parameters into account somehow... 
 status = 0;
 
+% [instance_1 instance_2 instance_3 ... ]
+
 try
     switch model.phases
         case {1}

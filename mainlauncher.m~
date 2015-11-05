@@ -1,0 +1,82 @@
+function status = mainlauncher(dataParameters, modelParameters)
+%MAINLAUNCHER Summary of this function goes here
+%   Detailed explanation goes here
+
+
+
+clc;
+clear all;
+
+% 1. Variable setup:
+status = 1;
+runId=1;
+
+
+% 2. Functional setup:
+try
+    % 2.1 Add paths for setup files:
+    addpath(genpath('src/main/guitest'))
+    
+    [status, logPath] = CreateLog();
+    [status, resultPath] = CreateResultStructure();
+    
+    rmpath(genpath('src/main/guitest'))
+    
+catch err
+    disp('Fatal error in 2. setup')
+    disp(err.stack)
+end
+
+
+% 2.2 Save as struct variables:
+logfileParameters = struct('path',logPath,'id',runId);
+resultParameters = struct('path',resultPath,'id',runId);
+
+
+
+% 3. Create run scheme
+modelRunList = [modelParameters.tabu.active, ...
+                modelParameters.LNS.active, ...
+                modelParameters.ampl.active];
+dataRunLength = length(dataParameters);
+
+
+
+while status ==1
+    % if tabu is active:
+    case dataParameters.tabu.active,
+        for i = 1:length(dataParameters)
+            try
+                if 1
+                % Add path for tabu main files:
+                addpath(genpath('src/main/tabu')); %'src/main/tabu';
+                status = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters);
+                rmpath(genpath('src/main/tabu')); % 'src/main/tabu';
+                % -----------------------------
+
+                else
+                    addpath(genpath('src/main/ampl'));
+                    %runstatus = amplmain(dataParameters,modelParameters{1},logParameters,resultParameters)
+                    disp('demo run tabu')
+                    rmpath(genpath('src/main/ampl'));
+                end
+
+                runId = runId +1;
+
+            catch err
+               disp(['Main script error occured in algorithm: ', ...
+                   num2str(runId)]);
+            end
+        end
+        
+        case 
+    end
+end
+
+
+
+
+
+
+end
+
