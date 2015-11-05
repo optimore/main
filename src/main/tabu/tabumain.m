@@ -29,17 +29,16 @@ try
     % 3. Create model *** DONE ***
     model = CreateModel(tabuParameters,logfile);
     
-    % 4. Create result *** NEED IMPLEMENTATION ***
+    % 4. Create result *** DONE ***
     [resultfile,runId] = CreateResult(resultParameters,logfile);
-    %result.parameters = resultParameters;
     
     % 5. Initial solution from model *** DONE ***
     [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
-    % 6. Initiate tabu list from model *** NEED IMPLEMENTATION ***
+    % 6. Initiate tabu list from model *** DONE ***
     [status, tabuList] = CreateTabuList(model, data);
     
-    % 6. Perform tabu *** NEED IMPLEMENTATION ***
+    % 6. Perform tabu *** DONE ***
     conditionsAreNotMet = 1;
     iterations = 1;
     while conditionsAreNotMet
@@ -67,8 +66,8 @@ try
             end
             
             % 6.2 Iteration logging
-            fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
-            [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
+            fprintf(resultfile, num2str(iterations));
+            [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile,resultfile);
               
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);

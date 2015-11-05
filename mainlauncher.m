@@ -15,6 +15,9 @@ try
     rmpath(genpath('src/main/guitest'))
     % -----------------------------
     
+    
+    status.logPath = logPath;
+    status.resultPath = resultPath;
     status.run = 1;
 catch err
     disp('Fatal error in 2. setup')
@@ -107,7 +110,7 @@ if status.run
     end
 end   
 
-disp(['script finished after ',num2str(runId), ...
+disp(['Launcher script finished after ',num2str(runId), ...
     ' iterations over all selected models']);
 
 status.run = 1
