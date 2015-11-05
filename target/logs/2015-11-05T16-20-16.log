@@ -1,0 +1,26 @@
+---------------------------------------
+Tabu-log initiated: 05-Nov-2015 16:20:28
+
+Result file created: target/results/results_2015-11-05T16-20-16/tabu
+
+Iteration nr: 1. Calculated 48 actions. Lowest cost is 1104.
+Iteration nr: 2. Calculated 48 actions. Lowest cost is 904.
+Iteration nr: 3. Calculated 48 actions. Lowest cost is 793.
+Iteration nr: 4. Calculated 48 actions. Lowest cost is 618.
+
+
+Fatal error in tabu search, quiting search
+Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.ui.Figure/set')" style="font-weight:bold">matlab.ui.Figure/set</a>
+Axes must be an existing child of figure.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('DisplayCurrentSolution', '/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/DisplayCurrentSolution.m', 19)" style="font-weight:bold">DisplayCurrentSolution</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/DisplayCurrentSolution.m',19,0)">line 19</a>)
+set(f2, 'currentaxes', ha2);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/tabumain.m', 79)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/src/main/tabu/tabumain.m',79,0)">line 79</a>)
+            DisplayCurrentSolution(data,fig);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maintabu', '/edu/emeka813/Documents/TATA62/tabu/maintabu.m', 26)" style="font-weight:bold">maintabu</a> (<a href="matlab: opentoline('/edu/emeka813/Documents/TATA62/tabu/maintabu.m',26,0)">line 26</a>)
+    status = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters);
+
+Closing tabu-log due to fatal error: 05-Nov-2015 16:21:19
+---------------------------------------

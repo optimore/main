@@ -2,7 +2,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 %% Tabu main launching script
 % This script is the over all launcher of the tabu search algorithm
 %
-%
+% 
 %
 % Created by: Victor Bergelin
 % Date created:
@@ -11,8 +11,6 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 %
 %
 % Linköping University, Linköping
-
-DEBUGPLOT=0;
 
 status = 0;
 
@@ -33,19 +31,14 @@ try
     model.parameters = tabuParameters;
     
     % 4. Create result *** NEED IMPLEMENTATION ***
-    resultfile = CreateResult(resultParameters,logfile);
-    %result.parameters = resultParameters;
+    result = CreateResult(resultParameters,logfile);
+    result.parameters = resultParameters;
     
     % 5. Initial solution from model *** DONE ***
-    [status,data] = InitialSolutionLauncher(model,data,logfile);
+    [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
     % 6. Initiate tabu list from model *** NEED IMPLEMENTATION ***
-    [status, tabuList] = CreateTabuList(model, data);
-    
-    fig = figure('Visible','on','Position',[10,100,1400,1000]);
-    end_t = data.tasks(:,2) + data.tasks(:,5);
-    figdata.L = 1.1*max(end_t);
-    figdata.T = 1.1*max(data.tasks(:,4));
+    [status, tabuList] = CreateTabuList(model);
     
     % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;
@@ -56,48 +49,36 @@ try
             % 6.1 Get actions in list with costs associated:
             [status,actionList,costList] = GetActionList(model,data,tabuList,logfile);
             
-            if DEBUGPLOT
-                % 6.1.1 Print actionlist:
-                figure(1);
-                nlist = size(actionList,2);
-                A = zeros(nlist,4);
-                for i = 1:nlist
-                    % actionList{i}.cost
-                    A(i,1) = actionList{i}.cost.dep;
-                    A(i,2) = actionList{i}.cost.over;
-                    A(i,3) = actionList{i}.cost.bound;
-                    A(i,4) = actionList{i}.cost.total;
-                end
-                
-                plot(A)
-                legend('dep','over','bound','total')
-                pause(0.1)
+            
+            % 6.1.1 Print actionlist:
+            figure(1);
+            nlist = size(actionList,2);
+            A = zeros(nlist,4);
+            for i = 1:nlist
+                % actionList{i}.cost
+                A(i,1) = actionList{i}.cost.dep;
+                A(i,2) = actionList{i}.cost.over;
+                A(i,3) = actionList{i}.cost.bound;
+                A(i,4) = actionList{i}.cost.total;
             end
+            
+            plot(A)
+            legend('dep','over','bound','total')
+            pause(0.1)
             
             % 6.2 Iteration logging
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
-            [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
+            [status, data] = DoAction(model,data,actionList,costList,logfile);
             
-            DisplayCurrentSolution(data,fig,figdata);
-            pause(0.1);
-            %fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
-            
+           
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
-            
+
             % Evaluate if condation are met:
             [status, conditionsAreNotMet] = AreConditionsMet(costList);
             
             iterations = iterations + 1;
-            
-            % End after 100 iterations
-            nrIterations = 3000;
-            if iterations > nrIterations
-                disp(['Search ended after ',num2str(nrIterations), ...
-                    ' iterations, no solution found.']);
-                conditionsAreNotMet=0;
-            end
-            
+
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);
@@ -108,7 +89,7 @@ try
     % . If all was successful, then set statuscode to 1
     status = 1;
     
-    fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ...
+    fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
     fclose('all');
     
@@ -116,14 +97,17 @@ catch err
     % In case of an error, set statuscode to -1
     status = -1;
     fprintf(logfile, getReport(err,'extended'));
-    fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ...
+    fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
     fclose('all');
 end
 
+% Remove temporary paths:
+% rmpath 'src/main/tabu/InitialSolutions';
+% rmpath 'src/main/tabu/Instances';
+
 toc
 
-end
 
-% Catch user quit
-% Målfunktion / tid, ta varje sekund
+
+end

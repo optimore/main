@@ -28,9 +28,13 @@ try
         'timeline id', 'task length', ...
         'actual start time placement (so that the task can move; =0 now)'};
     data.tasks = zeros(nrtasks,6);
+    % Column 1: ID
     data.tasks(:,1) = [1:nrtasks]';
+    % Column 2: min start time, Column 3: max end time, Column 4: timeline
     data.tasks(:,2:4) = round(timelineAttr(:,1:3));
+    % Column 5: Task length
     data.tasks(:,5) = timelineSolution(:,2);
+    % Column 6: tempSolution
     
     % 3. Create dependency representation
     nrdependencies = size(depencencyMat,1);

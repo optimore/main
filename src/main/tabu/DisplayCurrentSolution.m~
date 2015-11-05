@@ -1,0 +1,87 @@
+function [] = DisplayCurrentSolution(data,fig, figdd)
+% Displays the temporary solution on a graphical timeline
+%
+
+% No of timesteps
+end_t = data.tasks(:,2) + data.tasks(:,5);
+L = 1.1*max(end_t);
+
+
+% No of timelinesAntal tidslinjer *FIX: take max of column*
+T = 1.1*max(data.tasks(:,4));
+
+% f = figure('Visible','on','Position',[160,200,1600,800]);
+f2 = fig;
+ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
+
+% Visualisera testdata:
+set(0, 'currentfigure', f2);
+
+set(f2, 'currentaxes', ha2);
+
+cla reset
+
+axis([-0.1*L,1.1*L,0,T+1])
+set(gca,'FontSize',10);
+title('Plot of timelines and tasks');
+xlabel('Time');
+ylabel('Time-line');
+hold(ha2, 'on')
+Color = diag(ones(3,1));
+% For each task
+for i=1:length(data.tasks)
+    line([data.tasks(i,6) data.tasks(i,6)+data.tasks(i,5)], [data.tasks(i,4) data.tasks(i,4)], ...
+        'Color',Color(1+mod(i,3),:)); %, 'LineWidth', i*0.8*(1/length(data.tasks)));
+    %line([TimelineSolution{i}(k,1) TimelineSolution{i}(k,1)+TimelineSolution{i}(k,2)], [i i], 'Color',Color(1+mod(k,3),:));
+end
+
+
+hold(ha2, 'off')
+% set(0, 'currentfigure', f);
+
+% 
+% % Visualisera depencencies
+% for i=1:size(DependencyMatrix,1)
+%     set(0, 'currentfigure', f2);
+%     
+%     set(f2, 'currentaxes', ha2);
+%     hold(ha2, 'on')
+%     % task1_start = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1),1);
+%     task1_start = data.tasks(:,6);
+%     task2_length =
+%     task1_length = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1),2);
+%     task2_start = TimelineSolution{DependencyMatrix(i,4)}(DependencyMatrix(i,3),1);
+%     
+%     x_start = task1_start+task1_length;
+%     x_end = task2_start;
+%     y_start = DependencyMatrix(i,2);
+%     y_end = DependencyMatrix(i,4);
+%     
+%     % line([x_start, x_end], [y_start, y_end],'Color',[0.1,0.8,0.1])
+%     
+%     
+%     
+%     X = [x_start x_end];
+%     Y = [y_start y_end];
+%     % intermediate point (you have to choose your own)
+%     Xi = mean(X);
+%     Yi = mean(Y) + 0.5*(y_end-y_start)+0.1;
+%     
+%     Xa = [X(1) Xi X(2)];
+%     Ya = [Y(1) Yi Y(2)];
+%     
+%     t  = 1:numel(Xa);
+%     ts = linspace(min(t),max(t),numel(Xa)*10); % has to be a fine grid
+%     xx = spline(t,Xa,ts);
+%     yy = spline(t,Ya,ts);
+%     
+%     plot(xx,yy); hold on; % curve
+%     
+%     
+%     plot(x_end,y_end,'Marker','p','Color',[.88 .48 0],'MarkerSize',10)
+%     hold(ha2, 'off')
+%     set(0, 'currentfigure', f);
+% end
+end
+
+

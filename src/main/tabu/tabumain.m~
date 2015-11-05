@@ -2,7 +2,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 %% Tabu main launching script
 % This script is the over all launcher of the tabu search algorithm
 %
-%
+% 
 %
 % Created by: Victor Bergelin
 % Date created:
@@ -23,7 +23,7 @@ try
     % 1. Setup logging *** DONE ***
     logfile = GetLog(logfileParameters);
     % logfile.parameters = logfileParameters;
-    
+
     % 2. Read data and data parameters *** DONE ***
     data = GetData(dataParameters,logfile);
     data.parameters = dataParameters;
@@ -37,15 +37,10 @@ try
     %result.parameters = resultParameters;
     
     % 5. Initial solution from model *** DONE ***
-    [status,data] = InitialSolutionLauncher(model,data,logfile);
+    [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
     % 6. Initiate tabu list from model *** NEED IMPLEMENTATION ***
     [status, tabuList] = CreateTabuList(model, data);
-    
-    fig = figure('Visible','on','Position',[10,100,1400,1000]);
-    end_t = data.tasks(:,2) + data.tasks(:,5);
-    figdata.L = 1.1*max(end_t);
-    figdata.T = 1.1*max(data.tasks(:,4));
     
     % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;
@@ -68,7 +63,7 @@ try
                     A(i,3) = actionList{i}.cost.bound;
                     A(i,4) = actionList{i}.cost.total;
                 end
-                
+
                 plot(A)
                 legend('dep','over','bound','total')
                 pause(0.1)
@@ -78,18 +73,18 @@ try
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
             [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
             
-            DisplayCurrentSolution(data,fig,figdata);
-            pause(0.1);
-            %fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
+            DisplayCurrentSolution(data);
             
+            %fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
+           
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
-            
+
             % Evaluate if condation are met:
             [status, conditionsAreNotMet] = AreConditionsMet(costList);
             
             iterations = iterations + 1;
-            
+
             % End after 100 iterations
             nrIterations = 3000;
             if iterations > nrIterations
@@ -108,7 +103,7 @@ try
     % . If all was successful, then set statuscode to 1
     status = 1;
     
-    fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ...
+    fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
     fclose('all');
     
@@ -116,7 +111,7 @@ catch err
     % In case of an error, set statuscode to -1
     status = -1;
     fprintf(logfile, getReport(err,'extended'));
-    fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ...
+    fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ... 
         datestr(now()), '\n---------------------------------------\n']);
     fclose('all');
 end
