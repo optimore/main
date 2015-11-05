@@ -73,7 +73,7 @@ try
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
             [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
             
-            fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
+            %fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
            
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
