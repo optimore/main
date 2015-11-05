@@ -71,7 +71,12 @@ try
             
             % 6.2 Iteration logging
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
+<<<<<<< HEAD
+            fprintf(resultfile, num2str(iterations));
+            [status, data] = DoAction(model,data,actionList,costList,logfile,resultfile);
+=======
             [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
+>>>>>>> master
             
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
            
@@ -116,7 +121,12 @@ end
 
 toc
 
+
+
 end
 
+
+
 % Catch user quit
+
 % Målfunktion / tid, ta varje sekund

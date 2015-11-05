@@ -1,7 +1,5 @@
 ---------------------------------------
-Tabu-log initiated: 04-Nov-2015 12:48:32
-
-Result file created: target/results/results_2015-11-04T12-48-32/tabu
+Tabu-log initiated: 04-Nov-2015 16:43:57
 
 Iteration nr: 1. Calculated 48 actions. Lowest cost is 1104.
 Iteration nr: 2. Calculated 48 actions. Lowest cost is 904.
@@ -103,6 +101,20 @@ Iteration nr: 97. Calculated 48 actions. Lowest cost is 287.
 Iteration nr: 98. Calculated 48 actions. Lowest cost is 286.
 Iteration nr: 99. Calculated 48 actions. Lowest cost is 286.
 Iteration nr: 100. Calculated 48 actions. Lowest cost is 285.
+<<<<<<< HEAD:target/logs/log_2015-11-04T12-48-32
 Tabu search finished successfully.
 Closing log: 04-Nov-2015 12:48:53
 ---------------------------------------
+=======
+Iteration nr: 101. Calculated 48 actions. Lowest cost is 285.
+Iteration nr: 102. Calculated 48 actions. Lowest cost is 284.
+Iteration nr: 103. Calculated 48 actions. Lowest cost is 284.
+Iteration nr: 104. Calculated 48 actions. Lowest cost is 283.
+Iteration nr: 105. Calculated 48 actions. Lowest cost is 283.
+Iteration nr: 106. Calculated 48 actions. Lowest cost is 282.
+Iteration nr: 107. Calculated 48 actions. Lowest cost is 282.
+Iteration nr: 108. Calculated 48 actions. Lowest cost is 281.
+Iteration nr: 109. Calculated 48 actions. Lowest cost is 281.
+Iteration nr: 110. Calculated 48 actions. Lowest cost is 280.
+Iteration nr: 111. Calculated 48 actions. Lowest cost is 280.
+>>>>>>> dev:target/logs/2015-10-28T14-15-31.log

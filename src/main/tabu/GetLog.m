@@ -9,7 +9,7 @@ function logfile = GetLog(logfileParameters)
 % Linköping University, Linköping
 
 try
-    logfile = fopen(logfileParameters.path,'a+');
+    logfile = fopen(logfileParameters.path,'w');
     
     fprintf(logfile,['---------------------------------------\n', ...
         'Tabu-log initiated: ', datestr(now()), '\n\n']);
