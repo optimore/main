@@ -69,7 +69,14 @@ try
             % 6.2 Iteration logging
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
             [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
-              
+            
+<<<<<<< HEAD
+            % fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
+=======
+            %fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
+>>>>>>> devEmelie
+           
+            
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);
 
