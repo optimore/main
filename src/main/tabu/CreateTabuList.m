@@ -4,8 +4,6 @@ function [status, tabuList] = CreateTabuList(model,data)
 % v0.01: file setup, need implementation
 % v.0.1 2015/11/03 skeleton development
 
-
-
 % create tabu list from model
 % probably taking the instance parameters into account somehow...
 status = 0;

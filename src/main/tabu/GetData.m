@@ -34,7 +34,7 @@ try
     
     % 3. Create dependency representation
     nrdependencies = size(depencencyMat,1);
-    data.depencencies = zeros(nrdependencies,4);
+    data.dependencies = zeros(nrdependencies,4);
     
     for i = 1:nrdependencies
         data.dependencies(i,1) = GetId(depencencyMat(i,3:4),data.tasks);
@@ -53,11 +53,8 @@ catch err
     rethrow(err);
 end
 
-%return data;
-
 
 function id = GetId(taskandtimeline,alltasks)
     % search and extract all tasks for the matching timeline:
     selecttl = alltasks(find(alltasks(:,4)==taskandtimeline(2)),:);
     id = selecttl(taskandtimeline(1),1);
-% return id 

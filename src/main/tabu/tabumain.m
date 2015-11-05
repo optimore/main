@@ -47,7 +47,7 @@ try
             % 6.1 Get actions in list with costs associated:
             [status,actionList,costList] = GetActionList(model,data,tabuList,logfile);
             
-            if DEBUGPLOT
+            if DEBUGPLOT % false
                 % 6.1.1 Print actionlist:
                 figure(1);
                 nlist = size(actionList,2);
