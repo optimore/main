@@ -85,8 +85,10 @@ try
             iterations = iterations + 1;
 
             % End after 100 iterations
-            if iterations > 5000
-                disp('Search ended after 100 iterations, no solution found.');
+            nrIterations = 3000;
+            if iterations > nrIterations
+                disp(['Search ended after ',num2str(nrIterations), ...
+                    ' iterations, no solution found.']);
                 conditionsAreNotMet=0;
             end
             
