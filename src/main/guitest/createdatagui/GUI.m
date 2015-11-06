@@ -403,8 +403,8 @@ testdatasave    = uicontrol('Style','pushbutton',...
 %             fil4 = DependencyAttribute_mater;
             
             
-            fil1_mod = [TimelineSolution_mater(:,1), attributes_mater(:,1:3), TimelineSolution_mater(:,3)];
-            fil2_mod = [Modified_DependencyMatrix_mater(:,1:2),Modified_DependencyMatrix_mater(:,4), DependencyAttribute_mater(:,1:2), ];
+            fil1_mod = [TimelineSolution_mater(:,1), attributes_mater(:,1:3), TimelineSolution_mater(:,3) TimelineSolution_mater(:,end)];
+            fil2_mod = [Modified_DependencyMatrix_mater(:,1:2),Modified_DependencyMatrix_mater(:,4), DependencyAttribute_mater(:,1:2), DependencyAttribute_mater(:,end)];
             
             
             % Två olika lägen beroende på vad användaren har valt!
