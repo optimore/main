@@ -4,7 +4,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 %
 % TODO: 
 % - Catch user force-quit and handle abort!
-%
+% - Set next phase in object instance, recreate model when phase is over
 %
 % Created by: Victor Bergelin
 % Date created:
@@ -49,16 +49,16 @@ try
             
             
             % 6.2 Evaluate current phase and over all conditions:
-            %model = model.instance{model.activePhase}. ...
-            %    instance.GetStoppingCriteria(model);
+            model = model.instance{model.activePhase}. ...
+                instance.GetStoppingCriteria(model);
             
-            % 6.3 Evaluate if condation are met:
+            % 6.3 Evaluate if condation are met: *** NEEDS FIX!! ***
             %model = model.instance{model.activePhase}. ...
-            %    instance.AreConditionsMet(model);
+             %   instance.AreConditionsMet();
             
             
             % End after X iterations
-            nrIterations = 1000;
+            nrIterations = 100;
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
             end            

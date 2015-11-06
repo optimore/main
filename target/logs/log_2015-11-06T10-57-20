@@ -1,0 +1,44 @@
+---------------------------------------
+Tabu-log initiated: 06-Nov-2015 10:57:21
+
+Result file created: target/results/results_2015-11-06T10-57-20/result_tabu_1
+
+
+
+Fatal error in tabu search, quiting search
+Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask/AreConditionsMet')" style="font-weight:bold">SimpleMoveOneTask/AreConditionsMet</a>
+Output argument "model" (and maybe others) not assigned during call to "/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m>SimpleMoveOneTask.AreConditionsMet".
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 56)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',56,0)">line 56</a>)
+            model = model.instance{model.activePhase}. ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mainlauncher', '/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m', 41)" style="font-weight:bold">mainlauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m',41,0)">line 41</a>)
+                status.tabu = tabumain(dataParameters{i}, ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maingui', '/edu/vicbe348/Repo/optimore/tabu/maingui.m', 26)" style="font-weight:bold">maingui</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maingui.m',26,0)">line 26</a>)
+status = mainlauncher(dataParameters, modelParameters);
+
+Closing tabu-log due to fatal error: 06-Nov-2015 10:57:21
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 06-Nov-2015 10:57:21
+
+Result file created: target/results/results_2015-11-06T10-57-20/result_tabu_2
+
+
+
+Fatal error in tabu search, quiting search
+Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask/AreConditionsMet')" style="font-weight:bold">SimpleMoveOneTask/AreConditionsMet</a>
+Output argument "model" (and maybe others) not assigned during call to "/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m>SimpleMoveOneTask.AreConditionsMet".
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 56)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',56,0)">line 56</a>)
+            model = model.instance{model.activePhase}. ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mainlauncher', '/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m', 41)" style="font-weight:bold">mainlauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m',41,0)">line 41</a>)
+                status.tabu = tabumain(dataParameters{i}, ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maingui', '/edu/vicbe348/Repo/optimore/tabu/maingui.m', 26)" style="font-weight:bold">maingui</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maingui.m',26,0)">line 26</a>)
+status = mainlauncher(dataParameters, modelParameters);
+
+Closing tabu-log due to fatal error: 06-Nov-2015 10:57:21
+---------------------------------------

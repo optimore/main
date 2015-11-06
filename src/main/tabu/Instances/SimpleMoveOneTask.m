@@ -5,7 +5,7 @@ classdef SimpleMoveOneTask < handle
     
     properties(GetAccess = 'public', SetAccess = 'private')
         CostWeight = [1.1 1.2 1.3];
-        MaxPhaseIterations = 1000;
+        MaxPhaseIterations = 10;
         TabuList
         Logfile 
         Resultfile
@@ -151,25 +151,23 @@ classdef SimpleMoveOneTask < handle
         end
                 
         % Get stopping criteria:
-        function [model,obj] = GetStoppingCriteria(obj, iterations)
-            if iterations > obj.MaxPhaseIterations
-                model.phaseConditionsAreNotMet=0;
+        function [model,obj] = GetStoppingCriteria(obj, model)
+            if obj.IterationId > obj.MaxPhaseIterations
+                obj.IterationId = 0;
+                model.activePhase=1;
+                % *** Set next phase, recreate model when phase is over
             %elseif 
                 % phaseConditionsAreNotMet
             end
         end
         
-        function AreConditionsMet(obj)
+        function [model, obj] = AreConditionsMet(obj)
             try
-                if min(costList)==0
-                    conditionsAreNotMet = 0;
-                else
-                    conditionsAreNotMet = 1;
+                if obj.LowestCost==0
+                    model.conditionsAreNotMet = 0;
                 end
-                status = 1;
             catch err
-                status = -1;
-                rethrow(err)    
+                rethrow(err)   
             end
         end
     end
