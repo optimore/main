@@ -9,7 +9,7 @@ function [DependencyAttribute] = Generatedependencyattributes(TimelineSolution, 
 
 DependencyAttribute = zeros(size(DependencyMatrix,1),2);
 
-Scaling = ceil(L*T/4/N);
+Scaling = ceil(L/4); % dividerar ej med antalet tasks, ska vara i förhållande till tidslinjens längd.
 
 for i=1:size(DependencyMatrix,1)
     task1_end = TimelineSolution{DependencyMatrix(i,2)}(DependencyMatrix(i,1),1) + ...
@@ -22,13 +22,27 @@ for i=1:size(DependencyMatrix,1)
     
 %     rand1 = randi(Scaling,1,1)-1;
 %     rand2 = randi(Scaling,1,1)-1;
-    
-    rand1 = distrib6(Scaling*mu4,Scaling*std6);
-    rand2 = distrib2(Scaling*mu2,Scaling*std2);
-    
-    fdmin = max(0,task2_begin-task1_end-rand1);
-    fdmax = min(L-(task2_end-task2_begin),task2_begin-task1_end+rand2);
 
+    x=0;
+    % För att få konvergens någon gång.
+    mod_scaling = task2_begin-task1_end;
+    while x==0
+        rand1 = distrib6(mod_scaling*mu4,mod_scaling*std6);
+        fdmin = task2_begin-task1_end-rand1;
+        if fdmin >= 0
+            x=1;
+        end
+        
+    end
+    x=0;
+    while x==0
+        rand2 = distrib2(Scaling*mu2,Scaling*std2);
+        
+        fdmax = min(L-(task2_end-task2_begin),task2_begin-task1_end+rand2);
+        if fdmax > fdmin
+            x=1;
+        end
+    end
     
     DependencyAttribute(i,:) = [fdmin, fdmax];
     

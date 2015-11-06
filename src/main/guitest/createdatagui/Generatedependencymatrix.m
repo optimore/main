@@ -212,13 +212,13 @@ end
         candidate = [number, timeline];
     end
 
-    function longindex = ConvertToLong(number, timeline)
-        longindex = 1;
-        for k=1:timeline-1
-            longindex = longindex+size(TimelineSolution{k},1);
-        end
-        longindex = longindex + number-1;
-    end
+%     function longindex = ConvertToLong(number, timeline)
+%         longindex = 1;
+%         for k=1:timeline-1
+%             longindex = longindex+size(TimelineSolution{k},1);
+%         end
+%         longindex = longindex + number-1;
+%     end
 
     function long_index = convert_to_index(index, admissible_set_lengths)
         ind = 1;
