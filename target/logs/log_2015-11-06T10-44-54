@@ -1,0 +1,36 @@
+---------------------------------------
+Tabu-log initiated: 06-Nov-2015 10:44:54
+
+Result file created: target/results/results_2015-11-06T10-44-54/result_tabu_1
+
+Reference to non-existent field 'conditionsAreNotMet'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 43)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',43,0)">line 43</a>)
+    while model.conditionsAreNotMet
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mainlauncher', '/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m', 41)" style="font-weight:bold">mainlauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m',41,0)">line 41</a>)
+                status.tabu = tabumain(dataParameters{i}, ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maingui', '/edu/vicbe348/Repo/optimore/tabu/maingui.m', 26)" style="font-weight:bold">maingui</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maingui.m',26,0)">line 26</a>)
+status = mainlauncher(dataParameters, modelParameters);
+
+Closing tabu-log due to fatal error: 06-Nov-2015 10:44:54
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 06-Nov-2015 10:44:54
+
+Result file created: target/results/results_2015-11-06T10-44-54/result_tabu_2
+
+Reference to non-existent field 'conditionsAreNotMet'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 43)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',43,0)">line 43</a>)
+    while model.conditionsAreNotMet
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mainlauncher', '/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m', 41)" style="font-weight:bold">mainlauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m',41,0)">line 41</a>)
+                status.tabu = tabumain(dataParameters{i}, ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maingui', '/edu/vicbe348/Repo/optimore/tabu/maingui.m', 26)" style="font-weight:bold">maingui</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maingui.m',26,0)">line 26</a>)
+status = mainlauncher(dataParameters, modelParameters);
+
+Closing tabu-log due to fatal error: 06-Nov-2015 10:44:54
+---------------------------------------

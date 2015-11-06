@@ -9,12 +9,11 @@ runId=1;
 % 2. Functional setup:
 try
     % 2.1 Add paths for setup files:
-    addpath(genpath('src/main/guitest'))
-    [status.log, logPath] = CreateLog();
+    addpath(genpath('src/main/guitest'));
+    [status, logPath,logfile] = CreateLog();
     [status.result, resultPath] = CreateResultStructure();
-    rmpath(genpath('src/main/guitest'))
+    rmpath(genpath('src/main/guitest'));
     % -----------------------------
-    
     
     status.logPath = logPath;
     status.resultPath = resultPath;
@@ -26,7 +25,7 @@ end
 
 
 % 2.2 Save as struct variables:
-logfileParameters = struct('path',logPath,'id',0);
+logfileParameters = struct('path',logPath);
 resultParameters = struct('path',resultPath,'id',0);
 
 
@@ -38,6 +37,7 @@ if status.run
             try
                 % Add path for tabu main files:
                 addpath(genpath('src/main/tabu')); %'src/main/tabu';
+
                 status.tabu = tabumain(dataParameters{i}, ...
                                        modelParameters.tabu, ...
                                        logfileParameters, ...
@@ -49,7 +49,7 @@ if status.run
                 runId = runId +1;
 
             catch err
-               fprintf(logfile,['\nFatal error in LNS search,', ...
+               fprintf(logfile,['\nFatal error in tabu search,', ...
                    'quiting search iteration: ', ...
                    runId,'\nContinouing test\n'])
                status.tabu = -1;

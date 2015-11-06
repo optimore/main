@@ -10,14 +10,14 @@ runId=1;
 try
     % 2.1 Add paths for setup files:
     addpath(genpath('src/main/guitest'))
-    [status.log, logPath] = CreateLog();
+    [status, logPath] = CreateLog();
     [status.result, resultPath] = CreateResultStructure();
     rmpath(genpath('src/main/guitest'))
     % -----------------------------
     
     
-    status.logPath = logPath
-    status.result
+    status.logPath = logPath;
+    status.resultPath = resultPath;
     status.run = 1;
 catch err
     disp('Fatal error in 2. setup')
@@ -49,7 +49,7 @@ if status.run
                 runId = runId +1;
 
             catch err
-               fprintf(logfile,['\nFatal error in LNS search,', ...
+               fprintf(logfile,['\nFatal error in tabu search,', ...
                    'quiting search iteration: ', ...
                    runId,'\nContinouing test\n'])
                status.tabu = -1;
@@ -110,7 +110,7 @@ if status.run
     end
 end   
 
-disp(['script finished after ',num2str(runId), ...
+disp(['Launcher script finished after ',num2str(runId), ...
     ' iterations over all selected models']);
 
 status.run = 1

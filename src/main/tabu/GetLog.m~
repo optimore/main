@@ -13,9 +13,9 @@ try
     logfile = fopen(logfileParameters.path,'a+');
     fprintf(logfile,['---------------------------------------\n', ...
         'Tabu-log initiated: ', datestr(now()), '\n\n']);
-    status.tabulog = 1;
+    status.log = 1
 catch err
     disp(err.stack);
-    status.tabulog = -1;
+    status.log = -1
 end
 

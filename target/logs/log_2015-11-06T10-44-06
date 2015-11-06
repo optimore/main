@@ -1,0 +1,44 @@
+---------------------------------------
+Tabu-log initiated: 06-Nov-2015 10:44:06
+
+Result file created: target/results/results_2015-11-06T10-44-06/result_tabu_1
+
+Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 44)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',44,0)">line 44</a>)
+Not enough input arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('CreateModel', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/CreateModel.m', 27)" style="font-weight:bold">CreateModel</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/CreateModel.m',27,0)">line 27</a>)
+                instance.instance = SimpleMoveOneTask(resultfile,logfile,nrTasks);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 34)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',34,0)">line 34</a>)
+    model = CreateModel(tabuParameters,resultfile,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mainlauncher', '/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m', 41)" style="font-weight:bold">mainlauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m',41,0)">line 41</a>)
+                status.tabu = tabumain(dataParameters{i}, ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maingui', '/edu/vicbe348/Repo/optimore/tabu/maingui.m', 26)" style="font-weight:bold">maingui</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maingui.m',26,0)">line 26</a>)
+status = mainlauncher(dataParameters, modelParameters);
+
+Closing tabu-log due to fatal error: 06-Nov-2015 10:44:06
+---------------------------------------
+---------------------------------------
+Tabu-log initiated: 06-Nov-2015 10:44:06
+
+Result file created: target/results/results_2015-11-06T10-44-06/result_tabu_2
+
+Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SimpleMoveOneTask', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m', 44)" style="font-weight:bold">SimpleMoveOneTask</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/Instances/SimpleMoveOneTask.m',44,0)">line 44</a>)
+Not enough input arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('CreateModel', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/CreateModel.m', 27)" style="font-weight:bold">CreateModel</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/CreateModel.m',27,0)">line 27</a>)
+                instance.instance = SimpleMoveOneTask(resultfile,logfile,nrTasks);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m', 34)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/src/main/tabu/tabumain.m',34,0)">line 34</a>)
+    model = CreateModel(tabuParameters,resultfile,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mainlauncher', '/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m', 41)" style="font-weight:bold">mainlauncher</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/mainlauncher.m',41,0)">line 41</a>)
+                status.tabu = tabumain(dataParameters{i}, ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maingui', '/edu/vicbe348/Repo/optimore/tabu/maingui.m', 26)" style="font-weight:bold">maingui</a> (<a href="matlab: opentoline('/edu/vicbe348/Repo/optimore/tabu/maingui.m',26,0)">line 26</a>)
+status = mainlauncher(dataParameters, modelParameters);
+
+Closing tabu-log due to fatal error: 06-Nov-2015 10:44:06
+---------------------------------------

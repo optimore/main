@@ -22,8 +22,9 @@ modelParameters = struct( ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
-
-
 % 3. run launcher
-
 status = mainlauncher(dataParameters, modelParameters);
+
+
+
+% ---------------------------------------------

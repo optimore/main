@@ -15,6 +15,8 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 %
 % Linköping University, Linköping
 
+MaxPhaseIterations
+
 status = 0;
 
 % Add timing:
@@ -22,10 +24,12 @@ tic
 
 try
     % 1. Setup logging:
-    [status, logfile] = GetLog(logfileParameters);
+    logfile = GetLog(logfileParameters);
+
     % 2. Read data and data parameters:
-    [status, data] = GetData(dataParameters,logfile);
+    data = GetData(dataParameters,logfile);
     tabuParameters.nrTasks = size(data.tasks,2);
+    
     
     % 3. Create result:
     [resultfile,runId] = CreateResult(resultParameters,logfile);
@@ -38,7 +42,7 @@ try
     
     
     % 6. Perform tabu 
-    model.conditionsAreNotMet = 1;
+    model.phaseConditionsAreNotMet = 1;
     model.iterations = 1;
     while model.conditionsAreNotMet
         try
@@ -49,24 +53,24 @@ try
             
             
             % 6.2 Evaluate current phase and over all conditions:
-            %model = model.instance{model.activePhase}. ...
-            %    instance.GetStoppingCriteria(model);
+            model = model.instance{model.activePhase}. ...
+                instance.GetStoppingCriteria(model);
             
             % 6.3 Evaluate if condation are met:
-            %model = model.instance{model.activePhase}. ...
-            %    instance.AreConditionsMet(model);
+            model = model.instance{model.activePhase}. ...
+                instance.AreConditionsMet(model);
             
             
             % End after X iterations
-            nrIterations = 1000;
+            nrIterations = 10;
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
-            end            
+            end
+            
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);
         end
-        model.iterations = model.iterations + 1;
     end
     
     

@@ -1,4 +1,4 @@
-function data=GetData(dataParameters,logfile)
+function [status, data] = GetData(dataParameters,logfile)
 %% Combind models from parameters
 % This function creates a model from given parameters
 % Created by: Victor Bergelin
@@ -7,7 +7,7 @@ function data=GetData(dataParameters,logfile)
 % 0.02: 
 % 0.01: file setup
 % Linköping University, Linköping
-
+status.data = 0;
 try
     % 1. Load data
     timelineAttr = load( ...
@@ -45,12 +45,15 @@ try
     % Uncomment to print the tasks and dependencies:
     % data.tasks
     % data.dependencies
+    status.data = 1;
     
 catch err
     % disp('error'); %err.stack.name)
     fprintf(logfile, 'Error loading data');
     fprintf(logfile, getReport(err,'extended'));
     rethrow(err);
+    
+    status.data = -1;
 end
 
 
