@@ -42,20 +42,21 @@ try
     % 6. Initiate tabu list from model *** NEED IMPLEMENTATION ***
     [status, tabuList] = CreateTabuList(model, data);
     
-    % 6.1 Initial figure
-    [figaxes, figdata] = CreateTaskFigure(data);
+    % 7. Initial figure ***DONE***
+    [fig1,fig2,figaxes1, figaxes2, figdata] = CreateFigures(data);
+    DisplayIntervals(data,fig1,figaxes1,figdata);
     
-    % 6. Perform tabu *** NEED IMPLEMENTATION ***
+    % 8. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;
     iterations = 1;
     while conditionsAreNotMet
         try
             
-            % 6.1 Get actions in list with costs associated:
+            % 8.1 Get actions in list with costs associated:
             [status,actionList,costList] = GetActionList(model,data,tabuList,logfile);
             
             if DEBUGPLOT
-                % 6.1.1 Print actionlist:
+                % 8.1.1 Print actionlist:
                 figure(1);
                 nlist = size(actionList,2);
                 A = zeros(nlist,4);
@@ -72,13 +73,13 @@ try
                 pause(0.1)
             end
             
-            % 6.2 Iteration logging
+            % 8.2 Iteration logging
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
             [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
             
-            DisplayCurrentSolution(data,figaxes,figdata);
+            % 8.3 Display updated solution
+            DisplayCurrentSolution(data,fig2,figaxes2,figdata);
             pause(0.1);
-            %fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
             
             % Evaluate current phase:
             % model = EvaluateNextStep(model,data);

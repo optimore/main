@@ -41,8 +41,11 @@ try
     data.depencencies = zeros(nrdependencies,4);
     
     for i = 1:nrdependencies
+        % 1st task in dep
         data.dependencies(i,1) = GetId(depencencyMat(i,3:4),data.tasks);
+        % 2nd task in dep
         data.dependencies(i,2) = GetId(depencencyMat(i,1:2),data.tasks);
+        % Min and max of distance between tasks
         data.dependencies(i,3:4) = depencencyAttr(i,1:2);
     end
     
