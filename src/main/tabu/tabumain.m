@@ -42,10 +42,8 @@ try
     % 6. Initiate tabu list from model *** NEED IMPLEMENTATION ***
     [status, tabuList] = CreateTabuList(model, data);
     
-    fig = figure('Visible','on','Position',[10,100,1400,1000]);
-    end_t = data.tasks(:,2) + data.tasks(:,5);
-    figdata.L = 1.1*max(end_t);
-    figdata.T = 1.1*max(data.tasks(:,4));
+    % 6.1 Initial figure
+    [figaxes, figdata] = CreateTaskFigure(data);
     
     % 6. Perform tabu *** NEED IMPLEMENTATION ***
     conditionsAreNotMet = 1;
@@ -78,7 +76,7 @@ try
             fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
             [status, data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile);
             
-            DisplayCurrentSolution(data,fig,figdata);
+            DisplayCurrentSolution(data,figaxes,figdata);
             pause(0.1);
             %fprintf(logfile, ['Iteration nr: ', num2str(iterations), '. ']);
             
@@ -104,6 +102,8 @@ try
         end
     end
     
+    %Close figures
+    close all;
     
     % . If all was successful, then set statuscode to 1
     status = 1;
