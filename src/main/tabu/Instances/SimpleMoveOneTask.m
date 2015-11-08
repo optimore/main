@@ -1,54 +1,175 @@
-function [actionList,costList] = SimpleMoveOneTask(data, logfile)
-%% Phase instance 1 in tabu search
-% This instance will move one task with different step length eatch iteration
-% The stoping criteria is costfunction = 0
-%
-% version nr:
-% 0.01: initial testing with -10, -1, 1, 10 steps
-%
-
-% 2. Setup the instance with parameters. Add more variables here if needed:
-% this is unique for every instance type
-weights = [1,1,1];
-posibleTaskActions = [-400, -100, -1, 1, 100, 400];
-
-% 3. Iterate over and save posible solutions:
-try    
-    nrTasks = size(data.tasks,1);
-    nrActions = length(posibleTaskActions);
-    actionId = 1;
+classdef SimpleMoveOneTask < handle
+    %SIMPLEMOVEONETASKC Summary of this class goes here
+    %   
+    % 
     
-    % 3.0.1. create empty actionList and costList:
-    actionList = struct('cost',{},'actionSolution',{});
-    costList = zeros(nrActions*nrTasks,1);
+    properties(GetAccess = 'public', SetAccess = 'private')
+        CostWeight = [1.1 1.2 1.3];
+        MaxPhaseIterations = 10;
+        TabuList
+        Logfile 
+        Resultfile
+        Nrtasks
+        Solution = 1;
+        CostList
+        ActionList
+        IterationId=1;
+        LowestCost = Inf;
+        ActionSolution = [];
+    end
     
-    for i = 1:nrTasks
-        for ii = 1:nrActions
-            % 3.1 Find new solution:
-            % Copy all task positions
-            tempSolution = zeros(nrTasks,2);
-            tempSolution(:,1) = data.tasks(:,1);
-            tempSolution(:,2) = data.tasks(:,6);
-            % Move one solution
-            tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
+    properties(Constant = true)
+       
+    end
+    
+    methods        
+        % Create Tabu List
+        function TabuList = CreateTabuList(obj)
+            if(nargin > 0)
+                try
+                    listlength = 100;
+                    tabucell = cell(1,obj.Nrtasks);
+                    TabuList = cell([size(tabucell) listlength]);
+                catch err
+                    disp('error')
+                    fprintf(obj.Logfile, getReport(err,'extended'));
+                    TabuList=[];
+                    rethrow(err);
+                end
+            end
+        end  
+        
+        % Constructor:
+        function obj = SimpleMoveOneTask(resultfile,logfile,nrTasks)
+            obj.Nrtasks = nrTasks; % 8; % size(data.tasks,2)
+            obj.Logfile = logfile;
+            obj.Resultfile = resultfile;
+            obj.TabuList = obj.CreateTabuList();
+        end 
+        
+        % Get Action list and do action
+        function [data,obj] = GetAndPerformAction(obj,data)
+            % Iterate over and save posible solutions:
+            try
+                posibleTaskActions = [-100, -10, -1, 1, 10, 100];
+                nrTasks = size(data.tasks,1);
+                nrActions = length(posibleTaskActions);
+                actionId = 1;
+
+                % Create empty actionList and costList:
+                actionList = struct('cost',{},'actionSolution',{});
+                costList = zeros(nrActions*nrTasks,1);
+
+                for i = 1:nrTasks
+                    for ii = 1:nrActions
+                        
+                        % Find new solution:
+                        % Copy all task positions
+                        tempSolution = zeros(nrTasks,2);
+                        tempSolution(:,1) = data.tasks(:,1);
+                        tempSolution(:,2) = data.tasks(:,6);
+                        % Move one solution
+                        tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
+
+                        % Calculate cost *** Needs testing ***
+                        action.cost = CostFunction(data,tempSolution,obj.CostWeight);
+                        action.totalcost = action.cost.total;
+                        action.actionSolution = tempSolution;
+
+                        % Save action to actionlist
+                        actionList{actionId} = action;
+                        costList(actionId) = action.totalcost;
+
+                        % Increase iterator
+                        actionId = actionId + 1;
+                    end
+                end
+            catch err
+                fprintf(obj.Logfile, getReport(err,'extended')); 
+                rethrow(err)
+            end
             
-            % Calculate cost *** Needs testing ***
-            action.cost = CostFunction(data,tempSolution,weights);
-            action.totalcost = action.cost.total;
-            action.actionSolution = tempSolution;
-            
-            % Save action to actionlist
-            actionList{actionId} = action;
-            costList(actionId) = action.totalcost;
-            
-            % Increase iterator
-            actionId = actionId + 1;
+            obj.CostList = costList;
+            obj.ActionList = actionList;
+                        
+            % Do Action:
+            try
+                % =========== 1st version: Using solutions ==========================
+                [sortedCosts, indexes] = sort(costList);
+
+                % Loop through min-solutions in ascending order
+                for i = 1:length(costList)
+
+                    notintabu = 1;
+                    index = indexes(i);
+                    actionSolution = actionList{index}.actionSolution(:,2);
+
+                    % Compare solution with tabu list solutions
+                    for j = 1:length(obj.TabuList)
+                        tabuSolution = obj.TabuList{j};
+
+
+                        % Break if action in tabulist
+                        if isequal(tabuSolution, actionSolution) == 1
+                            notintabu = 0;
+                            break;
+                        end
+                    end
+
+
+                    if notintabu == 1
+
+                        % Add action to tabu list
+                        actioncell = num2cell(actionSolution, 1);
+                        obj.TabuList(2:end) = obj.TabuList(1:end-1);
+                        obj.TabuList(1) = actioncell;
+
+
+                        % Perform action
+                        lowestCost = sortedCosts(i);
+                        
+                        data.tasks(:,6) = actionSolution;
+
+                        obj.LowestCost = lowestCost;
+                        obj.ActionSolution = actionSolution;
+                        
+                        % *** Add later *** 
+                        timenow = 0; % toc;
+                        
+                        % Log results
+                        fprintf(obj.Resultfile, [num2str(obj.IterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
+                        obj.IterationId = obj.IterationId + 1;
+                        
+                        break;
+                    end
+
+                end 
+            catch err
+                disp('ERROR in do action class')
+                disp(err.stack)
+            end        
+        end
+                
+        % Get stopping criteria:
+        function [model,obj] = GetStoppingCriteria(obj, model)
+            if obj.IterationId > obj.MaxPhaseIterations
+                obj.IterationId = 0;
+                model.activePhase=1;
+                % *** Set next phase, recreate model when phase is over
+            %elseif 
+                % phaseConditionsAreNotMet
+            end
+        end
+        
+        function [model, obj] = AreConditionsMet(obj)
+            try
+                if obj.LowestCost==0
+                    model.conditionsAreNotMet = 0;
+                end
+            catch err
+                rethrow(err)   
+            end
         end
     end
-catch err
-    fprintf(logfile, getReport(err,'extended')); 
-    rethrow(err)
-end
-
 end
 

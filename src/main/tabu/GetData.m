@@ -1,4 +1,4 @@
-function data=GetData(dataParameters,logfile)
+function [status, data] = GetData(dataParameters,logfile)
 %% Combind models from parameters
 % This function creates a model from given parameters
 % Created by: Victor Bergelin
@@ -7,7 +7,7 @@ function data=GetData(dataParameters,logfile)
 % 0.02: 
 % 0.01: file setup
 % Linköping University, Linköping
-
+status.data = 0;
 try
     % 1. Load data
     timelineAttr = load( ...
@@ -38,7 +38,7 @@ try
     
     % 3. Create dependency representation
     nrdependencies = size(depencencyMat,1);
-    data.depencencies = zeros(nrdependencies,4);
+    data.dependencies = zeros(nrdependencies,4);
     
     for i = 1:nrdependencies
         % 1st task in dep
@@ -52,19 +52,19 @@ try
     % Uncomment to print the tasks and dependencies:
     % data.tasks
     % data.dependencies
+    status.data = 1;
     
 catch err
     % disp('error'); %err.stack.name)
     fprintf(logfile, 'Error loading data');
     fprintf(logfile, getReport(err,'extended'));
     rethrow(err);
+    
+    status.data = -1;
 end
-
-%return data;
 
 
 function id = GetId(taskandtimeline,alltasks)
     % search and extract all tasks for the matching timeline:
     selecttl = alltasks(find(alltasks(:,4)==taskandtimeline(2)),:);
     id = selecttl(taskandtimeline(1),1);
-% return id 

@@ -1,4 +1,4 @@
-function [status,data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile )
+function [status,data, tabuList] = DoAction(model,data,actionList,costList,tabuList,logfile,resultfile)
 %DOACTION Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -41,8 +41,9 @@ try
             lowestCost = sortedCosts(i);
             data.tasks(:,6) = actionSolution;
             
-            fprintf(logfile, ['Calculated ',num2str(length(costList)), ...
-                ' actions. Lowest cost is ', num2str(lowestCost),'.\n']);
+            timenow = toc;
+            fprintf(resultfile,[',',num2str(lowestCost),',',num2str(timenow),'\n']);
+            
             break;
         end
         
@@ -91,8 +92,7 @@ try
     
 %     fprintf(logfile, ['Calculated ',num2str(length(costList)), ...
 %         ' actions. Lowest cost is ', num2str(lowestCost),'.\n']);
-    timenow = toc;
-    fprintf(resultfile,[',',num2str(lowestCost),',',num2str(timenow),'\n']);
+    
     
 
     status = 1;
