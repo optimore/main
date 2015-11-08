@@ -143,6 +143,10 @@ dist_sel7 = 0;
 dist_sel8 = 0;
 dist_sel9 = 0;
 
+% Vilket läge vi är i, 1 för extended, 2 för dummie, 3 för dummies 2.
+
+mode = 1;
+
 % Väljare för dummy-läget
 density = 0;
 dep_intervals = 0;
@@ -349,10 +353,30 @@ testdatasave    = uicontrol('Style','pushbutton',...
 
     function testdatasave_callback(source,eventdata)
         
+        % Idé: håll koll på vilket läge vi är i, och spara därefter.
+        if mode == 1
+            type_string = 'X';
+        elseif mode == 2
+            type_string = 'Z';
+        else
+            switch dummy2_selector
+                case 1
+                    type_string = 'A';
+                case 2
+                    type_string = 'B';
+                case 3
+                    type_string = 'C';
+                case 4
+                    type_string = 'D';
+                case 5
+                    type_string = 'E';
+            end
+        end
+        
         dateName = datestr(now(),'yyyy-mm-ddTHH-MM-SS');
         
         
-        dir = strcat('../../../test/testdata/',dateName);
+        dir = strcat('../../../test/testdata/',type_string,num2str(difficulty_number),'_',dateName);
         % Finally, create the folder if it doesn't exist already.
         if ~exist(dir, 'dir')
             mkdir(dir);
@@ -361,7 +385,7 @@ testdatasave    = uicontrol('Style','pushbutton',...
         bool0 = 0;
         bool1 = 0;
         
-        testfile = strcat('../../../test/testdata/',dateName,'/TimelineSolution','.dat');
+        testfile = strcat(dir,'/TimelineSolution','.dat');
         
         if exist(testfile, 'file') == 2
             testdataiterator = testdataiterator + 1;
@@ -371,7 +395,7 @@ testdatasave    = uicontrol('Style','pushbutton',...
         end
         
         while bool1==0
-            testfile = strcat('../../../test/testdata/',dateName,'/Tasks',num2str(testdataiterator), '.dat');
+            testfile = strcat(dir,'/Tasks',num2str(testdataiterator), '.dat');
             if exist(testfile, 'file') == 2
                 testdataiterator = testdataiterator + 1;
             else
@@ -384,21 +408,21 @@ testdatasave    = uicontrol('Style','pushbutton',...
             
             
             if bool0 == 1
-%                 UserFile1 = strcat('../../../test/testdata/',dateName,'/TimelineSolution', '.dat');
-%                 UserFile2 = strcat('../../../test/testdata/',dateName,'/TimelineAttributes', '.dat');
-%                 UserFile3 = strcat('../../../test/testdata/',dateName,'/DependencyMatrix', '.dat');
-%                 UserFile4 = strcat('../../../test/testdata/',dateName,'/DependencyAttributes', '.dat');
-                UserFile5 = strcat('../../../test/testdata/',dateName,'/Testinfo', '.dat');
-                mod_UserFile1 = strcat('../../../test/testdata/',dateName,'/Tasks', '.dat');
-                mod_UserFile2 = strcat('../../../test/testdata/',dateName,'/Dependencies', '.dat');
+%                 UserFile1 = strcat(dir,'/TimelineSolution', '.dat');
+%                 UserFile2 = strcat(dir,'/TimelineAttributes', '.dat');
+%                 UserFile3 = strcat(dir,'/DependencyMatrix', '.dat');
+%                 UserFile4 = strcat(dir,'/DependencyAttributes', '.dat');
+                UserFile5 = strcat(dir,'/Testinfo', '.dat');
+                mod_UserFile1 = strcat(dir,'/Tasks', '.dat');
+                mod_UserFile2 = strcat(dir,'/Dependencies', '.dat');
             else
-%                 UserFile1 = strcat('../../../test/testdata/',dateName,'/TimelineSolution',num2str(testdataiterator), '.dat');
-%                 UserFile2 = strcat('../../../test/testdata/',dateName,'/TimelineAttributes',num2str(testdataiterator), '.dat');
-%                 UserFile3 = strcat('../../../test/testdata/',dateName,'/DependencyMatrix',num2str(testdataiterator), '.dat');
-%                 UserFile4 = strcat('../../../test/testdata/',dateName,'/DependencyAttributes',num2str(testdataiterator), '.dat');
-                UserFile5 = strcat('../../../test/testdata/',dateName,'/Testinfo',num2str(testdataiterator), '.dat');
-                mod_UserFile1 = strcat('../../../test/testdata/',dateName,'/Tasks',num2str(testdataiterator), '.dat');
-                mod_UserFile2 = strcat('../../../test/testdata/',dateName,'/Dependencies',num2str(testdataiterator), '.dat');
+%                 UserFile1 = strcat(dir,'/TimelineSolution',num2str(testdataiterator), '.dat');
+%                 UserFile2 = strcat(dir,'/TimelineAttributes',num2str(testdataiterator), '.dat');
+%                 UserFile3 = strcat(dir,'/DependencyMatrix',num2str(testdataiterator), '.dat');
+%                 UserFile4 = strcat(dir,'/DependencyAttributes',num2str(testdataiterator), '.dat');
+                UserFile5 = strcat(dir,'/Testinfo',num2str(testdataiterator), '.dat');
+                mod_UserFile1 = strcat(dir,'/Tasks',num2str(testdataiterator), '.dat');
+                mod_UserFile2 = strcat(dir,'/Dependencies',num2str(testdataiterator), '.dat');
             end
             
             %         fil1 = [];
@@ -1360,6 +1384,8 @@ set(allchild(density_group),'Enable','off');
 set(allchild(dummy2_group),'Enable','off');
 
     function mode_btn1_callback(source,eventdata)
+        
+        mode = 1;
         set(diff_slider,'Enable','off');
         set(htext7,'Enable','off');
         
@@ -1430,6 +1456,7 @@ set(allchild(dummy2_group),'Enable','off');
     end
 
     function mode_btn2_callback(source,eventdata)
+        mode =2;
         
         set(diff_slider,'BackgroundColor',color2);
         set(diff_type_selector,'BackgroundColor',color2);
@@ -1514,6 +1541,8 @@ set(allchild(dummy2_group),'Enable','off');
 
 
     function mode_btn3_callback(source,eventdata)
+        
+        mode = 3;
         
         set(diff_slider,'BackgroundColor',color3);
         set(diff_type_selector,'BackgroundColor',color3);

@@ -35,6 +35,51 @@ end
 
 tasks_left = Tsol;
 
+% Ndeps >= 2*antalet tasks. Väldigt enkelt att få en tillåten lösning.
+% if Ntasks <= Ndependencies && constrain == 0
+%     for it1=1:Ntasks
+%         cur_task = tasks_left(1,:);
+%         
+%         
+%         cur_index = [find(ismember(TimelineSolution{cur_task(end)},cur_task),1),cur_task(end)];
+%         dir=1;
+%         if cur_index ~[length(TimelineSolution),size(TimelineSolution{end},1)]
+%             tasks_left = tasks_left(2:end,:);
+%         end
+%         
+%         admissible_set = find(ending_times <= TimelineSolution{candidate(2)}(candidate(1),1));
+%         
+%         if rectify == 1
+%             admissible_set_lengths = [];
+%             for it3=1:size(admissible_set,1)
+%                 
+%                 candidate3 = ConvertLongIndex(admissible_set(it3));
+%                 
+%                 admissible_set_lengths = [admissible_set_lengths; TimelineSolution{candidate3(2)}(candidate3(1),2)];
+%             end
+%         end
+%         if isempty(admissible_set)
+%             
+%             dir = 2; 
+%             admissible_set =  [];
+%         end
+%         
+%         % Slumpa fram ur admissible_set
+%         x=0;
+%         while x==0
+%             
+%             
+%             
+%         end
+%         
+%         
+%         
+%     end
+%     
+% end
+
+
+
 % if Ntasks <= Ndependencies
 %     % Skapa kedjor av dependencies. Antagligen ett lager.
 %     % Varje kedja är 3-10 tasks lång.
@@ -260,97 +305,53 @@ tasks_left = Tsol;
 %     % Gör på det gamla sättet.
 %     
 % end
+all_connected = 0;
+if Ndependencies >= Ntasks
+    all_connected = 1;
+end
 
 for i=1:Ndependencies
     x=0;
-    
-    if mod(i,2) == 1
         
         while x==0
             
-            % Slumpa fram sista tasken i en dep.
-            % Tror man måste specialbehandla rectify här
-            candidate = ConvertLongIndex(generate_candidate(Ntasks));
+            % Slumpa en task i en dep.
             
-            %         DependencyMatrix
-            y=0;
-            
-            % Måste ta fram indexen! Görs på detta sätt.
-            %           candidate(1)
-            %           candidate(2)
-            %         TimelineSolution{candidate(2)}(candidate(1),1)
-            
-            if constrain == 1
-                end_times = TimelineSolution{candidate(2)}(:,1)+TimelineSolution{candidate(2)}(:,2);
-                admissible_set = find(end_times <= TimelineSolution{candidate(2)}(candidate(1),1));
-                if ~isempty(admissible_set)
-                    admissible_set = admissible_set+prev_indices(candidate(2));
+            if all_connected == 0 || i > Ntasks
+                if rectify == 1
+                    test_length = sum(Tsol(:,2));
                 end
                 
-            else
                 
-                admissible_set = find(ending_times <= TimelineSolution{candidate(2)}(candidate(1),1));
-            end
-            
-            if rectify == 1
-                admissible_set_lengths = [];
-                for it3=1:size(admissible_set,1)
-                    
-                    candidate3 = ConvertLongIndex(admissible_set(it3));
-                    
-                    admissible_set_lengths = [admissible_set_lengths; TimelineSolution{candidate3(2)}(candidate3(1),2)];
-                end
-            end
-            
-            currently_dependent_upon = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
-            currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,1:2);
-            
-            
-            if size(admissible_set,1) > size(currently_dependent_upon,1)
-                % Skapa dependency
-                x = 1;
                 if rectify == 0
-                    test_length = size(admissible_set,1);
+                    candidate = ConvertLongIndex(generate_candidate(Ntasks));
                 else
-                    test_length = sum(admissible_set_lengths);
+                    candidate = ConvertLongIndex(convert_to_index(generate_candidate(test_length),Tsol(:,2)));
                 end
-                
-                while y==0
-                    % Slumpa fram en task i den tillåtliga mängden.
-                    if rectify == 0
-                        candidate2 = ConvertLongIndex(admissible_set(generate_candidate(test_length)));
-                    else
-                        candidate2 = ConvertLongIndex(admissible_set(convert_to_index(generate_candidate(test_length),admissible_set_lengths)));
-                    end
-                    
-                    % Detta ger indexet för indexet i admissible_set.
-                    if isempty(find(ismember(currently_dependent_upon_set,candidate2,'rows')))
-                        % Om tillåtlig
-                        y = 1;
-                        DependencyMatrix(i,:) = [candidate2, candidate];
-                    end
-                    
-                end
+            else
+                candidate = ConvertLongIndex(i);
             end
-        end
-    else
-        while x==0
-            % Tror man måste specialbehandla rectify här
-            % Slumpa fram första tasken i dep.
-            candidate = ConvertLongIndex(generate_candidate(Ntasks));
             
             y=0;
+            
             
             if constrain == 1
                 start_times = TimelineSolution{candidate(2)}(:,1);
-                admissible_set = find(start_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
+                end_times = TimelineSolution{candidate(2)}(:,1)+TimelineSolution{candidate(2)}(:,2);
+                admissible_set1 = find(end_times <= TimelineSolution{candidate(2)}(candidate(1),1));
+                admissible_set2 = find(start_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
                     TimelineSolution{candidate(2)}(candidate(1),2));
+                admissible_set = [admissible_set1; admissible_set2];
                 if ~isempty(admissible_set)
                     admissible_set = admissible_set+prev_indices(candidate(2));
                 end
+                
             else
-                admissible_set = find(starting_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
+                
+                admissible_set1 = find(ending_times <= TimelineSolution{candidate(2)}(candidate(1),1));
+                admissible_set2 = find(starting_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
                     TimelineSolution{candidate(2)}(candidate(1),2));
+                admissible_set = [admissible_set1; admissible_set2];
             end
             
             if rectify == 1
@@ -363,8 +364,12 @@ for i=1:Ndependencies
                 end
             end
             
-            currently_dependent_upon = find(ismember(DependencyMatrix(:,1:2),candidate,'rows'));
-            currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,3:4);
+            currently_dependent_upon1 = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
+            currently_dependent_upon_set1 = DependencyMatrix(currently_dependent_upon1,1:2);
+            currently_dependent_upon2 = find(ismember(DependencyMatrix(:,1:2),candidate,'rows'));
+            currently_dependent_upon_set2 = DependencyMatrix(currently_dependent_upon2,3:4);
+            currently_dependent_upon = [currently_dependent_upon1; currently_dependent_upon2];
+            currently_dependent_upon_set = [currently_dependent_upon_set1; currently_dependent_upon_set2];
             
             if size(admissible_set,1) > size(currently_dependent_upon,1)
                 % Skapa dependency
@@ -374,6 +379,7 @@ for i=1:Ndependencies
                 else
                     test_length = sum(admissible_set_lengths);
                 end
+                
                 while y==0
                     % Slumpa fram en task i den tillåtliga mängden.
                     if rectify == 0
@@ -381,18 +387,249 @@ for i=1:Ndependencies
                     else
                         candidate2 = ConvertLongIndex(admissible_set(convert_to_index(generate_candidate(test_length),admissible_set_lengths)));
                     end
+                    
                     % Detta ger indexet för indexet i admissible_set.
-                    if isempty(find(ismember(currently_dependent_upon_set,candidate2,'rows')))
+                    
+                    % Måste kolla om tasken ligger före eller efter!
+                    task1_start = TimelineSolution{candidate(2)}(candidate(1),1);
+                    task1_end = TimelineSolution{candidate(2)}(candidate(1),1)+TimelineSolution{candidate(2)}(candidate(1),2);
+                    task2_start = TimelineSolution{candidate2(2)}(candidate2(1),1);
+                    task2_end = TimelineSolution{candidate2(2)}(candidate2(1),1)+TimelineSolution{candidate2(2)}(candidate2(1),2);
+                    
+                    if isempty(find(ismember(currently_dependent_upon_set,candidate2,'rows'))) && task2_end <= task1_start
+                        % Om tillåtlig
+                        y = 1;
+                        DependencyMatrix(i,:) = [candidate2, candidate];
+                    elseif isempty(find(ismember(currently_dependent_upon_set,candidate2,'rows'))) && task1_end <= task2_start
                         % Om tillåtlig
                         y = 1;
                         DependencyMatrix(i,:) = [candidate, candidate2];
                     end
-                    
                 end
             end
         end
-    end
+
+%         while x==0
+%             % Tror man måste specialbehandla rectify här
+%             % Slumpa fram första tasken i dep.
+%             if rectify == 1
+%                 test_length = sum(Tsol(:,2));
+%             end
+%             
+%             
+%             if rectify == 0
+%                 candidate = ConvertLongIndex(generate_candidate(Ntasks));
+%             else
+%                 
+%                 candidate = ConvertLongIndex(convert_to_index(generate_candidate(test_length),Tsol(:,2)));
+%             end
+%             
+%             y=0;
+%             
+%             if constrain == 1
+%                 start_times = TimelineSolution{candidate(2)}(:,1);
+%                 admissible_set = find(start_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
+%                     TimelineSolution{candidate(2)}(candidate(1),2));
+%                 if ~isempty(admissible_set)
+%                     admissible_set = admissible_set+prev_indices(candidate(2));
+%                 end
+%             else
+%                 admissible_set = find(starting_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
+%                     TimelineSolution{candidate(2)}(candidate(1),2));
+%             end
+%             
+%             if rectify == 1
+%                 admissible_set_lengths = [];
+%                 for it3=1:size(admissible_set,1)
+%                     
+%                     candidate3 = ConvertLongIndex(admissible_set(it3));
+%                     
+%                     admissible_set_lengths = [admissible_set_lengths; TimelineSolution{candidate3(2)}(candidate3(1),2)];
+%                 end
+%             end
+%             
+%             currently_dependent_upon = find(ismember(DependencyMatrix(:,1:2),candidate,'rows'));
+%             currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,3:4);
+%             
+%             if size(admissible_set,1) > size(currently_dependent_upon,1)
+%                 % Skapa dependency
+%                 x = 1;
+%                 if rectify == 0
+%                     test_length = size(admissible_set,1);
+%                 else
+%                     test_length = sum(admissible_set_lengths);
+%                 end
+%                 while y==0
+%                     % Slumpa fram en task i den tillåtliga mängden.
+%                     if rectify == 0
+%                         candidate2 = ConvertLongIndex(admissible_set(generate_candidate(test_length)));
+%                     else
+%                         candidate2 = ConvertLongIndex(admissible_set(convert_to_index(generate_candidate(test_length),admissible_set_lengths)));
+%                     end
+%                     % Detta ger indexet för indexet i admissible_set.
+%                     if isempty(find(ismember(currently_dependent_upon_set,candidate2,'rows')))
+%                         % Om tillåtlig
+%                         y = 1;
+%                         DependencyMatrix(i,:) = [candidate, candidate2];
+%                     end
+%                     
+%                 end
+%             end
+%         end
+
 end
+
+% for i=1:Ndependencies
+%     x=0;
+%     
+%     if mod(i,2) == 1
+%         
+%         while x==0
+%             
+%             % Slumpa fram sista tasken i en dep.
+%             % Tror man måste specialbehandla rectify här
+%             
+%             if rectify == 1
+%                 test_length = sum(Tsol(:,2));
+%             end
+%             
+%             
+%             if rectify == 0
+%                 candidate = ConvertLongIndex(generate_candidate(Ntasks));
+%             else
+%                 candidate = ConvertLongIndex(convert_to_index(generate_candidate(test_length),Tsol(:,2)));
+%             end
+%             %         DependencyMatrix
+%             y=0;
+%             
+%             % Måste ta fram indexen! Görs på detta sätt.
+%             %           candidate(1)
+%             %           candidate(2)
+%             %         TimelineSolution{candidate(2)}(candidate(1),1)
+%             
+%             if constrain == 1
+%                 end_times = TimelineSolution{candidate(2)}(:,1)+TimelineSolution{candidate(2)}(:,2);
+%                 admissible_set = find(end_times <= TimelineSolution{candidate(2)}(candidate(1),1));
+%                 if ~isempty(admissible_set)
+%                     admissible_set = admissible_set+prev_indices(candidate(2));
+%                 end
+%                 
+%             else
+%                 
+%                 admissible_set = find(ending_times <= TimelineSolution{candidate(2)}(candidate(1),1));
+%             end
+%             
+%             if rectify == 1
+%                 admissible_set_lengths = [];
+%                 for it3=1:size(admissible_set,1)
+%                     
+%                     candidate3 = ConvertLongIndex(admissible_set(it3));
+%                     
+%                     admissible_set_lengths = [admissible_set_lengths; TimelineSolution{candidate3(2)}(candidate3(1),2)];
+%                 end
+%             end
+%             
+%             currently_dependent_upon = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
+%             currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,1:2);
+%             
+%             
+%             if size(admissible_set,1) > size(currently_dependent_upon,1)
+%                 % Skapa dependency
+%                 x = 1;
+%                 if rectify == 0
+%                     test_length = size(admissible_set,1);
+%                 else
+%                     test_length = sum(admissible_set_lengths);
+%                 end
+%                 
+%                 while y==0
+%                     % Slumpa fram en task i den tillåtliga mängden.
+%                     if rectify == 0
+%                         candidate2 = ConvertLongIndex(admissible_set(generate_candidate(test_length)));
+%                     else
+%                         candidate2 = ConvertLongIndex(admissible_set(convert_to_index(generate_candidate(test_length),admissible_set_lengths)));
+%                     end
+%                     
+%                     % Detta ger indexet för indexet i admissible_set.
+%                     if isempty(find(ismember(currently_dependent_upon_set,candidate2,'rows')))
+%                         % Om tillåtlig
+%                         y = 1;
+%                         DependencyMatrix(i,:) = [candidate2, candidate];
+%                     end
+%                     
+%                 end
+%             end
+%         end
+%     else
+%         while x==0
+%             % Tror man måste specialbehandla rectify här
+%             % Slumpa fram första tasken i dep.
+%             if rectify == 1
+%                 test_length = sum(Tsol(:,2));
+%             end
+%             
+%             
+%             if rectify == 0
+%                 candidate = ConvertLongIndex(generate_candidate(Ntasks));
+%             else
+%                 
+%                 candidate = ConvertLongIndex(convert_to_index(generate_candidate(test_length),Tsol(:,2)));
+%             end
+%             
+%             y=0;
+%             
+%             if constrain == 1
+%                 start_times = TimelineSolution{candidate(2)}(:,1);
+%                 admissible_set = find(start_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
+%                     TimelineSolution{candidate(2)}(candidate(1),2));
+%                 if ~isempty(admissible_set)
+%                     admissible_set = admissible_set+prev_indices(candidate(2));
+%                 end
+%             else
+%                 admissible_set = find(starting_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
+%                     TimelineSolution{candidate(2)}(candidate(1),2));
+%             end
+%             
+%             if rectify == 1
+%                 admissible_set_lengths = [];
+%                 for it3=1:size(admissible_set,1)
+%                     
+%                     candidate3 = ConvertLongIndex(admissible_set(it3));
+%                     
+%                     admissible_set_lengths = [admissible_set_lengths; TimelineSolution{candidate3(2)}(candidate3(1),2)];
+%                 end
+%             end
+%             
+%             currently_dependent_upon = find(ismember(DependencyMatrix(:,1:2),candidate,'rows'));
+%             currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,3:4);
+%             
+%             if size(admissible_set,1) > size(currently_dependent_upon,1)
+%                 % Skapa dependency
+%                 x = 1;
+%                 if rectify == 0
+%                     test_length = size(admissible_set,1);
+%                 else
+%                     test_length = sum(admissible_set_lengths);
+%                 end
+%                 while y==0
+%                     % Slumpa fram en task i den tillåtliga mängden.
+%                     if rectify == 0
+%                         candidate2 = ConvertLongIndex(admissible_set(generate_candidate(test_length)));
+%                     else
+%                         candidate2 = ConvertLongIndex(admissible_set(convert_to_index(generate_candidate(test_length),admissible_set_lengths)));
+%                     end
+%                     % Detta ger indexet för indexet i admissible_set.
+%                     if isempty(find(ismember(currently_dependent_upon_set,candidate2,'rows')))
+%                         % Om tillåtlig
+%                         y = 1;
+%                         DependencyMatrix(i,:) = [candidate, candidate2];
+%                     end
+%                     
+%                 end
+%             end
+%         end
+%     end
+% end
 
 %     function bool = admissile_candidate(candidate)
 %         
