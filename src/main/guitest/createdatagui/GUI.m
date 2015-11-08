@@ -290,7 +290,7 @@ txtbox3 = uicontrol('Style','edit',...
     function txt3_callback(source,eventdata)
         N_prel = str2num(get(txtbox3,'String'));
         if isnumeric(N_prel) && ~isempty(N_prel) && ...
-                N_prel > 0 && N_prel == floor(N_prel)
+                N_prel > 2 && N_prel == floor(N_prel)
             
             N = min(N_prel,max_tasks);
             
@@ -1637,10 +1637,12 @@ set(allchild(dummy2_group),'Enable','off');
         rectify = 1;
         
         % Detta måste finslipas litet.
-        N = max(1,round(max_tasks*difficulty_number^4/100^4));
+        N = max(1,round(90 + (max_tasks-90)*difficulty_number^4/100^4));
         L = 1000000000;
         if arg1 == 1
-            T = max(1,round(difficulty_number/3.3));
+            T = min(floor(N/3),max(1,round(difficulty_number/3.3)));
+        elseif dummy2_selector ~= 5
+            T = min(floor(N/3),5);
         end
         
         % Måste ändra motsvarande button groups för nedanstående.
