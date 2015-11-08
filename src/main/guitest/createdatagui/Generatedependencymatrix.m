@@ -17,9 +17,7 @@ for j=1:length(TimelineSolution)
     % size(TimelineSolution{j},1)
 end
 
-% length(TimelineSolution)
 
-% size(Tsol)
 DependencyMatrix = zeros(Ndependencies,4);
 
 % Vektor med sluttider.
@@ -35,15 +33,233 @@ for i=1:length(TimelineSolution)
     Ntasks = Ntasks + size(TimelineSolution{i},1);
 end
 
-% TimelineSolution
+tasks_left = Tsol;
 
-% Test för att utvärdera ConvertLongIndex m.m.
-
-% a = ConvertLongIndex(25)
+% if Ntasks <= Ndependencies
+%     % Skapa kedjor av dependencies. Antagligen ett lager.
+%     % Varje kedja är 3-10 tasks lång.
+%     min_chain_length = 3;
+%     max_chain_length = 10;
+%     avg_chain_len = ceil((min_chain_length+max_chain_length)/2);
+%     x=0;
+%     
 % 
-% ConvertToLong(a(1), a(2))
-
-
+%     % direction=1 om vi ska kolla framåt.
+%     direction = 1;
+%     while x==0
+%         % Sannolikheten att skapa att inleda en chain bör vara 0.5, måste
+%         % dock kompensera med kedjans förväntade längd = ~5? Så p =
+%         % 0.5*2/5. Tag p=0.2.
+%         p = rand(avg_chain_len,1,1);
+%         
+%         cur_task = tasks_left(1,:);
+%         cur_index = find(ismember(TimelineSolution{cur_task(end)},cur_task),1);
+%         % Måste hitta motsvarande index i TimelineSolution
+%         tasks_left = tasks_left(2:end,:);
+%         
+%         % Hur många gånger vi har hoppat till en annan timeline.
+%         timeline_jumps = 0;
+%         
+%         % Finns inga möjligheter att skapa en kedja?
+%         no_admissible_chain = 0;
+%         
+%         
+%         if p==avg_chain_len
+%             chain_length = randi(max_chain_length-min_chain_length+1,1,1)+min_chain_length-1; 
+%             chain_bool = 1;
+%             j=2; % Vilken task vi är på nu i dependencyn. cur_task betraktas som redan inkluderad.
+%             
+%             %% ta reda på om vi kan skapa kedja, och åt vilket håll.
+%             while chain_bool == 1
+%                 % Hitta en task med nöjaktig starttid, måste nog ta hänsyn
+%                 % till hur många tasks det finns kvar att välja på. Välj ut
+%                 % en mängd tasks med starttid <= (L-task1_end)/chain_length
+%                 
+%                 bool = 0;
+%                 admissible_set = [];
+%                 % Jobbigt. Om det inte finns någon task efteråt måste vi
+%                 % börja kolla på tidigare tasks, dvs vända på hela
+%                 % schabraket.
+%                 % Här tar vi reda på om kedjan ska gå framåt eller bakåt.
+%                 check_iterator =1;
+%                 
+%                 % Vid varje steg måste man pröva först om dir=1 el 2.
+%                 % Sedan måste man när kedjan påbörjas kolla om man ska gå
+%                 % bakåt eller om det går att komma framåt.
+%                 
+%                 
+%                 % Kolla om vi kan skapa en framåtgående kedja.
+%                 while bool == 0
+%                     % Fler villkor behövs. Kolla att inte ingår i dep med
+%                     % någon i admissible_set.
+%                     admissible_set = find(starting_times >= cur_task(1)+cur_task(2) && starting_times <= round(check_iterator*(L-(cur_task(1)+cur_task(2)))/max_chain_length));
+%                     
+%                     % Måste dela upp detta i en del på den egna tidslinjen.
+%                     currently_dependent_upon = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
+%                     currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,3:4);
+%                     
+%                     if size(admissible_set,1) > size(currently_dependent_upon,1)
+%                         bool =1;
+%                     elseif check_iterator >= max_chain_length
+%                         % Pröva att gå bakåt. Om inte ens det lyckas, gör
+%                         % vanlig dependency.
+%                         direction = 2;
+%                         bool = 1;
+%                     end
+%                     
+%                 end
+%                 
+%                 
+%                 % Kolla om vi kan skapa en bakåtgående kedja.
+%                 if direction == 2
+%                     bool = 0;
+%                     while bool == 0
+%                         % Kan eventuellt behöva en iterator här, som dock
+%                         % alltid kommer att ge att vi får en tillräckligt
+%                         % lång chain.
+%                         admissible_set = find(ending_times <= cur_task(1) && ending_times >= cur_task(1)-round(check_iterator*cur_task(1)/max_chain_length));
+%                         currently_dependent_upon = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
+%                         currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,3:4);
+%                         
+%                         
+%                         if size(admissible_set,1) > size(currently_dependent_upon,1)
+%                             bool =1;
+%                         elseif check_iterator >= max_chain_length
+%                             % Pröva att gå bakåt. Om inte ens det lyckas, gör
+%                             % vanlig dependency.
+%                             no_admissible_chain = 1;
+%                             chain_bool = 0;
+%                             bool = 1;
+%                         end
+%                     end
+%                 end
+%                 
+%                 % Dependencies ska vara på den egna tidslinjen, främst. Så
+%                 % börja kolla om det funkar på den egna tidslinjen, givet
+%                 % ingen chain.
+%                 
+%             end
+%             
+%             %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             % Här skapar vi en kedja.
+%             % Måste dock kolla om timeline_jumps = 1, då får vi bara kolla
+%             % på innevarande timelinen. Dessutom måste vi kolla om det
+%             % finns tasks i admissible_set som vi redan står i dependency
+%             % med.
+%             if direction == 1 && no_admissible_chain == 0
+%                 % Skapa chain genom att söka framåt
+%                 while chain_bool == 1
+%                     bool = 0;
+%                     admissible_set = [];
+%                     % Här tar vi reda på om kedjan ska gå framåt eller bakåt.
+%                     check_iterator =1;
+%                     
+%                     % Följande används för att leta en task i närheten, så
+%                     % att dpendencyn kan vara tillräckligt lång.
+%                     while bool == 0
+%                         if timeline_jumps == 0
+%                             admissible_set = find(starting_times >= cur_task(1)+cur_task(2) && starting_times <= round(check_iterator*(L-(cur_task(1)+cur_task(2)))/max_chain_length));
+%                             start_times = TimelineSolution{candidate(2)}(:,1);
+%                             admissible_set = find(start_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
+%                                 TimelineSolution{candidate(2)}(candidate(1),2));
+%                             if ~isempty(admissible_set)
+%                                 admissible_set = admissible_set+prev_indices(candidate(2));
+%                             end
+%                             
+%                             
+%                         else % förstora upp sannolikheten att träffa på en på den egna tidslinjen med antal tidslinjer*förväntade kedjelängden/2
+%                             
+%                         end
+%                         
+%                         
+%                         if ~isempty(admissible_set)
+%                             bool =1;
+%                         elseif check_iterator >= max_chain_length
+%                             % Pröva att gå bakåt. Om inte ens det lyckas, gör
+%                             % vanlig dependency.
+%                             direction = 2;
+%                         end
+%                     end
+%                     % Dependencies ska vara på den egna tidslinjen, främst. Så
+%                     % börja kolla om det funkar på den egna tidslinjen, givet
+%                     % ingen chain.
+%                     
+%                     j=j+1;
+%                     if j > chain_length
+%                         chain_bool = 0;
+%                     end
+%                 end
+%                 
+%             elseif no_admissible_chain == 0 
+%                 %%
+%                 % Skapa chain genom att söka bakåt
+%                 while chain_bool == 1
+%                     % Hitta en task med nöjaktig starttid, måste nog ta hänsyn
+%                     % till hur många tasks det finns kvar att välja på. Välj ut
+%                     % en mängd tasks med starttid <= (L-task1_end)/chain_length
+%                     
+%                     bool = 0;
+%                     admissible_set = [];
+%                     % Jobbigt. Om det inte finns någon task efteråt måste vi
+%                     % börja kolla på tidigare tasks, dvs vända på hela
+%                     % schabraket.
+%                     % Här tar vi reda på om kedjan ska gå framåt eller bakåt.
+%                     check_iterator =1;
+%                     
+%                     % Vid varje steg måste man pröva först om dir=1 el 2.
+%                     % Sedan måste man när kedjan påbörjas kolla om man ska gå
+%                     % bakåt eller om det går att komma framåt.
+%                     while bool == 0
+%                         %                     admissible_set = find(starting_times >= TimelineSolution{cur_task(end)}(candidate(1),1)+ ...
+%                         %                     TimelineSolution{candidate(2)}(candidate(1),2));
+%                         admissible_set = find(starting_times >= cur_task(1)+cur_task(2) && starting_times <= round(check_iterator*(L-(cur_task(1)+cur_task(2)))/max_chain_length));
+%                         
+%                         if ~isempty(admissible_set)
+%                             bool =1;
+%                         elseif check_iterator >= max_chain_length
+%                             % Pröva att gå bakåt. Om inte ens det lyckas, gör
+%                             % vanlig dependency.
+%                             direction = 2;
+%                         end
+%                         
+%                         if direction == 2
+%                             % Kan eventuellt behöva en iterator här, som dock
+%                             % alltid kommer att ge att vi får en tillr'ckligt
+%                             % lång chain.
+%                             admissible_set = find(ending_times <= cur_task(1) && ending_times >= cur_task(1)-round(check_iterator*cur_task(1)/max_chain_length));
+%                             
+%                             
+%                         end
+%                     end
+%                     % Dependencies ska vara på den egna tidslinjen, främst. Så
+%                     % börja kolla om det funkar på den egna tidslinjen, givet
+%                     % ingen chain.
+%                     
+%                     j=j+1;
+%                     if j > chain_length
+%                         chain_bool = 0;
+%                     end
+%                 end
+%             else
+%                 % Kan inte skapa kedja.
+%                 
+%             end
+%             
+%         else
+%             % Skapa bara enkla dependencies.
+%             % Här skapar vi dependencies på det gamla sättet, förmodligen
+%             % p.s.s. att de flesta är inom tidslinjen.
+%             
+%         end
+%         
+%         
+%         chain_length = 1;
+%         
+%     end
+% else
+%     % Gör på det gamla sättet.
+%     
+% end
 
 for i=1:Ndependencies
     x=0;
@@ -52,6 +268,8 @@ for i=1:Ndependencies
         
         while x==0
             
+            % Slumpa fram sista tasken i en dep.
+            % Tror man måste specialbehandla rectify här
             candidate = ConvertLongIndex(generate_candidate(Ntasks));
             
             %         DependencyMatrix
@@ -85,7 +303,7 @@ for i=1:Ndependencies
             end
             
             currently_dependent_upon = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
-            currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,3:4);
+            currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,1:2);
             
             
             if size(admissible_set,1) > size(currently_dependent_upon,1)
@@ -117,6 +335,8 @@ for i=1:Ndependencies
         end
     else
         while x==0
+            % Tror man måste specialbehandla rectify här
+            % Slumpa fram första tasken i dep.
             candidate = ConvertLongIndex(generate_candidate(Ntasks));
             
             y=0;
@@ -143,7 +363,7 @@ for i=1:Ndependencies
                 end
             end
             
-            currently_dependent_upon = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
+            currently_dependent_upon = find(ismember(DependencyMatrix(:,1:2),candidate,'rows'));
             currently_dependent_upon_set = DependencyMatrix(currently_dependent_upon,3:4);
             
             if size(admissible_set,1) > size(currently_dependent_upon,1)

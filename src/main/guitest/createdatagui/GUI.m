@@ -71,6 +71,14 @@ rectify = 0;
 
 max_tasks = 10000;
 
+% inställningar för auto-lägena
+
+min_dependency_level = 1;
+max_dependency_level = 4;
+
+min_occupancy_level = 0.1;
+max_occupancy_level = 0.7;
+
 % GUI-färger
 
 color1 = [0.3 0.8 0.3];
@@ -101,6 +109,7 @@ edit_pos5 = edit_pos1-[0 0.2 0 0];
 
 norm_distr = @(mu, sigma) normal_distribution(mu, sigma);
 unif_distr = @(mu, sigma) uniform_distribution(mu, sigma);
+chi2_distr = @(mu, sigma) chi2_distribution(mu, sigma);
 
 
 genlistoflen = @(listofstartingpoints,L) generatelistoflength(listofstartingpoints,L);
@@ -141,7 +150,7 @@ attr_intervals = 0;
 dep_intensity = 0;
 
 difficulty='A';
-difficulty_number = 50;
+difficulty_number = 25;
 
 % Väljare för dummy2-läget
 
@@ -149,6 +158,10 @@ dummy2_selector = 1;
 
 % Kontinuerlig eller diskret svårighetsgrad
 diff_type = 0;
+
+% Vilket av dummies-lägene som är valt
+
+dummies_selector = 1;
 
 % bool2 = 0;
 % while bool2==0
@@ -318,7 +331,7 @@ txtbox5 = uicontrol('Style','edit',...
 static_text1 = uicontrol('Style','text','String','#Data sets:', 'Units','normalized',...
     'Position',text_pos1);
 
-static_text2 = uicontrol('Style','text','String','#Tasks/timeline (approximately):', 'Units','normalized',...
+static_text2 = uicontrol('Style','text','String','#Tasks (approximately):', 'Units','normalized',...
     'Position',text_pos2);
 
 static_text3 = uicontrol('Style','text','String','#Time-lines:', 'Units','normalized',...
@@ -327,7 +340,7 @@ static_text3 = uicontrol('Style','text','String','#Time-lines:', 'Units','normal
 static_text4 = uicontrol('Style','text','String','#Time steps:', 'Units','normalized',...
     'Position',text_pos4);
 
-static_text5 = uicontrol('Style','text','String','#Dependencies/timeline (approximately):', 'Units','normalized',...
+static_text5 = uicontrol('Style','text','String','#Dependencies:', 'Units','normalized',...
     'Position',text_pos5);
 
 testdatasave    = uicontrol('Style','pushbutton',...
@@ -509,7 +522,7 @@ distr3 = uicontrol(distribution2_group,'Style','radiobutton','String','Normal',.
     'Tag', 'rab1', 'BackgroundColor',color1);
 distr4 = uicontrol(distribution2_group,'Style','radiobutton','String','Uniform',...
     'Units','normalized',...
-    'Position',[.6 .3 .6 .4], ...
+    'Position',[.35 .3 .6 .4], ...
     'Callback',@distr4_callback, ...
     'Tag', 'rab2', 'BackgroundColor',color1);
 
@@ -523,6 +536,16 @@ distr4 = uicontrol(distribution2_group,'Style','radiobutton','String','Uniform',
         dist_sel2 = 1;
     end
 
+distr51 = uicontrol(distribution2_group,'Style','radiobutton','String','Chi-squared',...
+    'Units','normalized',...
+    'Position',[.6 .3 .6 .4], ...
+    'Callback',@distr51_callback, ...
+    'Tag', 'rab2', 'BackgroundColor',color1);
+
+    function distr51_callback(source,eventdata)
+        distrib2 = chi2_distr;
+        dist_sel2 = 2;
+    end
 
 maxt_slider = uicontrol(f,'Style','slider',...
                 'Min',0.05,'Max',0.95,'Value',std2,...
@@ -556,7 +579,7 @@ distr5 = uicontrol(distribution3_group,'Style','radiobutton','String','Normal',.
     'Tag', 'rab1', 'BackgroundColor',color1);
 distr6 = uicontrol(distribution3_group,'Style','radiobutton','String','Uniform',...
     'Units','normalized',...
-    'Position',[.6 .3 .6 .4], ...
+    'Position',[.35 .3 .6 .4], ...
     'Callback',@distr6_callback, ...
     'Tag', 'rab2', 'BackgroundColor',color1);
 
@@ -570,6 +593,17 @@ distr6 = uicontrol(distribution3_group,'Style','radiobutton','String','Uniform',
         attrgen = attrgen_unif;
         distrib3 = unif_distr;
         dist_sel3 = 1;
+    end
+
+distr7 = uicontrol(distribution3_group,'Style','radiobutton','String','Chi-squared',...
+    'Units','normalized',...
+    'Position',[.6 .3 .6 .4], ...
+    'Callback',@distr7_callback, ...
+    'Tag', 'rab2', 'BackgroundColor',color1);
+
+    function distr7_callback(source,eventdata)
+        distrib3 = chi2_distr;
+        dist_sel3 = 2;
     end
 
 mstext  = uicontrol('Style','text','String','Standard deviation:', 'Units','normalized',...
@@ -632,13 +666,24 @@ tlength_distr1 = uicontrol(distribution4_group,'Style','radiobutton','String','N
 
 tlength_distr2 = uicontrol(distribution4_group,'Style','radiobutton','String','Uniform',...
     'Units','normalized',...
-    'Position',[.6 .3 .6 .4], ...
+    'Position',[.35 .3 .6 .4], ...
     'Callback',@tlength_distr2_callback, ...
     'Tag', 'rab_mode2', 'BackgroundColor',color1);
 
     function tlength_distr2_callback(source,eventdata)
         distrib4 = unif_distr;
         dist_sel4 = 1;
+    end
+
+tlength_distr3 = uicontrol(distribution4_group,'Style','radiobutton','String','Chi-squared',...
+    'Units','normalized',...
+    'Position',[.6 .3 .6 .4], ...
+    'Callback',@tlength_distr3_callback, ...
+    'Tag', 'rab_mode2', 'BackgroundColor',color1);
+
+    function tlength_distr3_callback(source,eventdata)
+        distrib4 = chi2_distr;
+        dist_sel4 = 2;
     end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -690,13 +735,24 @@ dead_distr1 = uicontrol(distribution5_group,'Style','radiobutton','String','Norm
 
 dead_distr2 = uicontrol(distribution5_group,'Style','radiobutton','String','Uniform',...
     'Units','normalized',...
-    'Position',[.6 .3 .6 .4], ...
+    'Position',[.35 .3 .6 .4], ...
     'Callback',@dead_distr2_callback, ...
     'Tag', 'rab_mode2', 'BackgroundColor',color1);
 
     function dead_distr2_callback(source,eventdata)
         distrib5 = unif_distr;
         dist_sel5 = 1;
+    end
+
+dead_distr3 = uicontrol(distribution5_group,'Style','radiobutton','String','Chi-squared',...
+    'Units','normalized',...
+    'Position',[.6 .3 .6 .4], ...
+    'Callback',@dead_distr3_callback, ...
+    'Tag', 'rab_mode2', 'BackgroundColor',color1);
+
+    function dead_distr3_callback(source,eventdata)
+        distrib5 = chi2_distr;
+        dist_sel5 = 2;
     end
 
 ddtext  = uicontrol('Style','text','String','Standard deviation:', 'Units','normalized',...
@@ -748,13 +804,24 @@ mint_distr1 = uicontrol(distribution6_group,'Style','radiobutton','String','Norm
 
 mint_distr2 = uicontrol(distribution6_group,'Style','radiobutton','String','Uniform',...
     'Units','normalized',...
-    'Position',[.6 .3 .6 .4], ...
+    'Position',[.35 .3 .6 .4], ...
     'Callback',@mint_distr2_callback, ...
     'Tag', 'rab_mode2', 'BackgroundColor',color1);
 
     function mint_distr2_callback(source,eventdata)
         distrib6 = unif_distr;
         dist_sel6 = 1;
+    end
+
+mint_distr3 = uicontrol(distribution6_group,'Style','radiobutton','String','Chi-squared',...
+    'Units','normalized',...
+    'Position',[.6 .3 .6 .4], ...
+    'Callback',@mint_distr3_callback, ...
+    'Tag', 'rab_mode2', 'BackgroundColor',color1);
+
+    function mint_distr3_callback(source,eventdata)
+        distrib6 = chi2_distr;
+        dist_sel6 = 2;
     end
 
 mint_slider = uicontrol(f,'Style','slider',...
@@ -796,13 +863,24 @@ mode_distr1 = uicontrol(distribution7_group,'Style','radiobutton','String','Norm
 
 mode_distr2 = uicontrol(distribution7_group,'Style','radiobutton','String','Uniform',...
     'Units','normalized',...
-    'Position',[.6 .3 .6 .4], ...
+    'Position',[.35 .3 .6 .4], ...
     'Callback',@mode_distr2_callback, ...
     'Tag', 'rab_mode2', 'BackgroundColor',color1);
 
     function mode_distr2_callback(source,eventdata)
         distrib7 = unif_distr;
         dist_sel7 = 1;
+    end
+
+mode_distr3 = uicontrol(distribution7_group,'Style','radiobutton','String','Chi-squared',...
+    'Units','normalized',...
+    'Position',[.6 .3 .6 .4], ...
+    'Callback',@mode_distr3_callback, ...
+    'Tag', 'rab_mode2', 'BackgroundColor',color1);
+
+    function mode_distr3_callback(source,eventdata)
+        distrib7 = chi2_distr;
+        dist_sel7 = 2;
     end
 
 mode_std_slider = uicontrol(f,'Style','slider',...
@@ -1009,12 +1087,12 @@ dummy2_group = uibuttongroup(f,'Title','For dummies II',...
 
 high_deps = uicontrol(dummy2_group,'Style','radiobutton','String','High dependencies',...
     'Units','normalized',...
-    'Position',[.05 .66 .6 .4], ...
+    'Position',[.05 .7 .6 .2], ...
     'Callback',@high_deps_callback, ...
     'Tag', 'rab_mode1', 'BackgroundColor',color3);
 
     function high_deps_callback(source,eventdata)
-        dependency_level = 0.95;
+        dependency_level = max_dependency_level;
         Ndeps = round(dependency_level*N);
         dummy2_selector = 1;
         set(txtbox5,'String',num2str(Ndeps));
@@ -1051,19 +1129,22 @@ high_deps = uicontrol(dummy2_group,'Style','radiobutton','String','High dependen
         set(ms_slider,'Value',std3);
         
         % övrigt 3
-        occupancy = 0.1;
+        occupancy = min_occupancy_level;
         set(slider5,'Value',occupancy);
+        
+        T=5;
+        set(txtbox2,'String',num2str(T));
         
     end
 
 high_density = uicontrol(dummy2_group,'Style','radiobutton','String','High density',...
     'Units','normalized',...
-    'Position',[.5 .66 .6 .4], ...
+    'Position',[.5 .7 .6 .2], ...
     'Callback',@high_density_callback, ...
     'Tag', 'rab_mode2', 'BackgroundColor',color3);
 
     function high_density_callback(source,eventdata)
-        occupancy = 0.9;
+        occupancy = max_occupancy_level;
         dummy2_selector = 2;
         set(slider5,'Value',occupancy);
         
@@ -1100,14 +1181,18 @@ high_density = uicontrol(dummy2_group,'Style','radiobutton','String','High densi
         
         % övrigt 3
         
-        dependency_level = 0.05;
+        dependency_level = min_dependency_level;
         Ndeps = round(dependency_level*N);
         set(txtbox5,'String',num2str(Ndeps));
+        
+        T=5;
+        set(txtbox2,'String',num2str(T));
+        
     end
 
 high_attr_intervals = uicontrol(dummy2_group,'Style','radiobutton','String','Long attributes intervals',...
     'Units','normalized',...
-    'Position',[.05 .16 .6 .4], ...
+    'Position',[.05 .4 .6 .2], ...
     'Callback',@high_attr_intervals_callback, ...
     'Tag', 'rab_mode3', 'BackgroundColor',color3);
 
@@ -1143,19 +1228,22 @@ high_attr_intervals = uicontrol(dummy2_group,'Style','radiobutton','String','Lon
         set(maxt2_slider,'Value',mu2);
         
         % övrigt 2
-        occupancy = 0.1;
+        occupancy = min_occupancy_level;
         set(slider5,'Value',occupancy);
         
         % övrigt 3
         
-        dependency_level = 0.05;
+        dependency_level = min_dependency_level;
         Ndeps = round(dependency_level*N);
         set(txtbox5,'String',num2str(Ndeps));
+        
+        T=5;
+        set(txtbox2,'String',num2str(T));
     end
 
 high_dep_intervals = uicontrol(dummy2_group,'Style','radiobutton','String','Long dependency intervals',...
     'Units','normalized',...
-    'Position',[.5 .16 .6 .4], ...
+    'Position',[.5 .4 .6 .2], ...
     'Callback',@high_dep_intervals_callback, ...
     'Tag', 'rab_mode4', 'BackgroundColor',color3);
 
@@ -1192,17 +1280,76 @@ high_dep_intervals = uicontrol(dummy2_group,'Style','radiobutton','String','Long
         set(ms_slider,'Value',std3);
         
         % övrigt 2
-        occupancy = 0.1;
+        occupancy = min_occupancy_level;
         set(slider5,'Value',occupancy);
         
         % övrigt 3
         
-        dependency_level = 0.05;
+        dependency_level = min_dependency_level;
+        Ndeps = round(dependency_level*N);
+        set(txtbox5,'String',num2str(Ndeps));
+        
+        T=5;
+        set(txtbox2,'String',num2str(T));
+        
+        
+    end
+
+many_timelines = uicontrol(dummy2_group,'Style','radiobutton','String','Many Timelines',...
+    'Units','normalized',...
+    'Position',[.05 .1 .6 .2], ...
+    'Callback',@many_timelines_callback, ...
+    'Tag', 'rab_mode4', 'BackgroundColor',color3);
+
+    function many_timelines_callback(source,eventdata)
+        
+        T=30;
+        set(txtbox2,'String',num2str(T));
+        
+        %mintid
+        std6 = 0.1;
+        mu4 = 0.1;
+        
+        % maxtid
+        std2 = 0.1;
+        mu2 = 0.1;
+        
+        dummy2_selector = 5;
+        
+        set(mint2_slider,'Value',mu4);
+        set(mint_slider,'Value',std6);
+        set(maxt_slider,'Value',std2);
+        set(maxt2_slider,'Value',mu2);
+        
+        % övrigt 1
+        
+        %mintid
+        std3 = 0.1;
+        mu1 = 0.1;
+        
+        % maxtid
+        std5 = 0.1;
+        mu3 = 0.1;
+        
+        
+        set(ms2_slider,'Value',mu1);
+        set(dd2_slider,'Value',mu3);
+        set(dd_slider,'Value',std5);
+        set(ms_slider,'Value',std3);
+        
+        % övrigt 2
+        occupancy = min_occupancy_level;
+        set(slider5,'Value',occupancy);
+        
+        % övrigt 3
+        
+        dependency_level = min_dependency_level;
         Ndeps = round(dependency_level*N);
         set(txtbox5,'String',num2str(Ndeps));
         
         
     end
+
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 set(allchild(dep_group),'Enable','off');
@@ -1360,7 +1507,9 @@ set(allchild(dummy2_group),'Enable','off');
         
         set(allchild(dummy2_group),'Enable','off');
         
-        update_fields();
+        dummies_selector = 1;
+        
+        update_fields(dummies_selector);
     end
 
 
@@ -1441,11 +1590,13 @@ set(allchild(dummy2_group),'Enable','off');
         set(correct_checkbox,'Enable','off'); 
         set(constrain_checkbox,'Enable','off'); 
         
-        update_fields();
+        dummies_selector = 2;
+        
+        update_fields(dummies_selector);
     end
 
-% Här händer det roliga, i någon mening.
-    function update_fields()
+% Här händer det roliga, i någon mening. Måste ändras för dummies2-läget!
+    function update_fields(arg1)
         % Sätt värdena olika beroende på om low eller high osv är valt för
         % olika inställningar.
         % Behövs en bra interpolationsformel för att ta fram 
@@ -1459,7 +1610,9 @@ set(allchild(dummy2_group),'Enable','off');
         % Detta måste finslipas litet.
         N = max(1,round(max_tasks*difficulty_number^4/100^4));
         L = 1000000000;
-        T = max(1,round(difficulty_number/3.3));
+        if arg1 == 1
+            T = max(1,round(difficulty_number/3.3));
+        end
         
         % Måste ändra motsvarande button groups för nedanstående.
         
@@ -1492,15 +1645,26 @@ set(allchild(dummy2_group),'Enable','off');
         % task length distr.
         std4 = 0.4;
         
-        
-        if density == 0
-            % Ställ in slider + occupancy.
-            occupancy = 0.1;
-            set(slider5,'Value',occupancy);
+        if arg1 == 1
+            if density == 0
+                % Ställ in slider + occupancy.
+                occupancy = 0.1;
+                set(slider5,'Value',occupancy);
+            else
+                occupancy = 0.9;
+                set(slider5,'Value',occupancy);
+            end
         else
-            occupancy = 0.9;
-            set(slider5,'Value',occupancy);
+            if dummy2_selector == 2
+                % Ställ in slider + occupancy.
+                occupancy = max_occupancy_level;
+                set(slider5,'Value',occupancy);
+            else
+                occupancy = min_occupancy_level;
+                set(slider5,'Value',occupancy);
+            end
         end
+        
         
         if dep_intervals == 0
             %mintid
@@ -1539,12 +1703,22 @@ set(allchild(dummy2_group),'Enable','off');
         end
         
         % Inte så mycket här som behövs inom en if-sats. Däremot utanför.
-        if dep_intensity == 0
-            dependency_level = 0.05;
-            Ndeps = round(N*dependency_level);
+        if arg1 == 1
+            if dep_intensity == 0
+                dependency_level = 0.05;
+                Ndeps = round(N*dependency_level);
+            else
+                dependency_level = 0.95;
+                Ndeps = round(N*dependency_level);
+            end
         else
-            dependency_level = 0.95;
-            Ndeps = round(N*dependency_level);
+            if dummy2_selector == 1
+                dependency_level = max_dependency_level;
+                Ndeps = round(N*dependency_level);
+            else
+                dependency_level = min_dependency_level;
+                Ndeps = round(N*dependency_level);
+            end
         end
         
         % Ställ in txtbox:ar
@@ -1609,7 +1783,7 @@ diff_type_btn2 = uicontrol(diff_type_selector,'Style','radiobutton','String','Di
         
         set(diff_slider,'Value',difficulty_number);
         set(diff_slider,'SliderStep',[0.5 0.5]);
-        update_fields();
+        update_fields(dummies_selector);
     end
 
 set(allchild(diff_type_selector),'Enable','off');
@@ -1633,7 +1807,7 @@ diff_slider = uicontrol(f,'Style','slider',...
             
             
         end
-        update_fields();
+        update_fields(dummies_selector);
         % Uppdatera  här alla fält, också när man aktiverar/avaktiverar
         % detta reglage.
     end
@@ -1654,7 +1828,7 @@ taskdstr1 = uicontrol(task_group,'Style','radiobutton','String','Normal',...
     'Tag', 'rab1', 'BackgroundColor',color1);
 taskdstr2 = uicontrol(task_group,'Style','radiobutton','String','Uniform',...
     'Units','normalized',...
-    'Position',[.6 .3 .6 .4], ...
+    'Position',[.35 .3 .6 .4], ...
     'Callback',@taskdstr2_callback, ...
     'Tag', 'rab2', 'BackgroundColor',color1);
 
@@ -1668,6 +1842,17 @@ taskdstr2 = uicontrol(task_group,'Style','radiobutton','String','Uniform',...
     function taskdstr2_callback(source,eventdata)
         distrib8 = unif_distr;
         dist_sel8 = 1;
+    end
+
+taskdstr3 = uicontrol(task_group,'Style','radiobutton','String','Chi-squared',...
+    'Units','normalized',...
+    'Position',[.6 .3 .6 .4], ...
+    'Callback',@taskdstr3_callback, ...
+    'Tag', 'rab2', 'BackgroundColor',color1);
+
+    function taskdstr3_callback(source,eventdata)
+        distrib8 = chi2_distr;
+        dist_sel8 = 2;
     end
 
 tdt_text  = uicontrol('Style','text','String','Standard deviation:', 'Units','normalized',...
@@ -1804,9 +1989,9 @@ slider5 = uicontrol(f,'Style','slider',...
         T_prev = T;
         
         for it=1:Num_data
-            [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N*T, L, T, genlistoflen, ...
+            [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, genlistoflen, ...
                 genlistofstartpts,gentasks, attrgen, ...
-                gendepmatrix,gendepattr, Ndeps*T, 1, 1, 1, 1, occupancy, genlistoflst, rectify, std1,std2,std3,std4,std5,std6,std7,std8, ...
+                gendepmatrix,gendepattr, Ndeps, 1, 1, 1, 1, occupancy, genlistoflst, rectify, std1,std2,std3,std4,std5,std6,std7,std8, ...
                 std9,mu1,mu2,mu3,mu4,distrib1,distrib2,distrib3,distrib4,distrib5,distrib6,distrib7,distrib8,distrib9,constrain);
             
             
@@ -2036,7 +2221,7 @@ slider5 = uicontrol(f,'Style','slider',...
             Y = [y_start y_end];
             % intermediate point (you have to choose your own)
             Xi = mean(X);
-            Yi = mean(Y) + 0.5*(y_end-y_start)+0.1;
+            Yi = mean(Y) + 0.5*(y_end-y_start)+0.1+0.1*rand();
             
             Xa = [X(1) Xi X(2)];
             Ya = [Y(1) Yi Y(2)];
@@ -2048,6 +2233,8 @@ slider5 = uicontrol(f,'Style','slider',...
             
             plot(xx,yy); hold on; % curve
             
+            str1 = strcat('\leftarrow ', num2str(i));
+            text(Xi,Yi,str1)
             
             plot(x_end,y_end,'Marker','p','Color',[.88 .48 0],'MarkerSize',10)
             hold(ha2, 'off')

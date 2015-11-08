@@ -25,7 +25,7 @@ for i=1:size(DependencyMatrix,1)
 
     x=0;
     % För att få konvergens någon gång.
-    mod_scaling = task2_begin-task1_end;
+    mod_scaling = min(Scaling,task2_begin-task1_end);
     while x==0
         rand1 = distrib6(mod_scaling*mu4,mod_scaling*std6);
         fdmin = task2_begin-task1_end-rand1;
