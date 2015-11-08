@@ -2233,8 +2233,8 @@ slider5 = uicontrol(f,'Style','slider',...
             
             plot(xx,yy); hold on; % curve
             
-            str1 = strcat('\leftarrow ', num2str(i));
-            text(Xi,Yi,str1)
+%             str1 = strcat('\leftarrow ', num2str(i));
+%             text(Xi,Yi,str1)
             
             plot(x_end,y_end,'Marker','p','Color',[.88 .48 0],'MarkerSize',10)
             hold(ha2, 'off')
