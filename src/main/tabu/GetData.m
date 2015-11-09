@@ -7,10 +7,9 @@ function [status, data] = GetData(dataParameters,logfile)
 % 0.02: 
 % 0.01: file setup
 % Linköping University, Linköping
+
 status.data = 0;
 try
-    
-    % Old load data ========================================
     % 1. Load data
     Dependencies = load( ...
         [dataParameters.path,'Dependencies.dat']);

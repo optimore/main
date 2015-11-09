@@ -82,6 +82,8 @@ try
         model.iterations = model.iterations + 1;
     end
     
+    status.iterations = int2str(model.iterations);
+    
     %Close figures
     close all;
     

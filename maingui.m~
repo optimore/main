@@ -28,13 +28,12 @@ modelParameters = struct( ...
 disp('------------------ OPTIMORE LAUNCHED ------------------')
 disp('please select one option bellow by entering a number:')
 disp('1. Create data gui. 2. Launch a fix solution sequence')
-disp('3. Print latest result. 4. Quit')
 disp('-------------------------------------------------------')
 noQuit = 1;
 
 while noQuit
     try
-        prompt = 'Select one option 1-4: '; 
+        prompt = 'Select one option 1-2, 3 for quit: '; 
         nr = input(prompt,'s');
         disp(' ');
         switch num2str(nr)
@@ -55,21 +54,19 @@ while noQuit
                     end
                 end
             case '3',
-                disp('Printing results:')
-                respath = 'target/results/';
-                d=dir([respath,'results*']);
-                [~, index] = max([d.datenum]);
-                dirpath = [respath,d(index).name];
-                files = {ls(dirpath)};
-                filepath=[dirpath,'/',strtrim(files{1})];
-                type(filepath)
-                    
-            case '4',
                 disp('Quitting');
                 pause(1);
                 clc
                 noQuit = 0;
-            
+            case '4',
+                
+                respath = target/results/';
+                d=dir([respath,'results*');
+
+                [~, index] = max([d.datenum])
+
+                fopen(d(index).name)
+                
             otherwise,
                 noQuit = 1;
         end
