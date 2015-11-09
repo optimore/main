@@ -45,8 +45,6 @@ try
             actionId = actionId + 1;
         end
     end
-    
-    fprintf(logfile, ['Logged ',num2str(actionId),' actions and costs
 catch err
     fprintf(logfile, getReport(err,'extended')); 
     rethrow(err)

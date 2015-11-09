@@ -1,4 +1,4 @@
-function [status, logpath] = CreateLog()
+function [status, logpath,logfile] = CreateLog()
 %% Create one log file for each test
 % This function creates a log file and returns a path to the file
 % Created by: Victor Bergelin
@@ -6,18 +6,20 @@ function [status, logpath] = CreateLog()
 % Version number 
 % 0.01: file setup
 % Linköping University, Linköping
-status = 1;
+
+
+status.createlog = 1;
 % 1. Get path and name:
 relativeLogPath = 'target/logs/';
 
 dateName = datestr(now(),'yyyy-mm-ddTHH-MM-SS');
-logpath = [dateName,'.log'];
+logpath = ['log_',dateName];
 logpath = [relativeLogPath,logpath];
 
 
 % 2. Create file
 try
-    fclose(fopen(logpath, 'w'));
+     logfile=fopen(logpath, 'w');
 catch err
      rethrow(err)
 end
