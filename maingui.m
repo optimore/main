@@ -22,15 +22,47 @@ modelParameters = struct( ...
     'LNS' , struct('active',0,'initial',1,'phases',[1,5,3,4]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
-% 3. run launcher
-status = mainlauncher(dataParameters, modelParameters);
 
-% 4. Print errors if they occure:
-SNames = fieldnames(status); 
-nFields = length(SNames);
-for i = 1:nFields
-    % SNames{i}
-    if (status.(SNames{i})==-1)
-       type(status.logPath)
+
+disp('------------------ OPTIMORE LAUNCHED ------------------\n')
+disp('please select one option bellow by entering a number:\n')
+disp('1. Create data gui\n2. Launch a fix solution sequence\n')
+disp('-------------------------------------------------------')
+noQuit = 1;
+
+while noQuit
+    try
+        prompt = 'Select one option 1-2, 3 for quit: '; 
+        nr = input(prompt,'s');
+
+        switch num2str(nr)
+            case '1',
+                addpath(genpath('src/main/guitest/createdatagui'));
+                GUI
+                rmpath(genpath('src/main/guitest/createdatagui'));
+            case '2',
+                % 3. run launcher
+                status = mainlauncher(dataParameters, modelParameters);
+                % 4. Print errors if they occure:
+                SNames = fieldnames(status); 
+                nFields = length(SNames);
+                for i = 1:nFields
+                    % SNames{i}
+                    if (status.(SNames{i})==-1)
+                       type(status.logPath)
+                    end
+                end
+            case '3',
+                disp('Quitting');
+                pause(1);
+                clc
+                noQuit = 0;
+            otherwise,
+                noQuit = 1;
+        end
+    catch err
+        disp(err.stack)
     end
 end
+
+
