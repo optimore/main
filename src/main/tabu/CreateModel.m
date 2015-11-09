@@ -16,7 +16,7 @@ nrTasks = tabuParameters.nrTasks;
 model.initialSolution = tabuParameters.initial;
 
 model.phases = tabuParameters.phases;
-model.activePhase = model.phases(1);
+model.activePhaseIterator = 1;
 
 try
     model.instance = struct('name',{},'id',{},'instance',{});

@@ -52,23 +52,25 @@ try
 	    try
             
             % 6.1 Get and do tabu action: This method also logs result:
-            data = model.instance{model.activePhase}. ...
+            data = model.instance{model.activePhaseIterator}. ...
                 instance.GetAndPerformAction(data);
             
 			% 6.2 Display updated solution
-            DisplayCurrentSolution(data,fig2,figaxes2,figdata);
-            pause(0.1);
+            if PLOTALLMOVES
+                DisplayCurrentSolution(data,fig2,figaxes2,figdata);
+                pause(0.1);
+            end
             
             % 6.3 Evaluate current phase and over all conditions:
-            model = model.instance{model.activePhase}. ...
+            model = model.instance{model.activePhaseIterator}. ...
                 instance.GetStoppingCriteria(model);
             
-            % 6.4 Evaluate if condation are met: *** NEEDS FIX!! ***
-            %model = model.instance{model.activePhase}. ...
-             %   instance.AreConditionsMet();
+            % 6.4 Evaluate if condation are met: *** NEEDS FIX!! *** NOT IN
+            % INSTANCE.
+            model = model.instance{model.activePhaseIterator}.instance.AreConditionsMet(model);
                         
             % End after X iterations
-            nrIterations = 100;
+            nrIterations = 1000;
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
             end            
