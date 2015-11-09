@@ -35,12 +35,12 @@ try
     model = CreateModel(tabuParameters,resultfile,logfile);
         
     % 5. Initial solution from model
-    [status,data] = InitialSolutionLauncher(model,data,logfile);   
+    %[status,data] = InitialSolutionLauncher(model,data,logfile);   
     
 	% 5. Initial figure ***DONE***
 	if PLOTALLMOVES
-		[fig1,fig2,figaxes1, figaxes2, figdata] = CreateFigures(data);
-		DisplayIntervals(data,fig1,figaxes1,figdata);
+		[top,bot_left,bot_right,figdata] = CreateFigures(data);
+		DisplayIntervals(data,bot_left,figdata);
 	end    
 
 
@@ -57,7 +57,10 @@ try
             
 			% 6.2 Display updated solution
             if PLOTALLMOVES
-                DisplayCurrentSolution(data,fig2,figaxes2,figdata);
+                DisplayCurrentSolution(data,top,figdata);
+                cost(model.iterations) = model.instance{model.activePhaseIterator}. ...
+                instance.GetCost();
+                DisplayCostFunction(cost,bot_right,figdata);
                 pause(0.1);
             end
             
@@ -70,7 +73,7 @@ try
             model = model.instance{model.activePhaseIterator}.instance.AreConditionsMet(model);
                         
             % End after X iterations
-            nrIterations = 100;
+            nrIterations = 1000;
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
             end            

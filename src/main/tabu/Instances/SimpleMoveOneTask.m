@@ -19,7 +19,7 @@ classdef SimpleMoveOneTask < handle
     
     properties(Constant = true)
         CostWeight = [1.1 1.2 1.3];
-        MaxPhaseIterations = 1000;
+        MaxPhaseIterations = 100;
     end
     
     methods        
@@ -51,7 +51,7 @@ classdef SimpleMoveOneTask < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-10E6, -10E5, -10E4, 10E4, 10E5, 10E6];
+                posibleTaskActions = [-10E8, -10E7, -10E3, 10E3, 10E7, 10E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -176,6 +176,10 @@ classdef SimpleMoveOneTask < handle
             catch err
                 rethrow(err)   
             end
+        end
+        
+        function [cost, obj] = GetCost(obj)
+            cost = obj.LowestCost;
         end
     end
 end
