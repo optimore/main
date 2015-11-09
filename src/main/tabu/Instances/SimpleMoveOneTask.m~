@@ -4,7 +4,8 @@ classdef SimpleMoveOneTask < handle
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
-        
+        CostWeight = [1.1 1.2 1.3];
+        MaxPhaseIterations = 100;
         TabuList
         Logfile 
         Resultfile
@@ -18,8 +19,7 @@ classdef SimpleMoveOneTask < handle
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 1.3];
-        MaxPhaseIterations = 100;
+       
     end
     
     methods        
@@ -94,7 +94,7 @@ classdef SimpleMoveOneTask < handle
                         
             % Do Action:
             try
-                % =========== 1st version: Using solutions ================
+                % =========== 1st version: Using solutions ==========================
                 [sortedCosts, indexes] = sort(costList);
 
                 % Loop through min-solutions in ascending order
@@ -147,7 +147,6 @@ classdef SimpleMoveOneTask < handle
             catch err
                 disp('ERROR in do action class')
                 disp(err.stack)
-                rethrow(err)
             end        
         end
                 
@@ -157,9 +156,8 @@ classdef SimpleMoveOneTask < handle
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = SimpleMoveOneTask(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                model.instance{model.activePhaseIterator} = instance;
-
+                model.instance{model.activePhaseIterator} = ...
+                    SimpleMoveOneTask(obj.Resultfile,obj.Logfile,obj.NrTasks);
                 
                 nrPhases = size(model.phases,1);
                 model.activePhaseIterator= ...
@@ -168,7 +166,7 @@ classdef SimpleMoveOneTask < handle
             end
         end
         
-        function [model, obj] = AreConditionsMet(obj,model)
+        function [model, obj] = AreConditionsMet(obj)
             try
                 if obj.LowestCost==0
                     model.conditionsAreNotMet = 0;
