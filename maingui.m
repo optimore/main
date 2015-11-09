@@ -7,7 +7,8 @@ dataParameters = struct('name',{},'path',{});
 
 % 1.1 Create data object when user selects it:
 dataObj1.name = 'A2';
-dataObj1.path = 'src/test/testdata/A2_2015-10-30T15-14-12/';
+dataObj1.path = 'src/test/testdata/Z9.1494_2015-11-09T11-32-57/';
+% A2_2015-10-30T15-14-12/';
 dataParameters{1} = dataObj1;
 
 %dataObj2.name = 'A2';
@@ -19,7 +20,7 @@ dataParameters{1} = dataObj1;
 % 2. Create models when user selects them:
 modelParameters = struct( ...
     'tabu', struct('active',1,'initial',1,'phases',[1]), ...
-    'LNS' , struct('active',0,'initial',1,'phases',[1,5,3,4]), ...
+    'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
 % 3. run launcher
