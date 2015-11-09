@@ -10,9 +10,9 @@ dataObj1.name = 'A2';
 dataObj1.path = 'src/test/testdata/A2_2015-10-30T15-14-12/';
 dataParameters{1} = dataObj1;
 
-dataObj2.name = 'A2';
-dataObj2.path = 'src/test/testdata/A2_2015-10-30T15-14-12/';
-dataParameters{2} = dataObj2;
+%dataObj2.name = 'A2';
+%dataObj2.path = 'src/test/testdata/A2_2015-10-30T15-14-12/';
+%dataParameters{2} = dataObj2;
 
 % ... keep adding objects ...
 

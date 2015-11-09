@@ -16,6 +16,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % Linköping University, Linköping
 
 status = 0;
+PLOTALLMOVES = 1;
 
 % Add timing:
 tic
@@ -36,27 +37,36 @@ try
     % 5. Initial solution from model
     [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
-    
-    % 6. Perform tabu 
-    model.conditionsAreNotMet = 1;
-    model.iterations = 1;
-    while model.conditionsAreNotMet
-        try
+	% 5. Initial figure ***DONE***
+	if PLOTALLMOVES
+		[fig1,fig2,figaxes1, figaxes2, figdata] = CreateFigures(data);
+		DisplayIntervals(data,fig1,figaxes1,figdata);
+	end    
+
+
+	% 6. Perform tabu 
+	model.conditionsAreNotMet = 1;
+	model.iterations = 1;
+
+	while model.conditionsAreNotMet
+	    try
             
             % 6.1 Get and do tabu action: This method also logs result:
             data = model.instance{model.activePhase}. ...
                 instance.GetAndPerformAction(data);
             
+			% 6.2 Display updated solution
+            DisplayCurrentSolution(data,fig2,figaxes2,figdata);
+            pause(0.1);
             
-            % 6.2 Evaluate current phase and over all conditions:
+            % 6.3 Evaluate current phase and over all conditions:
             model = model.instance{model.activePhase}. ...
                 instance.GetStoppingCriteria(model);
             
-            % 6.3 Evaluate if condation are met: *** NEEDS FIX!! ***
+            % 6.4 Evaluate if condation are met: *** NEEDS FIX!! ***
             %model = model.instance{model.activePhase}. ...
              %   instance.AreConditionsMet();
-            
-            
+                        
             % End after X iterations
             nrIterations = 100;
             if model.iterations > nrIterations
@@ -69,11 +79,13 @@ try
         model.iterations = model.iterations + 1;
     end
     
+    %Close figures
+    close all;
     
     % . If all was successful, then set statuscode to 1
     status = 1;
     
-    fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ... 
+    fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ...
         datestr(now()), '\n---------------------------------------\n']);
     
     % Close files:
@@ -84,7 +96,7 @@ catch err
     % In case of an error, set statuscode to -1
     status = -1;
     fprintf(logfile, getReport(err,'extended'));
-    fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ... 
+    fprintf(logfile, ['\nClosing tabu-log due to fatal error: ', ...
         datestr(now()), '\n---------------------------------------\n']);
     fclose('all');
 end
@@ -94,6 +106,7 @@ closetime = toc;
 
 end
 
+% COSTPLOT:
 % DEBUGPLOT=0;
 % if DEBUGPLOT % false
 %                 % 6.1.1 Print actionlist:
