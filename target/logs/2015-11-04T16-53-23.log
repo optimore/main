@@ -1,0 +1,28 @@
+---------------------------------------
+Tabu-log initiated: 04-Nov-2015 16:53:23
+
+Error loading dataError using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('load')" style="font-weight:bold">load</a>
+Unable to read file 'TimelineAttributes.dat'. No such file or directory.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetData', '/edu/henkj080/TATA62/guitest/src/main/tabu/GetData.m', 13)" style="font-weight:bold">GetData</a> (<a href="matlab: opentoline('/edu/henkj080/TATA62/guitest/src/main/tabu/GetData.m',13,0)">line 13</a>)
+    timelineAttr = load( ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/henkj080/TATA62/guitest/src/main/tabu/tabumain.m', 28)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/henkj080/TATA62/guitest/src/main/tabu/tabumain.m',28,0)">line 28</a>)
+    data = GetData(dataParameters,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mainlauncher', '/edu/henkj080/TATA62/guitest/mainlauncher.m', 42)" style="font-weight:bold">mainlauncher</a> (<a href="matlab: opentoline('/edu/henkj080/TATA62/guitest/mainlauncher.m',42,0)">line 42</a>)
+    status = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters);
+Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('load')" style="font-weight:bold">load</a>
+Unable to read file 'TimelineAttributes.dat'. No such file or directory.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GetData', '/edu/henkj080/TATA62/guitest/src/main/tabu/GetData.m', 13)" style="font-weight:bold">GetData</a> (<a href="matlab: opentoline('/edu/henkj080/TATA62/guitest/src/main/tabu/GetData.m',13,0)">line 13</a>)
+    timelineAttr = load( ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/edu/henkj080/TATA62/guitest/src/main/tabu/tabumain.m', 28)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/edu/henkj080/TATA62/guitest/src/main/tabu/tabumain.m',28,0)">line 28</a>)
+    data = GetData(dataParameters,logfile);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mainlauncher', '/edu/henkj080/TATA62/guitest/mainlauncher.m', 42)" style="font-weight:bold">mainlauncher</a> (<a href="matlab: opentoline('/edu/henkj080/TATA62/guitest/mainlauncher.m',42,0)">line 42</a>)
+    status = tabumain(dataParameters,modelParameters.tabu,logfileParameters,resultParameters);
+
+Closing tabu-log due to fatal error: 04-Nov-2015 16:53:24
+---------------------------------------
