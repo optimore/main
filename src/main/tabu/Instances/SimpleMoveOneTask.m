@@ -28,7 +28,9 @@ classdef SimpleMoveOneTask < handle
             if(nargin > 0)
                 try
                     listlength = obj.NrTasks/10;
-                    TabuList = cell(1, listlength]);
+                    tabucell = num2cell(zeros(obj.NrTasks, 1), 1);
+                    TabuList(1:listlength, 1) = tabucell;
+                    
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
