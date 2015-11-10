@@ -16,7 +16,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % Linköping University, Linköping
 
 status = 0;
-PLOTALLMOVES = 1;
+PLOTALLMOVES = 0;
 
 % Add timing:
 tic
@@ -36,7 +36,7 @@ try
     model = CreateModel(tabuParameters,resultfile,logfile);
         
     % 5. Initial solution from model
-    %[status,data] = InitialSolutionLauncher(model,data,logfile);   
+    [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
 	% 5. Initial figure ***DONE***
 	if PLOTALLMOVES
@@ -89,7 +89,7 @@ try
     end
     
     %Close figures
-    close all;
+    % close all;
     
     % . If all was successful, then set statuscode to 1
     status = 1;
