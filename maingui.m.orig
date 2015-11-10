@@ -20,7 +20,11 @@ dataParameters{1} = dataObj1;
 % 2. Create models when user selects them:
 modelParameters = struct( ...
     'tabu', struct('active',1,'initial',1,'phases',[1]), ...
+<<<<<<< HEAD
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
+=======
+    'LNS' , struct('active',0,'initial',1,'phases',[1), ...
+>>>>>>> guimaster
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
 
@@ -28,12 +32,13 @@ modelParameters = struct( ...
 disp('------------------ OPTIMORE LAUNCHED ------------------')
 disp('please select one option bellow by entering a number:')
 disp('1. Create data gui. 2. Launch a fix solution sequence')
+disp('3. Print latest result. 4. Quit')
 disp('-------------------------------------------------------')
 noQuit = 1;
 
 while noQuit
     try
-        prompt = 'Select one option 1-2, 3 for quit: '; 
+        prompt = 'Select one option 1-4: '; 
         nr = input(prompt,'s');
         disp(' ');
         switch num2str(nr)
@@ -54,19 +59,21 @@ while noQuit
                     end
                 end
             case '3',
+                disp('Printing results:')
+                respath = 'target/results/';
+                d=dir([respath,'results*']);
+                [~, index] = max([d.datenum]);
+                dirpath = [respath,d(index).name];
+                files = {ls(dirpath)};
+                filepath=[dirpath,'/',strtrim(files{1})];
+                type(filepath)
+                    
+            case '4',
                 disp('Quitting');
                 pause(1);
                 clc
                 noQuit = 0;
-            case '4',
-                
-                respath = target/results/';
-                d=dir([respath,'results*');
-
-                [~, index] = max([d.datenum])
-
-                fopen(d(index).name)
-                
+            
             otherwise,
                 noQuit = 1;
         end

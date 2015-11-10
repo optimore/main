@@ -16,7 +16,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % Linköping University, Linköping
 
 status = 0;
-PLOTALLMOVES = 0;
+PLOTALLMOVES = 1;
 
 % Add timing:
 tic
@@ -49,9 +49,6 @@ try
 	model.conditionsAreNotMet = 1;
 	model.iterations = 1;
 
-    disp('phase: ')
-    model.activePhaseIterator
-    
 	while model.conditionsAreNotMet
 	    try
             
@@ -84,6 +81,8 @@ try
         end
         model.iterations = model.iterations + 1;
     end
+    
+    status.iterations = int2str(model.iterations);
     
     %Close figures
     close all;

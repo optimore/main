@@ -1,11 +1,10 @@
-classdef SimpleMoveOneTask < handle
+classdef SMOT_TabuListTasks_2 < handle
     %SIMPLEMOVEONETASKC Summary of this class goes here
     %   
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
-        CostWeight = [1.1 1.2 1.3];
-        MaxPhaseIterations = 100;
+        
         TabuList
         Logfile 
         Resultfile
@@ -19,7 +18,8 @@ classdef SimpleMoveOneTask < handle
     end
     
     properties(Constant = true)
-       
+        CostWeight = [1.1 1.2 1.3];
+        MaxPhaseIterations = 1000;
     end
     
     methods        
@@ -40,7 +40,7 @@ classdef SimpleMoveOneTask < handle
         end  
         
         % Constructor:
-        function obj = SimpleMoveOneTask(resultfile,logfile,nrTasks)
+        function obj = SMOT_TabuListTasks_2(resultfile,logfile,nrTasks)
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
@@ -51,7 +51,7 @@ classdef SimpleMoveOneTask < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-100, -10, -1, 1, 10, 100];
+                posibleTaskActions = [-10E4, -10E3, -10E1, 10E1, 10E3, 10E4];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -94,7 +94,7 @@ classdef SimpleMoveOneTask < handle
                         
             % Do Action:
             try
-                % =========== 1st version: Using solutions ==========================
+                % =========== 1st version: Using solutions ================
                 [sortedCosts, indexes] = sort(costList);
 
                 % Loop through min-solutions in ascending order
@@ -107,11 +107,13 @@ classdef SimpleMoveOneTask < handle
                     % Compare solution with tabu list solutions
                     for j = 1:length(obj.TabuList)
                         tabuSolution = obj.TabuList{j};
-
-
+                        
+                        DataDiff = [data.tasks(:,6), actionSolution]';
+                        taskIndex = find(diff(DataDiff,1,1));
+                                                
                         % Break if action in tabulist
-                        if isequal(tabuSolution, actionSolution) == 1
-                            notintabu = 0;
+                        if ismember(A,92)
+                            notintabu = 0
                             break;
                         end
                     end
@@ -147,6 +149,7 @@ classdef SimpleMoveOneTask < handle
             catch err
                 disp('ERROR in do action class')
                 disp(err.stack)
+                rethrow(err)
             end        
         end
                 
@@ -156,8 +159,9 @@ classdef SimpleMoveOneTask < handle
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                model.instance{model.activePhaseIterator} = ...
-                    SimpleMoveOneTask(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.instance = SimpleMoveOneTask(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                model.instance{model.activePhaseIterator} = instance;
+
                 
                 nrPhases = size(model.phases,1);
                 model.activePhaseIterator= ...
@@ -166,7 +170,7 @@ classdef SimpleMoveOneTask < handle
             end
         end
         
-        function [model, obj] = AreConditionsMet(obj)
+        function [model, obj] = AreConditionsMet(obj,model)
             try
                 if obj.LowestCost==0
                     model.conditionsAreNotMet = 0;
@@ -177,4 +181,5 @@ classdef SimpleMoveOneTask < handle
         end
     end
 end
+
 

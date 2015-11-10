@@ -19,7 +19,7 @@ classdef SimpleMoveOneTask < handle
     
     properties(Constant = true)
         CostWeight = [1.1 1.2 1.3];
-        MaxPhaseIterations = 100;
+        MaxPhaseIterations = 1000;
     end
     
     methods        
@@ -27,9 +27,8 @@ classdef SimpleMoveOneTask < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 100;
-                    tabucell = cell(1,obj.NrTasks);
-                    TabuList = cell([size(tabucell) listlength]);
+                    listlength = obj.NrTasks/10;
+                    TabuList = cell(1, listlength]);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -51,7 +50,7 @@ classdef SimpleMoveOneTask < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-100, -10, -1, 1, 10, 100];
+                posibleTaskActions = [-10E4, -10E3, -10E1, 10E1, 10E3, 10E4];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;

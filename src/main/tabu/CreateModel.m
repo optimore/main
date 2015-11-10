@@ -20,16 +20,21 @@ model.activePhaseIterator = 1;
 
 try
     model.instance = struct('name',{},'id',{},'instance',{});
+    iterator = 1;
     for inst = model.phases
         switch inst
             case 1,
                 instance.name = 'SimpleMoveOneTask';
                 instance.instance = SimpleMoveOneTask(resultfile,logfile,nrTasks);
-                model.instance{1} = instance;
-            %case 2,
+                model.instance{iterator} = instance;
+            case 2,
+                instance.name = 'SMOT_TabuListTasks_2';
+                instance.instance = SMOT_TabuListTasks_2(resultfile,logfile,nrTasks);
+                model.instance{iterator} = instance;
             otherwise,
                 disp(['instance ', num2str(inst), ' not active.'])
         end
+        iterator = iterator + 1;
     end
 catch err
     rethrow(err)

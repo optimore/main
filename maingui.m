@@ -7,7 +7,8 @@ dataParameters = struct('name',{},'path',{});
 
 % 1.1 Create data object when user selects it:
 dataObj1.name = 'A2';
-dataObj1.path = 'src/test/testdata/A2_2015-10-30T15-14-12/';
+dataObj1.path = 'src/test/testdata/Z9.1494_2015-11-09T11-32-57/';
+% A2_2015-10-30T15-14-12/';
 dataParameters{1} = dataObj1;
 
 %dataObj2.name = 'A2';
@@ -18,29 +19,32 @@ dataParameters{1} = dataObj1;
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',[1]), ...
-    'LNS' , struct('active',0,'initial',1,'phases',[1,5,3,4]), ...
+    'tabu', struct('active',1,'initial',1,'phases',[2]), ...
+    'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
 
 
-disp('------------------ OPTIMORE LAUNCHED ------------------\n')
-disp('please select one option bellow by entering a number:\n')
-disp('1. Create data gui\n2. Launch a fix solution sequence\n')
+disp('------------------ OPTIMORE LAUNCHED ------------------')
+disp('please select one option bellow by entering a number:')
+disp('1. Create data gui. 2. Launch main GUI')
+disp('3. Launch a fix solution sequence. 4. Print latest result. 5. Quit')
 disp('-------------------------------------------------------')
 noQuit = 1;
 
 while noQuit
     try
-        prompt = 'Select one option 1-2, 3 for quit: '; 
+        prompt = 'Select one option: '; 
         nr = input(prompt,'s');
-
+        disp(' ');
         switch num2str(nr)
             case '1',
                 addpath(genpath('src/main/guitest/createdatagui'));
                 GUI
                 rmpath(genpath('src/main/guitest/createdatagui'));
             case '2',
+                test_maingui;
+            case '3',
                 % 3. run launcher
                 status = mainlauncher(dataParameters, modelParameters);
                 % 4. Print errors if they occure:
@@ -52,11 +56,22 @@ while noQuit
                        type(status.logPath)
                     end
                 end
-            case '3',
+            case '4',
+                disp('Printing results:')
+                respath = 'target/results/';
+                d=dir([respath,'results*']);
+                [~, index] = max([d.datenum]);
+                dirpath = [respath,d(index).name];
+                files = {ls(dirpath)};
+                filepath=[dirpath,'/',strtrim(files{1})];
+                type(filepath)
+                    
+            case '5',
                 disp('Quitting');
                 pause(1);
                 clc
                 noQuit = 0;
+            
             otherwise,
                 noQuit = 1;
         end
