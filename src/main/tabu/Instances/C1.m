@@ -1,5 +1,5 @@
-classdef SimpleMoveOneTask < handle
-    %SIMPLEMOVEONETASKC Summary of this class goes here
+classdef C1 < handle
+    %C1 Summary of this class goes here
     %   
     % 
     
@@ -19,7 +19,7 @@ classdef SimpleMoveOneTask < handle
     
     properties(Constant = true)
         CostWeight = [1.1 1.2 1.3];
-        MaxPhaseIterations = 100;
+        MaxPhaseIterations = 20;
     end
     
     methods        
@@ -40,7 +40,8 @@ classdef SimpleMoveOneTask < handle
         end  
         
         % Constructor:
-        function obj = SimpleMoveOneTask(resultfile,logfile,nrTasks)
+        function obj = C1(resultfile,logfile,nrTasks)
+            disp('Running C1')
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
@@ -157,11 +158,12 @@ classdef SimpleMoveOneTask < handle
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = SimpleMoveOneTask(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.instance = C1(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 
                 
-                nrPhases = size(model.phases,1);
+                nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
