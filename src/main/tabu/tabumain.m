@@ -16,7 +16,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % Linköping University, Linköping
 
 status = 0;
-PLOTALLMOVES = 0;
+PLOTALLMOVES = 1;
 
 % Add timing:
 tic
@@ -36,7 +36,7 @@ try
     model = CreateModel(tabuParameters,resultfile,logfile);
         
     % 5. Initial solution from model
-    [status,data] = InitialSolutionLauncher(model,data,logfile);   
+    %[status,data] = InitialSolutionLauncher(model,data,logfile);   
     
 	% 5. Initial figure ***DONE***
 	if PLOTALLMOVES
@@ -48,9 +48,6 @@ try
 	% 6. Perform tabu 
 	model.conditionsAreNotMet = 1;
 	model.iterations = 1;
-
-    disp('phase: ')
-    model.activePhaseIterator
     
 	while model.conditionsAreNotMet
 	    try

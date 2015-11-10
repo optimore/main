@@ -11,15 +11,12 @@ dataObj1.path = 'src/test/testdata/Z9.1494_2015-11-09T11-32-57/';
 % A2_2015-10-30T15-14-12/';
 dataParameters{1} = dataObj1;
 
-%dataObj2.name = 'A2';
-%dataObj2.path = 'src/test/testdata/A2_2015-10-30T15-14-12/';
-%dataParameters{2} = dataObj2;
+models.m1 = [2,1];
 
-% ... keep adding objects ...
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',[1]), ...
+    'tabu', struct('active',1,'initial',1,'phases',[2,1]), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
