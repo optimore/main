@@ -8,7 +8,7 @@
 %     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
 %     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
-path1 = '/edu/henkj080/TATA62/guitest/src/main/guitest/guilauncher';
+path1 = 'src/main/guitest/guilauncher';
 addpath(path1);
 %model_fixtures
 test_launcher;

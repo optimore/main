@@ -1,4 +1,4 @@
-classdef SimpleMoveOneTask < handle
+classdef SMOT_TabuListTasks_2 < handle
     %SIMPLEMOVEONETASKC Summary of this class goes here
     %   
     % 
@@ -27,8 +27,9 @@ classdef SimpleMoveOneTask < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = obj.NrTasks/10;
-                    TabuList = cell(1, listlength]);
+                    listlength = 100;
+                    tabucell = cell(1,obj.NrTasks);
+                    TabuList = cell([size(tabucell) listlength]);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -39,7 +40,7 @@ classdef SimpleMoveOneTask < handle
         end  
         
         % Constructor:
-        function obj = SimpleMoveOneTask(resultfile,logfile,nrTasks)
+        function obj = SMOT_TabuListTasks_2(resultfile,logfile,nrTasks)
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
@@ -106,11 +107,13 @@ classdef SimpleMoveOneTask < handle
                     % Compare solution with tabu list solutions
                     for j = 1:length(obj.TabuList)
                         tabuSolution = obj.TabuList{j};
-
-
+                        
+                        DataDiff = [data.tasks(:,6), actionSolution]';
+                        taskIndex = find(diff(DataDiff,1,1));
+                                                
                         % Break if action in tabulist
-                        if isequal(tabuSolution, actionSolution) == 1
-                            notintabu = 0;
+                        if ismember(A,92)
+                            notintabu = 0
                             break;
                         end
                     end
@@ -178,4 +181,5 @@ classdef SimpleMoveOneTask < handle
         end
     end
 end
+
 

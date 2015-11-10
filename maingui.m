@@ -19,7 +19,7 @@ dataParameters{1} = dataObj1;
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',[1]), ...
+    'tabu', struct('active',1,'initial',1,'phases',[2]), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
@@ -27,14 +27,14 @@ modelParameters = struct( ...
 
 disp('------------------ OPTIMORE LAUNCHED ------------------')
 disp('please select one option bellow by entering a number:')
-disp('1. Create data gui. 2. Launch a fix solution sequence')
-disp('3. Print latest result. 4. Quit')
+disp('1. Create data gui. 2. Launch main GUI')
+disp('3. Launch a fix solution sequence. 4. Print latest result. 5. Quit')
 disp('-------------------------------------------------------')
 noQuit = 1;
 
 while noQuit
     try
-        prompt = 'Select one option 1-4: '; 
+        prompt = 'Select one option: '; 
         nr = input(prompt,'s');
         disp(' ');
         switch num2str(nr)
@@ -43,6 +43,8 @@ while noQuit
                 GUI
                 rmpath(genpath('src/main/guitest/createdatagui'));
             case '2',
+                test_maingui;
+            case '3',
                 % 3. run launcher
                 status = mainlauncher(dataParameters, modelParameters);
                 % 4. Print errors if they occure:
@@ -54,7 +56,7 @@ while noQuit
                        type(status.logPath)
                     end
                 end
-            case '3',
+            case '4',
                 disp('Printing results:')
                 respath = 'target/results/';
                 d=dir([respath,'results*']);
@@ -64,7 +66,7 @@ while noQuit
                 filepath=[dirpath,'/',strtrim(files{1})];
                 type(filepath)
                     
-            case '4',
+            case '5',
                 disp('Quitting');
                 pause(1);
                 clc

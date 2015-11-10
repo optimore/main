@@ -49,6 +49,9 @@ try
 	model.conditionsAreNotMet = 1;
 	model.iterations = 1;
 
+    disp('phase: ')
+    model.activePhaseIterator
+    
 	while model.conditionsAreNotMet
 	    try
             
