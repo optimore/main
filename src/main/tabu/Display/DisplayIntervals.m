@@ -1,9 +1,8 @@
-function [] = DisplayIntervals(data,fig,figaxes,figdata)
+function [] = DisplayIntervals(data,fig,figdata)
 % Display the intervals for the tasks
 
-% Set current axis
-set(0, 'currentfigure', fig);
-set(fig, 'currentaxes', figaxes);
+% Set current plot
+subplot(fig);
 
 % No of timesteps
 L = figdata.L;
@@ -19,7 +18,7 @@ set(gca,'FontSize',10);
 title('Plot of task intervals');
 xlabel('Time');
 ylabel('Timeline');
-hold(figaxes, 'on')
+%hold(figaxes, 'on') 
 Color = [1 1 0.1; 1 0 1; 0 1 1; 1 0 0; 0 1 0; 0 0 1; 0.5 0.5 0.5; 0 0 0];
 % For all tasks
 for i=1:size(data.tasks,1)
@@ -28,7 +27,7 @@ for i=1:size(data.tasks,1)
     line([data.tasks(i,3) data.tasks(i,3)], [data.tasks(i,4)+0.1 data.tasks(i,4)-0.1], 'Color',Color(1+mod(i,8),:));
 end
 
-hold(figaxes, 'off')
+%hold(figaxes, 'off')
 
 end
 

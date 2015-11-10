@@ -27,10 +27,10 @@ try
                 break;
             end
         end
-
+        
         
         if notintabu == 1
-        
+            
             % Add action to tabu list
             actioncell = num2cell(actionSolution, 1);
             tabuList(2:end) = tabuList(1:end-1);
@@ -49,59 +49,56 @@ try
         
     end
     
-%     % ========== 2nd version: Using costs ============================
-%     [sortedCosts, indexes] = sort(costList);
-%     
-%     for i = 1:length(costList)
-%         
-%         notintabu = 1;
-%         index = indexes(i);
-%         actionCost = sortedCosts(i);
-%         
-%         % Compare solution with tabu list solutions
-%         for j = 1:length(tabuList)
-%             tabuCost = tabuList(j);
-%             
-%             
-%             % Break if action in tabulist
-%             if tabuCost == actionCost
-%                 notintabu = 0;
-%                 break;
-%             end
-%         end
-% 
-%         
-%         if notintabu == 1
-%             
-%             % Add action to tabu list
-%             %actioncell = num2cell(actionSolution, 1);
-%             tabuList(2:end) = tabuList(1:end-1);
-%             tabuList(1) = actionCost;
-%             
-%             % Perform action
-%             lowestCost = sortedCosts(i);
-%             data.tasks(:,6) = actionList{index}.actionSolution(:,2);
-%             
-%             fprintf(logfile, ['Calculated ',num2str(length(costList)), ...
-%                 ' actions. Lowest cost is ', num2str(actionCost), ...
-%                 '. Chose action nr', num2str(i),'.\n']);
-%             break;
-%         end
-%     end
-%     
+    %     % ========== 2nd version: Using costs ============================
+    %     [sortedCosts, indexes] = sort(costList);
+    %
+    %     for i = 1:length(costList)
+    %
+    %         notintabu = 1;
+    %         index = indexes(i);
+    %         actionCost = sortedCosts(i);
+    %
+    %         % Compare solution with tabu list solutions
+    %         for j = 1:length(tabuList)
+    %             tabuCost = tabuList(j);
+    %
+    %
+    %             % Break if action in tabulist
+    %             if tabuCost == actionCost
+    %                 notintabu = 0;
+    %                 break;
+    %             end
+    %         end
+    %
+    %
+    %         if notintabu == 1
+    %
+    %             % Add action to tabu list
+    %             %actioncell = num2cell(actionSolution, 1);
+    %             tabuList(2:end) = tabuList(1:end-1);
+    %             tabuList(1) = actionCost;
+    %
+    %             % Perform action
+    %             lowestCost = sortedCosts(i);
+    %             data.tasks(:,6) = actionList{index}.actionSolution(:,2);
+    %
+    %             fprintf(logfile, ['Calculated ',num2str(length(costList)), ...
+    %                 ' actions. Lowest cost is ', num2str(actionCost), ...
+    %                 '. Chose action nr', num2str(i),'.\n']);
+    %             break;
+    %         end
+    %     end
+    %
     
-%     fprintf(logfile, ['Calculated ',num2str(length(costList)), ...
-%         ' actions. Lowest cost is ', num2str(lowestCost),'.\n']);
+    %     fprintf(logfile, ['Calculated ',num2str(length(costList)), ...
+    %         ' actions. Lowest cost is ', num2str(lowestCost),'.\n']);
     
     
-
-    status = 1;
 catch err
-    
-    
-    status = -1;
+    fprintf(obj.Logfile, getReport(err,'extended'));
+    rethrow(err)
 end
-   
+
 
 
 end
