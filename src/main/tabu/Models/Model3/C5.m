@@ -42,7 +42,7 @@
         
         % Constructor:
         function obj = C5(resultfile,logfile,nrTasks)
-            disp(['Running C5: tasks: ',num2str(nrTasks))
+            disp(['Running C5: tasks: ',num2str(nrTasks)]);
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Logfile = logfile;

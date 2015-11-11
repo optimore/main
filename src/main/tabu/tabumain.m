@@ -27,7 +27,7 @@ try
 
     % 2. Read data and data parameters:
     [status, data] = GetData(dataParameters,logfile);
-    tabuParameters.nrTasks = size(data.tasks,2);
+    tabuParameters.nrTasks = size(data.tasks,1);
     
     % 3. Create result:
     [resultfile,runId] = CreateResult(resultParameters,logfile);
