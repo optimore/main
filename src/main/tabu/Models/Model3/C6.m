@@ -113,8 +113,13 @@ classdef C6 < handle
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-                            notintabu = 0;
-                            break;
+                            if costList(index) < obj.LowestCost
+                                % Aspiration criteria
+                                dips('Asipiration criteria C5')
+                            else
+                                notintabu = 0;
+                                break;
+                            end
                         end
                     end
 
