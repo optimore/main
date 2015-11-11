@@ -36,7 +36,7 @@ try
     model = CreateModel(tabuParameters,resultfile,logfile);
         
     % 5. Initial solution from model
-    %[status,data] = InitialSolutionLauncher(model,data,logfile);   
+    [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
 	% 5. Initial figure ***DONE***
 	if PLOTALLMOVES
@@ -61,8 +61,10 @@ try
                 DisplayCurrentSolution(data,top,figdata);
                 cost(model.iterations) = model.instance{model.activePhaseIterator}. ...
                 instance.GetCost();
+                figdata.iteration = model.iterations;
+                figdata.phase = model.activePhaseIterator;
                 DisplayCostFunction(cost,bot_right,figdata);
-                pause(0.1);
+                pause(0.01);
             end
             
             % 6.3 Evaluate current phase and over all conditions:

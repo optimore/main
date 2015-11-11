@@ -22,29 +22,12 @@ try
     data.taskcolumnname = {'id','first start time','last end time', ...
         'timeline id', 'task length', ...
         'actual start time placement (so that the task can move; =0 now)'};
-    data.tasks = Tasks;
-    data.dependencies = Dependencies(:,2:5);
+      
+    data.tasks = Tasks(Tasks(:,6)==1,1:5);
+    data.dependencies = Dependencies(Dependencies(:,6)==1,2:5);
     
-%     zeros(nrtasks,6);
-%     data.tasks(:,1) = [1:nrtasks]';
-%     data.tasks(:,2:4) = round(timelineAttr(:,1:3));
-%     data.tasks(:,5) = timelineSolution(:,2);    
-%     % 3. Create dependency representation
-%     nrdependencies = size(depencencyMat,1);
-%     data.dependencies = zeros(nrdependencies,4);
-%     
-%     for i = 1:nrdependencies
-%         % 1st task in dep
-%         data.dependencies(i,1) = GetId(depencencyMat(i,3:4),data.tasks);
-%         % 2nd task in dep
-%         data.dependencies(i,2) = GetId(depencencyMat(i,1:2),data.tasks);
-%         % Min and max of distance between tasks
-%         data.dependencies(i,3:4) = depencencyAttr(i,1:2);
-%     end
-%     
-%     % Uncomment to print the tasks and dependencies:
-%     % data.tasks
-%     % data.dependencies
+    data.tasks(:,6) = 0;
+    
     status.data = 1;
     
 catch err

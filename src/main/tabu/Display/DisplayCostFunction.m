@@ -1,32 +1,28 @@
 function [] = DisplayCostFunction(cost,fig,figdata)
 %DISPLAYCOSTFUNTION plots cost function value against iteration
 
-
-% Set current plot
-subplot(fig);
-
-% Y-axis
-%no_of_iterations = length(cost);
-%T = cost(no_of_iterations - round(no_of_iterations/5));
-
-% X-axis
-%L = length(cost) - length(cost)/5;
-
-% Visualize costs:
-cla reset
-
-%axis([-0.1*L,1.1*L,0,T+1])
-set(gca,'FontSize',10);
-
-currentcost_s = '';
-currentcost_s = strcat('Current cost:',num2str(cost(end)));
-title(currentcost_s);
-xlabel('Number of iterations');
-ylabel('CostFunction value');
-
-hold(fig, 'on')
-plot(cost);
-hold(fig,'off')
+try
+    % Set current plot
+    h1 = subplot(fig);
+    
+    % Visualize costs:
+    cla reset
+    
+    %axis([-0.1*L,1.1*L,0,T+1])
+    set(gca,'FontSize',10);
+    
+    title(sprintf('Current cost: %s\nIteration: %s\nActivePhase: %s\n', num2str(cost(end)), num2str(figdata.iteration),  num2str(figdata.phase)));
+    xlabel('Number of iterations');
+    ylabel('CostFunction value (LOG)');
+    
+    hold(fig, 'on')
+    plot(log(cost));
+    hold(fig,'off')
+    
+catch err
+    rethrow(err)
+    fprintf(obj.Logfile, getReport(err,'extended'));
+end
 
 end
 
