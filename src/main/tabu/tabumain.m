@@ -61,7 +61,7 @@ try
                 cost(model.iterations) = model.instance{model.activePhaseIterator}. ...
                 instance.GetCost();
                 DisplayCostFunction(cost,bot_right,figdata);
-                pause(0.1);
+                pause(0.01);
             end
             
             % 6.3 Evaluate current phase and over all conditions:
