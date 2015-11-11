@@ -96,7 +96,7 @@ while noQuit
                     for i = 1:nFields
                         % SNames{i}
                         if (status.(SNames{i})==-1)
-                           type(status.logPath)
+                           type(status.logPath);
                         end
                     end
                 else
