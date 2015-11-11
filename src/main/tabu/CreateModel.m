@@ -39,6 +39,20 @@ try
                 instance.name = 'C4';
                 instance.instance = C4(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
+            case 5,
+                instance.name = 'C5';
+                instance.instance = C5(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 6,
+                instance.name = 'C6';
+                instance.instance = C6(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 7,
+                instance.name = 'C7';
+                instance.instance = C7(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            %case *,
+                
             otherwise,
                 disp(['instance ', num2str(inst), ' not active.'])
         end

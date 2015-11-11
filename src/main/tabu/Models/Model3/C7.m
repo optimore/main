@@ -1,10 +1,9 @@
-classdef C1 < handle
-    %C1 Summary of this class goes here
+classdef C7 < handle
+    %C4 Summary of this class goes here
     %   
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
-        
         TabuList
         Logfile 
         Resultfile
@@ -15,11 +14,11 @@ classdef C1 < handle
         IterationId=1;
         LowestCost = Inf;
         ActionSolution = [];
+        MaxPhaseIterations
     end
     
     properties(Constant = true)
         CostWeight = [1.1 1.2 3];
-        MaxPhaseIterations = 100;
     end
     
     methods        
@@ -40,9 +39,10 @@ classdef C1 < handle
         end  
         
         % Constructor:
-        function obj = C1(resultfile,logfile,nrTasks)
-            disp('Running C1')
-            obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+        function obj = C7(resultfile,logfile,nrTasks)
+            disp('Running C7')
+            obj.NrTasks = nrTasks;
+            obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
@@ -52,7 +52,7 @@ classdef C1 < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-3E8 3E8];
+                posibleTaskActions = [-5E6,-1E4,1E4,5E6];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -158,7 +158,7 @@ classdef C1 < handle
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = C1(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.instance = C4(obj.Resultfile,obj.Logfile,obj.NrTasks);
                 model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 

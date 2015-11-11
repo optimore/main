@@ -1,4 +1,4 @@
-    classdef C2 < handle
+    classdef C5 < handle
     %C2 Summary of this class goes here
     %   
     % 
@@ -15,11 +15,12 @@
         IterationId=1;
         LowestCost = Inf;
         ActionSolution = [];
+        MaxPhaseIterations;
     end
     
     properties(Constant = true)
         CostWeight = [1.1 1.2 3];
-        MaxPhaseIterations = 100;
+        
     end
     
     methods        
@@ -40,9 +41,10 @@
         end  
         
         % Constructor:
-        function obj = C2(resultfile,logfile,nrTasks)
-            disp('Running C2')
+        function obj = C5(resultfile,logfile,nrTasks)
+            disp(['Running C5: tasks: ',num2str(nrTasks))
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+            obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
@@ -52,7 +54,7 @@
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-1.5E8, 1.5E8];
+                posibleTaskActions = [-1E8, 1E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
