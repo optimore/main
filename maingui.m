@@ -14,11 +14,12 @@ clc; close all;
 % Models, with selected phases
 models.m1 = [1,2,3,4];
 models.m2 = [5,6,7];
+models.m3 = [6,7];
 
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',models.m2), ...
+    'tabu', struct('active',1,'initial',1,'phases',models.m3), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 

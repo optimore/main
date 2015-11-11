@@ -30,7 +30,7 @@ try
     tabuParameters.nrTasks = size(data.tasks,1);
     
     % 3. Create result:
-    [resultfile,runId] = CreateResult(resultParameters,logfile);
+    [resultfile,runId] = CreateResult(resultParameters,dataParameters,logfile);
     
     % 4. Create model and all instances:
     model = CreateModel(tabuParameters,resultfile,logfile);
