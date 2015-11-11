@@ -52,7 +52,7 @@ classdef C4 < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-1E7,-1E6,-1E4,1E4,1E6,1E7];
+                posibleTaskActions = [-1E6,-1E4,1E4,1E6];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;

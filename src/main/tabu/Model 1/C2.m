@@ -1,4 +1,4 @@
-classdef C2 < handle
+    classdef C2 < handle
     %C2 Summary of this class goes here
     %   
     % 
@@ -19,7 +19,7 @@ classdef C2 < handle
     
     properties(Constant = true)
         CostWeight = [1.1 1.2 3];
-        MaxPhaseIterations = 60;
+        MaxPhaseIterations = 100;
     end
     
     methods        
@@ -52,7 +52,7 @@ classdef C2 < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-5E8, 5E8];
+                posibleTaskActions = [-1.5E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;

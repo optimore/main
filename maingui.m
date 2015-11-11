@@ -7,7 +7,7 @@ dataParameters = struct('name',{},'path',{});
 
 % 1.1 Create data object when user selects it:
 dataObj1.name = 'A2';
-dataObj1.path = 'src/test/testdata/Z9.1494_2015-11-09T11-32-57/';
+dataObj1.path = 'src/test/testdata/New/A25_2015-11-11T06-31-36/';
 % A2_2015-10-30T15-14-12/';
 dataParameters{1} = dataObj1;
 
