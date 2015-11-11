@@ -1,5 +1,5 @@
-    classdef C5 < handle
-    %C2 Summary of this class goes here
+classdef C3 < handle
+    %C3 Summary of this class goes here
     %   
     % 
     
@@ -15,12 +15,12 @@
         IterationId=1;
         LowestCost = Inf;
         ActionSolution = [];
-        MaxPhaseIterations;
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 3];
-        
+        % dependency overlap bounds
+        CostWeight = [2 1 1];
+        MaxPhaseIterations = 100;
     end
     
     methods        
@@ -28,9 +28,9 @@
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = round(100);
+                    listlength = 100;
                     tabucell = cell(1,obj.NrTasks);
-                    TabuList = cell(1, obj.NrTasks, listlength);
+                    TabuList = cell([size(tabucell) listlength]);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -41,10 +41,9 @@
         end  
         
         % Constructor:
-        function obj = C5(resultfile,logfile,nrTasks)
-            disp(['Running C5: tasks: ',num2str(nrTasks)]);
+        function obj = C3(resultfile,logfile,nrTasks)
+            disp('Running C3')
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
-            obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
@@ -54,7 +53,7 @@
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-1E8, 1E8];
+                posibleTaskActions = [-0.75E8, 0.75E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -114,13 +113,8 @@
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-                            if costList(index) < obj.LowestCost
-                                % Aspiration criteria
-                                dips('Asipiration criteria C5')
-                            else
-                                notintabu = 0;
-                                break;
-                            end
+                            notintabu = 0;
+                            break;
                         end
                     end
 
@@ -165,7 +159,7 @@
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = C2(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.instance = C3(obj.Resultfile,obj.Logfile,obj.NrTasks);
                 model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 

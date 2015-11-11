@@ -61,6 +61,8 @@ try
                 DisplayCurrentSolution(data,top,figdata);
                 cost(model.iterations) = model.instance{model.activePhaseIterator}. ...
                 instance.GetCost();
+                figdata.iteration = model.iterations;
+                figdata.phase = model.activePhaseIterator;
                 DisplayCostFunction(cost,bot_right,figdata);
                 pause(0.01);
             end

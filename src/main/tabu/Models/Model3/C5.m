@@ -114,6 +114,7 @@
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
+<<<<<<< HEAD
                             if costList(index) < obj.LowestCost
                                 % Aspiration criteria
                                 dips('Asipiration criteria C5')
@@ -121,6 +122,10 @@
                                 notintabu = 0;
                                 break;
                             end
+=======
+                            notintabu = 0;
+                            break;
+>>>>>>> devData
                         end
                     end
 
