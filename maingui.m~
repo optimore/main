@@ -13,12 +13,11 @@ dataParameters{1} = dataObj1;
 
 % Models, with selected phases
 models.m1 = [1,2,3,4];
-models.m2 = [2,3,4];
 
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',models.m2), ...
+    'tabu', struct('active',1,'initial',1,'phases',models.m1), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
@@ -57,7 +56,7 @@ while noQuit
                 filename = [];
                 for i = 1:length({DataDir.name})
                     thisfilename = cellstr(getfield(DataDir,{i},'name'));
-                    pathname = [pathname; strcat(pathdir,thisfilename,'/')];
+                    pathname = [pathname; strcat(pathdir,thisfilename)];
                     filename = [filename; thisfilename];
                 end
 
@@ -125,3 +124,51 @@ while noQuit
     end
 end
 
+
+%%
+
+prompt = 'Select data (A, B, E, F: 1-100: as A1,B24 etc.): '; 
+selected_data = input(prompt,'s');
+
+datatype = selected_data(1);
+datacomp = selected_data(2:end);
+                
+pathdir = 'src/test/testdata/New/';
+DataDir=dir([pathdir,'*_*']);
+pathname = [];
+filename = [];
+for i = 1:length({DataDir.name})
+    thisfilename = cellstr(getfield(DataDir,{i},'name'));
+    pathname = [pathname; strcat(pathdir,thisfilename)];
+    filename = [filename; thisfilename];
+end
+
+
+% listofindexes = [];
+
+dataParameters = struct('name',{},'path',{});
+
+for ii=1:length(filename) 
+    name = strtok(filename(ii),'_');
+    if numel(char(name)) == numel(char(selected_data)) && ...
+            all(char(name) == char(selected_data))
+        dataObj.name = filename(ii);
+        dataObj.path = pathname(ii);
+        dataParameters{1} = dataObj;  
+        break;
+    end
+end
+
+% listofcomplexisies = [];
+% for iii=listofindexes
+%     listofcomplexisies = [];
+% end
+
+% 
+% for i = 1:length(filename)
+%    
+%     dataObj.name = filename(i);
+%     dataObj.path = [pathdir,pathname(i)];
+%     dataParameters{i} = dataObj;  
+% end
+%                 

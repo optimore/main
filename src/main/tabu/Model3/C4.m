@@ -1,5 +1,5 @@
-classdef SimpleMoveOneTask < handle
-    %SIMPLEMOVEONETASKC Summary of this class goes here
+classdef C4 < handle
+    %C4 Summary of this class goes here
     %   
     % 
     
@@ -18,8 +18,8 @@ classdef SimpleMoveOneTask < handle
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 1.3];
-        MaxPhaseIterations = 100;
+        CostWeight = [1.1 1.2 3];
+        MaxPhaseIterations = 200;
     end
     
     methods        
@@ -27,10 +27,9 @@ classdef SimpleMoveOneTask < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = obj.NrTasks/10;
-                    tabucell = num2cell(zeros(obj.NrTasks, 1), 1);
-                    TabuList(1:listlength, 1) = tabucell;
-                    
+                    listlength = 100;
+                    tabucell = cell(1,obj.NrTasks);
+                    TabuList = cell([size(tabucell) listlength]);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -41,7 +40,8 @@ classdef SimpleMoveOneTask < handle
         end  
         
         % Constructor:
-        function obj = SimpleMoveOneTask(resultfile,logfile,nrTasks)
+        function obj = C4(resultfile,logfile,nrTasks)
+            disp('Running C4')
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
@@ -52,11 +52,7 @@ classdef SimpleMoveOneTask < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-<<<<<<< HEAD
-                posibleTaskActions = [-10E4, -10E3, -10E1, 10E1, 10E3, 10E4];
-=======
-                posibleTaskActions = [-10E8, -10E7, -10E3, 10E3, 10E7, 10E8];
->>>>>>> 724b0fb46026634db8d9347cb04bece4c844724f
+                posibleTaskActions = [-1E6,-1E4,1E4,1E6];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -162,11 +158,12 @@ classdef SimpleMoveOneTask < handle
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = SimpleMoveOneTask(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.instance = C4(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 
-                
-                nrPhases = size(model.phases,1);
+                % Take next in phase order
+                nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 

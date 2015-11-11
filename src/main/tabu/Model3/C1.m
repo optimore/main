@@ -1,5 +1,5 @@
-classdef C2 < handle
-    %C2 Summary of this class goes here
+classdef C1 < handle
+    %C1 Summary of this class goes here
     %   
     % 
     
@@ -18,13 +18,8 @@ classdef C2 < handle
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 1.3];
-<<<<<<< HEAD:src/main/tabu/Instances/SimpleMoveOneTask.m
-
+        CostWeight = [1.1 1.2 3];
         MaxPhaseIterations = 100;
-=======
-        MaxPhaseIterations = 20;
->>>>>>> 4c7530d9c0714570c08ee07b486d5ac5cbbd064e:src/main/tabu/Instances/C2.m
     end
     
     methods        
@@ -32,10 +27,9 @@ classdef C2 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = obj.NrTasks/10;
-                    tabucell = num2cell(zeros(obj.NrTasks, 1), 1);
-                    TabuList(1:listlength, 1) = tabucell;
-                    
+                    listlength = 100;
+                    tabucell = cell(1,obj.NrTasks);
+                    TabuList = cell([size(tabucell) listlength]);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -46,8 +40,8 @@ classdef C2 < handle
         end  
         
         % Constructor:
-        function obj = C2(resultfile,logfile,nrTasks)
-            disp('Running C2')
+        function obj = C1(resultfile,logfile,nrTasks)
+            disp('Running C1')
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
@@ -58,11 +52,7 @@ classdef C2 < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-<<<<<<< HEAD:src/main/tabu/Instances/SimpleMoveOneTask.m
-                posibleTaskActions = [-2*10E7, -5*10E6, -10E5, 10E5, 5*10E6, 2*10E7];
-=======
-                posibleTaskActions = [-2E7, 2E7];
->>>>>>> 4c7530d9c0714570c08ee07b486d5ac5cbbd064e:src/main/tabu/Instances/C2.m
+                posibleTaskActions = [-3E8 3E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -168,11 +158,11 @@ classdef C2 < handle
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = C2(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.instance = C1(obj.Resultfile,obj.Logfile,obj.NrTasks);
                 model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 
-                
+                % Take next in phase order
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
