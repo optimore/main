@@ -1,4 +1,5 @@
 cd ../guitest
+git checkout master
 git pull origin master
 cd ../tabu
 git remote add guiremote ../guitest

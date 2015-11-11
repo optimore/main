@@ -16,7 +16,7 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % Linköping University, Linköping
 
 status = 0;
-PLOTALLMOVES = 0;
+PLOTALLMOVES = 1;
 
 % Add timing:
 tic
@@ -24,6 +24,7 @@ tic
 try
     % 1. Setup logging:
     [status, logfile] = GetLog(logfileParameters);
+
     % 2. Read data and data parameters:
     [status, data] = GetData(dataParameters,logfile);
     tabuParameters.nrTasks = size(data.tasks,2);
@@ -39,15 +40,15 @@ try
     
 	% 5. Initial figure ***DONE***
 	if PLOTALLMOVES
-		[fig1,fig2,figaxes1, figaxes2, figdata] = CreateFigures(data);
-		DisplayIntervals(data,fig1,figaxes1,figdata);
+		[top,bot_left,bot_right,figdata] = CreateFigures(data);
+		DisplayIntervals(data,bot_left,figdata);
 	end    
 
 
 	% 6. Perform tabu 
 	model.conditionsAreNotMet = 1;
 	model.iterations = 1;
-
+    
 	while model.conditionsAreNotMet
 	    try
             
@@ -57,8 +58,11 @@ try
             
 			% 6.2 Display updated solution
             if PLOTALLMOVES
-                DisplayCurrentSolution(data,fig2,figaxes2,figdata);
-                pause(0.1);
+                DisplayCurrentSolution(data,top,figdata);
+                cost(model.iterations) = model.instance{model.activePhaseIterator}. ...
+                instance.GetCost();
+                DisplayCostFunction(cost,bot_right,figdata);
+                pause(0.01);
             end
             
             % 6.3 Evaluate current phase and over all conditions:
@@ -82,7 +86,7 @@ try
     end
     
     %Close figures
-    close all;
+    % close all;
     
     % . If all was successful, then set statuscode to 1
     status = 1;

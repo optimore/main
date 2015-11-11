@@ -1,13 +1,22 @@
-function [fig1,fig2,figaxes1,figaxes2,figdata] = CreateFigures(data)
+function [top,bot_left, bot_right,figdata] = CreateFigures(data)
 % Initialize figures for solution plot
 
 close all;
 
 fig1 = figure('Visible','on','Position',[10,100,1400,1000]);
-figaxes1 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
+%figaxes1 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
 
-fig2 = figure('Visible','on','Position',[10,100,1400,1000]);
-figaxes2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
+top = subplot(2,2,1:2);
+bot_left = subplot(2,2,3);
+bot_right = subplot(2,2,4);
+
+set (fig1, 'Units', 'normalized', 'Position', [0,0,1,1]);
+% 
+% top = subplot(2,1,1);
+% bot = subplot(2,1,2);
+
+%fig2 = figure('Visible','on','Position',[10,100,1400,1000]);
+%figaxes2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
 
 % Make x-axis length of max end of tasks
 figdata.L = 1.1*max(data.tasks(:,3));
