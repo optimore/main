@@ -163,7 +163,10 @@ classdef V2 < handle
                 
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
+            disp(obj.LowestCost(1))
+            disp(obj.IterationId-obj.NrOfBadIterationsBeforExit)
             
+            % *** ERROR HERE ON GET STOPPING CRITERIA 
             
             if obj.LowestCost(1) < ... 
                     obj.IterationId-obj.NrOfBadIterationsBeforExit
