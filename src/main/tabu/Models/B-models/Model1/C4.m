@@ -18,7 +18,8 @@ classdef C4 < handle
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 3];
+        % dependency overlap bounds
+        CostWeight = [2 1 1];
         MaxPhaseIterations = 200;
     end
     
