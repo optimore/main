@@ -13,6 +13,7 @@ dataParameters{1} = dataObj1;
 
 % Models, with selected phases
 models.m1 = [1,2,3,4];
+models.m2 = [5,6,7];
 
 
 % 2. Create models when user selects them:
@@ -43,17 +44,65 @@ while noQuit
             case '2',
                 test_maingui;
             case '3',
-                % 3. run launcher
-                status = mainlauncher(dataParameters, modelParameters);
-                % 4. Print errors if they occure:
-                SNames = fieldnames(status); 
-                nFields = length(SNames);
-                for i = 1:nFields
-                    % SNames{i}
-                    if (status.(SNames{i})==-1)
-                       type(status.logPath)
+                
+                prompt = 'Select data (A, B, E, F: 1-100: as A1,B24 etc.): '; 
+                selected_data = input(prompt,'s');
+
+                pathdir = 'src/test/testdata/New/';
+                DataDir=dir([pathdir,'*_*']);
+                pathname = [];
+                filename = [];
+                for i = 1:length({DataDir.name})
+                    thisfilename = cellstr(getfield(DataDir,{i},'name'));
+                    pathname = [pathname; strcat(pathdir,thisfilename,'/')];
+                    filename = [filename; thisfilename];
+                end
+
+
+                % SELECT DATA:
+                % listofindexes = [];
+                dataParameters = struct('name',{},'path',{});
+                foundstr = 0;
+                
+                for ii=1:length(filename) 
+                    name = strtok(filename(ii),'_');   
+                    if numel(char(name)) == numel(char(selected_data)) && ...
+                            all(lower(char(name)) == lower(char(selected_data)))
+                        dataObj.name = char(filename(ii));
+                        dataObj.path = char(pathname(ii));
+                        dataParameters{1} = dataObj;  
+                        foundstr=1;
                     end
                 end
+                
+                % listofcomplexisies = [];
+                % for iii=listofindexes
+                %     listofcomplexisies = [];
+                % end
+
+                % for i = 1:length(filename)
+                %    
+                %     dataObj.name = filename(i);
+                %     dataObj.path = [pathdir,pathname(i)];
+                %     dataParameters{i} = dataObj;  
+                % end
+
+                if foundstr
+                    % 3. run launcher
+                    status = mainlauncher(dataParameters, modelParameters);
+                    % 4. Print errors if they occure:
+                    SNames = fieldnames(status); 
+                    nFields = length(SNames);
+                    for i = 1:nFields
+                        % SNames{i}
+                        if (status.(SNames{i})==-1)
+                           type(status.logPath)
+                        end
+                    end
+                else
+                    disp(['No data found for: ',selected_data,'. Try again.'])
+                end
+                
             case '4',
                 disp('Printing results:')
                 respath = 'target/results/';
@@ -66,10 +115,18 @@ while noQuit
                     
             case '5',
                 disp('Quitting');
-                pause(1);
+                pause(0.5);
                 clc
                 noQuit = 0;
-            
+            case '6',
+                disp('Creating new model: enter model iterator id: (THIS IS NOT IMPLEMENTED YET)');
+                try
+                selected_data = str2num(input(prompt,'s'));
+                catch err
+                    disp('wrong') 
+                end
+                
+                noQuit = 0;
             otherwise,
                 noQuit = 1;
         end
@@ -77,5 +134,4 @@ while noQuit
         disp(err.stack)
     end
 end
-
 

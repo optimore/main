@@ -10,6 +10,7 @@ function [status, data] = GetData(dataParameters,logfile)
 
 status.data = 0;
 try
+    
     % 1. Load data
     Dependencies = load( ...
         [dataParameters.path,'Dependencies.dat']);
@@ -22,10 +23,8 @@ try
     data.taskcolumnname = {'id','first start time','last end time', ...
         'timeline id', 'task length', ...
         'actual start time placement (so that the task can move; =0 now)'};
-    % data.tasks = Tasks;
-    % data.dependencies = Dependencies(:,2:5);
       
-    data.tasks = Tasks(Tasks(:,6)==1,1:5)
+    data.tasks = Tasks(Tasks(:,6)==1,1:5);
     data.dependencies = Dependencies(Dependencies(:,6)==1,2:5);
     
     data.tasks(:,6) = 0;

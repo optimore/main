@@ -135,6 +135,7 @@ modelParameters = struct( ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
 input = get(handles.edit1,'String');
+input = str2num(input)
 
 global cb
 if (get(handles.pushbutton1,'Value'))==1

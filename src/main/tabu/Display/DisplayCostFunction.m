@@ -22,10 +22,10 @@ currentcost_s = '';
 currentcost_s = strcat('Current cost:',num2str(cost(end)));
 title(currentcost_s);
 xlabel('Number of iterations');
-ylabel('CostFunction value');
+ylabel('CostFunction value (LOG)');
 
 hold(fig, 'on')
-plot(cost);
+plot(log(cost));
 hold(fig,'off')
 
 end

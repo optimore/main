@@ -52,6 +52,8 @@ try
 	while model.conditionsAreNotMet
 	    try
             
+            model.instance
+            model.activePhaseIterator
             % 6.1 Get and do tabu action: This method also logs result:
             data = model.instance{model.activePhaseIterator}. ...
                 instance.GetAndPerformAction(data);
