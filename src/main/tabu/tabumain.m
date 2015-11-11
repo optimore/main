@@ -64,7 +64,7 @@ try
                 figdata.iteration = model.iterations;
                 figdata.phase = model.activePhaseIterator;
                 DisplayCostFunction(cost,bot_right,figdata);
-                pause(0.01);
+                pause(0.3);
             end
             
             % 6.3 Evaluate current phase and over all conditions:

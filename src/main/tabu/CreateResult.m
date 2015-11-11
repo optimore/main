@@ -11,7 +11,6 @@ resultId = resultParameters.id;
 
 % 2. Create result file
 filename = strsplit(dataParameters.path,'/');
-char(filename(end-1))
 resultPath = [resultPath,'/',char(filename(end-1))];
 
 try
