@@ -36,7 +36,7 @@ try
     model = CreateModel(tabuParameters,resultfile,logfile);
         
     % 5. Initial solution from model
-    %[status,data] = InitialSolutionLauncher(model,data,logfile);   
+    [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
 	% 5. Initial figure ***DONE***
 	if PLOTALLMOVES

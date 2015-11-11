@@ -38,7 +38,8 @@ try
         
     end
 catch err
-    fprintf(obj.Logfile, getReport(err,'extended'));
+    disp(getReport(err,'extended'))
+    %fprintf(obj.Logfile, getReport(err,'extended'));
     rethrow(err)
     
 end

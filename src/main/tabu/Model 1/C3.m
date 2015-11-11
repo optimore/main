@@ -19,7 +19,7 @@ classdef C3 < handle
     
     properties(Constant = true)
         CostWeight = [1.1 1.2 3];
-        MaxPhaseIterations = 120;
+        MaxPhaseIterations = 100;
     end
     
     methods        
@@ -52,7 +52,7 @@ classdef C3 < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-2.5E8, 2.5E8];
+                posibleTaskActions = [-0.75E8, 0.75E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
