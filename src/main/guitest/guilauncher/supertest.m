@@ -3,7 +3,7 @@ clc;
 
 A=dir('src/test/testdata/*_*');
 value = [];
-for i = 1:2
+for i = 1:length(A)
 
     value = [value; cellstr(getfield(A,{i},'name'))]
 

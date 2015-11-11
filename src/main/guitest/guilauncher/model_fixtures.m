@@ -1,16 +1,16 @@
-function [new_modelParameters] = model_fixtures(active_vec)
+dataParameters = struct('name',{},'path',{});
+DataDir=dir('src/test/testdata/*_*');
+pathname = [];
+filename = [];
+for i = 1:length(pathname)
+    pathname = [pathname; cellstr(getfield(DataDir,{i},'name'))];
+    filename = [filename; 'Name'];
+end
 
-modelParameters = struct( ...
-    'tabu', struct('active',0,'initial',1,'phases',[1]), ...
-    'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
-    'ampl', struct('active',0,'initial',1,'phases',[1]));
-
-modelParameters.tabu = setfield(modelParameters.tabu,'active',active_vec(1));
-
-modelParameters.LNS = setfield(modelParameters.LNS,'active',active_vec(2));
-
-modelParameters.ampl = setfield(modelParameters.ampl,'active',active_vec(3));
-
-new_modelParameters = modelParameters;
-
+for i = 1:length(filename)
+   
+    dataObj.name = filename(i);
+    dataObj.path = ['src/test/testdata/',pathname(i)];
+    dataParameters{i} = dataObj; 
+    
 end
