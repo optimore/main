@@ -20,8 +20,9 @@ status = 0;
 % Tabu run setup
 % End after X iterations
 nrIterations = 2000;
+sleeptime = 0.01;
 PLOTON = 1;
-PLOTSOL = 1;
+PLOTSOL = 0;
 
 % Add timing:
 tic
@@ -76,7 +77,7 @@ try
                 if PLOTSOL || model.iterations == 1
                     DisplayCurrentSolution(data,top,figdata);
                 end
-                pause(0.01);
+                pause(sleeptime);
                 
                 if model.iterations == 1
                     cost = model.instance{model.activePhaseIterator}. ...

@@ -18,7 +18,7 @@ try
     hold(fig, 'on')
     %plot(log(cost));
     h=area(log(cost+1),'LineStyle',':');
-    legend(h,'Overlap', 'Depen','Bounds', ...
+    legend(h,'Depen', 'Overlap','Bounds', ...
         'Location','North','Orientation','horizontal');
     hold(fig,'off')
     

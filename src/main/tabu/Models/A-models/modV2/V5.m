@@ -1,4 +1,4 @@
-classdef V3 < handle
+classdef V5 < handle
     %C3 Summary of this class goes here
     %   
     % 
@@ -16,11 +16,11 @@ classdef V3 < handle
         LowestCost = [0, inf];
         ActionSolution = [];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=2;
+        NrOfBadIterationsBeforExit=20;
     end
     
     properties(Constant = true)
-        CostWeight = [5 1 2];
+        CostWeight = [1.1 1.2 3];
     end
     
     methods        
@@ -41,12 +41,11 @@ classdef V3 < handle
         end  
         
         % Constructor:
-        function obj = V3(resultfile,logfile,nrTasks)
-            disp('Running V3')
+        function obj = V5(resultfile,logfile,nrTasks)
+            disp('Running V5')
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
-            % Not used:
-            % obj.MaxPhaseIterations = round(nrTasks/5);
+            obj.MaxPhaseIterations = round(nrTasks);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
@@ -55,7 +54,7 @@ classdef V3 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-1.5E8, -0.75E8, 0.75E8 1.5E8];
+                posibleTaskActions = [-2E7, -8E6,-4E4,4E4,8E6,2E7];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -115,12 +114,11 @@ classdef V3 < handle
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-                            if costList(index) > obj.LowestCost(2)
+                            if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria V2, tabu: ', ...
+                                disp(['Asipiration criteria V5, tabu: ', ...
                                     num2str(costList(index)),' cost: ', ...
                                     num2str(obj.LowestCost(2))])
-                                
                             else
                                 notintabu = 0;
                                 break;
@@ -141,11 +139,9 @@ classdef V3 < handle
                         lowestCost = sortedCosts(i);
                         
                         data.tasks(:,6) = actionSolution;
-
                         if lowestCost < obj.LowestCost(2)
                             obj.LowestCost = [obj.IterationId,lowestCost];
                         end
-                        
                         obj.ActionSolution = actionSolution;
                         
                         % *** Add later *** 
@@ -173,11 +169,12 @@ classdef V3 < handle
             %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
             
             if obj.LowestCost(1) < ... 
-                    obj.IterationId-obj.NrOfBadIterationsBeforExit
+                    obj.IterationId-obj.NrOfBadIterationsBeforExit || ...
+                    obj.IterationId > obj.MaxPhaseIterations
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = V3(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.instance = V5(obj.Resultfile,obj.Logfile,obj.NrTasks);
                 model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 
@@ -207,9 +204,9 @@ classdef V3 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            costVec = [costStruct.dep,costStruct.over,costStruct.bound];   
+            costVec = [costStruct.over,costStruct.dep,costStruct.bound];
+            
         end
     end
 end
 
-%%

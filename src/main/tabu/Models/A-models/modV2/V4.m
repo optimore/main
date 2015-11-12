@@ -20,7 +20,7 @@ classdef V4 < handle
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 3];
+        CostWeight = [5 1 2];
     end
     
     methods        
@@ -204,7 +204,7 @@ classdef V4 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            costVec = [costStruct.over,costStruct.dep,costStruct.bound];
+            costVec = [costStruct.dep,costStruct.over,costStruct.bound];
             
         end
     end

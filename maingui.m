@@ -15,8 +15,13 @@ clc; close all; clear all;
 
 A1 = [5,6,7];
 A2 = [6,7];
+
+% optimized for F0-F25 (standard data)
 A3 = [101,102];
+
+% optimized for E30-E45
 A4 = [103,104];
+A5 = [105,103,104];
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
