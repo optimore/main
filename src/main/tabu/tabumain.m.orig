@@ -16,12 +16,16 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % Link�ping University, Link�ping
 
 status = 0;
+<<<<<<< HEAD
+PLOTALLMOVES = 0;
+=======
 
 % Tabu run setup
 % End after X iterations
 nrIterations = 2000;
 PLOTON = 1;
 PLOTSOL = 1;
+>>>>>>> tabumas
 
 % Add timing:
 tic
@@ -100,6 +104,11 @@ try
             % INSTANCE.
             model = model.instance{model.activePhaseIterator}.instance.AreConditionsMet(model);
                         
+<<<<<<< HEAD
+            % End after X iterations
+            nrIterations = 100;
+=======
+>>>>>>> tabumas
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
             end            

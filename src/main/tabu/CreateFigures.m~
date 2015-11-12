@@ -1,4 +1,4 @@
-function [top,bot_left, bot_right,figdata] = CreateFigures(data,titlestr)
+function [top,bot_left, bot_right,figdata] = CreateFigures(data)
 % Initialize figures for solution plot
 
 try
@@ -24,10 +24,9 @@ try
     % Make y-axis no of timelines
     figdata.T = 1.1*max(data.tasks(:,4));
     
-    titlestring = ['Dataset:',titlestr{1},'. Ts:',titlestr{2},'. Tls:', ...
-        titlestr{3},'. Deps:',titlestr{4},'. Phases:',titlestr{5}];
+    s
     
-    suptitle(titlestring)
+    suptitle(
     
 catch err
     rethrow(err)

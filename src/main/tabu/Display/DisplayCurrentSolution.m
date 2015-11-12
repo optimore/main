@@ -14,7 +14,7 @@ T = figdata.T;
 cla reset
 
 
-axis([-0.1*L,1.1*L,0,T+1])
+axis([-0.01*L,1.01*L,0,T+1])
 set(gca,'FontSize',10);
 title('Plot of timelines and tasks');
 xlabel('Time');

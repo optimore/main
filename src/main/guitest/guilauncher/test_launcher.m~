@@ -452,13 +452,21 @@ for iter_1 = 1:length(new_value)
    
 end
 
-oldData=[];
+
 
 for iter_2 = 1:length(new_value)
     
-    data_table= [test_data_value(iter_2),new_value_name(iter_2),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
-    oldData = [oldData;data_table]
+    data_table{iter_2,1}= [test_data_value(iter_2),new_value_name(iter_2),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
     
 end
 
-set(handles.uitable1,'data',oldData)
+for iter_3 = 1:length(new_value)
+    
+    tdv = data_table{1,1}{1,1};
+    nvn = data_table{1,1}{1,2};
+    
+    
+    
+    
+end
+set(handles.uitable1,'data',data_table)
