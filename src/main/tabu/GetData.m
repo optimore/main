@@ -10,6 +10,7 @@ function [status, data] = GetData(dataParameters,logfile)
 
 status.data = 0;
 try
+    
     % 1. Load data
     Dependencies = load( ...
         [dataParameters.path,'Dependencies.dat']);
