@@ -13,10 +13,15 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % 0.03: OOD on instances to better handle multiple models and methods
 %
 %
-% Linköping University, Linköping
+% Linkï¿½ping University, Linkï¿½ping
 
 status = 0;
+
+% Tabu run setup
+% End after X iterations
+nrIterations = 1000;
 PLOTALLMOVES = 1;
+PLOTSOL = 1;
 
 % Add timing:
 tic
@@ -58,13 +63,16 @@ try
             
 			% 6.2 Display updated solution
             if PLOTALLMOVES
-                DisplayCurrentSolution(data,top,figdata);
+                if PLOTSOL
+                    pause(0.1);
+                    DisplayCurrentSolution(data,top,figdata);
+                end
                 cost(model.iterations) = model.instance{model.activePhaseIterator}. ...
                 instance.GetCost();
                 figdata.iteration = model.iterations;
                 figdata.phase = model.activePhaseIterator;
                 DisplayCostFunction(cost,bot_right,figdata);
-                pause(0.3);
+                
             end
             
             % 6.3 Evaluate current phase and over all conditions:
@@ -75,8 +83,6 @@ try
             % INSTANCE.
             model = model.instance{model.activePhaseIterator}.instance.AreConditionsMet(model);
                         
-            % End after X iterations
-            nrIterations = 1000;
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
             end            

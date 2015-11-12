@@ -45,7 +45,7 @@ classdef V2 < handle
             disp('Running V2')
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
-            obj.MaxPhaseIterations = round(nrTasks/5);
+            obj.MaxPhaseIterations = round(nrTasks);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
@@ -54,7 +54,7 @@ classdef V2 < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-2E7, -5E6,-1E4,1E4,5E6,2E7];
+                posibleTaskActions = [-2E7, -8E6,-4E4,4E4,8E6,2E7];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -139,8 +139,9 @@ classdef V2 < handle
                         lowestCost = sortedCosts(i);
                         
                         data.tasks(:,6) = actionSolution;
-
-                        obj.LowestCost = [obj.IterationId,lowestCost];
+                        if lowestCost < obj.LowestCost(2)
+                            obj.LowestCost = [obj.IterationId,lowestCost];
+                        end
                         obj.ActionSolution = actionSolution;
                         
                         % *** Add later *** 
@@ -163,13 +164,13 @@ classdef V2 < handle
                 
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
-            disp(obj.LowestCost(1))
-            disp(obj.IterationId-obj.NrOfBadIterationsBeforExit)
-            
-            % *** ERROR HERE ON GET STOPPING CRITERIA 
+            % Print cost and phase exit criteria:
+            %fprintf([num2str(obj.LowestCost(1)), ' ' , ... 
+            %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
             
             if obj.LowestCost(1) < ... 
-                    obj.IterationId-obj.NrOfBadIterationsBeforExit
+                    obj.IterationId-obj.NrOfBadIterationsBeforExit || ...
+                    obj.IterationId > obj.MaxPhaseIterations
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:

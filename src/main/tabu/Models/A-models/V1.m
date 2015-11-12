@@ -16,7 +16,7 @@ classdef V1 < handle
         LowestCost = [0, inf];
         ActionSolution = [];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=20;
+        NrOfBadIterationsBeforExit=2;
     end
     
     properties(Constant = true)
@@ -45,7 +45,8 @@ classdef V1 < handle
             disp('Running V1')
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
-            obj.MaxPhaseIterations = round(nrTasks/5);
+            % Not used:
+            % obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
@@ -54,7 +55,7 @@ classdef V1 < handle
         function [data,obj] = GetAndPerformAction(obj,data)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-0.75E8, 0.75E8];
+                posibleTaskActions = [-1.5E8, -0.75E8, 0.75E8 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -119,6 +120,7 @@ classdef V1 < handle
                                 disp(['Asipiration criteria V2, tabu: ', ...
                                     num2str(costList(index)),' cost: ', ...
                                     num2str(obj.LowestCost(2))])
+                                
                             else
                                 notintabu = 0;
                                 break;
@@ -140,7 +142,10 @@ classdef V1 < handle
                         
                         data.tasks(:,6) = actionSolution;
 
-                        obj.LowestCost = [obj.IterationId,lowestCost];
+                        if lowestCost < obj.LowestCost(2)
+                            obj.LowestCost = [obj.IterationId,lowestCost];
+                        end
+                        
                         obj.ActionSolution = actionSolution;
                         
                         % *** Add later *** 
@@ -163,8 +168,9 @@ classdef V1 < handle
                 
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
-            disp(obj.LowestCost(1))
-            disp(obj.IterationId-obj.NrOfBadIterationsBeforExit)
+            % Print cost and phase exit criteria:
+            %fprintf([num2str(obj.LowestCost(1)), ' ' , ... 
+            %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
             
             if obj.LowestCost(1) < ... 
                     obj.IterationId-obj.NrOfBadIterationsBeforExit
