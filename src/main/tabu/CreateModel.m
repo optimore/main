@@ -59,6 +59,14 @@ try
                 instance.name = 'V2';
                 instance.instance = V2(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
+            case 103,
+                instance.name = 'V3';
+                instance.instance = V1(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 104,
+                instance.name = 'V4';
+                instance.instance = V2(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
             %case *,
                 
             otherwise,

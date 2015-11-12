@@ -16,10 +16,11 @@ clc; close all; clear all;
 A1 = [5,6,7];
 A2 = [6,7];
 A3 = [101,102];
+A4 = [103,104];
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',A3), ...
+    'tabu', struct('active',1,'initial',1,'phases',A4), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
@@ -50,7 +51,7 @@ while noQuit
                 prompt = 'Select data (A, B, E, F: 1-100: as A1,B24 etc.): '; 
                 selected_data = input(prompt,'s');
 
-                pathdir = 'src/test/testdata/New/';
+                pathdir = 'src/test/testdata/';
                 DataDir=dir([pathdir,'*_*']);
                 pathname = [];
                 filename = [];

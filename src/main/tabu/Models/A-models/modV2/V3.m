@@ -1,4 +1,4 @@
-classdef C6 < handle
+classdef V3 < handle
     %C3 Summary of this class goes here
     %   
     % 
@@ -13,9 +13,10 @@ classdef C6 < handle
         CostList
         ActionList
         IterationId=1;
-        LowestCost = Inf;
+        LowestCost = [0, inf];
         ActionSolution = [];
         MaxPhaseIterations
+        NrOfBadIterationsBeforExit=2;
     end
     
     properties(Constant = true)
@@ -27,7 +28,7 @@ classdef C6 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 100;
+                    listlength = round(obj.NrTasks/10);
                     tabucell = cell(1,obj.NrTasks);
                     TabuList = cell([size(tabucell) listlength]);
                 catch err
@@ -40,20 +41,21 @@ classdef C6 < handle
         end  
         
         % Constructor:
-        function obj = C6(resultfile,logfile,nrTasks)
-            disp('Running C6')
+        function obj = V3(resultfile,logfile,nrTasks)
+            disp('Running V3')
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
-            obj.MaxPhaseIterations = round(nrTasks/5);
+            % Not used:
+            % obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
         
         % Get Action list and do action
-        function [data,obj] = GetAndPerformAction(obj,data)
+        function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-0.75E8, 0.75E8];
+                posibleTaskActions = [-1.5E8, -0.75E8, 0.75E8 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -113,9 +115,12 @@ classdef C6 < handle
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-                            if costList(index) < obj.LowestCost
+                            if costList(index) > obj.LowestCost(2)
                                 % Aspiration criteria
-                                dips('Asipiration criteria C5')
+                                disp(['Asipiration criteria V2, tabu: ', ...
+                                    num2str(costList(index)),' cost: ', ...
+                                    num2str(obj.LowestCost(2))])
+                                
                             else
                                 notintabu = 0;
                                 break;
@@ -137,14 +142,17 @@ classdef C6 < handle
                         
                         data.tasks(:,6) = actionSolution;
 
-                        obj.LowestCost = lowestCost;
+                        if lowestCost < obj.LowestCost(2)
+                            obj.LowestCost = [obj.IterationId,lowestCost];
+                        end
+                        
                         obj.ActionSolution = actionSolution;
                         
                         % *** Add later *** 
                         timenow = toc;
                         
                         % Log results
-                        fprintf(obj.Resultfile, [num2str(obj.IterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
+                        fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
                         obj.IterationId = obj.IterationId + 1;
                         
                         break;
@@ -160,11 +168,16 @@ classdef C6 < handle
                 
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
-            if obj.IterationId > obj.MaxPhaseIterations
+            % Print cost and phase exit criteria:
+            %fprintf([num2str(obj.LowestCost(1)), ' ' , ... 
+            %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
+            
+            if obj.LowestCost(1) < ... 
+                    obj.IterationId-obj.NrOfBadIterationsBeforExit
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = C3(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.instance = V3(obj.Resultfile,obj.Logfile,obj.NrTasks);
                 model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 
@@ -178,7 +191,7 @@ classdef C6 < handle
         
         function [model, obj] = AreConditionsMet(obj,model)
             try
-                if obj.LowestCost==0
+                if obj.LowestCost(2)==0
                     model.conditionsAreNotMet = 0;
                 end
             catch err
@@ -186,9 +199,17 @@ classdef C6 < handle
             end
         end
         
-        function [cost, obj] = GetCost(obj)
-            cost = obj.LowestCost;
+        function [costVec, obj] = GetCost(obj,data)
+            % cost = obj.LowestCost(2);
+            
+            curSolution = zeros(obj.NrTasks,2);
+            curSolution(:,1) = data.tasks(:,1);
+            curSolution(:,2) = data.tasks(:,6);
+            
+            costStruct = CostFunction(data,curSolution,obj.CostWeight);
+            costVec = [costStruct.over,costStruct.dep,costStruct.bound];   
         end
     end
 end
 
+%%
