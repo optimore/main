@@ -28,7 +28,8 @@ modelParameters = struct( ...
 disp('------------------ OPTIMORE LAUNCHED ------------------')
 disp('please select one option bellow by entering a number:')
 disp('1. Create data gui. 2. Launch main GUI')
-disp('3. Launch a fix solution sequence. 4. Print latest result. 5. Quit')
+disp('3. Launch a fix solution sequence. 4. Print latest result.')
+disp('5. Quit. 6. Create model (beta). 7. Save plot to target.')
 disp('-------------------------------------------------------')
 noQuit = 1;
 
@@ -117,7 +118,8 @@ while noQuit
             case '5',
                 disp('Quitting');
                 pause(0.5);
-                clc
+                close all;
+                clc;
                 noQuit = 0;
             case '6',
                 disp('Creating new model: enter model iterator id: (THIS IS NOT IMPLEMENTED YET)');
@@ -128,7 +130,13 @@ while noQuit
                 end
                 
                 noQuit = 0;
+            case '7',
+                printfilename = ['target/resultplots/tabu_', ...
+                    datestr(now(),'yyyy-mm-ddTHH-MM-SS')];
+                print(figure(1),'-dpng',printfilename);
+                disp(['File saved: ',printfilename])
             otherwise,
+                disp('Error input')
                 noQuit = 1;
         end
     catch err
