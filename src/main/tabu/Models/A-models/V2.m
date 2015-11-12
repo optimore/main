@@ -51,7 +51,7 @@ classdef V2 < handle
         end 
         
         % Get Action list and do action
-        function [data,obj] = GetAndPerformAction(obj,data)
+        function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
                 posibleTaskActions = [-2E7, -8E6,-4E4,4E4,8E6,2E7];
@@ -148,7 +148,7 @@ classdef V2 < handle
                         timenow = toc;
                         
                         % Log results
-                        fprintf(obj.Resultfile, [num2str(obj.IterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
+                        fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
                         obj.IterationId = obj.IterationId + 1;
                         
                         break;
@@ -196,8 +196,16 @@ classdef V2 < handle
             end
         end
         
-        function [cost, obj] = GetCost(obj)
-            cost = obj.LowestCost(2);
+        function [costVec, obj] = GetCost(obj,data)
+            % cost = obj.LowestCost(2);
+            
+            curSolution = zeros(obj.NrTasks,2);
+            curSolution(:,1) = data.tasks(:,1);
+            curSolution(:,2) = data.tasks(:,6);
+            
+            costStruct = CostFunction(data,curSolution,obj.CostWeight);
+            costVec = [costStruct.over,costStruct.dep,costStruct.bound];
+            
         end
     end
 end
