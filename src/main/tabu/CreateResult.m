@@ -1,4 +1,4 @@
-function [result,resultId] = CreateResult(resultParameters,logfile)
+function [result,resultId] = CreateResult(resultParameters,dataParameters,logfile)
 %CREATERESULT Summary of this function goes here
 %   Detailed explanation goes here
 %
@@ -10,7 +10,8 @@ resultPath = resultParameters.path;
 resultId = resultParameters.id;
 
 % 2. Create result file
-resultPath = [resultPath,'/result_tabu_',num2str(resultId)];
+filename = strsplit(dataParameters.path,'/');
+resultPath = [resultPath,'/',char(filename(end-1))];
 
 try
     result = fopen(resultPath, 'w');
@@ -25,4 +26,3 @@ end
 % 3. Return file path and name
 
 end
-

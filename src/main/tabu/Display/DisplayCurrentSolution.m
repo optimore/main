@@ -1,9 +1,8 @@
-function [] = DisplayCurrentSolution(data,fig,figaxes,figdata)
+function [] = DisplayCurrentSolution(data,fig,figdata)
 % Displays the temporary solution on a graphical timeline
 
-% Set current axis
-set(0, 'currentfigure', fig);
-set(fig, 'currentaxes', figaxes);
+% Set current plot
+subplot(fig);
 
 % No of timesteps
 L = figdata.L;
@@ -14,12 +13,13 @@ T = figdata.T;
 % Visualisera testdata:
 cla reset
 
-axis([-0.1*L,1.1*L,0,T+1])
+
+axis([-0.01*L,1.01*L,0,T+1])
 set(gca,'FontSize',10);
 title('Plot of timelines and tasks');
 xlabel('Time');
 ylabel('Timeline');
-hold(figaxes, 'on')
+hold(fig, 'on')
 Color = [1 1 0.1; 1 0 1; 0 1 1; 1 0 0; 0 1 0; 0 0 1; 0.5 0.5 0.5; 0 0 0];
 
 % For all tasks, display current placement
@@ -71,7 +71,7 @@ for i=1:size(data.dependencies,1)
     plot(x_end,y_end,'Marker','p','Color',[.88 .48 0],'MarkerSize',10)
 end
 
- hold(figaxes, 'off')
+hold(fig, 'off')
 
 end
 

@@ -50,8 +50,8 @@ if status.run
 
             catch err
                fprintf(logfile,['\nFatal error in tabu search,', ...
-                   'quiting search iteration: ', ...
-                   runId,'\nContinouing test\n'])
+                   'quiting search run nr: ', ...
+                   num2str(runId),'\nContinouing test\n'])
                status.tabu = -1;
             end
         end
@@ -76,8 +76,8 @@ if status.run
 
             catch err
                fprintf(logfile,['\nFatal error in LNS search,', ...
-                   'quiting search iteration: ',runId, ...
-                   '\nContinouing test\n'])
+                   'quiting search run nr: ', ...
+                   num2str(runId),'\nContinouing test\n'])
                status.LNS = -1;
             end
         end
@@ -102,8 +102,8 @@ if status.run
 
             catch err
                fprintf(logfile,['\nFatal error in ampl search,', ...
-                   'quiting search iteration: ',runId, ...
-                   '\nContinouing test\n'])
+                   'quiting search run nr: ', ...
+                   num2str(runId),'\nContinouing test\n'])
                status.ampl = -1;
             end
         end

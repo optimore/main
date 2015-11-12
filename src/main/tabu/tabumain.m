@@ -13,10 +13,15 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % 0.03: OOD on instances to better handle multiple models and methods
 %
 %
-% Linköping University, Linköping
+% Linkï¿½ping University, Linkï¿½ping
 
 status = 0;
-PLOTALLMOVES = 0;
+
+% Tabu run setup
+% End after X iterations
+nrIterations = 2000;
+PLOTON = 1;
+PLOTSOL = 1;
 
 % Add timing:
 tic
@@ -24,12 +29,15 @@ tic
 try
     % 1. Setup logging:
     [status, logfile] = GetLog(logfileParameters);
+
     % 2. Read data and data parameters:
     [status, data] = GetData(dataParameters,logfile);
-    tabuParameters.nrTasks = size(data.tasks,2);
+    tabuParameters.nrTasks = size(data.tasks,1);
+    tabuParameters.nrTimels = max(data.tasks(:,4));
+    tabuParameters.nrDeps = size(data.dependencies,1);
     
     % 3. Create result:
-    [resultfile,runId] = CreateResult(resultParameters,logfile);
+    [resultfile,runId] = CreateResult(resultParameters,dataParameters,logfile);
     
     % 4. Create model and all instances:
     model = CreateModel(tabuParameters,resultfile,logfile);
@@ -38,27 +46,50 @@ try
     [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
 	% 5. Initial figure ***DONE***
-	if PLOTALLMOVES
-		[fig1,fig2,figaxes1, figaxes2, figdata] = CreateFigures(data);
-		DisplayIntervals(data,fig1,figaxes1,figdata);
+	if PLOTON
+		titlename = strsplit(dataParameters.name(1:3),'_');
+        titlestr = {char(titlename(1)), ...
+                    num2str(tabuParameters.nrTasks), ...
+                    num2str(tabuParameters.nrTimels), ...
+                    num2str(tabuParameters.nrDeps), ...
+                    mat2str(model.phases)};
+        
+        [top,bot_left,bot_right,figdata] = CreateFigures(data,titlestr);
+		DisplayIntervals(data,bot_left,figdata);
 	end    
 
 
 	% 6. Perform tabu 
 	model.conditionsAreNotMet = 1;
 	model.iterations = 1;
-
+    cost = [0,0,0];
+    
 	while model.conditionsAreNotMet
 	    try
             
             % 6.1 Get and do tabu action: This method also logs result:
             data = model.instance{model.activePhaseIterator}. ...
-                instance.GetAndPerformAction(data);
+                instance.GetAndPerformAction(data,model.iterations);
             
 			% 6.2 Display updated solution
-            if PLOTALLMOVES
-                DisplayCurrentSolution(data,fig2,figaxes2,figdata);
-                pause(0.1);
+            if PLOTON
+                if PLOTSOL || model.iterations == 1
+                    DisplayCurrentSolution(data,top,figdata);
+                end
+                pause(0.01);
+                
+                if model.iterations == 1
+                    cost = model.instance{model.activePhaseIterator}. ...
+                    instance.GetCost(data);
+                else
+                    cost = [cost; model.instance{model.activePhaseIterator}. ...
+                instance.GetCost(data)];
+                end
+                
+                figdata.iteration = model.iterations;
+                figdata.phase = model.activePhaseIterator;
+                DisplayCostFunction(cost,bot_right,figdata);
+                
             end
             
             % 6.3 Evaluate current phase and over all conditions:
@@ -69,8 +100,6 @@ try
             % INSTANCE.
             model = model.instance{model.activePhaseIterator}.instance.AreConditionsMet(model);
                         
-            % End after X iterations
-            nrIterations = 1000;
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
             end            
@@ -82,7 +111,7 @@ try
     end
     
     %Close figures
-    close all;
+    % close all;
     
     % . If all was successful, then set statuscode to 1
     status = 1;
@@ -107,23 +136,3 @@ closetime = toc;
 
 
 end
-
-% COSTPLOT:
-% DEBUGPLOT=0;
-% if DEBUGPLOT % false
-%                 % 6.1.1 Print actionlist:
-%                 figure(1);
-%                 nlist = size(actionList,2);
-%                 A = zeros(nlist,4);
-%                 for i = 1:nlist
-%                     % actionList{i}.cost
-%                     A(i,1) = actionList{i}.cost.dep;
-%                     A(i,2) = actionList{i}.cost.over;
-%                     A(i,3) = actionList{i}.cost.bound;
-%                     A(i,4) = actionList{i}.cost.total;
-%                 end
-% 
-%                 plot(A)
-%                 legend('dep','over','bound','total')
-%                 pause(0.1)
-%             end
