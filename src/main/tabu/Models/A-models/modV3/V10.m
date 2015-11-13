@@ -1,7 +1,8 @@
-classdef V4 < handle
-    %C3 Summary of this class goes here
-    %   
+classdef V10 < handle
+    % V10 Summary of this class goes here
+    % This class uses one task tabu list!
     % 
+    % By: Victor Bergelin
     
     properties(GetAccess = 'public', SetAccess = 'private')
         Name
@@ -16,21 +17,20 @@ classdef V4 < handle
         LowestCost = [0, inf];
         ActionSolution = [];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=20;
+        NrOfBadIterationsBeforExit=2;
     end
     
     properties(Constant = true)
-        CostWeight = [1 1 3];
+        CostWeight = [1 6 1];
     end
     
     methods        
-        % Create Tabu List
+        % Create Tabu List for only moving one task
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = round(obj.NrTasks);
-                    tabucell = cell(1,obj.NrTasks);
-                    TabuList = cell([size(tabucell) listlength]);
+                    listlength = round(obj.NrTasks/2);
+                    TabuList = cell(listlength, 1);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -41,13 +41,13 @@ classdef V4 < handle
         end  
         
         % Constructor:
-        function obj = V4(resultfile,logfile,nrTasks)
+        function obj = V10(resultfile,logfile,nrTasks)
             name=class(obj);
             obj.Name = name;
             disp(['Running ',name])
             obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
-            obj.MaxPhaseIterations = round(nrTasks/2);
+            obj.MaxPhaseIterations = round(nrTasks/3);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
@@ -99,7 +99,6 @@ classdef V4 < handle
                         
             % Do Action:
             try
-                % =========== 1st version: Using solutions ================
                 [sortedCosts, indexes] = sort(costList);
 
                 % Loop through min-solutions in ascending order
@@ -108,34 +107,38 @@ classdef V4 < handle
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
-
+ 
+                    
+                    % V10 find changed solution:
+                    currentSolution = data.tasks(:,6);
+                    changedTask = find(actionSolution - currentSolution);
+                   
                     % Compare solution with tabu list solutions
                     for j = 1:length(obj.TabuList)
-                        tabuSolution = obj.TabuList{j};
-
+                        tabuTask = obj.TabuList{j};
+                        
                         % Break if action in tabulist
-                        if isequal(tabuSolution, actionSolution) == 1
-%                             if costList(index) < obj.LowestCost(2)
-%                                 % Aspiration criteria
-%                                 disp(['Asipiration criteria V4, solution: ', ...
-%                                     num2str(costList(index)),' lowestEver: ', ...
-%                                     num2str(obj.LowestCost(2))])
-%                                 notintabu = 1;
-%                             else
+                        if isequal(tabuTask, changedTask) == 1
+                            if costList(index) < obj.LowestCost(2)
+                                % Aspiration criteria
+                                disp(['Asipiration criteria V10, solution: ', ...
+                                    num2str(costList(index)),' lowestEver: ', ...
+                                    num2str(obj.LowestCost(2))])
+                                notintabu = 1;
+                            else
                                 notintabu = 0;
                                 break;
-%                             end
+                            end
                         end
                     end
 
 
                     if notintabu == 1
-
+                        disp(':')
                         % Add action to tabu list
-                        actioncell = num2cell(actionSolution, 1);
+                        
                         obj.TabuList(2:end) = obj.TabuList(1:end-1);
-                        obj.TabuList(1) = actioncell;
-
+                        obj.TabuList(1) = {changedTask};
 
                         % Perform action
                         lowestCost = sortedCosts(i);
@@ -155,7 +158,7 @@ classdef V4 < handle
                         
                         break;
                     end
-
+                    fprintf('.')
                 end 
             catch err
                 disp('ERROR in do action class')
@@ -171,11 +174,11 @@ classdef V4 < handle
             %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
             
             if obj.LowestCost(1) < ... 
-               obj.IterationId-obj.NrOfBadIterationsBeforExit % || ...
-                    %obj.IterationId > obj.MaxPhaseIterations
+                    obj.IterationId-obj.NrOfBadIterationsBeforExit || ...
+                    obj.IterationId > obj.MaxPhaseIterations
                 obj.IterationId = 0;
-
-                % Recreate model when phase is over and set next phase:
+                
+                % Recreate tabulist when phase is over and set next phase:
                 obj.TabuList = obj.CreateTabuList();
 
                 % Take next in phase order
@@ -198,8 +201,6 @@ classdef V4 < handle
         end
         
         function [costVec, obj] = GetCost(obj,data)
-            % cost = obj.LowestCost(2);
-            
             curSolution = zeros(obj.NrTasks,2);
             curSolution(:,1) = data.tasks(:,1);
             curSolution(:,2) = data.tasks(:,6);

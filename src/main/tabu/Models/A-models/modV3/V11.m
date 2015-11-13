@@ -1,5 +1,5 @@
-classdef V4 < handle
-    %C3 Summary of this class goes here
+classdef V11 < handle
+    %V11 Summary of this class goes here
     %   
     % 
     
@@ -41,7 +41,7 @@ classdef V4 < handle
         end  
         
         % Constructor:
-        function obj = V4(resultfile,logfile,nrTasks)
+        function obj = V11(resultfile,logfile,nrTasks)
             name=class(obj);
             obj.Name = name;
             disp(['Running ',name])
@@ -56,7 +56,7 @@ classdef V4 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-4E7, -8E6,-4E5,4E5,8E6,4E7];
+                posibleTaskActions = [-1.5E8, -0.75E8, -1E7, 1E7, 0.75E8 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -117,7 +117,7 @@ classdef V4 < handle
                         if isequal(tabuSolution, actionSolution) == 1
 %                             if costList(index) < obj.LowestCost(2)
 %                                 % Aspiration criteria
-%                                 disp(['Asipiration criteria V4, solution: ', ...
+%                                 disp(['Asipiration criteria V11, solution: ', ...
 %                                     num2str(costList(index)),' lowestEver: ', ...
 %                                     num2str(obj.LowestCost(2))])
 %                                 notintabu = 1;

@@ -1,10 +1,10 @@
-classdef SMOT_TabuListTasks_2 < handle
-    %SIMPLEMOVEONETASKC Summary of this class goes here
+classdef V8 < handle
+    %V8 Summary of this class goes here
     %   
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
-        
+        Name
         TabuList
         Logfile 
         Resultfile
@@ -13,13 +13,14 @@ classdef SMOT_TabuListTasks_2 < handle
         CostList
         ActionList
         IterationId=1;
-        LowestCost = Inf;
+        LowestCost = [0, inf];
         ActionSolution = [];
+        MaxPhaseIterations
+        NrOfBadIterationsBeforExit=20;
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 1.3];
-        MaxPhaseIterations = 1000;
+        CostWeight = [6 1 1];
     end
     
     methods        
@@ -27,7 +28,7 @@ classdef SMOT_TabuListTasks_2 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 100;
+                    listlength = round(obj.NrTasks);
                     tabucell = cell(1,obj.NrTasks);
                     TabuList = cell([size(tabucell) listlength]);
                 catch err
@@ -40,18 +41,22 @@ classdef SMOT_TabuListTasks_2 < handle
         end  
         
         % Constructor:
-        function obj = SMOT_TabuListTasks_2(resultfile,logfile,nrTasks)
-            obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+        function obj = V8(resultfile,logfile,nrTasks)
+            name=class(obj);
+            obj.Name = name;
+            disp(['Running ',name])
+            obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
+            obj.MaxPhaseIterations = round(nrTasks/2);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
         
         % Get Action list and do action
-        function [data,obj] = GetAndPerformAction(obj,data)
+        function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-10E4, -10E3, -10E1, 10E1, 10E3, 10E4];
+                posibleTaskActions = [-4E7, -8E6,-4E5,4E5,8E6,4E7];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -107,14 +112,19 @@ classdef SMOT_TabuListTasks_2 < handle
                     % Compare solution with tabu list solutions
                     for j = 1:length(obj.TabuList)
                         tabuSolution = obj.TabuList{j};
-                        
-                        DataDiff = [data.tasks(:,6), actionSolution]';
-                        taskIndex = find(diff(DataDiff,1,1));
-                                                
+
                         % Break if action in tabulist
-                        if ismember(A,92)
-                            notintabu = 0
-                            break;
+                        if isequal(tabuSolution, actionSolution) == 1
+%                             if costList(index) < obj.LowestCost(2)
+%                                 % Aspiration criteria
+%                                 disp(['Asipiration criteria V8, solution: ', ...
+%                                     num2str(costList(index)),' lowestEver: ', ...
+%                                     num2str(obj.LowestCost(2))])
+%                                 notintabu = 1;
+%                             else
+                                notintabu = 0;
+                                break;
+%                             end
                         end
                     end
 
@@ -131,15 +141,16 @@ classdef SMOT_TabuListTasks_2 < handle
                         lowestCost = sortedCosts(i);
                         
                         data.tasks(:,6) = actionSolution;
-
-                        obj.LowestCost = lowestCost;
+                        if lowestCost < obj.LowestCost(2)
+                            obj.LowestCost = [obj.IterationId,lowestCost];
+                        end
                         obj.ActionSolution = actionSolution;
                         
                         % *** Add later *** 
                         timenow = toc;
                         
                         % Log results
-                        fprintf(obj.Resultfile, [num2str(obj.IterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
+                        fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
                         obj.IterationId = obj.IterationId + 1;
                         
                         break;
@@ -155,31 +166,48 @@ classdef SMOT_TabuListTasks_2 < handle
                 
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
-            if obj.IterationId > obj.MaxPhaseIterations
+            % Print cost and phase exit criteria:
+            %fprintf([num2str(obj.LowestCost(1)), ' ' , ... 
+            %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
+            
+            if obj.LowestCost(1) < ... 
+               obj.IterationId-obj.NrOfBadIterationsBeforExit % || ...
+                    %obj.IterationId > obj.MaxPhaseIterations
                 obj.IterationId = 0;
-                
-                % Recreate model when phase is over and set next phase:
-                instance.instance = SimpleMoveOneTask(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                model.instance{model.activePhaseIterator} = instance;
 
-                
-                nrPhases = size(model.phases,1);
+                % Recreate model when phase is over and set next phase:
+                obj.TabuList = obj.CreateTabuList();
+
+                % Take next in phase order
+                nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
-                
+                disp(['Launching ', ...
+                    model.instance{model.activePhaseIterator}.name])
             end
         end
         
         function [model, obj] = AreConditionsMet(obj,model)
             try
-                if obj.LowestCost==0
+                if obj.LowestCost(2)==0
                     model.conditionsAreNotMet = 0;
                 end
             catch err
                 rethrow(err)   
             end
         end
+        
+        function [costVec, obj] = GetCost(obj,data)
+            % cost = obj.LowestCost(2);
+            
+            curSolution = zeros(obj.NrTasks,2);
+            curSolution(:,1) = data.tasks(:,1);
+            curSolution(:,2) = data.tasks(:,6);
+            
+            costStruct = CostFunction(data,curSolution,obj.CostWeight);
+            costVec = [costStruct.total, costStruct.dep,costStruct.over,costStruct.bound];
+            
+        end
     end
 end
-
 

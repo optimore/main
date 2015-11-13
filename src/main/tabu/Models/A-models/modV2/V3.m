@@ -20,7 +20,7 @@ classdef V3 < handle
     end
     
     properties(Constant = true)
-        CostWeight = [5 1 2];
+        CostWeight = [1 1 2];
     end
     
     methods        
@@ -181,19 +181,15 @@ classdef V3 < handle
                     obj.IterationId-obj.NrOfBadIterationsBeforExit
                 obj.IterationId = 0;
                 
-                obj.TabuList = obj.CreateTabuList();
-                
                 % Recreate model when phase is over and set next phase:
-                % instance.instance = V3(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                % instance.name=obj.Name;
-                % model.instance{model.activePhaseIterator} = struct();
-                % model.instance{model.activePhaseIterator} = instance;
+                obj.TabuList = obj.CreateTabuList();
 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
-                
+                disp(['Launching ', ...
+                    model.instance{model.activePhaseIterator}.name])
             end
         end
         
