@@ -142,9 +142,11 @@ classdef E3 < handle
                         obj.TabuList(2:end) = obj.TabuList(1:end-1);
                         obj.TabuList(1) = actioncell;
                         
-                        obj.Last2Costs = [obj.Last2Costs(2) costList(index)];
-                        obj.Diff = obj.Last2Costs(1) - obj.Last2Costs(2);
-                        %disp(['Diff: ', num2str(obj.Diff)]);
+                        if mod(obj.IterationId,5) == 0
+                            obj.Last2Costs = [obj.Last2Costs(2) costList(index)];
+                            obj.Diff = obj.Last2Costs(1) - obj.Last2Costs(2);
+                        end
+                            %disp(['Diff: ', num2str(obj.Diff)]);
                         
                         % Perform action
                         lowestCost = sortedCosts(i);
@@ -193,21 +195,21 @@ classdef E3 < handle
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
-%             % If progress too slow - go to top phase
-%             elseif obj.Diff < 100
-%                 
-%                 disp(' ============ Progress too slow! ======== ')
-%                 obj.Last2Costs = [inf 0];
-%                 obj.Diff = inf;
-%                 
-%                 % Recreate tabu when phase is over and set next phase:
-%                 obj.TabuList = obj.CreateTabuList();
-%                 obj.LowestCost = [0, inf];
-%                 obj.IterationId = 1;
-%                 
-%                 % Take top phase
-%                 nrPhases = size(model.phases,2);
-%                 model.activePhaseIterator= 1;
+            % If progress too slow - go to top phase
+            elseif obj.Diff < 1E10
+                
+                disp(' ============ Progress too slow! ======== ')
+                obj.Last2Costs = [inf 0];
+                obj.Diff = inf;
+                
+                % Recreate tabu when phase is over and set next phase:
+                obj.TabuList = obj.CreateTabuList();
+                obj.LowestCost = [0, inf];
+                obj.IterationId = 1;
+                
+                % Take top phase
+                nrPhases = size(model.phases,2);
+                model.activePhaseIterator= 1;
                 
                 
             end
