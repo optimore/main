@@ -182,7 +182,7 @@ classdef V3 < handle
                 obj.IterationId = 1;
                 
                 obj.TabuList = obj.CreateTabuList();
-
+                
                 % Recreate model when phase is over and set next phase:
                 % instance.instance = V3(obj.Resultfile,obj.Logfile,obj.NrTasks);
                 % instance.name=obj.Name;

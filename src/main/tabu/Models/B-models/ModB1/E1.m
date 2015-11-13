@@ -4,7 +4,7 @@ classdef E1 < handle
     %
     
     properties(GetAccess = 'public', SetAccess = 'private')
-       
+        
         Name
         TabuList
         Logfile
@@ -22,7 +22,7 @@ classdef E1 < handle
     
     properties(Constant = true)
         % dep overlap bounds
-        CostWeight = [1 1 5];
+        CostWeight = [5 1 1];
     end
     
     methods
@@ -176,20 +176,20 @@ classdef E1 < handle
             %fprintf([num2str(obj.LowestCost(1)), ' ' , ...
             %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
             
-            if obj.LowestCost(1) < ...
-                    obj.IterationId-obj.NrOfBadIterationsBeforExit
+            % If solution getting worse
+            if obj.IterationId > round(obj.NrTasks/5) && obj.LowestCost(1) < ...
+                    obj.IterationId - obj.NrOfBadIterationsBeforExit
                 obj.IterationId = 0;
                 
-                % Recreate model when phase is over and set next phase:
-                instance.instance = E1(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                model.instance{model.activePhaseIterator} = struct();
-                model.instance{model.activePhaseIterator} = instance;
+                % Recreate tabu when phase is over and set next phase:
+                obj.TabuList = obj.CreateTabuList();
+                obj.LowestCost = [0, inf];
                 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
-                
+            
             end
         end
         

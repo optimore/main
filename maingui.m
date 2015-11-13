@@ -27,11 +27,11 @@ A5 = [103,105,104];
 
 %---------------------- B DATA OPTIMIZED MODELS ----------------------
 % For B data
-B1 = [1,2];
+B1 = [1,2,3];
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',A4), ...
+    'tabu', struct('active',1,'initial',1,'phases',B1), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
