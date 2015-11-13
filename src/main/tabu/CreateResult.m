@@ -11,7 +11,7 @@ resultId = resultParameters.id;
 
 % 2. Create result file
 filename = strsplit(dataParameters.path,'/');
-resultPath = [resultPath,'/',char(filename(end-1))];
+resultPath = [resultPath,'/T_',char(filename(end-1))];
 
 try
     result = fopen(resultPath, 'w');

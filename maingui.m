@@ -11,16 +11,28 @@ clc; close all; clear all;
 % A2_2015-10-30T15-14-12/';
 % dataParameters{1} = dataObj1;
 
+
+%---------------------- A DATA OPTIMIZED MODELS ----------------------
 % Models, with selected phases
 
 A1 = [5,6,7];
 A2 = [6,7];
+
+% optimized for F0-F25 (standard data)
 A3 = [101,102];
+
+% optimized for E30-E45
 A4 = [103,104];
+A5 = [105,103,104];
+A6 = [106,107,108,109,110,111,112];
+
+%---------------------- B DATA OPTIMIZED MODELS ----------------------
+% For B data
+B1 = [1,2];
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',A4), ...
+    'tabu', struct('active',1,'initial',1,'phases',A6), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
@@ -61,9 +73,6 @@ while noQuit
                     filename = [filename; thisfilename];
                 end
 
-
-                % SELECT DATA:
-                % listofindexes = [];
                 dataParameters = struct('name',{},'path',{});
                 foundstr = 0;
                 
@@ -78,18 +87,6 @@ while noQuit
                     end
                 end
                 
-                % listofcomplexisies = [];
-                % for iii=listofindexes
-                %     listofcomplexisies = [];
-                % end
-
-                % for i = 1:length(filename)
-                %    
-                %     dataObj.name = filename(i);
-                %     dataObj.path = [pathdir,pathname(i)];
-                %     dataParameters{i} = dataObj;  
-                % end
-
                 if foundstr
                     % 3. run launcher
                     status = mainlauncher(dataParameters, modelParameters);

@@ -1,9 +1,9 @@
 cd ../guitest
-git checkout master
-git pull origin master
+git checkout devhen
+git pull origin devhen
 cd ../tabu
 git remote add guiremote ../guitest
 git fetch guiremote
-git branch guimaster guiremote/master
+git branch guimaster guiremote/devhen
 git merge guimaster
 git branch -d guimaster
