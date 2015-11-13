@@ -42,7 +42,7 @@ classdef V3 < handle
         
         % Constructor:
         function obj = V3(resultfile,logfile,nrTasks)
-            name=class(obj)
+            name=class(obj);
             obj.Name = name;
             disp(['Running ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
@@ -57,7 +57,10 @@ classdef V3 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
+                
+                
                 posibleTaskActions = [-1.5E8, -0.75E8, 0.75E8 1.5E8];
+                % [-2.5E8, -8E7, 8E7, 2.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -116,17 +119,17 @@ classdef V3 < handle
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-                            if costList(index) > obj.LowestCost(2)
-                                % Aspiration criteria
-                                disp(['Asipiration criteria V3, solution: ', ...
-                                    num2str(costList(index)),' lowestEver: ', ...
-                                    num2str(obj.LowestCost(2))])
-                                notintabu = 1;
-                                
-                            else
+%                             if costList(index) > obj.LowestCost(2)
+%                                 % Aspiration criteria
+%                                 disp(['Asipiration criteria V3, solution: ', ...
+%                                     num2str(costList(index)),' lowestEver: ', ...
+%                                     num2str(obj.LowestCost(2))])
+%                                 notintabu = 1;
+%                                 
+%                             else
                                 notintabu = 0;
                                 break;
-                            end
+%                             end
                         end
                     end
 
@@ -178,11 +181,13 @@ classdef V3 < handle
                     obj.IterationId-obj.NrOfBadIterationsBeforExit
                 obj.IterationId = 0;
                 
+                obj.TabuList = obj.CreateTabuList();
+                
                 % Recreate model when phase is over and set next phase:
-                instance.instance = V3(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                instance.name=obj.Name;
-                model.instance{model.activePhaseIterator} = struct();
-                model.instance{model.activePhaseIterator} = instance;
+                % instance.instance = V3(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                % instance.name=obj.Name;
+                % model.instance{model.activePhaseIterator} = struct();
+                % model.instance{model.activePhaseIterator} = instance;
 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);

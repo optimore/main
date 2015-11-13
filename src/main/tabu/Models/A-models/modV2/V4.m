@@ -42,12 +42,12 @@ classdef V4 < handle
         
         % Constructor:
         function obj = V4(resultfile,logfile,nrTasks)
-            name=class(obj)
+            name=class(obj);
             obj.Name = name;
             disp(['Running ',name])
-            obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+            obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
-            obj.MaxPhaseIterations = round(nrTasks);
+            obj.MaxPhaseIterations = round(nrTasks/2);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
@@ -56,7 +56,7 @@ classdef V4 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-2E7, -8E6,-4E4,4E4,8E6,2E7];
+                posibleTaskActions = [-4E7, -8E6,-4E5,4E5,8E6,4E7];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -115,16 +115,16 @@ classdef V4 < handle
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-                            if costList(index) < obj.LowestCost(2)
-                                % Aspiration criteria
-                                disp(['Asipiration criteria V4, solution: ', ...
-                                    num2str(costList(index)),' lowestEver: ', ...
-                                    num2str(obj.LowestCost(2))])
-                                notintabu = 1;
-                            else
+%                             if costList(index) < obj.LowestCost(2)
+%                                 % Aspiration criteria
+%                                 disp(['Asipiration criteria V4, solution: ', ...
+%                                     num2str(costList(index)),' lowestEver: ', ...
+%                                     num2str(obj.LowestCost(2))])
+%                                 notintabu = 1;
+%                             else
                                 notintabu = 0;
                                 break;
-                            end
+%                             end
                         end
                     end
 
@@ -171,15 +171,17 @@ classdef V4 < handle
             %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
             
             if obj.LowestCost(1) < ... 
-                    obj.IterationId-obj.NrOfBadIterationsBeforExit || ...
-                    obj.IterationId > obj.MaxPhaseIterations
+               obj.IterationId-obj.NrOfBadIterationsBeforExit % || ...
+                    %obj.IterationId > obj.MaxPhaseIterations
                 obj.IterationId = 0;
                 
+                obj.TabuList = obj.CreateTabuList();
+                
                 % Recreate model when phase is over and set next phase:
-                instance.instance = V4(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                instance.name=obj.Name;
-                model.instance{model.activePhaseIterator} = struct();
-                model.instance{model.activePhaseIterator} = instance;
+                %instance.instance = V4(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                %instance.name=obj.Name;
+                %model.instance{model.activePhaseIterator} = struct();
+                %model.instance{model.activePhaseIterator} = instance;
 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);

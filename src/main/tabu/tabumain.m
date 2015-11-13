@@ -94,7 +94,7 @@ try
                 
             end
             
-            % 6.3 Evaluate current phase and over all conditions:
+            % 6.3 Evaluate current phase and phase change:
             model = model.instance{model.activePhaseIterator}. ...
                 instance.GetStoppingCriteria(model);
             
