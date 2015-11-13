@@ -22,7 +22,7 @@ function varargout = test_launcher(varargin)
 
 % Edit the above text to modify the response to help test_launcher
 
-% Last Modified by GUIDE v2.5 12-Nov-2015 12:44:24
+% Last Modified by GUIDE v2.5 13-Nov-2015 14:38:06
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -102,6 +102,9 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+global run_cb
+global index_listbox2
+
 dataParameters = struct('name',{},'path',{});
 % DataDir=dir('src/test/testdata/*_*');
 % pathname = [];
@@ -119,14 +122,7 @@ for i = 1:length(A)
 
 end
 
-for i = 1:length(value)
-    %value(i)
-    dataObj.name = value(i);
-    dataObj.path = horzcat('src/test/testdata/',char(value(i)),'/');
-    dataObj.path;
-    dataParameters{i} = dataObj;
-    
-end
+
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
@@ -139,6 +135,21 @@ input = str2num(input)
 
 global cb
 if (get(handles.pushbutton1,'Value'))==1
+if run_cb==2
+    for i = 1:length(value)
+        dataObj.name = value(i);
+        dataObj.path = horzcat('src/test/testdata/',char(value(i)),'/');
+        dataObj.path;
+        dataParameters{i} = dataObj;
+    end
+
+elseif run_cb==1
+    dataObj.name = value(index_listbox2);
+    dataObj.path = horzcat('src/test/testdata/',char(value(index_listbox2)),'/');
+    dataObj.path;
+    dataParameters{index_listbox2} = dataObj;
+end
+
      if cb==1
           modelParameters.tabu = setfield(modelParameters.tabu,'active',1);
           modelParameters.tabu = setfield(modelParameters.tabu,'phases',input);
@@ -152,9 +163,11 @@ if (get(handles.pushbutton1,'Value'))==1
 end
 
 % 3. run launcher
+msgbox('Wait')
+
 status = mainlauncher(dataParameters, modelParameters);
 
-
+msgbox('Finished')
 
 % --- Executes on button press in checkbox1.
 function checkbox1_Callback(hObject, eventdata, handles)
@@ -232,6 +245,18 @@ function listbox2_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox2 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox2
 
+global index_listbox2
+
+
+index_listbox2 = get(handles.listbox2,'Value');
+
+
+
+%--------------------------------------------------------------------------
+% HÄMTA INFORMATION FRÅN LISTAN VIA CALLBACK.
+% FYLL LISTBOX FRÅN CREATFCN.
+%--------------------------------------------------------------------------
+
 
 % --- Executes during object creation, after setting all properties.
 function listbox2_CreateFcn(hObject, eventdata, handles)
@@ -269,7 +294,7 @@ function listbox3_Callback(hObject, eventdata, handles)
 
 global index_listbox3
 
-handles.output = hObject;
+
 index_listbox3 = get(handles.listbox3,'Value');
 
 
@@ -286,6 +311,32 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
+B = dir('target/results/*_*');
+value = [];
+
+for i = 1:length(B)
+
+    value = [value; cellstr(getfield(B,{i},'name'))];
+
+end
+
+p = B(end-1);
+l = p.name;
+temp_1=strcat('target/results/',l);
+temp_2=strcat(temp_1,'/*_*');
+
+new_path = dir(temp_2);
+
+past_value=[];
+for i = 1:length(new_path)
+
+    past_value = [past_value; cellstr(getfield(new_path,{i},'name'))];
+
+end
+
+
+set(hObject,'String',past_value)
+
 % --- Executes on button press in pushbutton3.
 function pushbutton3_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton3 (see GCBO)
@@ -294,13 +345,9 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 
 global new_value
 
-% load('target/results/results_2015-11-12T09-06-19/result_tabu_1')
-
 global l
 
 global index_listbox3
-
-global plot_cb
 
 global load_data
 
@@ -311,12 +358,9 @@ if (get(handles.pushbutton3,'Value'))==1
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes3)
-
-     if plot_cb==1
-                plot(load_data(1:(end-1),1),load_data(1:(end-1),3));
-     elseif plot_cb==2
-                plot(load_data(1:(end-1),1),load_data(1:(end-1),2));
-     end
+    plot(load_data(1:(end-1),3),load_data(1:(end-1),1));
+    legend('Objective Fcn / Time')
+   
 end
 
 % --- Executes on selection change in listbox4.
@@ -381,37 +425,6 @@ end
 get(handles.listbox3,'Value')
 set(handles.listbox3,'String',new_value)
 
-
-% --- Executes on button press in checkbox8.
-function checkbox8_Callback(hObject, eventdata, handles)
-% hObject    handle to checkbox8 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of checkbox8
-
-global plot_cb
-
-if get(handles.checkbox8,'Value')==1
-     plot_cb=1; 
-end
-
-
-% --- Executes on button press in checkbox9.
-function checkbox9_Callback(hObject, eventdata, handles)
-% hObject    handle to checkbox9 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of checkbox9
-
-global plot_cb
-
-if get(handles.checkbox8,'Value')==1
-     plot_cb=2; 
-end
-
-
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton5 (see GCBO)
@@ -457,8 +470,59 @@ oldData=[];
 for iter_2 = 1:length(new_value)
     
     data_table= [test_data_value(iter_2),new_value_name(iter_2),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
-    oldData = [oldData;data_table]
+    oldData = [oldData;data_table];
     
 end
 
 set(handles.uitable1,'data',oldData)
+
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global new_value
+
+global l
+
+global index_listbox3
+
+global load_data
+
+if (get(handles.pushbutton6,'Value'))==1
+
+    temp_1=strcat('target/results/',l);
+    temp_2=strcat(temp_1,'/',new_value(index_listbox3));
+    temp_path = sprintf('%s',temp_2{:});
+    load_data = load(temp_path);
+    axes(handles.axes4)
+    loglog(load_data(1:(end-1),1),load_data(1:(end-1),2));
+    legend('Objective Function / Iterations');
+     
+end
+
+% --- Executes on button press in checkbox10.
+function checkbox10_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox10
+
+global run_cb
+if get(handles.checkbox10,'Value')==1
+     run_cb=1; 
+end
+
+% --- Executes on button press in checkbox11.
+function checkbox11_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox11
+global run_cb
+if get(handles.checkbox11,'Value')==1
+     run_cb=2; 
+end

@@ -6,6 +6,10 @@ function status = mainlauncher(dataParameters, modelParameters)
 status.run = 0;
 runId=1;
 
+
+dataParameters
+modelParameters
+
 % 2. Functional setup:
 try
     % 2.1 Add paths for setup files:
