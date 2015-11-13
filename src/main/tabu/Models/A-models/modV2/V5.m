@@ -1,7 +1,8 @@
 classdef V5 < handle
-    %C3 Summary of this class goes here
-    %   
+    % V5 Summary of this class goes here
+    % This class uses one task tabu list!
     % 
+    % By: Victor Bergelin
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -24,7 +25,7 @@ classdef V5 < handle
     end
     
     methods        
-        % Create Tabu List
+        % Create Tabu List for only moving one task
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
@@ -43,7 +44,7 @@ classdef V5 < handle
         % Constructor:
         function obj = V5(resultfile,logfile,nrTasks)
             disp('Running V5')
-            obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+            obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
             obj.MaxPhaseIterations = round(nrTasks);
             obj.Resultfile = resultfile;

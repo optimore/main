@@ -3,11 +3,10 @@
 %   Detailed explanation goes here
 clear;
 clc;
-path1 = '/edu/henkj080/TATA62/guitest/src/main/guitest/guilauncher';
+path1 = 'src/main/guitest/guilauncher';
 addpath(path1);
 test_launcher;
 
 % *** RESOLVE LATER ***
 % rmpath(path1);
-
-%  end
+% end
