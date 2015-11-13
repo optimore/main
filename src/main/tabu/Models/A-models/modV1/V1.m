@@ -4,7 +4,7 @@ classdef V1 < handle
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
-        
+        Name
         TabuList
         Logfile 
         Resultfile
@@ -42,7 +42,9 @@ classdef V1 < handle
         
         % Constructor:
         function obj = V1(resultfile,logfile,nrTasks)
-            disp('Running V1')
+            name = class(obj);
+            obj.Name = name;
+            disp(['Running: ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             % Not used:
@@ -117,7 +119,7 @@ classdef V1 < handle
                         if isequal(tabuSolution, actionSolution) == 1
                             if costList(index) > obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria V2, tabu: ', ...
+                                disp(['Asipiration criteria V1, tabu: ', ...
                                     num2str(costList(index)),' cost: ', ...
                                     num2str(obj.LowestCost(2))])
                                 
@@ -207,7 +209,7 @@ classdef V1 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            costVec = [costStruct.over,costStruct.dep,costStruct.bound];   
+            costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];   
         end
     end
 end

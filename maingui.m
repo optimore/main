@@ -83,18 +83,6 @@ while noQuit
                     end
                 end
                 
-                % listofcomplexisies = [];
-                % for iii=listofindexes
-                %     listofcomplexisies = [];
-                % end
-
-                % for i = 1:length(filename)
-                %    
-                %     dataObj.name = filename(i);
-                %     dataObj.path = [pathdir,pathname(i)];
-                %     dataParameters{i} = dataObj;  
-                % end
-
                 if foundstr
                     % 3. run launcher
                     status = mainlauncher(dataParameters, modelParameters);

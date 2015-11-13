@@ -43,7 +43,9 @@ classdef V5 < handle
         
         % Constructor:
         function obj = V5(resultfile,logfile,nrTasks)
-            disp('Running V5')
+            name = class(obj);
+            obj.Name = name;
+            disp(['Running: ',name])
             obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
             obj.MaxPhaseIterations = round(nrTasks);
@@ -205,7 +207,7 @@ classdef V5 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            costVec = [costStruct.over,costStruct.dep,costStruct.bound];
+            costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];   
             
         end
     end

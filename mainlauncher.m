@@ -4,7 +4,7 @@ function status = mainlauncher(dataParameters, modelParameters)
 
 % 1. Variable setup:
 status.run = 0;
-runId=1;
+runId=0;
 
 % 2. Functional setup:
 try
@@ -19,7 +19,7 @@ try
     status.resultPath = resultPath;
     status.run = 1;
 catch err
-    disp('Fatal error in 2. setup')
+    disp('Fatal error in launcher setup')
     disp(err.stack)
 end
 
@@ -37,7 +37,7 @@ if status.run
             try
                 % Add path for tabu main files:
                 addpath(genpath('src/main/tabu')); %'src/main/tabu';
-
+                runId = runId +1;
                 status.tabu = tabumain(dataParameters{i}, ...
                                        modelParameters.tabu, ...
                                        logfileParameters, ...
@@ -46,7 +46,7 @@ if status.run
                 rmpath(genpath('src/main/tabu')); % 'src/main/tabu';
                 % -----------------------------
 
-                runId = runId +1;
+                
 
             catch err
                fprintf(logfile,['\nFatal error in tabu search,', ...
@@ -62,6 +62,7 @@ if status.run
     if modelParameters.LNS.active
         for i = 1:length(dataParameters)
             try
+                runId = runId +1;
                 % Add path for LNS main files:
                 addpath(genpath('src/main/ampl')); %'src/main/tabu';
                 status.LNS = LNSmain(dataParameters{i}, ...
@@ -71,8 +72,6 @@ if status.run
                                             'id',runId));
                 rmpath(genpath('src/main/ampl')); % 'src/main/tabu';
                 % -----------------------------
-
-                runId = runId +1;
 
             catch err
                fprintf(logfile,['\nFatal error in LNS search,', ...
@@ -88,6 +87,7 @@ if status.run
     if modelParameters.ampl.active
         for i = 1:length(dataParameters)
             try
+                runId = runId +1;
                 % Add path for ampl main files:
                 addpath(genpath('src/main/ampl')); %'src/main/tabu';
                 status.ampl = amplmain(dataParameters{i}, ...
@@ -97,8 +97,6 @@ if status.run
                                             'id',runId));
                 rmpath(genpath('src/main/ampl')); % 'src/main/tabu';
                 % -----------------------------
-
-                runId = runId +1;
 
             catch err
                fprintf(logfile,['\nFatal error in ampl search,', ...
@@ -110,8 +108,8 @@ if status.run
     end
 end   
 
-disp(['Launcher script finished after ',num2str(runId), ...
-    ' iterations over all selected models']);
+disp(['Launcher script successfully finished after ',num2str(runId), ...
+    ' runs over selected models']);
 
 status.run = 1
 

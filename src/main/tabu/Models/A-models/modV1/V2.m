@@ -4,7 +4,7 @@ classdef V2 < handle
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
-        
+        Name
         TabuList
         Logfile 
         Resultfile
@@ -42,7 +42,9 @@ classdef V2 < handle
         
         % Constructor:
         function obj = V2(resultfile,logfile,nrTasks)
-            disp('Running V2')
+            name = class(obj);
+            obj.Name = name;
+            disp(['Running: ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             obj.MaxPhaseIterations = round(nrTasks);
@@ -204,7 +206,7 @@ classdef V2 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            costVec = [costStruct.over,costStruct.dep,costStruct.bound];
+            costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];   
             
         end
     end
