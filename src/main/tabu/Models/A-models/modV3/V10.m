@@ -141,7 +141,7 @@ classdef V10 < handle
                         obj.TabuList(1) = {changedTask};
 
                         % Perform action
-                        lowestCost = sortedCosts(i);
+                        lowestCost = costList(index);
                         
                         data.tasks(:,6) = actionSolution;
                         if lowestCost < obj.LowestCost(2)
