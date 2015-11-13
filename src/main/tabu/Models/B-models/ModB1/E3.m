@@ -196,7 +196,7 @@ classdef E3 < handle
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
             % If progress too slow - go to top phase
-            elseif obj.Diff < 1E10
+            elseif obj.Diff < 1E13
                 
                 disp(' ============ Progress too slow! ======== ')
                 obj.Last2Costs = [inf 0];
