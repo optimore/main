@@ -11,15 +11,16 @@ try
     %axis([-0.1*L,1.1*L,0,T+1])
     set(gca,'FontSize',10);
     
-    title(sprintf('Current cost: %s\nIteration: %s\nActivePhase: %s\n', num2str(sum(cost(end,:)),'%10.5e'), num2str(figdata.iteration),  num2str(figdata.phase)));
+    title(sprintf('Current cost: %s\nIteration: %s\nActivePhase: %s\n', num2str(sum(cost(end,:)),'%10.5e'), num2str(figdata.iteration),  figdata.phase));
     xlabel('Number of iterations');
     ylabel('CostFunction value (LOG)');
    
     hold(fig, 'on')
     %plot(log(cost));
-    h=area(log(cost+1),'LineStyle',':');
+    %h=area(log(cost+1));
+    h=plot(log(cost+1)); %,'LineStyle',':');
     legend(h,'Total','Depen', 'Overlap','Bounds', ...
-        'Location','North','Orientation','horizontal');
+        'Location','West'); %,'Orientation','horizontal');
     hold(fig,'off')
     
 catch err

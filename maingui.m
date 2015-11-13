@@ -11,6 +11,8 @@ clc; close all; clear all;
 % A2_2015-10-30T15-14-12/';
 % dataParameters{1} = dataObj1;
 
+
+%---------------------- A DATA OPTIMIZED MODELS ----------------------
 % Models, with selected phases
 
 A1 = [5,6,7];
@@ -21,14 +23,15 @@ A3 = [101,102];
 
 % optimized for E30-E45
 A4 = [103,104];
-A5 = [105,103,104];
+A5 = [103,105,104];
 
-% For A data
+%---------------------- B DATA OPTIMIZED MODELS ----------------------
+% For B data
 B1 = [1,2];
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',B1), ...
+    'tabu', struct('active',1,'initial',1,'phases',A4), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 

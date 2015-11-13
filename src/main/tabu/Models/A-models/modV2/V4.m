@@ -4,7 +4,7 @@ classdef V4 < handle
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
-        
+        Name
         TabuList
         Logfile 
         Resultfile
@@ -28,7 +28,7 @@ classdef V4 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = round(obj.NrTasks/10);
+                    listlength = round(obj.NrTasks);
                     tabucell = cell(1,obj.NrTasks);
                     TabuList = cell([size(tabucell) listlength]);
                 catch err
@@ -42,7 +42,9 @@ classdef V4 < handle
         
         % Constructor:
         function obj = V4(resultfile,logfile,nrTasks)
-            disp('Running V4')
+            name=class(obj)
+            obj.Name = name;
+            disp(['Running ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             obj.MaxPhaseIterations = round(nrTasks);
@@ -111,14 +113,14 @@ classdef V4 < handle
                     for j = 1:length(obj.TabuList)
                         tabuSolution = obj.TabuList{j};
 
-
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria V4, tabu: ', ...
-                                    num2str(costList(index)),' cost: ', ...
+                                disp(['Asipiration criteria V4, solution: ', ...
+                                    num2str(costList(index)),' lowestEver: ', ...
                                     num2str(obj.LowestCost(2))])
+                                notintabu = 1;
                             else
                                 notintabu = 0;
                                 break;
@@ -175,6 +177,7 @@ classdef V4 < handle
                 
                 % Recreate model when phase is over and set next phase:
                 instance.instance = V4(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.name=obj.Name;
                 model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 
@@ -204,7 +207,7 @@ classdef V4 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            costVec = [costStruct.dep,costStruct.over,costStruct.bound];
+            costVec = [costStruct.total, costStruct.dep,costStruct.over,costStruct.bound];
             
         end
     end
