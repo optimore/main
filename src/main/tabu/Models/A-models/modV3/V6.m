@@ -1,7 +1,8 @@
-classdef V2 < handle
-    %C3 Summary of this class goes here
-    %   
+classdef V6 < handle
+    % V6 Summary of this class goes here
+    % This class uses one task tabu list!
     % 
+    % By: Victor Bergelin
     
     properties(GetAccess = 'public', SetAccess = 'private')
         Name
@@ -16,21 +17,20 @@ classdef V2 < handle
         LowestCost = [0, inf];
         ActionSolution = [];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=20;
+        NrOfBadIterationsBeforExit=2;
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 3];
+        CostWeight = [1 1 1];
     end
     
     methods        
-        % Create Tabu List
+        % Create Tabu List for only moving one task
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = round(obj.NrTasks/10);
-                    tabucell = cell(1,obj.NrTasks);
-                    TabuList = cell([size(tabucell) listlength]);
+                    listlength = round(obj.NrTasks/2);
+                    TabuList = cell(listlength, 1);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -41,13 +41,13 @@ classdef V2 < handle
         end  
         
         % Constructor:
-        function obj = V2(resultfile,logfile,nrTasks)
-            name = class(obj);
+        function obj = V6(resultfile,logfile,nrTasks)
+            name=class(obj);
             obj.Name = name;
-            disp(['Running: ',name])
-            obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+            disp(['Running ',name])
+            obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
-            obj.MaxPhaseIterations = round(nrTasks);
+            obj.MaxPhaseIterations = round(nrTasks/3);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
@@ -56,7 +56,7 @@ classdef V2 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-2E7, -8E6,-4E4,4E4,8E6,2E7];
+                posibleTaskActions = [-1.5E8, -5E7, -1E7, 1E7, 5E7, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -99,7 +99,6 @@ classdef V2 < handle
                         
             % Do Action:
             try
-                % =========== 1st version: Using solutions ================
                 [sortedCosts, indexes] = sort(costList);
 
                 % Loop through min-solutions in ascending order
@@ -108,17 +107,21 @@ classdef V2 < handle
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
-
+ 
+                    
+                    % V6 find changed solution:
+                    currentSolution = data.tasks(:,6);
+                    changedTask = find(actionSolution - currentSolution);
+                   
                     % Compare solution with tabu list solutions
                     for j = 1:length(obj.TabuList)
-                        tabuSolution = obj.TabuList{j};
-
-
+                        tabuTask = obj.TabuList{j};
+                        
                         % Break if action in tabulist
-                        if isequal(tabuSolution, actionSolution) == 1
+                        if isequal(tabuTask, changedTask) == 1
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria V2, solution: ', ...
+                                disp(['Asipiration criteria V6, solution: ', ...
                                     num2str(costList(index)),' lowestEver: ', ...
                                     num2str(obj.LowestCost(2))])
                                 notintabu = 1;
@@ -131,12 +134,11 @@ classdef V2 < handle
 
 
                     if notintabu == 1
-
+                        disp(':')
                         % Add action to tabu list
-                        actioncell = num2cell(actionSolution, 1);
+                        
                         obj.TabuList(2:end) = obj.TabuList(1:end-1);
-                        obj.TabuList(1) = actioncell;
-
+                        obj.TabuList(1) = {changedTask};
 
                         % Perform action
                         lowestCost = sortedCosts(i);
@@ -156,7 +158,7 @@ classdef V2 < handle
                         
                         break;
                     end
-
+                    fprintf('.')
                 end 
             catch err
                 disp('ERROR in do action class')
@@ -176,17 +178,15 @@ classdef V2 < handle
                     obj.IterationId > obj.MaxPhaseIterations
                 obj.IterationId = 0;
                 
-                % Recreate model when phase is over and set next phase:
-                instance.instance = V2(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                instance.name=obj.Name;
-                model.instance{model.activePhaseIterator} = struct();
-                model.instance{model.activePhaseIterator} = instance;
+                % Recreate tabulist when phase is over and set next phase:
+                obj.TabuList = obj.CreateTabuList();
 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
-                
+                disp(['Launching ', ...
+                    model.instance{model.activePhaseIterator}.name])
             end
         end
         
@@ -201,8 +201,6 @@ classdef V2 < handle
         end
         
         function [costVec, obj] = GetCost(obj,data)
-            % cost = obj.LowestCost(2);
-            
             curSolution = zeros(obj.NrTasks,2);
             curSolution(:,1) = data.tasks(:,1);
             curSolution(:,2) = data.tasks(:,6);

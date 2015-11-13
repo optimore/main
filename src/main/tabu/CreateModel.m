@@ -24,32 +24,32 @@ try
     for inst = model.phases
         switch inst
             case 1,
-                instance.name = 'C1';
-                instance.instance = C1(resultfile,logfile,nrTasks);
+                instance.name = 'E1';
+                instance.instance = E1(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 2,
-                instance.name = 'C2';
-                instance.instance = C2(resultfile,logfile,nrTasks);
+                instance.name = 'E2';
+                instance.instance = E2(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 3,
-                instance.name = 'C3';
-                instance.instance = C3(resultfile,logfile,nrTasks);
+                instance.name = 'E3';
+                instance.instance = E3(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 4,
-                instance.name = 'C4';
-                instance.instance = C4(resultfile,logfile,nrTasks);
+                instance.name = 'E4';
+                instance.instance = E4(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 5,
-                instance.name = 'C5';
-                instance.instance = C5(resultfile,logfile,nrTasks);
+                instance.name = 'E5';
+                instance.instance = E5(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 6,
-                instance.name = 'C6';
-                instance.instance = C6(resultfile,logfile,nrTasks);
+                instance.name = 'E6';
+                instance.instance = E6(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 7,
-                instance.name = 'C7';
-                instance.instance = C7(resultfile,logfile,nrTasks);
+                instance.name = 'E7';
+                instance.instance = E7(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 101,
                 instance.name = 'V1';
@@ -71,6 +71,39 @@ try
                 instance.name = 'V5';
                 instance.instance = V5(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
+            case 106,
+                instance.name = 'V6';
+                instance.instance = V6(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 107,
+                instance.name = 'V7';
+                instance.instance = V5(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 108,
+                instance.name = 'V8';
+                instance.instance = V8(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 109,
+                instance.name = 'V9';
+                instance.instance = V9(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 109,
+                instance.name = 'V9';
+                instance.instance = V9(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 110,
+                instance.name = 'V10';
+                instance.instance = V10(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 111,
+                instance.name = 'V11';
+                instance.instance = V11(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 112,
+                instance.name = 'V12';
+                instance.instance = V12(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            
             %case *,
                 
             otherwise,

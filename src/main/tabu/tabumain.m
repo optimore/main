@@ -21,7 +21,7 @@ status = 0;
 % End after X iterations
 nrIterations = 1000;
 sleeptime = 0.01;
-PLOTON = 0;
+PLOTON = 1;
 PLOTSOL = 0;
 
 % Add timing:
@@ -63,7 +63,7 @@ try
 	% 6. Perform tabu 
 	model.conditionsAreNotMet = 1;
 	model.iterations = 1;
-    cost = [0,0,0];
+    cost = [0,0,0,0];
     
 	while model.conditionsAreNotMet
 	    try
@@ -88,17 +88,17 @@ try
                 end
                 
                 figdata.iteration = model.iterations;
-                figdata.phase = model.activePhaseIterator;
+                figdata.phase = [num2str(model.activePhaseIterator),' (', ...
+                    model.instance{model.activePhaseIterator}.name,')'];
                 DisplayCostFunction(cost,bot_right,figdata);
                 
             end
             
-            % 6.3 Evaluate current phase and over all conditions:
+            % 6.3 Evaluate current phase and phase change:
             model = model.instance{model.activePhaseIterator}. ...
                 instance.GetStoppingCriteria(model);
             
-            % 6.4 Evaluate if condation are met: *** NEEDS FIX!! *** NOT IN
-            % INSTANCE.
+            % 6.4 Evaluate if condation are met: 
             model = model.instance{model.activePhaseIterator}.instance.AreConditionsMet(model);
                         
             if model.iterations > nrIterations

@@ -1,9 +1,10 @@
-classdef V2 < handle
-    %C3 Summary of this class goes here
+classdef E2 < handle
+    % E2 Summary of this class goes here
     %   
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
+        
         Name
         TabuList
         Logfile 
@@ -16,11 +17,12 @@ classdef V2 < handle
         LowestCost = [0, inf];
         ActionSolution = [];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=20;
+        NrOfBadIterationsBeforExit=2;
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 3];
+        % dep overlap bounds
+        CostWeight = [1 1 5];
     end
     
     methods        
@@ -41,13 +43,14 @@ classdef V2 < handle
         end  
         
         % Constructor:
-        function obj = V2(resultfile,logfile,nrTasks)
+        function obj = E2(resultfile,logfile,nrTasks)
             name = class(obj);
+            disp(['Running: ', num2str(name)])
             obj.Name = name;
-            disp(['Running: ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
-            obj.MaxPhaseIterations = round(nrTasks);
+            % Not used:
+            obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
@@ -56,7 +59,7 @@ classdef V2 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-2E7, -8E6,-4E4,4E4,8E6,2E7];
+                posibleTaskActions = [-0.75E7, 0.75E7];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -116,12 +119,12 @@ classdef V2 < handle
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-                            if costList(index) < obj.LowestCost(2)
+                            if costList(index) > obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria V2, solution: ', ...
-                                    num2str(costList(index)),' lowestEver: ', ...
+                                disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+                                    num2str(costList(index)),' cost: ', ...
                                     num2str(obj.LowestCost(2))])
-                                notintabu = 1;
+                                
                             else
                                 notintabu = 0;
                                 break;
@@ -142,9 +145,11 @@ classdef V2 < handle
                         lowestCost = sortedCosts(i);
                         
                         data.tasks(:,6) = actionSolution;
+
                         if lowestCost < obj.LowestCost(2)
                             obj.LowestCost = [obj.IterationId,lowestCost];
                         end
+                        
                         obj.ActionSolution = actionSolution;
                         
                         % *** Add later *** 
@@ -172,13 +177,11 @@ classdef V2 < handle
             %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
             
             if obj.LowestCost(1) < ... 
-                    obj.IterationId-obj.NrOfBadIterationsBeforExit || ...
-                    obj.IterationId > obj.MaxPhaseIterations
+                    obj.IterationId-obj.NrOfBadIterationsBeforExit
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = V2(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                instance.name=obj.Name;
+                instance.instance = E2(obj.Resultfile,obj.Logfile,obj.NrTasks);
                 model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 
@@ -208,9 +211,9 @@ classdef V2 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            costVec = [costStruct.total, costStruct.dep,costStruct.over,costStruct.bound];
-            
+            costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];   
         end
     end
 end
 
+%%

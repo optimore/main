@@ -86,7 +86,11 @@ while noQuit
                         foundstr=1;
                     end
                 end
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> vic
                 if foundstr
                     % 3. run launcher
                     status = mainlauncher(dataParameters, modelParameters);

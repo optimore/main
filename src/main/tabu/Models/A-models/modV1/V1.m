@@ -44,7 +44,7 @@ classdef V1 < handle
         function obj = V1(resultfile,logfile,nrTasks)
             name = class(obj);
             obj.Name = name;
-            disp(['Running: ',name])
+            disp(['Running ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             % Not used:
@@ -100,9 +100,7 @@ classdef V1 < handle
                         
             % Do Action:
             try
-                % =========== 1st version: Using solutions ================
                 [sortedCosts, indexes] = sort(costList);
-
                 % Loop through min-solutions in ascending order
                 for i = 1:length(costList)
 
@@ -119,10 +117,10 @@ classdef V1 < handle
                         if isequal(tabuSolution, actionSolution) == 1
                             if costList(index) > obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria V1, tabu: ', ...
-                                    num2str(costList(index)),' cost: ', ...
+                                disp(['Asipiration criteria V1, solution: ', ...
+                                    num2str(costList(index)),' lowestEver: ', ...
                                     num2str(obj.LowestCost(2))])
-                                
+                                notintabu = 1;
                             else
                                 notintabu = 0;
                                 break;
@@ -180,6 +178,7 @@ classdef V1 < handle
                 
                 % Recreate model when phase is over and set next phase:
                 instance.instance = V1(obj.Resultfile,obj.Logfile,obj.NrTasks);
+                instance.name=obj.Name;
                 model.instance{model.activePhaseIterator} = struct();
                 model.instance{model.activePhaseIterator} = instance;
 
@@ -209,7 +208,11 @@ classdef V1 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
+<<<<<<< HEAD
             costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];   
+=======
+            costVec = [costStruct.total, costStruct.dep,costStruct.over,costStruct.bound];
+>>>>>>> vic
         end
     end
 end

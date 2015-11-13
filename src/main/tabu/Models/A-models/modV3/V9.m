@@ -1,10 +1,10 @@
-classdef C3 < handle
-    %C3 Summary of this class goes here
+classdef V9 < handle
+    %V9 Summary of this class goes here
     %   
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
-        
+        Name
         TabuList
         Logfile 
         Resultfile
@@ -13,14 +13,14 @@ classdef C3 < handle
         CostList
         ActionList
         IterationId=1;
-        LowestCost = Inf;
+        LowestCost = [0, inf];
         ActionSolution = [];
+        MaxPhaseIterations
+        NrOfBadIterationsBeforExit=2;
     end
     
     properties(Constant = true)
-        % dependency overlap bounds
-        CostWeight = [2 1 1];
-        MaxPhaseIterations = 100;
+        CostWeight = [1 6 1];
     end
     
     methods        
@@ -28,7 +28,7 @@ classdef C3 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 100;
+                    listlength = round(obj.NrTasks);
                     tabucell = cell(1,obj.NrTasks);
                     TabuList = cell([size(tabucell) listlength]);
                 catch err
@@ -41,19 +41,24 @@ classdef C3 < handle
         end  
         
         % Constructor:
-        function obj = C3(resultfile,logfile,nrTasks)
-            disp('Running C3')
+        function obj = V9(resultfile,logfile,nrTasks)
+            name=class(obj);
+            obj.Name = name;
+            disp(['Running ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
+            % Not used:
+            % obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
         
         % Get Action list and do action
-        function [data,obj] = GetAndPerformAction(obj,data)
+        function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-0.75E8, 0.75E8];
+                posibleTaskActions = [-1.5E8, -0.75E8, -1E7, 1E7, 0.75E8 1.5E8];
+                % [-2.5E8, -8E7, 8E7, 2.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -110,11 +115,19 @@ classdef C3 < handle
                     for j = 1:length(obj.TabuList)
                         tabuSolution = obj.TabuList{j};
 
-
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-                            notintabu = 0;
-                            break;
+%                             if costList(index) > obj.LowestCost(2)
+%                                 % Aspiration criteria
+%                                 disp(['Asipiration criteria V9, solution: ', ...
+%                                     num2str(costList(index)),' lowestEver: ', ...
+%                                     num2str(obj.LowestCost(2))])
+%                                 notintabu = 1;
+%                                 
+%                             else
+                                notintabu = 0;
+                                break;
+%                             end
                         end
                     end
 
@@ -132,14 +145,17 @@ classdef C3 < handle
                         
                         data.tasks(:,6) = actionSolution;
 
-                        obj.LowestCost = lowestCost;
+                        if lowestCost < obj.LowestCost(2)
+                            obj.LowestCost = [obj.IterationId,lowestCost];
+                        end
+                        
                         obj.ActionSolution = actionSolution;
                         
                         % *** Add later *** 
                         timenow = toc;
                         
                         % Log results
-                        fprintf(obj.Resultfile, [num2str(obj.IterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
+                        fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
                         obj.IterationId = obj.IterationId + 1;
                         
                         break;
@@ -155,25 +171,29 @@ classdef C3 < handle
                 
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
-            if obj.IterationId > obj.MaxPhaseIterations
+            % Print cost and phase exit criteria:
+            %fprintf([num2str(obj.LowestCost(1)), ' ' , ... 
+            %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
+            
+            if obj.LowestCost(1) < ... 
+                    obj.IterationId-obj.NrOfBadIterationsBeforExit
                 obj.IterationId = 0;
                 
                 % Recreate model when phase is over and set next phase:
-                instance.instance = C3(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                model.instance{model.activePhaseIterator} = struct();
-                model.instance{model.activePhaseIterator} = instance;
+                obj.TabuList = obj.CreateTabuList();
 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
-                
+                disp(['Launching ', ...
+                    model.instance{model.activePhaseIterator}.name])
             end
         end
         
         function [model, obj] = AreConditionsMet(obj,model)
             try
-                if obj.LowestCost==0
+                if obj.LowestCost(2)==0
                     model.conditionsAreNotMet = 0;
                 end
             catch err
@@ -181,9 +201,17 @@ classdef C3 < handle
             end
         end
         
-        function [cost, obj] = GetCost(obj)
-            cost = obj.LowestCost;
+        function [costVec, obj] = GetCost(obj,data)
+            % cost = obj.LowestCost(2);
+            
+            curSolution = zeros(obj.NrTasks,2);
+            curSolution(:,1) = data.tasks(:,1);
+            curSolution(:,2) = data.tasks(:,6);
+            
+            costStruct = CostFunction(data,curSolution,obj.CostWeight);
+            costVec = [costStruct.total, costStruct.dep,costStruct.over,costStruct.bound];
         end
     end
 end
 
+%%
