@@ -23,9 +23,12 @@ A3 = [101,102];
 A4 = [103,104];
 A5 = [105,103,104];
 
+% For A data
+B1 = [1,2];
+
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',A4), ...
+    'tabu', struct('active',1,'initial',1,'phases',B1), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
