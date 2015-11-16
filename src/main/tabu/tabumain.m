@@ -100,10 +100,17 @@ try
             
             % 6.4 Evaluate if condation are met: 
             model = model.instance{model.activePhaseIterator}.instance.AreConditionsMet(model);
-                        
+            
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
-            end            
+            end
+            
+            % 6.5 Dynamic weights calculated
+            if mod(nrIterations,50) == 0
+            model.instance{model.activePhaseIterator}. ...
+                instance.SetWeights(data);
+            end
+            
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);
