@@ -42,15 +42,10 @@ classdef V3 < handle
         
         % Constructor:
         function obj = V3(resultfile,logfile,nrTasks)
-<<<<<<< HEAD
             name = class(obj);
             obj.Name = name;
             disp(['Running: ',name])
-=======
-            name=class(obj);
-            obj.Name = name;
-            disp(['Running ',name])
->>>>>>> vic
+
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             % Not used:

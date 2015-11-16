@@ -208,11 +208,8 @@ classdef V1 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-<<<<<<< HEAD
             costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];   
-=======
-            costVec = [costStruct.total, costStruct.dep,costStruct.over,costStruct.bound];
->>>>>>> vic
+
         end
     end
 end
