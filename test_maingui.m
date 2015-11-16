@@ -3,8 +3,8 @@
 %   Detailed explanation goes here
 clear;
 clc;
-path1 = 'src/main/guitest/guilauncher';
-addpath(path1);
+% path1 = 'src/main/guitest/guilauncher';
+% addpath(path1);
 test_launcher;
 
 % *** RESOLVE LATER ***
