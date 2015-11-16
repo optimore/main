@@ -165,11 +165,25 @@ end
 end
 
 % 3. run launcher
-msgbox('Wait')
+close_msgbox1 = msgbox('Wait')
 
 status = mainlauncher(dataParameters, modelParameters);
+delete(close_msgbox1);
 
 msgbox('Finished')
+
+
+
+
+
+%LNSmain(dataParameters)
+%system('ÄNDRA STRÄNGAR I FILEN')
+%system('module add cplex/12.5-fullampl; ampl < LNSModel.run')
+
+
+
+
+
 
 % --- Executes on button press in checkbox1.
 function checkbox1_Callback(hObject, eventdata, handles)
@@ -332,7 +346,7 @@ for i = 1:length(new_path)
     past_value = [past_value; cellstr(getfield(new_path,{i},'name'))];
 
 end
-set(hObject,'String',past_value)
+set(hObject,'String',past_value);
 
 
 
@@ -358,7 +372,10 @@ global load_data
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes3)
-    plot(load_data(1:(end-1),3),load_data(1:(end-1),2));
+    for p = 1:length(load_data(1:end,2))
+        ln_data(p)=log(load_data(p,2));
+    end
+    plot(load_data(1:end,3),load_data(1:end,2));
     legend('Objective Fcn / Time')
     end
  end
@@ -422,8 +439,8 @@ for i = 1:length(new_path)
 end
 end
 
-get(handles.listbox3,'Value')
-set(handles.listbox3,'String',new_value)
+get(handles.listbox3,'Value');
+set(handles.listbox3,'String',new_value);
 
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
@@ -457,11 +474,11 @@ for iter_1 = 1:length(new_value)
     
     temp_load = load(temp_path);
     
-    max_iter(iter_1) = temp_load(end-1,1);
+    max_iter(iter_1) = temp_load(end,1);
     
-    max_cost(iter_1) = temp_load(end-1,2);
+    max_cost(iter_1) = temp_load(end,2);
     
-    max_time(iter_1) = temp_load(end-1,3);
+    max_time(iter_1) = temp_load(end,3);
    
 end
 
@@ -474,7 +491,7 @@ for iter_2 = 1:length(new_value)
     
 end
 
-set(handles.uitable1,'data',oldData)
+set(handles.uitable1,'data',oldData);
 
 
 % --- Executes on button press in pushbutton6.
@@ -497,7 +514,10 @@ if (get(handles.pushbutton6,'Value'))==1
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes4)
-    plot(load_data(1:(end-1),1),log(load_data(1:(end-1),2)));
+     for p = 1:length(load_data(1:end,2))
+        ln_data(p)=log(load_data(p,2));
+    end
+    plot(load_data(1:end,1),load_data(1:end,2));
     legend('Objective Function / Iterations');
     end
 end
