@@ -147,7 +147,7 @@ elseif run_cb==1
     dataObj.name = value(index_listbox2);
     dataObj.path = horzcat('src/test/testdata/',char(value(index_listbox2)),'/');
     dataObj.path;
-    dataParameters{index_listbox2} = dataObj;
+    dataParameters{1} = dataObj;
 end
 
      if cb==1
@@ -358,7 +358,7 @@ if (get(handles.pushbutton3,'Value'))==1
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes3)
-    plot(load_data(1:(end-1),3),load_data(1:(end-1),1));
+    plot(load_data(1:(end-1),3),load_data(1:(end-1),2));
     legend('Objective Fcn / Time')
    
 end
@@ -497,7 +497,7 @@ if (get(handles.pushbutton6,'Value'))==1
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes4)
-    loglog(load_data(1:(end-1),1),load_data(1:(end-1),2));
+    plot(load_data(1:(end-1),1),log(load_data(1:(end-1),2)));
     legend('Objective Function / Iterations');
      
 end
