@@ -15,6 +15,8 @@ nrTasks = tabuParameters.nrTasks;
 
 model.initialSolution = tabuParameters.initial;
 
+model.phaseChanges = [];
+
 model.phases = tabuParameters.phases;
 model.activePhaseIterator = 1;
 
@@ -77,7 +79,7 @@ try
                 model.instance{instanceIterator} = instance;
             case 107,
                 instance.name = 'V7';
-                instance.instance = V5(resultfile,logfile,nrTasks);
+                instance.instance = V7(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 108,
                 instance.name = 'V8';

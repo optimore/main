@@ -22,7 +22,7 @@ status = 0;
 nrIterations = 1500;
 sleeptime = 0.01;
 PLOTON = 0;
-PLOTSOL = 1;
+PLOTSOL = 0;
 
 % Add timing:
 tic

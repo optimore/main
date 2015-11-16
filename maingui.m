@@ -27,7 +27,7 @@ A5 = [105,103,104];
 
 % Large optimizer
 A6 = [106,107,108,109,110,111,112];
-A6 = [107,108,109,110,111,112];
+A7 = [107,108,109,110,111,112];
 
 %---------------------- B DATA OPTIMIZED MODELS ----------------------
 % For B data
@@ -35,7 +35,7 @@ B1 = [1,2];
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',A6), ...
+    'tabu', struct('active',1,'initial',1,'phases',A7), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
