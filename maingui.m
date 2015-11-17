@@ -28,7 +28,7 @@ A5 = [103,105,104];
 %---------------------- B DATA OPTIMIZED MODELS ----------------------
 % For B data
 B1 = [1,2,3];
-B2 = [4];
+B2 = [4,5];
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...

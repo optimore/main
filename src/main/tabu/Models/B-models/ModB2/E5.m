@@ -1,5 +1,5 @@
-classdef E4 < handle
-    % E4 Summary of this class goes here
+classdef E5 < handle
+    % E5 Summary of this class goes here
     %
     %
     
@@ -47,7 +47,7 @@ classdef E4 < handle
         end
         
         % Constructor:
-        function obj = E4(resultfile,logfile,nrTasks)
+        function obj = E5(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -63,7 +63,7 @@ classdef E4 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-1.5E8, -0.75E7, -1E5, 1E5, 0.75E7, 1.5E8];
+                posibleTaskActions = [-4E7, -8E6, -4E5, 4E5, 8E6, 4E7];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -112,17 +112,22 @@ classdef E4 < handle
                 % Loop through min-solutions in ascending order
                 for i = 1:length(costList)
                     
+                    if i == 2
+                    disp(i)
+                    pause(2);
+                    end
+                    
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
                     
                     % Compare solution with tabu list solutions
-                    for j = 1:length(obj.TabuList)
+                    for j = 1:size(obj.TabuList,2)
                         tabuSolution = obj.TabuList(:,j);
                                                 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-                            disp(['Tabu hit!]);
+                            disp(['Tabu hit!', obj.Name]);
                             if costList(index) > obj.LowestCost(2)
                                 % Aspiration criteria
                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
@@ -189,7 +194,7 @@ classdef E4 < handle
                 obj.IterationId = 0;
                 
                 % Recreate tabu when phase is over and set next phase:
-                obj.TabuList = obj.CreateTabuList();
+                % obj.TabuList = obj.CreateTabuList();
                 obj.LowestCost = [0, inf];
                 
                 % Take next in phase order
