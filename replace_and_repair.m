@@ -1,15 +1,10 @@
-clear;
-clc;
-
-fin = fopen('LNSModel.run');
-fout = fopen('LNSModel_clone.run');
+fin = fopen('LNSModel.run','rt');
+fout = fopen('LNSModel_clone.run','wt');
 
 while ~feof(fin)
-   s = fgetl(fin);
-   s = strrep(s, '***FILE1***', 'DATA FÖR KÖRNING');
+   s = fgets(fin);
+   s = strrep(s, '***FILE1***', 'Hamster');
    fprintf(fout,'%s\n',s);
-   fout = fopen('LNSModel_clone.run','w');
 end
-
 fclose(fin);
 fclose(fout);
