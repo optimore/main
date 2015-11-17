@@ -19,7 +19,7 @@ status = 0;
 
 % Tabu run setup
 % End after X iterations
-nrIterations = 1000;
+nrIterations = 1500;
 sleeptime = 0.01;
 PLOTON = 0;
 PLOTSOL = 0;
@@ -48,7 +48,7 @@ try
     
 	% 5. Initial figure ***DONE***
 	if PLOTON
-		titlename = 'NAME'; % strsplit(dataParameters.name(1:3),'_');
+		titlename = 'NOT in use'; %strsplit(dataParameters.name(1:3),'_');
         titlestr = {char(titlename(1)), ...
                     num2str(tabuParameters.nrTasks), ...
                     num2str(tabuParameters.nrTimels), ...
