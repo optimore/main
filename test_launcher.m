@@ -25,6 +25,7 @@ function varargout = test_launcher(varargin)
 % Last Modified by GUIDE v2.5 13-Nov-2015 14:38:06
 
 % Begin initialization code - DO NOT EDIT
+
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...

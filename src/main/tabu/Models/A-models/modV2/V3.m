@@ -44,7 +44,7 @@ classdef V3 < handle
         function obj = V3(resultfile,logfile,nrTasks)
             name = class(obj);
             obj.Name = name;
-            disp(['Running: ',name])
+            disp(['Running ',name])
 
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;

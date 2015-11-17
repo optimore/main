@@ -56,7 +56,7 @@ classdef V7 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-1.5E8, -0.75E8, -1E7, 1E7, 0.75E8 1.5E8];
+                posibleTaskActions = [-1.5E8, -0.75E8, 0.75E8 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
