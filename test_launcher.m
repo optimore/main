@@ -344,7 +344,7 @@ for i = 1:length(B)
 
 end
 
-p = B(end-1);
+p = B(end);
 l = p.name;
 temp_1=strcat('target/results/',l);
 temp_2=strcat(temp_1,'/*_*');
@@ -435,7 +435,7 @@ for i = 1:length(B)
 
 end
 
-p = B(end-1);
+p = B(end);
 l = p.name;
 temp_1=strcat('target/results/',l);
 temp_2=strcat(temp_1,'/*_*');
