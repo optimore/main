@@ -156,8 +156,19 @@ end
           modelParameters.tabu = setfield(modelParameters.tabu,'active',1);
           modelParameters.tabu = setfield(modelParameters.tabu,'phases',input);
      elseif cb==2
-          modelParameters.LNS = setfield(modelParameters.LNS,'active',1);
-          modelParameters.LNS = setfield(modelParameters.LNS,'phases',input);
+%           modelParameters.LNS = setfield(modelParameters.LNS,'active',1);
+%           modelParameters.LNS = setfield(modelParameters.LNS,'phases',input);
+            
+            fin = fopen('LNSModel.run','rt');
+            fout = fopen('LNSModel_clone.run','wt');
+            while ~feof(fin)
+                   s = fgets(fin);
+                   s = strrep(s, '***FILE1***', 'A0-data');
+                   fprintf(fout,'%s\n',s);
+            end
+            fclose(fin);
+            fclose(fout);
+
      elseif cb==3
           modelParameters.ampl = setfield(modelParameters.ampl,'active',1);
           modelParameters.ampl = setfield(modelParameters.ampl,'phases',input);

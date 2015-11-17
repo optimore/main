@@ -3,13 +3,14 @@ function [top,bot_left, bot_right,figdata] = CreateFigures(data,titlestr)
 
 try
     close all;
-    
+   
     fig1 = figure('Visible','on','Position',[10,100,1400,1000]);
     %figaxes1 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
     
     %top = subplot(2,2,1:2);
     %bot_left = subplot(2,2,3);
     %bot_right = subplot(2,2,4);
+    
     
     top = subplot(2,2,1);
     bot_left = subplot(2,2,3);
