@@ -40,7 +40,6 @@ modelParameters = struct( ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
 
-
 disp('------------------ OPTIMORE LAUNCHED ------------------')
 disp('please select one option bellow by entering a number:')
 disp('1. Create data gui. 2. Launch main GUI')
