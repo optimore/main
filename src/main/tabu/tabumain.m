@@ -21,7 +21,7 @@ status = 0;
 % End after X iterations
 nrIterations = 3000;
 sleeptime = 0.01;
-PLOTON = 0;
+PLOTON = 1;
 PLOTSOL = 0;
 
 % Add timing:
@@ -105,11 +105,11 @@ try
                 model.conditionsAreNotMet=0;
             end
             
-%             % 6.5 Dynamic weights calculated
-%             if mod(nrIterations,50) == 0
-%             model.instance{model.activePhaseIterator}. ...
-%                 instance.SetWeights(data);
-%             end
+            % 6.5 Dynamic weights calculated
+            if mod(nrIterations,50) == 0
+            model.instance{model.activePhaseIterator}. ...
+                instance.SetWeights(data);
+            end
             
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
