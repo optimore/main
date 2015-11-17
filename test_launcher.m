@@ -1,4 +1,4 @@
-function varargout = test_launcher(varargin)
+  function varargout = test_launcher(varargin)
 % TEST_LAUNCHER MATLAB code for test_launcher.fig
 %      TEST_LAUNCHER, by itself, creates a new TEST_LAUNCHER or raises the existing
 %      singleton*.
