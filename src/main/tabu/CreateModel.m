@@ -77,15 +77,11 @@ try
                 model.instance{instanceIterator} = instance;
             case 107,
                 instance.name = 'V7';
-                instance.instance = V5(resultfile,logfile,nrTasks);
+                instance.instance = V7(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 108,
                 instance.name = 'V8';
                 instance.instance = V8(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
-            case 109,
-                instance.name = 'V9';
-                instance.instance = V9(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 109,
                 instance.name = 'V9';

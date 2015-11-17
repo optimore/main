@@ -29,8 +29,9 @@ classdef V12 < handle
             if(nargin > 0)
                 try
                     listlength = round(obj.NrTasks);
-                    tabucell = cell(1,obj.NrTasks);
-                    TabuList = cell([size(tabucell) listlength]);
+                    %tabucell = cell(1,obj.NrTasks);
+                    %TabuList = cell([size(tabucell) listlength]);
+                    TabuList = zeros(obj.NrTasks, listlength);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -111,7 +112,7 @@ classdef V12 < handle
 
                     % Compare solution with tabu list solutions
                     for j = 1:length(obj.TabuList)
-                        tabuSolution = obj.TabuList{j};
+                        tabuSolution = obj.TabuList(:,j);
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
@@ -130,12 +131,9 @@ classdef V12 < handle
 
 
                     if notintabu == 1
-
                         % Add action to tabu list
-                        actioncell = num2cell(actionSolution, 1);
-                        obj.TabuList(2:end) = obj.TabuList(1:end-1);
-                        obj.TabuList(1) = actioncell;
-
+                        obj.TabuList(:,2:end) = obj.TabuList(:,1:end-1);
+                        obj.TabuList(:,1) = actionSolution;
 
                         % Perform action
                         lowestCost = sortedCosts(i);
