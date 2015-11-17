@@ -114,7 +114,7 @@ classdef E4 < handle
                     
                     if i == 2
                     disp(i)
-                    pause(2);
+                    %pause(2);
                     end
                     
                     notintabu = 1;

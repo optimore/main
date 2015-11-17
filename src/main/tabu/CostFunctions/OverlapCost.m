@@ -32,17 +32,17 @@ try
                 % If task two starts after task one - two cases of overlap
                 if start_task2 >= start_task1 && start_task2 <= end_task1
                     if end_task2 >= end_task1
-                        overlap = (end_task1 - start_task2)^2;
+                        overlap = abs(end_task1 - start_task2);
                     elseif end_task2 <= end_task1
-                        overlap = length_task2^2;
+                        overlap = length_task2;
                     end
                     
                     % If task two starts before task one - two cases of overlap
                 elseif start_task2 <= start_task1
                     if end_task2 >= start_task1 && end_task2 <= end_task1
-                        overlap = (end_task2 - start_task1)^2;
+                        overlap = abs(end_task2 - start_task1);
                     elseif end_task2 >= end_task1
-                        overlap = length_task1^2;
+                        overlap = length_task1;
                     end
                 end
                 C = C + overlap;
