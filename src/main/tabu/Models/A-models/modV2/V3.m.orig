@@ -44,9 +44,18 @@ classdef V3 < handle
         function obj = V3(resultfile,logfile,nrTasks)
             name = class(obj);
             obj.Name = name;
-
+<<<<<<< HEAD
+<<<<<<< HEAD
+            disp(['Running: ',name])
+            name=class(obj);
+            obj.Name = name;
+=======
+>>>>>>> devE
+            disp(['Running ',name])
+=======
             disp(['Running ',name])
 
+>>>>>>> guimaster
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             % Not used:
