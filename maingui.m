@@ -23,7 +23,8 @@ A3 = [101,102];
 
 % optimized for E30-E45
 A4 = [103,104];
-A5 = [103,105,104];
+A5 = [105,103,104];
+A6 = [106,107,108,109,110,111,112];
 
 %---------------------- B DATA OPTIMIZED MODELS ----------------------
 % For B data
@@ -73,9 +74,6 @@ while noQuit
                     filename = [filename; thisfilename];
                 end
 
-
-                % SELECT DATA:
-                % listofindexes = [];
                 dataParameters = struct('name',{},'path',{});
                 foundstr = 0;
                 
@@ -90,18 +88,6 @@ while noQuit
                     end
                 end
                 
-                % listofcomplexisies = [];
-                % for iii=listofindexes
-                %     listofcomplexisies = [];
-                % end
-
-                % for i = 1:length(filename)
-                %    
-                %     dataObj.name = filename(i);
-                %     dataObj.path = [pathdir,pathname(i)];
-                %     dataParameters{i} = dataObj;  
-                % end
-
                 if foundstr
                     % 3. run launcher
                     status = mainlauncher(dataParameters, modelParameters);

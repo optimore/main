@@ -42,7 +42,7 @@ classdef V3 < handle
         
         % Constructor:
         function obj = V3(resultfile,logfile,nrTasks)
-            name=class(obj);
+            name = class(obj);
             obj.Name = name;
             disp(['Running ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
@@ -179,15 +179,10 @@ classdef V3 < handle
             
             if obj.LowestCost(1) < ... 
                     obj.IterationId-obj.NrOfBadIterationsBeforExit
-                obj.IterationId = 1;
-                
-                obj.TabuList = obj.CreateTabuList();
+                obj.IterationId = 0;
 
                 % Recreate model when phase is over and set next phase:
-                % instance.instance = V3(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                % instance.name=obj.Name;
-                % model.instance{model.activePhaseIterator} = struct();
-                % model.instance{model.activePhaseIterator} = instance;
+                obj.TabuList = obj.CreateTabuList();
 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);

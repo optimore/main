@@ -42,7 +42,7 @@ classdef V1 < handle
         
         % Constructor:
         function obj = V1(resultfile,logfile,nrTasks)
-            name=class(obj);
+            name = class(obj);
             obj.Name = name;
             disp(['Running ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
@@ -208,7 +208,8 @@ classdef V1 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            costVec = [costStruct.total, costStruct.dep,costStruct.over,costStruct.bound];
+            costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];   
+
         end
     end
 end

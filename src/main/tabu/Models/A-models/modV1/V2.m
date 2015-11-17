@@ -42,9 +42,9 @@ classdef V2 < handle
         
         % Constructor:
         function obj = V2(resultfile,logfile,nrTasks)
-            name=class(obj);
+            name = class(obj);
             obj.Name = name;
-            disp(['Running ',name])
+            disp(['Running: ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             obj.MaxPhaseIterations = round(nrTasks);

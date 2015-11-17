@@ -21,7 +21,7 @@ classdef V5 < handle
     end
     
     properties(Constant = true)
-        CostWeight = [1.1 1.2 3];
+        CostWeight = [10 1 2];
     end
     
     methods        
@@ -47,7 +47,7 @@ classdef V5 < handle
             disp(['Running ',name])
             obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
-            obj.MaxPhaseIterations = round(nrTasks);
+            obj.MaxPhaseIterations = round(nrTasks/3);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
@@ -178,17 +178,15 @@ classdef V5 < handle
                     obj.IterationId > obj.MaxPhaseIterations
                 obj.IterationId = 0;
                 
-                % Recreate model when phase is over and set next phase:
-                instance.instance = V5(obj.Resultfile,obj.Logfile,obj.NrTasks);
-                instance.name=obj.Name;
-                model.instance{model.activePhaseIterator} = struct();
-                model.instance{model.activePhaseIterator} = instance;
+                % Recreate tabulist when phase is over and set next phase:
+                obj.TabuList = obj.CreateTabuList();
 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
-                
+                disp(['Launching ', ...
+                    model.instance{model.activePhaseIterator}.name])
             end
         end
         

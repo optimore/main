@@ -21,7 +21,7 @@ status = 0;
 % End after X iterations
 nrIterations = 3000;
 sleeptime = 0.01;
-PLOTON = 1;
+PLOTON = 0;
 PLOTSOL = 0;
 
 % Add timing:
@@ -48,7 +48,7 @@ try
     
 	% 5. Initial figure ***DONE***
 	if PLOTON
-		titlename = strsplit(dataParameters.name(1:3),'_');
+		titlename = 'NAME'; % strsplit(dataParameters.name(1:3),'_');
         titlestr = {char(titlename(1)), ...
                     num2str(tabuParameters.nrTasks), ...
                     num2str(tabuParameters.nrTimels), ...
