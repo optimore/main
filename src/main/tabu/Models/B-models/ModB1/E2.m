@@ -1,9 +1,12 @@
-classdef V3 < handle
-    %C3 Summary of this class goes here
+classdef E2 < handle
+    % E2 Summary of this class goes here
     %   
     % 
     
     properties(GetAccess = 'public', SetAccess = 'private')
+        
+        Last2Costs = [inf inf-5];
+        Diff = inf
         Name
         TabuList
         Logfile 
@@ -20,7 +23,8 @@ classdef V3 < handle
     end
     
     properties(Constant = true)
-        CostWeight = [1 1 2];
+        % dep overlap bounds
+        CostWeight = [5 1 1];
     end
     
     methods        
@@ -28,7 +32,7 @@ classdef V3 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = round(obj.NrTasks);
+                    listlength = round(obj.NrTasks/10);
                     tabucell = cell(1,obj.NrTasks);
                     TabuList = cell([size(tabucell) listlength]);
                 catch err
@@ -41,20 +45,14 @@ classdef V3 < handle
         end  
         
         % Constructor:
-        function obj = V3(resultfile,logfile,nrTasks)
+        function obj = E2(resultfile,logfile,nrTasks)
             name = class(obj);
+            disp(['Running: ', num2str(name)])
             obj.Name = name;
-<<<<<<< HEAD
-            disp(['Running: ',name])
-            name=class(obj);
-            obj.Name = name;
-=======
->>>>>>> devE
-            disp(['Running ',name])
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             % Not used:
-            % obj.MaxPhaseIterations = round(nrTasks/5);
+            obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end 
@@ -63,10 +61,7 @@ classdef V3 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                
-                
-                posibleTaskActions = [-1.5E8, -0.75E8, 0.75E8 1.5E8];
-                % [-2.5E8, -8E7, 8E7, 2.5E8];
+                posibleTaskActions = [-1E7, -1E6, 1E6, 1E7];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -123,19 +118,19 @@ classdef V3 < handle
                     for j = 1:length(obj.TabuList)
                         tabuSolution = obj.TabuList{j};
 
+
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
-%                             if costList(index) > obj.LowestCost(2)
-%                                 % Aspiration criteria
-%                                 disp(['Asipiration criteria V3, solution: ', ...
-%                                     num2str(costList(index)),' lowestEver: ', ...
-%                                     num2str(obj.LowestCost(2))])
-%                                 notintabu = 1;
-%                                 
-%                             else
+                            if costList(index) > obj.LowestCost(2)
+                                % Aspiration criteria
+                                disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+                                    num2str(costList(index)),' cost: ', ...
+                                    num2str(obj.LowestCost(2))])
+                                
+                            else
                                 notintabu = 0;
                                 break;
-%                             end
+                            end
                         end
                     end
 
@@ -146,8 +141,13 @@ classdef V3 < handle
                         actioncell = num2cell(actionSolution, 1);
                         obj.TabuList(2:end) = obj.TabuList(1:end-1);
                         obj.TabuList(1) = actioncell;
-
-
+                        
+                        if mod(obj.IterationId,5) == 0
+                            obj.Last2Costs = [obj.Last2Costs(2) costList(index)];
+                            obj.Diff = obj.Last2Costs(1) - obj.Last2Costs(2);
+                        end
+                        %disp(['Diff: ', num2str(obj.Diff)]);
+                        
                         % Perform action
                         lowestCost = sortedCosts(i);
                         
@@ -179,21 +179,37 @@ classdef V3 < handle
                 
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
-            % Print cost and phase exit criteria:
-            %fprintf([num2str(obj.LowestCost(1)), ' ' , ... 
-            %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
             
+            % If solution getting worse - go to next phase
             if obj.LowestCost(1) < ... 
                     obj.IterationId-obj.NrOfBadIterationsBeforExit
-                obj.IterationId = 0;
-
-                % Recreate model when phase is over and set next phase:
+                
+                % Recreate tabu when phase is over and set next phase:
                 obj.TabuList = obj.CreateTabuList();
-
+                obj.LowestCost = [0, inf];
+                obj.IterationId = 1;
+                
                 % Take next in phase order
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
+                
+            % If progress too slow - go to top phase
+            elseif obj.IterationId > round(obj.NrTasks/5) && obj.Diff < 1E10
+                
+                disp(' ============ Progress too slow! ======== ')
+                obj.Last2Costs = [inf 0];
+                obj.Diff = inf;
+                
+                % Recreate tabu when phase is over and set next phase:
+                obj.TabuList = obj.CreateTabuList();
+                obj.LowestCost = [0, inf];
+                obj.IterationId = 1;
+                
+                % Take top phase
+                nrPhases = size(model.phases,2);
+                model.activePhaseIterator = 1;
+                
                 
             end
         end
@@ -216,7 +232,7 @@ classdef V3 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            costVec = [costStruct.total, costStruct.dep,costStruct.over,costStruct.bound];
+            costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];   
         end
     end
 end

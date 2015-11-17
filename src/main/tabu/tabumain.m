@@ -22,7 +22,7 @@ status = 0;
 nrIterations = 1500;
 sleeptime = 0.01;
 PLOTON = 0;
-PLOTSOL = 1;
+PLOTSOL = 0;
 
 % Add timing:
 tic
@@ -48,7 +48,7 @@ try
     
 	% 5. Initial figure ***DONE***
 	if PLOTON
-		titlename = 'A15'; %strsplit(dataParameters.name(1:3),'_');
+		titlename = 'NAME'; % strsplit(dataParameters.name(1:3),'_');
         titlestr = {char(titlename(1)), ...
                     num2str(tabuParameters.nrTasks), ...
                     num2str(tabuParameters.nrTimels), ...
@@ -100,10 +100,17 @@ try
             
             % 6.4 Evaluate if condation are met: 
             model = model.instance{model.activePhaseIterator}.instance.AreConditionsMet(model);
-                        
+            
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
-            end            
+            end
+            
+%             % 6.5 Dynamic weights calculated
+%             if mod(nrIterations,50) == 0
+%             model.instance{model.activePhaseIterator}. ...
+%                 instance.SetWeights(data);
+%             end
+            
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);
