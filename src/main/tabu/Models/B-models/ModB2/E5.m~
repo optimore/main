@@ -1,5 +1,5 @@
-classdef E6 < handle
-    % E6 Summary of this class goes here
+classdef E5 < handle
+    % E5 Summary of this class goes here
     %
     %
     
@@ -17,7 +17,7 @@ classdef E6 < handle
         LowestCost = [0, inf];
         ActionSolution = [];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=2;
+        NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
@@ -33,10 +33,8 @@ classdef E6 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = round(obj.NrTasks/5);
-%                     tabucell = cell(1,obj.NrTasks);
-%                     TabuList = cell([size(tabucell) listlength]);
-                    TabuList = zeros(obj.NrTasks, listlength);
+                    listlength = 10;
+                    TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -47,7 +45,7 @@ classdef E6 < handle
         end
         
         % Constructor:
-        function obj = E6(resultfile,logfile,nrTasks)
+        function obj = E5(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -63,7 +61,7 @@ classdef E6 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-1.5E8, -0.75E8, 0.75E8, 1.5E8];
+                posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -4E5, 4E5, 8E6, 4E7, 0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -71,9 +69,6 @@ classdef E6 < handle
                 % Create empty actionList and costList:
                 actionList = struct('cost',{},'actionSolution',{});
                 costList = zeros(nrActions*nrTasks,1);
-                
-                
-                
                 
                 for i = 1:nrTasks
                     for ii = 1:nrActions
@@ -117,19 +112,23 @@ classdef E6 < handle
                     
                     if i == 2
                     disp(i)
-                    pause(2);
+                    %pause(2);
                     end
                     
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
                     
+                    % Find changed task
+                    currentSolution = data.tasks(:,6);
+                    changedTask = find(actionSolution - currentSolution);
+                    
                     % Compare solution with tabu list solutions
-                    for j = 1:size(obj.TabuList,2)
-                        tabuSolution = obj.TabuList(:,j);
-                                                
+                     for j = 1:size(obj.TabuList,2)
+                        tabuTask = obj.TabuList(j);
+                        
                         % Break if action in tabulist
-                        if isequal(tabuSolution, actionSolution) == 1
+                        if isequal(tabuTask, changedTask) == 1
                             disp(['Tabu hit!', obj.Name]);
                             if costList(index) > obj.LowestCost(2)
                                 % Aspiration criteria
@@ -140,6 +139,8 @@ classdef E6 < handle
                                 notintabu = 0;
                                 break;
                             end
+                            notintabu
+                            pause(2);
                         end
                     end
                     
@@ -147,8 +148,8 @@ classdef E6 < handle
                     if notintabu == 1
                         
                         % Add action to tabu list
-                        obj.TabuList(:,2:end) = obj.TabuList(:,1:end-1);
-                        obj.TabuList(:,1) = actionSolution;
+                        obj.TabuList(2:end) = obj.TabuList(1:end-1);
+                        obj.TabuList(1) = changedTask;
                         
                         
                         % Perform action
@@ -175,7 +176,7 @@ classdef E6 < handle
                 end
                 
                 if mod(iterationId,10)
-                    disp(obj.TabuList);
+                    disp([obj.TabuList',num2str(obj.Name)]);
                 end
                 
             catch err

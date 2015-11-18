@@ -34,7 +34,14 @@ try
                     if end_task2 >= end_task1
                         overlap = abs(end_task1 - start_task2);
                     elseif end_task2 <= end_task1
-                        overlap = length_task2;
+                        
+                        % find closest edge and calculate distance 
+                        totaloverlapaddition = ...
+                            min(abs(end_task1-end_task2), ...
+                               (abs(start_task1-start_task2)));
+                        
+                        overlap = length_task2 + totaloverlapaddition;
+                        
                     end
                     
                     % If task two starts before task one - two cases of overlap
@@ -42,7 +49,13 @@ try
                     if end_task2 >= start_task1 && end_task2 <= end_task1
                         overlap = abs(end_task2 - start_task1);
                     elseif end_task2 >= end_task1
-                        overlap = length_task1;
+                        
+                        totaloverlapaddition = ...
+                            min(abs(end_task1-end_task2), ...
+                               (abs(start_task1-start_task2)));
+                        
+                        overlap = length_task1 + totaloverlapaddition;
+                        
                     end
                 end
                 C = C + overlap;

@@ -33,7 +33,7 @@ classdef E4 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 10;
+                    listlength = 30;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -108,7 +108,7 @@ classdef E4 < handle
                 
                 % Loop through min-solutions in ascending order
                 for i = 1:length(costList)
-                                        
+                    
                     if i >= 2
                         disp(i)
                         %pause(2);
@@ -129,7 +129,7 @@ classdef E4 < handle
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
                             disp(['Tabu hit!', obj.Name]);
-                            if costList(index) < obj.LowestCost(2)
+                            if costList(index)  obj.LowestCost(2)
                                 % Aspiration criteria
                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
                                     num2str(costList(index)),' cost: ', ...
