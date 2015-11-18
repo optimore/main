@@ -181,15 +181,22 @@ classdef V3 < handle
             
             if obj.LowestCost(1) < ... 
                     obj.IterationId-obj.NrOfBadIterationsBeforExit
+               
+		 % Save phase change:
+                newPhase = model.phases(model.activePhaseIterator);
+                if isempty(model.phaseChanges)
+                    model.phaseChanges = [obj.IterationId, ...
+                        currentPhase, newPhase];
+                else
+                    model.phaseChanges = [model.phaseChanges; ...
+                        [obj.IterationId, ...
+                        currentPhase, newPhase]];
+                end
+                
+                model.phaseChanges
+                
+                
                 obj.IterationId = 0;
-
-                % Recreate model when phase is over and set next phase:
-                obj.TabuList = obj.CreateTabuList();
-
-                % Take next in phase order
-                nrPhases = size(model.phases,2);
-                model.activePhaseIterator= ...
-                    mod(model.activePhaseIterator,nrPhases)+1;
                 
             end
         end
