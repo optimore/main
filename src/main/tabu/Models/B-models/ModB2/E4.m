@@ -195,7 +195,7 @@ classdef E4 < handle
                     
                     % Recreate tabu when phase is over and set next phase:
                     % obj.TabuList = obj.CreateTabuList();
-                    %obj.LowestCost = [0, inf];
+                    % obj.LowestCost = [0, inf];
                     
                     % Take next in phase order
                     nrPhases = size(model.phases,2);

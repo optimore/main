@@ -33,7 +33,7 @@ classdef E5 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 10;
+                    listlength = 7;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -199,7 +199,7 @@ classdef E5 < handle
                 
                 % Recreate tabu when phase is over and set next phase:
                 % obj.TabuList = obj.CreateTabuList();
-                %obj.LowestCost = [0, inf];
+                % obj.LowestCost = [0, inf];
                 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);
