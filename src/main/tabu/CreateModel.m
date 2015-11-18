@@ -89,10 +89,6 @@ try
                 instance.name = 'V9';
                 instance.instance = V9(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
-            case 109,
-                instance.name = 'V9';
-                instance.instance = V9(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
             case 110,
                 instance.name = 'V10';
                 instance.instance = V10(resultfile,logfile,nrTasks);
