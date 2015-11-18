@@ -173,8 +173,8 @@ classdef V8 < handle
             if obj.LowestCost(1) < ... 
                obj.IterationId-obj.NrOfBadIterationsBeforExit % || ...
                     %obj.IterationId > obj.MaxPhaseIterations
-                obj.IterationId = 0;
-
+                currentPhase = model.phases(model.activePhaseIterator);
+                
                 % Recreate model when phase is over and set next phase:
                 obj.TabuList = obj.CreateTabuList();
 
@@ -182,8 +182,20 @@ classdef V8 < handle
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
-                disp(['Launching ', ...
-                    model.instance{model.activePhaseIterator}.name])
+                
+                
+                % Save phase change:
+                newPhase = model.phases(model.activePhaseIterator);
+                if isempty(model.phaseChanges)
+                    model.phaseChanges = [obj.IterationId, ...
+                        currentPhase, newPhase, obj.LowestCost(2)*1E-13];
+                else
+                    model.phaseChanges = [model.phaseChanges; ...
+                        [obj.IterationId, ...
+                        currentPhase, newPhase, obj.LowestCost(2)*1E-13]];
+                end
+                   
+                obj.IterationId = 0;
             end
         end
         

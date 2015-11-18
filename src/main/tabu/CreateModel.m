@@ -15,6 +15,8 @@ nrTasks = tabuParameters.nrTasks;
 
 model.initialSolution = tabuParameters.initial;
 
+model.phaseChanges = [];
+
 model.phases = tabuParameters.phases;
 model.activePhaseIterator = 1;
 
