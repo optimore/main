@@ -29,8 +29,9 @@ classdef V11 < handle
             if(nargin > 0)
                 try
                     listlength = round(obj.NrTasks);
-                    tabucell = cell(1,obj.NrTasks);
-                    TabuList = cell([size(tabucell) listlength]);
+                    %tabucell = cell(1,obj.NrTasks);
+                    %TabuList = cell([size(tabucell) listlength]);
+                    TabuList = zeros(obj.NrTasks, listlength);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -111,7 +112,7 @@ classdef V11 < handle
 
                     % Compare solution with tabu list solutions
                     for j = 1:length(obj.TabuList)
-                        tabuSolution = obj.TabuList{j};
+                        tabuSolution = obj.TabuList(:,j);
 
                         % Break if action in tabulist
                         if isequal(tabuSolution, actionSolution) == 1
@@ -132,9 +133,8 @@ classdef V11 < handle
                     if notintabu == 1
 
                         % Add action to tabu list
-                        actioncell = num2cell(actionSolution, 1);
-                        obj.TabuList(2:end) = obj.TabuList(1:end-1);
-                        obj.TabuList(1) = actioncell;
+                        obj.TabuList(:,2:end) = obj.TabuList(:,1:end-1);
+                        obj.TabuList(:,1) = actionSolution;
 
 
                         % Perform action
@@ -173,8 +173,8 @@ classdef V11 < handle
             if obj.LowestCost(1) < ... 
                obj.IterationId-obj.NrOfBadIterationsBeforExit % || ...
                     %obj.IterationId > obj.MaxPhaseIterations
-                obj.IterationId = 0;
-
+                currentPhase = model.phases(model.activePhaseIterator);
+                
                 % Recreate model when phase is over and set next phase:
                 obj.TabuList = obj.CreateTabuList();
 
@@ -182,8 +182,21 @@ classdef V11 < handle
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
-                disp(['Launching ', ...
-                    model.instance{model.activePhaseIterator}.name])
+                
+                
+                % Save phase change:
+                newPhase = model.phases(model.activePhaseIterator);
+                if isempty(model.phaseChanges)
+                    model.phaseChanges = [obj.IterationId, ...
+                        currentPhase, newPhase, obj.LowestCost(2)*1E-13];
+                else
+                    model.phaseChanges = [model.phaseChanges; ...
+                        [obj.IterationId, ...
+                        currentPhase, newPhase, obj.LowestCost(2)*1E-13]];
+                end
+
+                
+                obj.IterationId = 0;
             end
         end
         

@@ -15,7 +15,8 @@ try
     top = subplot(2,2,1);
     bot_left = subplot(2,2,3);
     bot_right = subplot(2,2,[2 4]);
-    
+
+
     set (fig1, 'Units', 'normalized','Position', [0,0,1,1]);
     %
     % top = subplot(2,1,1);

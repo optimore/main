@@ -19,10 +19,11 @@ status = 0;
 
 % Tabu run setup
 % End after X iterations
-nrIterations = 1500;
+nrIterations = 3000;
 sleeptime = 0.01;
 PLOTON = 0;
 PLOTSOL = 0;
+FINALPLOTON = 1;
 
 % Add timing:
 tic
@@ -48,8 +49,8 @@ try
     
 	% 5. Initial figure ***DONE***
 	if PLOTON
-		titlename = 'NAME'; % strsplit(dataParameters.name(1:3),'_');
-        titlestr = {char(titlename(1)), ...
+		titlename = 'NOT in use'; %strsplit(dataParameters.name(1:3),'_');
+        titlestr = {char(titlename), ...
                     num2str(tabuParameters.nrTasks), ...
                     num2str(tabuParameters.nrTimels), ...
                     num2str(tabuParameters.nrDeps), ...
@@ -72,20 +73,21 @@ try
             data = model.instance{model.activePhaseIterator}. ...
                 instance.GetAndPerformAction(data,model.iterations);
             
-			% 6.2 Display updated solution
+            % Save costs
+            if model.iterations == 1
+                cost = model.instance{model.activePhaseIterator}. ...
+                    instance.GetCost(data);
+            else
+                cost = [cost; model.instance{model.activePhaseIterator}. ...
+                    instance.GetCost(data)];
+            end
+            
+            % 6.2 Display updated solution
             if PLOTON
                 if PLOTSOL || model.iterations == 1
                     DisplayCurrentSolution(data,top,figdata);
                 end
                 pause(sleeptime);
-                
-                if model.iterations == 1
-                    cost = model.instance{model.activePhaseIterator}. ...
-                    instance.GetCost(data);
-                else
-                    cost = [cost; model.instance{model.activePhaseIterator}. ...
-                instance.GetCost(data)];
-                end
                 
                 figdata.iteration = model.iterations;
                 figdata.phase = [num2str(model.activePhaseIterator),' (', ...
@@ -105,11 +107,11 @@ try
                 model.conditionsAreNotMet=0;
             end
             
-%             % 6.5 Dynamic weights calculated
-%             if mod(nrIterations,50) == 0
-%             model.instance{model.activePhaseIterator}. ...
-%                 instance.SetWeights(data);
-%             end
+            % 6.5 Dynamic weights calculated
+            if mod(nrIterations,50) == 0
+            model.instance{model.activePhaseIterator}. ...
+                instance.SetWeights(data);
+            end
             
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
@@ -120,6 +122,14 @@ try
     
     %Close figures
     % close all;
+    
+    % Final plot
+    if FINALPLOTON
+        figdata.iteration = model.iterations;
+        figdata.phase = [num2str(model.activePhaseIterator),' (', ...
+            model.instance{model.activePhaseIterator}.name,')'];
+        DisplayCostFunction(cost,bot_right,figdata);
+    end
     
     % . If all was successful, then set statuscode to 1
     status = 1;
