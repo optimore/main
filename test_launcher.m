@@ -222,9 +222,7 @@ ampl_data_name = strcat(data_res,ampl_value_2(3));
             
             
      elseif cb_checkbox_run==3
-%           modelParameters.ampl = setfield(modelParameters.ampl,'active',1);
-%           modelParameters.ampl = setfield(modelParameters.ampl,'phases',input);
-        
+
             fin = fopen('Mathmodel.run','rt');
             fout = fopen('Mathmodel_clone.run','wt');
             while ~feof(fin)
