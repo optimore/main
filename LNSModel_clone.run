@@ -24,7 +24,7 @@ option display_precision 5;
 
 model LNSmodel.mod;   # Läser in namnet på modellfilen. 
 
-data Hamster;    # Läser in namnet på datafilen. 
+data Goood.dat;    # Läser in namnet på datafilen. 
 
 
 
@@ -252,7 +252,7 @@ let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 
 let times_at_optima := 0;
 
-display current_solution, number_of_iterations,  time_elapsed , iteration_time > LNSModel.res;
+display current_solution, number_of_iterations,  time_elapsed  > LNSModel.txt;
 
 ###############
 
@@ -352,11 +352,7 @@ repeat
 
 			
 
-			display C1, C2, C3, C4, C5 > LNSModel.res;
 
-
-
-			
 
 
 
@@ -414,15 +410,13 @@ repeat
 
 	let current_solution := total_violation;
 
-	display current_solution, number_of_iterations,  _solve_elapsed_time , iteration_time> LNSModel.res;	
+	display current_solution, number_of_iterations,  _solve_elapsed_time > LNSModel.txt;	
 
 
 
 	if  number_of_iterations = 164 || number_of_iterations = 165 then
 
 	{
-
-		display sum_a1, sum_a2, sum_a3, sum_a4, sum_a5 > LNSModel.res;
 
 	}
 
@@ -510,7 +504,7 @@ repeat
 
 		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
 
-		display best_solution, number_of_iterations > LNSModel.res;
+		display best_solution, number_of_iterations > LNSModel.txt;
 
 		expand > LNSModel.exp;
 
@@ -564,9 +558,9 @@ repeat
 
 
 
-display best_solution, number_of_iterations,  time_elapsed , iteration_time > LNSModel.res;
+display best_solution, number_of_iterations,  time_elapsed > LNSModel.txt;
 
-display best_solution, number_of_iterations,  time_elapsed , iteration_time;
+
 
 
 

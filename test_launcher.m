@@ -1,4 +1,4 @@
-  function varargout = test_launcher(varargin)
+function varargout = test_launcher(varargin)
 % TEST_LAUNCHER MATLAB code for test_launcher.fig
 %      TEST_LAUNCHER, by itself, creates a new TEST_LAUNCHER or raises the existing
 %      singleton*.
@@ -134,7 +134,8 @@ modelParameters = struct( ...
 input = get(handles.edit1,'String');
 input = str2num(input)
 
-global cb
+global cb_checkbox_run
+
 if (get(handles.pushbutton1,'Value'))==1
 if run_cb==2
     for i = 1:length(value)
@@ -153,10 +154,20 @@ elseif run_cb==1
     end
 end
 
-     if cb==1
+     if cb_checkbox_run==1
           modelParameters.tabu = setfield(modelParameters.tabu,'active',1);
           modelParameters.tabu = setfield(modelParameters.tabu,'phases',input);
-     elseif cb==2
+          close_msgbox1 = msgbox('Wait');
+          status = mainlauncher(dataParameters, modelParameters);
+          delete(close_msgbox1);
+          msgbox('Finished')
+     
+     
+     
+     
+     
+     
+     elseif cb_checkbox_run==2
 %           modelParameters.LNS = setfield(modelParameters.LNS,'active',1);
 %           modelParameters.LNS = setfield(modelParameters.LNS,'phases',input);
             
@@ -164,25 +175,54 @@ end
             fout = fopen('LNSModel_clone.run','wt');
             while ~feof(fin)
                    s = fgets(fin);
-                   s = strrep(s, '***FILE1***', 'A0-data');
+                   s = strrep(s, '***FILE1***', 'Goood.dat');
                    fprintf(fout,'%s\n',s);
             end
             fclose(fin);
             fclose(fout);
-
-     elseif cb==3
-          modelParameters.ampl = setfield(modelParameters.ampl,'active',1);
-          modelParameters.ampl = setfield(modelParameters.ampl,'phases',input);
+            close_msgbox1 = msgbox('Wait');
+            system('module add cplex/12.5-fullampl; ampl < LNSModel_clone.run')
+            delete(close_msgbox1);
+            msgbox('Finished')
+            
+            fid = fopen('LNSModel.res','r');
+            v = fscanf(fid,'%s\n');
+            v = strrep(v,'current_solution=',sprintf('\n'));
+            v = strrep(v,'number_of_iterations=',sprintf('\n'));
+            v = strrep(v,'_solve_elapsed_time=',sprintf('\n'));
+            v = strrep(v,'iteration_time=',sprintf('\n'));
+            v = strrep(v,'best_solution=',sprintf('\n'));
+            x = str2num(sprintf(v,'%s'));
+            fclose(fid);
+            
+            
+            
+            
+            
+            
+            
+            
+     elseif cb_checkbox_run==3
+%           modelParameters.ampl = setfield(modelParameters.ampl,'active',1);
+%           modelParameters.ampl = setfield(modelParameters.ampl,'phases',input);
+        
+            fin = fopen('Mathmodel.run','rt');
+            fout = fopen('Mathmodel_clone.run','wt');
+            while ~feof(fin)
+                   s = fgets(fin);
+                   s = strrep(s, '***FILE1***', 'Goood.dat');
+                   fprintf(fout,'%s\n',s);
+            end
+            fclose(fin);
+            fclose(fout);
+%             close_msgbox1 = msgbox('Wait');
+            system('module add cplex/12.5-fullampl; ampl < Mathmodel_clone.run')
+            delete(close_msgbox1);
+            msgbox('Finished')
      end
 end
 
 % 3. run launcher
-close_msgbox1 = msgbox('Wait')
-
-status = mainlauncher(dataParameters, modelParameters);
-delete(close_msgbox1);
-
-msgbox('Finished')
 
 
 
@@ -205,11 +245,12 @@ function checkbox1_Callback(hObject, eventdata, handles)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox1
 
-global cb
+global cb_checkbox_run
 if get(handles.checkbox1,'Value')==1
-     cb=1; 
+     cb_checkbox_run=1; 
 end
 
+cb_checkbox_run
 % modelParameters = struct( ...
 %     'tabu', struct('active',0,'initial',1,'phases',[1]), ...
 %     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
@@ -224,11 +265,12 @@ function checkbox2_Callback(hObject, eventdata, handles)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox2
 
-global cb
-if get(handles.checkbox1,'Value')==1
-     cb=2; 
+global cb_checkbox_run
+if get(handles.checkbox2,'Value')==1
+     cb_checkbox_run=2; 
 end
 
+cb_checkbox_run
 % --- Executes on button press in checkbox3.
 function checkbox3_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox3 (see GCBO)
@@ -237,11 +279,12 @@ function checkbox3_Callback(hObject, eventdata, handles)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox3
 
-global cb
-if get(handles.checkbox1,'Value')==1
-     cb=3; 
+global cb_checkbox_run
+if get(handles.checkbox3,'Value')==1
+     cb_checkbox_run=3; 
 end
 
+cb_checkbox_run
 function edit1_Callback(hObject, eventdata, handles)
 % hObject    handle to edit1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -371,7 +414,7 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 
 global new_value
 
-global l
+global l_path_gui
 
 global index_listbox3
 
@@ -379,7 +422,7 @@ global load_data
 
  if (get(handles.pushbutton3,'Value'))==1
     for k = 1:length(index_listbox3)
-    temp_1=strcat('target/results/',l);
+    temp_1=strcat('target/results/',l_path_gui);
     temp_2=strcat(temp_1,'/',new_value(index_listbox3(k)));
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
@@ -423,7 +466,7 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 
 global new_value
 
-global l
+global l_path_gui
 
 if (get(handles.pushbutton4,'Value'))==1
 
@@ -437,8 +480,8 @@ for i = 1:length(B)
 end
 
 p = B(end);
-l = p.name;
-temp_1=strcat('target/results/',l);
+l_path_gui = p.name;
+temp_1=strcat('target/results/',l_path_gui);
 temp_2=strcat(temp_1,'/*_*');
 
 new_path = dir(temp_2);
@@ -464,7 +507,7 @@ global new_value
 
 global test_data_value
 
-global l
+global l_path_gui
 
 new_value_name = new_value;
 
@@ -480,7 +523,7 @@ end
  
 for iter_1 = 1:length(new_value)
     
-    temp_1=strcat('target/results/',l);
+    temp_1=strcat('target/results/',l_path_gui);
     temp_2=strcat(temp_1,'/',new_value(iter_1));
     temp_path = sprintf('%s',temp_2{:});
     
@@ -513,7 +556,7 @@ function pushbutton6_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global new_value
 
-global l
+global l_path_gui
 
 global index_listbox3
 
@@ -521,7 +564,7 @@ global load_data
 
 if (get(handles.pushbutton6,'Value'))==1
     for k = 1:length(index_listbox3)
-    temp_1=strcat('target/results/',l);
+    temp_1=strcat('target/results/',l_path_gui);
     temp_2=strcat(temp_1,'/',new_value(index_listbox3(k)));
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);

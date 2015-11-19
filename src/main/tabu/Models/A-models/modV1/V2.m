@@ -28,9 +28,10 @@ classdef V2 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = round(obj.NrTasks/10);
-                    tabucell = cell(1,obj.NrTasks);
-                    TabuList = cell([size(tabucell) listlength]);
+                    listlength = round(obj.NrTasks);
+                    %tabucell = cell(1,obj.NrTasks);
+                    %TabuList = cell([size(tabucell) listlength]);
+                    TabuList = zeros(obj.NrTasks, listlength);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -110,8 +111,8 @@ classdef V2 < handle
                     actionSolution = actionList{index}.actionSolution(:,2);
 
                     % Compare solution with tabu list solutions
-                    for j = 1:length(obj.TabuList)
-                        tabuSolution = obj.TabuList{j};
+                    for j = 1:size(obj.TabuList,2)
+                        tabuSolution = obj.TabuList(:,j);
 
 
                         % Break if action in tabulist

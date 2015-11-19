@@ -57,8 +57,8 @@ classdef V6 < handle
             % Iterate over and save posible solutions:
             try
                 posibleTaskActions = [-1.5E8, -5E7, -1E7, 1E7, 5E7, 1.5E8];
-                nrTasks = size(data.tasks,1);
-                nrActions = length(posibleTaskActions);
+                nrTasks = size(data.tasks,1)
+                nrActions = length(posibleTaskActions)
                 actionId = 1;
 
                 % Create empty actionList and costList:
@@ -72,7 +72,7 @@ classdef V6 < handle
                         % Copy all task positions
                         tempSolution = zeros(nrTasks,2);
                         tempSolution(:,1) = data.tasks(:,1);
-                        tempSolution(:,2) = data.tasks(:,6);
+                        tempSolution(:,2) = data.tasks(:,5);
                         % Move one solution
                         tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
 
@@ -176,17 +176,32 @@ classdef V6 < handle
             if obj.LowestCost(1) < ... 
                     obj.IterationId-obj.NrOfBadIterationsBeforExit || ...
                     obj.IterationId > obj.MaxPhaseIterations
-                obj.IterationId = 0;
+                currentPhase = model.phases(model.activePhaseIterator);
                 
-                % Recreate tabulist when phase is over and set next phase:
+                % Recreate model when phase is over and set next phase:
                 obj.TabuList = obj.CreateTabuList();
 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
-                disp(['Launching ', ...
-                    model.instance{model.activePhaseIterator}.name])
+                
+                
+                % Save phase change:
+                newPhase = model.phases(model.activePhaseIterator);
+                if isempty(model.phaseChanges)
+                    model.phaseChanges = [obj.IterationId, ...
+                        currentPhase, newPhase, obj.LowestCost(2)];
+                else
+                    model.phaseChanges = [model.phaseChanges; ...
+                        [obj.IterationId, ...
+                        currentPhase, newPhase, obj.LowestCost(2)]];
+                end
+                
+                model.phaseChanges
+                
+                
+                obj.IterationId = 0;
             end
         end
         
