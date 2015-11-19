@@ -33,7 +33,7 @@ classdef E4 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 10;
+                    listlength = 20;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')

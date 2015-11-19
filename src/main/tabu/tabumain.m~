@@ -21,9 +21,8 @@ status = 0;
 % End after X iterations
 nrIterations = 3000;
 sleeptime = 0.01;
-PLOTON = 0;
+PLOTON = 1;
 PLOTSOL = 0;
-FINALPLOTon = 1;
 
 % Add timing:
 tic
@@ -73,21 +72,20 @@ try
             data = model.instance{model.activePhaseIterator}. ...
                 instance.GetAndPerformAction(data,model.iterations);
             
-            % Save costs
-            if model.iterations == 1
-                cost = model.instance{model.activePhaseIterator}. ...
-                    instance.GetCost(data);
-            else
-                cost = [cost; model.instance{model.activePhaseIterator}. ...
-                    instance.GetCost(data)];
-            end
-            
-            % 6.2 Display updated solution
+			% 6.2 Display updated solution
             if PLOTON
                 if PLOTSOL || model.iterations == 1
                     DisplayCurrentSolution(data,top,figdata);
                 end
                 pause(sleeptime);
+                
+                if model.iterations == 1
+                    cost = model.instance{model.activePhaseIterator}. ...
+                    instance.GetCost(data);
+                else
+                    cost = [cost; model.instance{model.activePhaseIterator}. ...
+                instance.GetCost(data)];
+                end
                 
                 figdata.iteration = model.iterations;
                 figdata.phase = [num2str(model.activePhaseIterator),' (', ...
@@ -124,12 +122,7 @@ try
     % close all;
     
     % Final plot
-    if FINALPLOTON
-        figdata.iteration = model.iterations;
-        figdata.phase = [num2str(model.activePhaseIterator),' (', ...
-            model.instance{model.activePhaseIterator}.name,')'];
-        DisplayCostFunction(cost,bot_right,figdata);
-    end
+    if FINALPL
     
     % . If all was successful, then set statuscode to 1
     status = 1;
