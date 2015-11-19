@@ -22,12 +22,6 @@ classdef E5 < handle
         CostWeight = [5 1 1];
     end
     
-%     properties(Constant = true)
-% 
-% 
-% 
-%     end
-    
     methods
         % Create Tabu List
         function TabuList = CreateTabuList(obj)

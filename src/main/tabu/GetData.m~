@@ -28,7 +28,10 @@ try
     data.dependencies = Dependencies(:,2:5); % (Dependencies(:,6)==1,2:5);
       
     data.tasks(:,6) = 0;
-
+    
+    data.tasks
+    data.dependencies
+    
     status.data = 1;
     
 catch err

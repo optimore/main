@@ -69,7 +69,7 @@ classdef E4 < handle
                 % Create empty actionList and costList:
                 actionList = struct('cost',{},'actionSolution',{});
                 costList = zeros(nrActions*nrTasks,1);
-                
+                                
                 for i = 1:nrTasks
                     for ii = 1:nrActions
                         
@@ -80,7 +80,7 @@ classdef E4 < handle
                         tempSolution(:,2) = data.tasks(:,6);
                         % Move one solution
                         tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
-                        
+                                               
                         % Calculate cost *** Needs testing ***
                         action.cost = CostFunction(data,tempSolution,obj.CostWeight);
                         action.totalcost = action.cost.total;
