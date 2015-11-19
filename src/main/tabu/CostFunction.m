@@ -2,7 +2,7 @@ function cost = CostFunction(data, tempSolution, weights)
 % This is wrapper for all cost functions, dependencies, overlap and bounds
 %   
 
-% Calculate different cost functions *NEED IMPLEMENTATION*
+% Calculate different cost functions
 
 costDependencies = DependencyCost(data,tempSolution);
 costOverlap = OverlapCost(data,tempSolution);

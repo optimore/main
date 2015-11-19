@@ -27,10 +27,10 @@ try
         
         % Check if task two is in designated interval
         if start_task2 < min_start2
-            dep_cost = (min_start2 - start_task2)^2;
+            dep_cost = abs(min_start2 - start_task2);
             
         elseif start_task2 > max_start2
-            dep_cost = (start_task2 - max_start2)^2;
+            dep_cost = abs(start_task2 - max_start2);
             
         end
         
