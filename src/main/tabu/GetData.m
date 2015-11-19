@@ -24,7 +24,8 @@ try
         'timeline id', 'task length', ...
         'actual start time placement (so that the task can move; =0 now)'};
       
-    data.tasks = Tasks(:,1:5);
+    data.tasks = Tasks;
+    size(Tasks)
     data.dependencies = Dependencies(:,2:5);
     
     data.tasks(:,6) = 0;

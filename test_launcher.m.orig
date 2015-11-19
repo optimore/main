@@ -240,12 +240,7 @@ ampl_data_name = strcat(data_res,ampl_value_2(3));
 end
 
 % 3. run launcher
-% THIS 
-%LNSmain(dataParameters)
-%system('ÄNDRA STRÄNGAR I FILEN')
-%system('module add cplex/12.5-fullampl; ampl < LNSModel.run')
-
-% OR THAT
+<<<<<<< HEAD
 msgbox('Wait')
 
 status = mainlauncher(dataParameters, modelParameters);
@@ -253,6 +248,23 @@ delete(close_msgbox1);
 
 msgbox('Finished')
  % --- Executes on button press in checkbox1.
+=======
+
+
+
+
+
+%LNSmain(dataParameters)
+%system('ÄNDRA STRÄNGAR I FILEN')
+%system('module add cplex/12.5-fullampl; ampl < LNSModel.run')
+
+
+
+
+
+
+% --- Executes on button press in checkbox1.
+>>>>>>> devE
 function checkbox1_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
