@@ -12,7 +12,6 @@ classdef E4 < handle
         NrTasks
         Solution = 1;
         CostList
-        ActionList
         IterationId=1;
         LowestCost = [0, inf];
         ActionSolution = [];
@@ -54,6 +53,7 @@ classdef E4 < handle
             % Not used:
             % obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
+            obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
             obj.TabuList = obj.CreateTabuList();
         end
         
@@ -61,6 +61,11 @@ classdef E4 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
+                % Dynamic weights calculated
+                if mod(iterationId,20) == 0
+                    obj.SetWeights(data);
+                end
+                
                 posibleTaskActions = [-1.5E8, -0.75E8,  0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
@@ -98,9 +103,7 @@ classdef E4 < handle
                 fprintf(obj.Logfile, getReport(err,'extended'));
                 rethrow(err)
             end
-            
-            obj.CostList = costList;
-            obj.ActionList = actionList;
+
             
             % Do Action:
             try
@@ -123,12 +126,12 @@ classdef E4 < handle
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-                            disp(['Tabu hit!', obj.Name]);
+                            %disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
-                                    num2str(costList(index)),' cost: ', ...
-                                    num2str(obj.LowestCost(2))])
+%                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+%                                     num2str(costList(index)),' cost: ', ...
+%                                     num2str(obj.LowestCost(2))])
                             else
                                 notintabu = 0;
                                 break;
@@ -145,6 +148,10 @@ classdef E4 < handle
                             
                             % Perform action
                             lowestCost = sortedCosts(i);
+                            
+                            % save cost list
+                            obj.CostList(2:end) = obj.CostList(1:end-1);
+                            obj.CostList(1) = lowestCost;
                             
                             data.tasks(:,6) = actionSolution;
                             
@@ -175,25 +182,31 @@ classdef E4 < handle
             
             % Get stopping criteria:
             function [model,obj] = GetStoppingCriteria(obj, model)
-                % Print cost and phase exit criteria:
-                %fprintf([num2str(obj.LowestCost(1)), ' ' , ...
-                %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
                 
-                % If solution getting worse
-                if obj.IterationId > round(obj.NrTasks/5) && obj.LowestCost(1) < ...
-                        obj.IterationId - obj.NrOfBadIterationsBeforExit
-                    obj.IterationId = 0;
+                if diff(obj.CostList)<=0
+%                % If solution getting worse
+%                 if  obj.LowestCost(1) < ...
+%                         obj.IterationId - obj.NrOfBadIterationsBeforExit
+%                     obj.IterationId = 0;
                     
-                    % Recreate tabu when phase is over and set next phase:
-                    % obj.TabuList = obj.CreateTabuList();
-                    % obj.LowestCost = [0, inf];
-                    
+                    % Old: obj.IterationId > round(obj.NrTasks/5) &&
+
                     % Take next in phase order
                     nrPhases = size(model.phases,2);
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
+%                     model.instance{model.activePhaseIterator}. ...
+%                         instance.SetTabulistCost(obj.TabuList, ...
+%                         obj.LowestCost);
                 end
+            end           
+            
+            function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
+                
+                obj.TabuList = tabulist;
+                obj.LowestCost = lowestcost;
+                
             end
             
             function [model, obj] = AreConditionsMet(obj,model)
