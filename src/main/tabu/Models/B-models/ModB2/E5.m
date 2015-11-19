@@ -17,7 +17,7 @@ classdef E5 < handle
         LowestCost = [0, inf];
         ActionSolution = [];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=2;
+        NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
@@ -33,10 +33,8 @@ classdef E5 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = round(obj.NrTasks/5);
-%                     tabucell = cell(1,obj.NrTasks);
-%                     TabuList = cell([size(tabucell) listlength]);
-                    TabuList = zeros(obj.NrTasks, listlength);
+                    listlength = 20;
+                    TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
                     fprintf(obj.Logfile, getReport(err,'extended'));
@@ -63,7 +61,7 @@ classdef E5 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-4E7, -8E6, -4E5, 4E5, 8E6, 4E7];
+                posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -4E5, 4E5, 8E6, 4E7, 0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -112,23 +110,22 @@ classdef E5 < handle
                 % Loop through min-solutions in ascending order
                 for i = 1:length(costList)
                     
-                    if i == 2
-                    disp(i)
-                    pause(2);
-                    end
-                    
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
                     
+                    % Find changed task
+                    currentSolution = data.tasks(:,6);
+                    changedTask = find(actionSolution - currentSolution);
+                    
                     % Compare solution with tabu list solutions
-                    for j = 1:size(obj.TabuList,2)
-                        tabuSolution = obj.TabuList(:,j);
-                                                
+                     for j = 1:size(obj.TabuList,1)
+                        tabuTask = obj.TabuList(j);
+                        
                         % Break if action in tabulist
-                        if isequal(tabuSolution, actionSolution) == 1
+                        if isequal(tabuTask, changedTask) == 1
                             disp(['Tabu hit!', obj.Name]);
-                            if costList(index) > obj.LowestCost(2)
+                            if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
                                     num2str(costList(index)),' cost: ', ...
@@ -144,8 +141,8 @@ classdef E5 < handle
                     if notintabu == 1
                         
                         % Add action to tabu list
-                        obj.TabuList(:,2:end) = obj.TabuList(:,1:end-1);
-                        obj.TabuList(:,1) = actionSolution;
+                        obj.TabuList(2:end) = obj.TabuList(1:end-1);
+                        obj.TabuList(1) = changedTask;
                         
                         
                         % Perform action
@@ -170,11 +167,7 @@ classdef E5 < handle
                     end
                     
                 end
-                
-                if mod(iterationId,10)
-                    disp(obj.TabuList);
-                end
-                
+
             catch err
                 disp('ERROR in do action class')
                 disp(err.stack)
@@ -195,7 +188,7 @@ classdef E5 < handle
                 
                 % Recreate tabu when phase is over and set next phase:
                 % obj.TabuList = obj.CreateTabuList();
-                obj.LowestCost = [0, inf];
+                % obj.LowestCost = [0, inf];
                 
                 % Take next in phase order
                 nrPhases = size(model.phases,2);

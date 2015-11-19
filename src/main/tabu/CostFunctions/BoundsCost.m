@@ -19,10 +19,10 @@ try
         end_max = data.tasks(i,3);
         
         if start_task < start_min
-            bound_cost = (start_min - start_task)^2;
+            bound_cost = abs(start_min - start_task);
             
         elseif end_task > end_max
-            bound_cost = (end_task - end_max)^2;
+            bound_cost = abs(end_task - end_max);
             
         end
         
