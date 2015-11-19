@@ -21,12 +21,6 @@ classdef E4 < handle
         CostWeight = [5 1 1];
     end
     
-    %     properties(Constant = true)
-    %
-    %
-    %
-    %     end
-    
     methods
         % Create Tabu List
         function TabuList = CreateTabuList(obj)
@@ -62,7 +56,8 @@ classdef E4 < handle
             % Iterate over and save posible solutions:
             try
                 % Dynamic weights calculated
-                if mod(iterationId,20) == 0
+                % *** 50 can be changed
+                if mod(iterationId,50) == 0
                     obj.SetWeights(data);
                 end
                 
@@ -86,17 +81,18 @@ classdef E4 < handle
                         % Move one solution
                         tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
                         
-                        % Calculate cost *** Needs testing ***
-                        action.cost = CostFunction(data,tempSolution,obj.CostWeight);
-                        action.totalcost = action.cost.total;
-                        action.actionSolution = tempSolution;
-                        
-                        % Save action to actionlist
-                        actionList{actionId} = action;
-                        costList(actionId) = action.totalcost;
-                        
-                        % Increase iterator
-                        actionId = actionId + 1;
+                                                        
+                            % Calculate cost
+                            action.cost = CostFunction(data,tempSolution,obj.CostWeight);
+                            action.totalcost = action.cost.total;
+                            action.actionSolution = tempSolution;
+                            
+                            % Save action to actionlist
+                            actionList{actionId} = action;
+                            costList(actionId) = action.totalcost;
+                            
+                            % Increase iterator
+                            actionId = actionId + 1;
                     end
                 end
             catch err
@@ -114,12 +110,14 @@ classdef E4 < handle
                                         
                     notintabu = 1;
                     index = indexes(i);
+                    
+                    %if BoundsCost(data, actionList{index}.actionSolution) == 0
                     actionSolution = actionList{index}.actionSolution(:,2);
                     
                     % Find changed task
                     currentSolution = data.tasks(:,6);
                     changedTask = find(actionSolution - currentSolution);
-                    
+                                        
                     % Compare solution with tabu list solutions
                     for j = 1:size(obj.TabuList,1)
                         tabuTask = obj.TabuList(j);
@@ -129,9 +127,9 @@ classdef E4 < handle
                             %disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-%                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
-%                                     num2str(costList(index)),' cost: ', ...
-%                                     num2str(obj.LowestCost(2))])
+                                disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+                                    num2str(costList(index)),' cost: ', ...
+                                    num2str(obj.LowestCost(2))])
                             else
                                 notintabu = 0;
                                 break;
@@ -161,7 +159,6 @@ classdef E4 < handle
                             
                             obj.ActionSolution = actionSolution;
                             
-                            % *** Add later ***
                             timenow = toc;
                             
                             % Log results
@@ -170,8 +167,9 @@ classdef E4 < handle
                             
                             break;
                         end
+                    %end
                         
-                    end
+                end
                                         
                     catch err
                         disp('ERROR in do action class')
@@ -196,9 +194,13 @@ classdef E4 < handle
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
-%                     model.instance{model.activePhaseIterator}. ...
-%                         instance.SetTabulistCost(obj.TabuList, ...
-%                         obj.LowestCost);
+                    
+                    % *** CAN BE CHANGED
+                    obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
+                    
+                    model.instance{model.activePhaseIterator}. ...
+                         instance.SetTabulistCost(obj.TabuList, ...
+                         obj.LowestCost);
                 end
             end           
             

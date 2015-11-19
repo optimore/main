@@ -183,7 +183,7 @@ status = mainlauncher(dataParameters, modelParameters);
 delete(close_msgbox1);
 
 msgbox('Finished')
- --- Executes on button press in checkbox1.
+ % --- Executes on button press in checkbox1.
 function checkbox1_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB

@@ -21,12 +21,7 @@ classdef E5 < handle
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
-    
-%     properties(Constant = true)
-% 
-% 
-% 
-%     end
+
     
     methods
         % Create Tabu List
@@ -62,7 +57,8 @@ classdef E5 < handle
             % Iterate over and save posible solutions:
             try
                 % Dynamic weights calculated
-                if mod(iterationId,20) == 0
+                % *** 50 can be changed
+                if mod(iterationId,50) == 0
                     obj.SetWeights(data);
                 end
                 
@@ -117,6 +113,8 @@ classdef E5 < handle
                     
                     notintabu = 1;
                     index = indexes(i);
+                    
+                    %if BoundsCost(data, actionList{index}.actionSolution) == 0
                     actionSolution = actionList{index}.actionSolution(:,2);
                     
                     % Find changed task
@@ -132,9 +130,9 @@ classdef E5 < handle
 %                             disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-%                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
-%                                     num2str(costList(index)),' cost: ', ...
-%                                     num2str(obj.LowestCost(2))])    
+                                disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+                                    num2str(costList(index)),' cost: ', ...
+                                    num2str(obj.LowestCost(2))])    
                             else
                                 notintabu = 0;
                                 break;
@@ -174,7 +172,7 @@ classdef E5 < handle
                         
                         break;
                     end
-                    
+                    %end
                 end
 
             catch err
@@ -203,15 +201,15 @@ classdef E5 < handle
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
                 
-%                 model.instance{model.activePhaseIterator}. ...
-%                     instance.SetTabulistCost(obj.TabuList, ...
-%                                              obj.LowestCost);
+                model.instance{model.activePhaseIterator}. ...
+                    instance.SetTabulistCost(obj.TabuList, ...
+                                             obj.LowestCost);
                 end
         end
         
         function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
             
-            obj.TabuList = tabulist;
+            % obj.TabuList = tabulist;
             obj.LowestCost = lowestcost;
             
         end
