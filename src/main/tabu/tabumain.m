@@ -23,7 +23,7 @@ nrIterations = 3000;
 sleeptime = 0.01;
 PLOTON = 0;
 PLOTSOL = 0;
-FINALPLOTON = 1;
+FINALPLOTON = 0;
 
 % Add timing:
 tic
@@ -68,10 +68,10 @@ try
     
 	while model.conditionsAreNotMet
 	    try
-            
+
             % 6.1 Get and do tabu action: This method also logs result:
             data = model.instance{model.activePhaseIterator}. ...
-                instance.GetAndPerformAction(data,model.iterations);
+                instance.GetAndPerformAction(data, model.iterations);
             
             % Save costs
             if model.iterations == 1

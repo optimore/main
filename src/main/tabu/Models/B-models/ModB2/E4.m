@@ -47,7 +47,7 @@ classdef E4 < handle
         % Constructor:
         function obj = E4(resultfile,logfile,nrTasks)
             name = class(obj);
-            disp(['Running: ', num2str(name)])
+            % disp(['Running: ', num2str(name)])
             obj.Name = name;
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
@@ -123,12 +123,12 @@ classdef E4 < handle
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-                            disp(['Tabu hit!', obj.Name]);
+                            % disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
-                                    num2str(costList(index)),' cost: ', ...
-                                    num2str(obj.LowestCost(2))])
+                                % disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+                                %     num2str(costList(index)),' cost: ', ...
+                                %     num2str(obj.LowestCost(2))])
                             else
                                 notintabu = 0;
                                 break;
