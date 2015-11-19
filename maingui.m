@@ -6,7 +6,7 @@ clc; close all; clear all;
 % dataParameters = struct('name',{},'path',{});
 
 % 1.1 Create data object when user selects it:
-% dataObj1.name = 'A2';
+% dataObj1.name = 'A25';
 % dataObj1.path = 'src/test/testdata/New/A25_2015-11-11T06-31-36/';
 % A2_2015-10-30T15-14-12/';
 % dataParameters{1} = dataObj1;
@@ -24,7 +24,10 @@ A3 = [101,102];
 % optimized for E30-E45
 A4 = [103,104];
 A5 = [105,103,104];
+
+% Large optimizer
 A6 = [106,107,108,109,110,111,112];
+A6 = [107,108,109,110,111,112];
 
 %---------------------- B DATA OPTIMIZED MODELS ----------------------
 % For B data

@@ -25,6 +25,7 @@
 % Last Modified by GUIDE v2.5 13-Nov-2015 14:38:06
 
 % Begin initialization code - DO NOT EDIT
+
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
@@ -335,7 +336,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-B = dir('target/results/*_*');
+B = dir('target/results/results_201*');
 value = [];
 
 for i = 1:length(B)
@@ -383,10 +384,10 @@ global load_data
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes3)
-    for p = 1:length(load_data(1:end,2))
+    for p = 1:length(load_data(1:end-1,2))
         ln_data(p)=log(load_data(p,2));
     end
-    plot(load_data(1:end,3),load_data(1:end,2));
+    plot(load_data(1:end-1,3),ln_data(:));
     legend('Objective Fcn / Time')
     end
  end
@@ -426,7 +427,7 @@ global l
 
 if (get(handles.pushbutton4,'Value'))==1
 
-B = dir('target/results/*_*');
+B = dir('target/results/results_201*');
 value = [];
 
 for i = 1:length(B)
@@ -525,10 +526,10 @@ if (get(handles.pushbutton6,'Value'))==1
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes4)
-     for p = 1:length(load_data(1:end,2))
+     for p = 1:length(load_data(1:end-1,2))
         ln_data(p)=log(load_data(p,2));
     end
-    plot(load_data(1:end,1),load_data(1:end,2));
+    plot(load_data(1:end-1,1),ln_data(:));
     legend('Objective Function / Iterations');
     end
 end

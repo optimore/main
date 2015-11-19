@@ -109,11 +109,6 @@ classdef E4 < handle
                 % Loop through min-solutions in ascending order
                 for i = 1:length(costList)
                                         
-                    if i >= 2
-                        disp(i)
-                        %pause(2);
-                    end
-                    
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
@@ -138,8 +133,6 @@ classdef E4 < handle
                                 notintabu = 0;
                                 break;
                             end
-                            notintabu
-
                         end
                     end
                     
@@ -172,9 +165,7 @@ classdef E4 < handle
                         end
                         
                     end
-                    
-                    disp([num2str(obj.TabuList'),obj.Name]);
-                    
+                                        
                     catch err
                         disp('ERROR in do action class')
                         disp(err.stack)

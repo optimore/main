@@ -45,6 +45,7 @@ classdef V3 < handle
             name = class(obj);
             obj.Name = name;
             disp(['Running ',name])
+
             obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
             obj.Logfile = logfile;
             % Not used:
