@@ -1,4 +1,4 @@
-git %  function [ status ] = test_maingui()
+%  function [ status ] = test_maingui()
 % TEST_MAINGUI Summary of this function goes here
 %   Detailed explanation goes here
 clear;

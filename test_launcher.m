@@ -123,8 +123,6 @@ for i = 1:length(A)
 
 end
 
-
-
 % 2. Create models when user selects them:
 modelParameters = struct( ...
     'tabu', struct('active',0,'initial',1,'phases',[1]), ...
@@ -168,7 +166,15 @@ end
      
      
      elseif cb_checkbox_run==2
-            
+         modelParameters.tabu = setfield(modelParameters.tabu,'active',1);
+          modelParameters.tabu = setfield(modelParameters.tabu,'phases',input);
+          close_msgbox1 = msgbox('Wait');
+          status = mainlauncher(dataParameters, modelParameters);
+          delete(close_msgbox1);
+          msgbox('Finished')
+         
+         
+         
          ampl_dir=dir('src/test/testdata/ampl_*');
          ampl_value = [];
          for i = 1:length(ampl_dir)
@@ -200,6 +206,9 @@ ampl_data_name = strcat(data_res,ampl_value_2(3));
             fclose(fin);
             fclose(fout);
             close_msgbox1 = msgbox('Wait');
+            
+            
+            
             system('module add cplex/12.5-fullampl; ampl < LNSModel_clone.run')
             delete(close_msgbox1);
             msgbox('Finished')

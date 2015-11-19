@@ -24,7 +24,7 @@ option display_precision 5;
 
 model LNSmodel.mod;   # Läser in namnet på modellfilen. 
 
-data src/test/testdata/ampl_A0/A0.dat;    # Läser in namnet på datafilen. 
+data src/test/testdata/A0_10_2015-11-16T15-02-24/AMPL.dat;    # Läser in namnet på datafilen. 
 
 
 

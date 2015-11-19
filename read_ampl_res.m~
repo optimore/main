@@ -13,11 +13,11 @@ data_res{ampl_data_it} = horzcat('src/test/testdata/',char(ampl_value(ampl_data_
 end
  S = char(data_res);
 
-ampl_value_2 = [];
 for dir_it = 1:length(ampl_value)
 ampl_data_dir(dit_it) = dir(S);
-ampl_value_2(dir_it) = [ampl_value_2; cellstr(getfield(ampl_data_dir,{i},'name'))];
-end
+ampl_value_2 = [];
+ampl_value_2 = [ampl_value_2; cellstr(getfield(ampl_data_dir,{i},'name'))];
+
 
 ampl_value_2
 
