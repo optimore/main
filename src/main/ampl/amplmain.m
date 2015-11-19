@@ -1,4 +1,4 @@
-function statuscode = tabumain(dataParameters, modelParameters, logParameters, resultParameters)
+function statuscode = amplmain(dataParameters, modelParameters, logParameters, resultParameters)
 %% Tabu main launching script
 % This script is the over all launcher of the tabu search algorithm
 %
