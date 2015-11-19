@@ -125,7 +125,7 @@ let current_solution := best_solution;
 let time_elapsed := _ampl_time + _total_solve_elapsed_time;
 let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 let times_at_optima := 0;
-display current_solution, number_of_iterations,  time_elapsed  > LNSModel.txt;
+display current_solution, number_of_iterations,  time_elapsed  > LNSModel.res;
 ###############
 
 
@@ -204,7 +204,7 @@ repeat
 	solve LNS_search;
 	display total_cost;
 	let current_solution := total_violation;
-	display current_solution, number_of_iterations,  _solve_elapsed_time > LNSModel.txt;	
+	display current_solution, number_of_iterations,  _solve_elapsed_time > LNSModel.res;	
 
 	if  number_of_iterations = 164 || number_of_iterations = 165 then
 	{
@@ -251,7 +251,7 @@ repeat
 		### display the variables ###
 		#display _varname, _var;
 		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
-		display best_solution, number_of_iterations > LNSModel.txt;
+		display best_solution, number_of_iterations > LNSModel.res;
 		expand > LNSModel.exp;
 		printf "In else before exit! \n\n\n\n\n";
 		printf "Number of iterations: ";
@@ -278,7 +278,7 @@ repeat
 	}
 	until total_violation == 0 || time_elapsed >= 30;
 
-display best_solution, number_of_iterations,  time_elapsed > LNSModel.txt;
+display best_solution, number_of_iterations,  time_elapsed > LNSModel.res;
 
 
 # Only gets here if total_violation != 0 and time_elapsed >= t.

@@ -24,7 +24,7 @@ option display_precision 5;
 
 model LNSmodel.mod;   # Läser in namnet på modellfilen. 
 
-data Goood.dat;    # Läser in namnet på datafilen. 
+data src/test/testdata/ampl_A0/A0.dat;    # Läser in namnet på datafilen. 
 
 
 
@@ -252,7 +252,7 @@ let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 
 let times_at_optima := 0;
 
-display current_solution, number_of_iterations,  time_elapsed  > LNSModel.txt;
+display current_solution, number_of_iterations,  time_elapsed  > LNSModel.res;
 
 ###############
 
@@ -410,7 +410,7 @@ repeat
 
 	let current_solution := total_violation;
 
-	display current_solution, number_of_iterations,  _solve_elapsed_time > LNSModel.txt;	
+	display current_solution, number_of_iterations,  _solve_elapsed_time > LNSModel.res;	
 
 
 
@@ -504,7 +504,7 @@ repeat
 
 		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
 
-		display best_solution, number_of_iterations > LNSModel.txt;
+		display best_solution, number_of_iterations > LNSModel.res;
 
 		expand > LNSModel.exp;
 
@@ -558,7 +558,7 @@ repeat
 
 
 
-display best_solution, number_of_iterations,  time_elapsed > LNSModel.txt;
+display best_solution, number_of_iterations,  time_elapsed > LNSModel.res;
 
 
 
