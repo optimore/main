@@ -1,17 +1,17 @@
 #-----------------------------------
 # Kommandofil: LNSmodel.run
 #-----------------------------------
-reset;                  # NollstÃ¤ller
-option solver cplexamp;    # Val av lÃ¶sare.
+reset;                  # Nollställer
+option solver cplexamp;    # Val av lösare.
 #option presolve 0;      
 option omit_zero_cols 1;   # Skriver ej ut nollor i kolumner
 option omit_zero_rows 1;   # Skriver ej ut nollor i rader
-option display_1col 10000; # Skriver ut bara en kolumn (mer lÃ¤ttlÃ¤st)
-option cplex_options "timing 1 mipdisplay 2"; #Tidtagning och utskrifter, lÃ¤gg till time limit
+option display_1col 10000; # Skriver ut bara en kolumn (mer lättläst)
+option cplex_options "timing 1 mipdisplay 2"; #Tidtagning och utskrifter, lägg till time limit
 option display_precision 5;
 
-model LNSmodel.mod;   # LÃ¤ser in namnet pÃ¥ modellfilen. 
-data ***FILE1***;    # LÃ¤ser in namnet pÃ¥ datafilen. 
+model LNSmodel.mod;   # Läser in namnet på modellfilen. 
+data ***FILE1***;    # Läser in namnet på datafilen. 
 
 problem y_search: fake_cost,  x_s, x_e, y, y_s, y_e, first_task, last_task, check_if_endtask, check_if_starttask, start_constraint_noa, identical_index;
 
@@ -125,7 +125,7 @@ let current_solution := best_solution;
 let time_elapsed := _ampl_time + _total_solve_elapsed_time;
 let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 let times_at_optima := 0;
-display current_solution, number_of_iterations,  time_elapsed  > LNSModel.txt;
+display current_solution, number_of_iterations,  time_elapsed  > LNSModel.res;
 ###############
 
 
@@ -204,7 +204,7 @@ repeat
 	solve LNS_search;
 	display total_cost;
 	let current_solution := total_violation;
-	display current_solution, number_of_iterations,  _solve_elapsed_time > LNSModel.txt;	
+	display current_solution, number_of_iterations,  _solve_elapsed_time > LNSModel.res;	
 
 	if  number_of_iterations = 164 || number_of_iterations = 165 then
 	{
@@ -250,8 +250,8 @@ repeat
 		print time() - t0;
 		### display the variables ###
 		#display _varname, _var;
-		#Skriver ut hela problem pÃ¥ fil, ej nÃ¶dvÃ¤ndigt men bra fÃ¶r kontroll.
-		display best_solution, number_of_iterations > LNSModel.txt;
+		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
+		display best_solution, number_of_iterations > LNSModel.res;
 		expand > LNSModel.exp;
 		printf "In else before exit! \n\n\n\n\n";
 		printf "Number of iterations: ";
@@ -278,7 +278,7 @@ repeat
 	}
 	until total_violation == 0 || time_elapsed >= 30;
 
-display best_solution, number_of_iterations,  time_elapsed > LNSModel.txt;
+display best_solution, number_of_iterations,  time_elapsed > LNSModel.res;
 
 
 # Only gets here if total_violation != 0 and time_elapsed >= t.

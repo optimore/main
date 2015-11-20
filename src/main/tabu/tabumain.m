@@ -23,7 +23,7 @@ nrIterations = 3000;
 sleeptime = 0.01;
 PLOTON = 0;
 PLOTSOL = 0;
-FINALPLOTON = 0;
+FINALPLOTON = 1;
 
 % Add timing:
 tic
@@ -48,7 +48,7 @@ try
     [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
 	% 5. Initial figure ***DONE***
-	if PLOTON || FINALPLOTON
+	if PLOTON
 		titlename = 'NOT in use'; %strsplit(dataParameters.name(1:3),'_');
         titlestr = {char(titlename), ...
                     num2str(tabuParameters.nrTasks), ...
