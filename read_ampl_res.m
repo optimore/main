@@ -1,5 +1,3 @@
-clear;
-clc;
 
 fid = fopen('LNSModel.res','r');
 v = fscanf(fid,'%s\n');

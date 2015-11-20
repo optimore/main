@@ -4,9 +4,9 @@
 
 #-----------------------------------
 
-reset;                  # Nollställer
+reset;                  # NollstÃ¤ller
 
-option solver cplexamp;    # Val av lösare.
+option solver cplexamp;    # Val av lÃ¶sare.
 
 #option presolve 0;      
 
@@ -14,17 +14,17 @@ option omit_zero_cols 1;   # Skriver ej ut nollor i kolumner
 
 option omit_zero_rows 1;   # Skriver ej ut nollor i rader
 
-option display_1col 10000; # Skriver ut bara en kolumn (mer lättläst)
+option display_1col 10000; # Skriver ut bara en kolumn (mer lÃ¤ttlÃ¤st)
 
-option cplex_options "timing 1 mipdisplay 2"; #Tidtagning och utskrifter, lägg till time limit
+option cplex_options "timing 1 mipdisplay 2"; #Tidtagning och utskrifter, lÃ¤gg till time limit
 
 option display_precision 5;
 
 
 
-model LNSmodel.mod;   # Läser in namnet på modellfilen. 
+model LNSmodel.mod;   # LÃ¤ser in namnet pÃ¥ modellfilen. 
 
-data Goood.dat;    # Läser in namnet på datafilen. 
+data Goood.dat;    # LÃ¤ser in namnet pÃ¥ datafilen. 
 
 
 
@@ -502,7 +502,7 @@ repeat
 
 		#display _varname, _var;
 
-		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
+		#Skriver ut hela problem pÃ¥ fil, ej nÃ¶dvÃ¤ndigt men bra fÃ¶r kontroll.
 
 		display best_solution, number_of_iterations > LNSModel.txt;
 
