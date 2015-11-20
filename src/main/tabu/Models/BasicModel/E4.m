@@ -1,5 +1,5 @@
 classdef E4 < handle
-    % E4 Summary of this class goes here
+    % E4 Diversification phase: only long steps
     %
     %
     
@@ -14,7 +14,6 @@ classdef E4 < handle
         CostList
         IterationId=1;
         LowestCost = [0, inf];
-        ActionSolution = [];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
@@ -42,10 +41,8 @@ classdef E4 < handle
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
-            obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+            obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
-            % Not used:
-            % obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
             obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
             obj.TabuList = obj.CreateTabuList();
@@ -81,25 +78,25 @@ classdef E4 < handle
                         % Move one solution
                         tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
                         
-                                                        
-                            % Calculate cost
-                            action.cost = CostFunction(data,tempSolution,obj.CostWeight);
-                            action.totalcost = action.cost.total;
-                            action.actionSolution = tempSolution;
-                            
-                            % Save action to actionlist
-                            actionList{actionId} = action;
-                            costList(actionId) = action.totalcost;
-                            
-                            % Increase iterator
-                            actionId = actionId + 1;
+                        
+                        % Calculate cost
+                        action.cost = CostFunction(data,tempSolution,obj.CostWeight);
+                        action.totalcost = action.cost.total;
+                        action.actionSolution = tempSolution;
+                        
+                        % Save action to actionlist
+                        actionList{actionId} = action;
+                        costList(actionId) = action.totalcost;
+                        
+                        % Increase iterator
+                        actionId = actionId + 1;
                     end
                 end
             catch err
                 fprintf(obj.Logfile, getReport(err,'extended'));
                 rethrow(err)
             end
-
+            
             
             % Do Action:
             try
@@ -110,8 +107,6 @@ classdef E4 < handle
                                         
                     notintabu = 1;
                     index = indexes(i);
-                    
-                    %if BoundsCost(data, actionList{index}.actionSolution) == 0
                     actionSolution = actionList{index}.actionSolution(:,2);
                     
                     % Find changed task
@@ -157,20 +152,15 @@ classdef E4 < handle
                                 obj.LowestCost = [obj.IterationId,lowestCost];
                             end
                             
-                            obj.ActionSolution = actionSolution;
-                            
-                            timenow = toc;
-                            
                             % Log results
+                            timenow = toc;
                             fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
                             obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end
-                    %end
-                        
                 end
-                                        
+                
                     catch err
                         disp('ERROR in do action class')
                         disp(err.stack)
@@ -181,28 +171,21 @@ classdef E4 < handle
             % Get stopping criteria:
             function [model,obj] = GetStoppingCriteria(obj, model)
                 
+                % If solution getting worse...
                 if diff(obj.CostList)<=0
-%                % If solution getting worse
-%                 if  obj.LowestCost(1) < ...
-%                         obj.IterationId - obj.NrOfBadIterationsBeforExit
-%                     obj.IterationId = 0;
                     
-                    % Old: obj.IterationId > round(obj.NrTasks/5) &&
-
-                    % Take next in phase order
+                    % ... move to next phase
                     nrPhases = size(model.phases,2);
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
-                    
-                    % *** CAN BE CHANGED
+                    % Reset in current phase
                     obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
-                    
                     model.instance{model.activePhaseIterator}. ...
-                         instance.SetTabulistCost(obj.TabuList, ...
-                         obj.LowestCost);
+                        instance.SetTabulistCost(obj.TabuList, ...
+                        obj.LowestCost);
                 end
-            end           
+            end
             
             function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
                 
@@ -211,6 +194,7 @@ classdef E4 < handle
                 
             end
             
+            % Are conditions met 
             function [model, obj] = AreConditionsMet(obj,model)
                 try
                     if obj.LowestCost(2)==0
@@ -221,6 +205,7 @@ classdef E4 < handle
                 end
             end
             
+            % Dynamic weight changing function
             function [obj] = SetWeights(obj,data)
                 
                 curSolution = zeros(obj.NrTasks,2);
@@ -228,7 +213,6 @@ classdef E4 < handle
                 curSolution(:,2) = data.tasks(:,6);
                 
                 costStruct = CostFunction(data,curSolution,obj.CostWeight);
-                %costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];
                 
                 weightDep = max(0.01, costStruct.dep/costStruct.total);
                 weightOver = max(0.01, costStruct.over/costStruct.total);
@@ -237,8 +221,8 @@ classdef E4 < handle
                 obj.CostWeight = [weightDep, weightOver, weightBound];
             end
             
+            % Get Cost
             function [costVec, obj] = GetCost(obj,data)
-                % cost = obj.LowestCost(2);
                 
                 curSolution = zeros(obj.NrTasks,2);
                 curSolution(:,1) = data.tasks(:,1);

@@ -1,6 +1,5 @@
 classdef E5 < handle
-    % E5 Summary of this class goes here
-    %
+    % E5 Intensification phase: both long and short steps possible
     %
     
     properties(GetAccess = 'public', SetAccess = 'private')
@@ -15,7 +14,6 @@ classdef E5 < handle
         ActionList
         IterationId=1;
         LowestCost = [0, inf];
-        ActionSolution = [];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
@@ -44,10 +42,8 @@ classdef E5 < handle
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
-            obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+            obj.NrTasks = nrTasks; 
             obj.Logfile = logfile;
-            % Not used:
-            % obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end
@@ -100,21 +96,18 @@ classdef E5 < handle
                 rethrow(err)
             end
             
-            %obj.CostList = costList;
-            %obj.ActionList = actionList;
             
             % Do Action:
             try
-                % =========== 1st version: Using solutions ================
+                % Find cheapest action
                 [sortedCosts, indexes] = sort(costList);
                 
-                % Loop through min-solutions in ascending order
+                % Loop through min-solutions in ascending order, choose
+                % action if not in tabu
                 for i = 1:length(costList)
                     
                     notintabu = 1;
                     index = indexes(i);
-                    
-                    %if BoundsCost(data, actionList{index}.actionSolution) == 0
                     actionSolution = actionList{index}.actionSolution(:,2);
                     
                     % Find changed task
@@ -147,11 +140,10 @@ classdef E5 < handle
                         obj.TabuList(2:end) = obj.TabuList(1:end-1);
                         obj.TabuList(1) = changedTask;
                         
-                        
                         % Perform action
                         lowestCost = sortedCosts(i);
                         
-                        % save cost list
+                        % Save cost list
                         obj.CostList(2:end) = obj.CostList(1:end-1);
                         obj.CostList(1) = lowestCost;
                         
@@ -161,18 +153,14 @@ classdef E5 < handle
                             obj.LowestCost = [obj.IterationId,lowestCost];
                         end
                         
-                        obj.ActionSolution = actionSolution;
-                        
-                        % *** Add later ***
-                        timenow = toc;
-                        
+
                         % Log results
+                        timenow = toc;                     
                         fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
                         obj.IterationId = obj.IterationId + 1;
                         
                         break;
                     end
-                    %end
                 end
 
             catch err
@@ -184,27 +172,21 @@ classdef E5 < handle
         
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
- 
-                % If solution getting worse
+            
+            % If solution getting worse...
+            if diff(obj.CostList)<=0
                 
-                if diff(obj.CostList)<=0
-                    
-%                 if  obj.LowestCost(1) < ...
-%                         obj.IterationId - obj.NrOfBadIterationsBeforExit
-%                     obj.IterationId = 0;
-                    
-                    % Old: obj.IterationId > round(obj.NrTasks/5) &&
-        
-                % Take next in phase order
+                % ... move to next phase
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
-                
+                % Reset in current phase
+                obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                 model.instance{model.activePhaseIterator}. ...
                     instance.SetTabulistCost(obj.TabuList, ...
-                                             obj.LowestCost);
-                end
+                    obj.LowestCost);
+            end
         end
         
         function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
@@ -214,6 +196,7 @@ classdef E5 < handle
             
         end
         
+        % Are conditions met 
         function [model, obj] = AreConditionsMet(obj,model)
             try
                 if obj.LowestCost(2)==0
@@ -224,6 +207,7 @@ classdef E5 < handle
             end
         end
         
+        % Dynamic weight changing function
         function [obj] = SetWeights(obj,data)
             
             curSolution = zeros(obj.NrTasks,2);
@@ -231,7 +215,6 @@ classdef E5 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            %costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];
             
             weightDep = max(0.01, costStruct.dep/costStruct.total);
             weightOver = max(0.01, costStruct.over/costStruct.total);
@@ -240,8 +223,8 @@ classdef E5 < handle
             obj.CostWeight = [weightDep, weightOver, weightBound];
         end
         
+        % Get Cost
         function [costVec, obj] = GetCost(obj,data)
-            % cost = obj.LowestCost(2);
             
             curSolution = zeros(obj.NrTasks,2);
             curSolution(:,1) = data.tasks(:,1);
