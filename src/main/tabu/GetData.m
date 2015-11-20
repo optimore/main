@@ -25,7 +25,7 @@ try
         'actual start time placement (so that the task can move; =0 now)'};
 
     data.tasks = Tasks; % (Tasks(:,6)==1,1:5);
-    data.dependencies = Dependencies; %(Dependencies(:,6)==1,2:5);
+    data.dependencies = Dependencies(:,2:5); %(Dependencies(:,6)==1,2:5);
     
     data.tasks(:,6) = 0;
     

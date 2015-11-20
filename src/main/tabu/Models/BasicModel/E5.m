@@ -96,12 +96,6 @@ classdef E5 < handle
                 rethrow(err)
             end
             
-<<<<<<< HEAD:src/main/tabu/Models/B-models/ModB2/E5.m
-            obj.CostList = costList;
-            obj.ActionList = actionList;
-=======
->>>>>>> cca28c6f066a6665f5620a590fecc0f73be304f9:src/main/tabu/Models/BasicModel/E5.m
-            
             % Do Action:
             try
                 % Find cheapest action
