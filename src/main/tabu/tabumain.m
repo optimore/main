@@ -23,7 +23,7 @@ nrIterations = 3000;
 sleeptime = 0.01;
 PLOTON = 0;
 PLOTSOL = 0;
-FINALPLOTON = 1;
+FINALPLOTON = 0;
 
 % Add timing:
 tic
