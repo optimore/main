@@ -1,6 +1,5 @@
-classdef E4 < handle
-    % E4 Summary of this class goes here
-    %
+classdef E5 < handle
+    % E5 Intensification phase: both long and short steps possible
     %
     
     properties(GetAccess = 'public', SetAccess = 'private')
@@ -15,18 +14,12 @@ classdef E4 < handle
         ActionList
         IterationId=1;
         LowestCost = [0, inf];
-        ActionSolution = [];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
-    
-    %     properties(Constant = true)
-    %
-    %
-    %
-    %     end
+
     
     methods
         % Create Tabu List
@@ -45,14 +38,12 @@ classdef E4 < handle
         end
         
         % Constructor:
-        function obj = E4(resultfile,logfile,nrTasks)
+        function obj = E5(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
-            obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+            obj.NrTasks = nrTasks; 
             obj.Logfile = logfile;
-            % Not used:
-            % obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
             obj.TabuList = obj.CreateTabuList();
         end
@@ -61,7 +52,13 @@ classdef E4 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                posibleTaskActions = [-1.5E8, -0.75E8,  0.75E8, 1.5E8];
+                % Dynamic weights calculated
+                % *** 50 can be changed
+                if mod(iterationId,50) == 0
+                    obj.SetWeights(data);
+                end
+                
+                posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -4E5, 4E5, 8E6, 4E7, 0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -99,14 +96,19 @@ classdef E4 < handle
                 rethrow(err)
             end
             
+<<<<<<< HEAD:src/main/tabu/Models/B-models/ModB2/E5.m
             obj.CostList = costList;
             obj.ActionList = actionList;
+=======
+>>>>>>> cca28c6f066a6665f5620a590fecc0f73be304f9:src/main/tabu/Models/BasicModel/E5.m
             
             % Do Action:
             try
+                % Find cheapest action
                 [sortedCosts, indexes] = sort(costList);
                 
-                % Loop through min-solutions in ascending order
+                % Loop through min-solutions in ascending order, choose
+                % action if not in tabu
                 for i = 1:length(costList)
                     
                     notintabu = 1;
@@ -118,17 +120,17 @@ classdef E4 < handle
                     changedTask = find(actionSolution - currentSolution);
                     
                     % Compare solution with tabu list solutions
-                    for j = 1:size(obj.TabuList,1)
+                     for j = 1:size(obj.TabuList,1)
                         tabuTask = obj.TabuList(j);
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-                            disp(['Tabu hit!', obj.Name]);
+%                             disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
                                     num2str(costList(index)),' cost: ', ...
-                                    num2str(obj.LowestCost(2))])
+                                    num2str(obj.LowestCost(2))])    
                             else
                                 notintabu = 0;
                                 break;
@@ -146,18 +148,19 @@ classdef E4 < handle
                         % Perform action
                         lowestCost = sortedCosts(i);
                         
+                        % Save cost list
+                        obj.CostList(2:end) = obj.CostList(1:end-1);
+                        obj.CostList(1) = lowestCost;
+                        
                         data.tasks(:,6) = actionSolution;
                         
                         if lowestCost < obj.LowestCost(2)
                             obj.LowestCost = [obj.IterationId,lowestCost];
                         end
                         
-                        obj.ActionSolution = actionSolution;
-                        
-                        % *** Add later ***
-                        timenow = toc;
-                        
+
                         % Log results
+                        timenow = toc;                     
                         fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
                         obj.IterationId = obj.IterationId + 1;
                         
@@ -165,7 +168,7 @@ classdef E4 < handle
                     end
                     
                 end
-                
+
             catch err
                 disp('ERROR in do action class')
                 disp(err.stack)
@@ -175,27 +178,31 @@ classdef E4 < handle
         
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
-            % Print cost and phase exit criteria:
-            %fprintf([num2str(obj.LowestCost(1)), ' ' , ...
-            %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
             
-            % If solution getting worse
-            if obj.IterationId > round(obj.NrTasks/5) && obj.LowestCost(1) < ...
-                    obj.IterationId - obj.NrOfBadIterationsBeforExit
-                obj.IterationId = 0;
+            % If solution getting worse...
+            if diff(obj.CostList)<=0
                 
-                % Recreate tabu when phase is over and set next phase:
-                % obj.TabuList = obj.CreateTabuList();
-                % obj.LowestCost = [0, inf];
-                
-                % Take next in phase order
+                % ... move to next phase
                 nrPhases = size(model.phases,2);
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
+                % Reset in current phase
+                obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
+                model.instance{model.activePhaseIterator}. ...
+                    instance.SetTabulistCost(obj.TabuList, ...
+                    obj.LowestCost);
             end
         end
         
+        function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
+            
+            % obj.TabuList = tabulist;
+            obj.LowestCost = lowestcost;
+            
+        end
+        
+        % Are conditions met 
         function [model, obj] = AreConditionsMet(obj,model)
             try
                 if obj.LowestCost(2)==0
@@ -206,6 +213,7 @@ classdef E4 < handle
             end
         end
         
+        % Dynamic weight changing function
         function [obj] = SetWeights(obj,data)
             
             curSolution = zeros(obj.NrTasks,2);
@@ -213,7 +221,6 @@ classdef E4 < handle
             curSolution(:,2) = data.tasks(:,6);
             
             costStruct = CostFunction(data,curSolution,obj.CostWeight);
-            %costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];
             
             weightDep = max(0.01, costStruct.dep/costStruct.total);
             weightOver = max(0.01, costStruct.over/costStruct.total);
@@ -222,8 +229,8 @@ classdef E4 < handle
             obj.CostWeight = [weightDep, weightOver, weightBound];
         end
         
+        % Get Cost
         function [costVec, obj] = GetCost(obj,data)
-            % cost = obj.LowestCost(2);
             
             curSolution = zeros(obj.NrTasks,2);
             curSolution(:,1) = data.tasks(:,1);
