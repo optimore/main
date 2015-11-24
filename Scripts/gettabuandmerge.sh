@@ -1,7 +1,7 @@
 cd ../tabu
 git checkout master
 git pull origin master
-cd ../guitest
+cd ../main
 git remote add tabur ../tabu
 git fetch tabur
 git branch -D tabumas
