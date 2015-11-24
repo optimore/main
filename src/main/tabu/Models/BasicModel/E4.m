@@ -119,7 +119,7 @@ classdef E4 < handle
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-                            %disp(['Tabu hit!', obj.Name]);
+                            % disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
