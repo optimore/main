@@ -191,11 +191,10 @@ end
      end
 end
 
-<<<<<<< HEAD
 % 3. run launcher
 % THIS 
 %LNSmain(dataParameters)
-%system('ÄNDRA STRÄNGAR I FILEN')
+%system('?NDRA STR?NGAR I FILEN')
 %system('module add cplex/12.5-fullampl; ampl < LNSModel.run')
 
 % OR THAT
@@ -206,10 +205,10 @@ delete(close_msgbox1);
 
 msgbox('Finished')
  % --- Executes on button press in checkbox1.
-=======
+
 
 % --- Executes on button press in checkbox1.
->>>>>>> guimaster
+
 function checkbox1_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -285,8 +284,8 @@ global index_listbox2
 index_listbox2 = get(handles.listbox2,'Value');
 
 %--------------------------------------------------------------------------
-% HÄMTA INFORMATION FRÅN LISTAN VIA CALLBACK.
-% FYLL LISTBOX FRÅN CREATFCN.
+% H?MTA INFORMATION FR?N LISTAN VIA CALLBACK.
+% FYLL LISTBOX FR?N CREATFCN.
 %--------------------------------------------------------------------------
 
 
@@ -539,8 +538,6 @@ end
         end
         
     elseif checkbox_result_table==1
-        cnames = {'Solve','Data set','Mean Iteration','Mean Time','Iteration standard deviation','Time standard deviation','Iteration Max','Time max','Iteration min','Time min','Failurekvot'};     
-        
         s = char(new_value);
        
 
@@ -590,7 +587,7 @@ k=1;
        
     end
 
-
+cnames = {'Solve','Data set','Mean Iteration','Mean Time','Iteration standard deviation','Time standard deviation','Iteration Max','Time max','Iteration min','Time min','Failurekvot'};     
 
 
 data_to_send=get(handles.uitable1,'Data');
