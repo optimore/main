@@ -95,6 +95,7 @@ classdef E5 < handle
                 fprintf(obj.Logfile, getReport(err,'extended'));
                 rethrow(err)
             end
+           
             
             % Do Action:
             try
