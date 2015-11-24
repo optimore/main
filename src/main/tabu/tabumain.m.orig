@@ -19,10 +19,11 @@ status = 0;
 
 % Tabu run setup
 % End after X iterations
-nrIterations = 1500;
+nrIterations = 3000;
 sleeptime = 0.01;
 PLOTON = 0;
-PLOTSOL = 1;
+PLOTSOL = 0;
+FINALPLOTON = 0;
 
 % Add timing:
 tic
@@ -67,10 +68,10 @@ try
     
 	while model.conditionsAreNotMet
 	    try
-            
+
             % 6.1 Get and do tabu action: This method also logs result:
             data = model.instance{model.activePhaseIterator}. ...
-                instance.GetAndPerformAction(data,model.iterations);
+                instance.GetAndPerformAction(data, model.iterations);
             
             % Save costs
             if model.iterations == 1
@@ -81,6 +82,18 @@ try
                     instance.GetCost(data)];
             end
             
+<<<<<<< HEAD
+            % Save costs
+            if model.iterations == 1
+                cost = model.instance{model.activePhaseIterator}. ...
+                    instance.GetCost(data);
+            else
+                cost = [cost; model.instance{model.activePhaseIterator}. ...
+                    instance.GetCost(data)];
+            end
+            
+=======
+>>>>>>> guimaster
             % 6.2 Display updated solution
             if PLOTON
                 if PLOTSOL || model.iterations == 1

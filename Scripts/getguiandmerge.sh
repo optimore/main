@@ -1,7 +1,7 @@
 cd ../guitest
 git checkout devhen
 git pull origin devhen
-cd ../tabu
+cd ../main
 git remote add guiremote ../guitest
 git fetch guiremote
 git branch -d guimaster

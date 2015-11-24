@@ -30,16 +30,19 @@ A6 = [106,107,108,109,110,111,112];
 A7 = [107,108,109,110,111,112];
 
 %---------------------- B DATA OPTIMIZED MODELS ----------------------
+<<<<<<< HEAD
+% For B data:
+=======
 % For B data
+>>>>>>> guimaster
 B1 = [1,2,3];
-B2 = [4,5];
+B2 = [4, 5];
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
     'tabu', struct('active',1,'initial',1,'phases',B2), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
-
 
 
 disp('------------------ OPTIMORE LAUNCHED ------------------')

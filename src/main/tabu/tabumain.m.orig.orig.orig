@@ -1,13 +1,52 @@
 function status = tabumain(dataParameters, tabuParameters, logfileParameters, resultParameters)
 %% Tabu main launching script
+% This script is the over all launcher of the tabu search algorithm
+%
+% TODO: 
+% - Catch user force-quit and handle abort!
+% - Set next phase in object instance, recreate model when phase is over
+%
+% Created by: Victor Bergelin
+% Date created:
+% Version number 0.01
+% 0.02: better structure and always run with status 1
+% 0.03: OOD on instances to better handle multiple models and methods
+%
+%
+% Link�ping University, Link�ping
 
-% LNS run setup
+status = 0;
+
+% Tabu run setup
 % End after X iterations
+<<<<<<< HEAD
+<<<<<<< HEAD
 nrIterations = 3000;
 sleeptime = 0.01;
+<<<<<<< HEAD
 PLOTON = 0;
 PLOTSOL = 0;
-FINALPLOTON = 0;
+FINALPLOTON = 1;
+=======
+PLOTON = 1;
+PLOTSOL = 1;
+>>>>>>> vic
+=======
+nrIterations = 1500;
+sleeptime = 0.01;
+PLOTON = 0;
+PLOTSOL = 1;
+>>>>>>> guimaster
+=======
+nrIterations = 1500;
+=======
+nrIterations = 3000;
+>>>>>>> devE
+sleeptime = 0.01;
+PLOTON = 1;
+PLOTSOL = 0;
+FINALPLOTon = 1;
+>>>>>>> guimaster
 
 % Add timing:
 tic
@@ -33,8 +72,22 @@ try
     
 	% 5. Initial figure ***DONE***
 	if PLOTON
+<<<<<<< HEAD
+<<<<<<< HEAD
 		titlename = 'NOT in use'; %strsplit(dataParameters.name(1:3),'_');
         titlestr = {char(titlename), ...
+=======
+<<<<<<< HEAD
+		titlename = 'NAME'; % strsplit(dataParameters.name(1:3),'_');
+=======
+		titlename = 'A15'; %strsplit(dataParameters.name(1:3),'_');
+>>>>>>> tabumas
+        titlestr = {char(titlename(1)), ...
+>>>>>>> guimaster
+=======
+		titlename = 'NAME'; % strsplit(dataParameters.name(1:3),'_');
+        titlestr = {char(titlename(1)), ...
+>>>>>>> guimaster
                     num2str(tabuParameters.nrTasks), ...
                     num2str(tabuParameters.nrTimels), ...
                     num2str(tabuParameters.nrDeps), ...
@@ -52,10 +105,10 @@ try
     
 	while model.conditionsAreNotMet
 	    try
-
+            
             % 6.1 Get and do tabu action: This method also logs result:
             data = model.instance{model.activePhaseIterator}. ...
-                instance.GetAndPerformAction(data, model.iterations);
+                instance.GetAndPerformAction(data,model.iterations);
             
             % Save costs
             if model.iterations == 1
@@ -91,12 +144,29 @@ try
                 model.conditionsAreNotMet=0;
             end
             
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            if model.phases < 100
+                % 6.5 Dynamic weights calculated
+                if mod(nrIterations,50) == 0
+                model.instance{model.activePhaseIterator}. ...
+                    instance.SetWeights(data);
+                end
+            end
+                
+=======
+>>>>>>> guimaster
             % 6.5 Dynamic weights calculated
             if mod(nrIterations,50) == 0
             model.instance{model.activePhaseIterator}. ...
                 instance.SetWeights(data);
             end
             
+<<<<<<< HEAD
+=======
+>>>>>>> devE
+>>>>>>> guimaster
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);

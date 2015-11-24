@@ -22,9 +22,9 @@ option display_precision 5;
 
 
 
-model src/main/ampl/LNSmodel.mod;   # Läser in namnet på modellfilen. 
+model LNSmodel.mod;   # Läser in namnet på modellfilen. 
 
-data src/test/testdata/B0_2_2015-11-16T15-02-19/AMPL.dat;    # Läser in namnet på datafilen. 
+data src/test/testdata/B15_5_2015-11-16T15-02-42/AMPL.dat;    # Läser in namnet på datafilen. 
 
 
 
@@ -252,7 +252,7 @@ let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 
 let times_at_optima := 0;
 
-display current_solution, number_of_iterations,  time_elapsed  > src/main/ampl/LNSModel.res;
+display current_solution, number_of_iterations,  time_elapsed  > LNSModel.res;
 
 ###############
 
@@ -410,7 +410,7 @@ repeat
 
 	let current_solution := total_violation;
 
-	display current_solution, number_of_iterations,  _solve_elapsed_time > src/main/ampl/LNSModel.res;	
+	display current_solution, number_of_iterations,  _solve_elapsed_time > LNSModel.res;	
 
 
 
@@ -504,7 +504,7 @@ repeat
 
 		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
 
-		display best_solution, number_of_iterations > src/main/ampl/LNSModel.res;
+		display best_solution, number_of_iterations > LNSModel.res;
 
 		expand > LNSModel.exp;
 
@@ -528,7 +528,7 @@ repeat
 
 	#display total_cost;
 
-	#display total_cost > src/main/ampl/LNSModel.res;
+	#display total_cost > LNSModel.res;
 
 	#display l;
 
@@ -558,7 +558,7 @@ repeat
 
 
 
-display best_solution, number_of_iterations,  time_elapsed > src/main/ampl/LNSModel.res;
+display best_solution, number_of_iterations,  time_elapsed > LNSModel.res;
 
 
 
