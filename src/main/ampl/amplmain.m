@@ -1,23 +1,7 @@
 function status = tabumain(dataParameters, tabuParameters, logfileParameters, resultParameters)
 %% Tabu main launching script
-% This script is the over all launcher of the tabu search algorithm
-%
-% TODO: 
-% - Catch user force-quit and handle abort!
-% - Set next phase in object instance, recreate model when phase is over
-%
-% Created by: Victor Bergelin
-% Date created:
-% Version number 0.01
-% 0.02: better structure and always run with status 1
-% 0.03: OOD on instances to better handle multiple models and methods
-%
-%
-% Link�ping University, Link�ping
 
-status = 0;
-
-% Tabu run setup
+% LNS run setup
 % End after X iterations
 nrIterations = 3000;
 sleeptime = 0.01;

@@ -22,7 +22,7 @@ function varargout = test_launcher(varargin)
 
 % Edit the above text to modify the response to help test_launcher
 
-% Last Modified by GUIDE v2.5 13-Nov-2015 14:38:06
+% Last Modified by GUIDE v2.5 20-Nov-2015 12:58:20
 
 % Begin initialization code - DO NOT EDIT
 
@@ -164,71 +164,14 @@ end
      
      
      
-     
+          
      elseif cb_checkbox_run==2
-         modelParameters.tabu = setfield(modelParameters.tabu,'active',1);
-          modelParameters.tabu = setfield(modelParameters.tabu,'phases',input);
-          close_msgbox1 = msgbox('Wait');
-          status = mainlauncher(dataParameters, modelParameters);
-          delete(close_msgbox1);
-          msgbox('Finished')
+         modelParameters.LNS = setfield(modelParameters.LNS,'active',1);
+         close_msgbox1 = msgbox('Wait');
          
-         
-         
-         ampl_dir=dir('src/test/testdata/ampl_*');
-         ampl_value = [];
-         for i = 1:length(ampl_dir)
-         ampl_value = [ampl_value; cellstr(getfield(ampl_dir,{i},'name'))];
-         end
-
-data_res = horzcat('src/test/testdata/',char(ampl_value(1)),'/');
-
-S = char(data_res);
-
-ampl_data_dir = dir(S);
-ampl_value_2 = [];
-for i = 1:length(ampl_data_dir)
-ampl_value_2 = [ampl_value_2; cellstr(getfield(ampl_data_dir,{i},'name'))];
-end
-
-ampl_value_2(3);
-
-ampl_data_name = strcat(data_res,ampl_value_2(3));
-            
-         
-            fin = fopen('LNSModel.run','rt');
-            fout = fopen('LNSModel_clone.run','wt');
-            while ~feof(fin)
-                   s = fgets(fin);
-                   s = strrep(s, '***FILE1***', char(ampl_data_name));
-                   fprintf(fout,'%s\n',s);
-            end
-            fclose(fin);
-            fclose(fout);
-            close_msgbox1 = msgbox('Wait');
-            
-            
-            
-            system('module add cplex/12.5-fullampl; ampl < LNSModel_clone.run')
-            delete(close_msgbox1);
-            msgbox('Finished')
-            
-            fid = fopen('LNSModel.res','r');
-            initial_res_LNS_gui = fscanf(fid,'%s\n');
-            initial_res_LNS_gui = strrep(initial_res_LNS_gui,'current_solution=',sprintf('\n'));
-            initial_res_LNS_gui = strrep(initial_res_LNS_gui,'number_of_iterations=',sprintf('\n'));
-            initial_res_LNS_gui = strrep(initial_res_LNS_gui,'_solve_elapsed_time=',sprintf('\n'));
-            initial_res_LNS_gui = strrep(initial_res_LNS_gui,'iteration_time=',sprintf('\n'));
-            initial_res_LNS_gui = strrep(initial_res_LNS_gui,'best_solution=',sprintf('\n'));
-            result_vector_LNS = str2num(sprintf(initial_res_LNS_gui,'%s'));
-            fclose(fid);
-            
-            
-            
-            
-            
-            
-            
+         status = mainlauncher(dataParameters, modelParameters);
+         delete(close_msgbox1);
+         msgbox('Finished')
             
      elseif cb_checkbox_run==3
 
@@ -241,26 +184,12 @@ ampl_data_name = strcat(data_res,ampl_value_2(3));
             end
             fclose(fin);
             fclose(fout);
-%             close_msgbox1 = msgbox('Wait');
+            close_msgbox1 = msgbox('Wait');
             system('module add cplex/12.5-fullampl; ampl < Mathmodel_clone.run')
             delete(close_msgbox1);
             msgbox('Finished')
      end
 end
-
-% 3. run launcher
-
-
-
-
-
-%LNSmain(dataParameters)
-%system('ÄNDRA STRÄNGAR I FILEN')
-%system('module add cplex/12.5-fullampl; ampl < LNSModel.run')
-
-
-
-
 
 
 % --- Executes on button press in checkbox1.
@@ -276,13 +205,6 @@ if get(handles.checkbox1,'Value')==1
      cb_checkbox_run=1; 
 end
 
-cb_checkbox_run
-% modelParameters = struct( ...
-%     'tabu', struct('active',0,'initial',1,'phases',[1]), ...
-%     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
-%     'ampl', struct('active',0,'initial',1,'phases',[1]));
-% modelParameters.tabu = setfield(modelParameters.tabu,'active',1);
-
 % --- Executes on button press in checkbox2.
 function checkbox2_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox2 (see GCBO)
@@ -296,7 +218,6 @@ if get(handles.checkbox2,'Value')==1
      cb_checkbox_run=2; 
 end
 
-cb_checkbox_run
 % --- Executes on button press in checkbox3.
 function checkbox3_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox3 (see GCBO)
@@ -310,7 +231,6 @@ if get(handles.checkbox3,'Value')==1
      cb_checkbox_run=3; 
 end
 
-cb_checkbox_run
 function edit1_Callback(hObject, eventdata, handles)
 % hObject    handle to edit1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -535,6 +455,8 @@ global test_data_value
 
 global l_path_gui
 
+global checkbox_result_table
+
 new_value_name = new_value;
 
 for new_val_it = 1:length(new_value)
@@ -546,7 +468,9 @@ for new_val_it = 1:length(new_value)
     new_value_name(new_val_it) = new_value_temp_2;
 
 end
- 
+
+oldData=[];
+
 for iter_1 = 1:length(new_value)
     
     temp_1=strcat('target/results/',l_path_gui);
@@ -560,20 +484,105 @@ for iter_1 = 1:length(new_value)
     max_cost(iter_1) = temp_load(end,2);
     
     max_time(iter_1) = temp_load(end,3);
+    
+end
+    if checkbox_result_table==2
+        cnames = {'Solve','Data set','Max Iteration','Max Cost','Max Time'};
+        
+        s = char(new_value);
+        a = 0;
+
+        
+        j=1;
+        a=[1];
+        for i = 1:length(new_value)-1
+
+            
+            b = s(i,2:1:5)==s(i+1,2:1:5); 
+            
+            if and(b(1),b(2))==1 
+                a(j) = a(j) + 1;
+                if i==length(new_value)-1
+                   a(j) = a(j) + 1;
+                end
+            elseif and(b(1),b(2))==0 
+                a = [a 0];
+                j=j+1;
+                a(j)=1;
+            end
+        end
+        
+        l=1;
+        
+        for iter_2 = 1:length(new_value)
+    
+        data_table= [cellstr(s(iter_2,1)),cellstr(s(iter_2,3:1:5)),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
+        oldData = [oldData;data_table];
+        
+        end
+        
+    elseif checkbox_result_table==1
+        cnames = {'Solve','Data set','Mean Iteration','Mean Time','Iteration standard deviation','Time standard deviation','Iteration Max','Time max','Iteration min','Time min','Failurekvot'};     
+        
+        s = char(new_value);
+       
+
+        
+        j=1;
+        a=[1];
+        for i = 1:length(new_value)-1
+
+            
+            b = s(i,3:1:5)==s(i+1,3:1:5);
+            c=and(b(1),b(2))==1;
+            if and(b(1),b(2))==1 
+                a(j) = a(j) + 1;
+                if i==length(new_value)-1
+                   a(j) = a(j) + 1;
+                end
+            elseif and(b(1),b(2))==0
+                a = [a 0];
+                j=j+1;
+                a(j)=1;
+            end
+        end
+        
+        l=1;
+    
+for i=1:length(a)
+    max_iter
+    meaniteration(i)=mean(max_iter(l:l-1+a(i)));
+    meantime(i)=mean(max_time(l:l-1+a(i)));
+    iterationstandarddeviation(i)=std(max_iter(l:l-1+a(i)));
+    timestandarddeviation(i)=std(max_time(l:l-1+a(i)));
+    iterationmax(i)=max(max_iter(l:l-1+a(i)));
+    timemax(i)=max(max_time(l:l-1+a(i)));
+    iterationmin(i)=min(max_iter(l:l-1+a(i)));
+    timemin(i)=min(max_time(l:l-1+a(i)));
+    failurekvot(i)=(a(i)-sum(max_cost(l:l-1+a(i))==0,2))/a(i);
+    l=l+a(i);
    
 end
+k=1;
+        for iter_3 = 1:length(a)
+            
+            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:5)),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
+            oldData = [oldData;data_table];
+            k=k+a(iter_3); 
+        end
+       
+    end
 
-oldData=[];
 
-for iter_2 = 1:length(new_value)
+
+
+data_to_send=get(handles.uitable1,'Data');
+assignin('base','data',data_to_send);
+
+
     
-    data_table= [test_data_value(iter_2),new_value_name(iter_2),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
-    oldData = [oldData;data_table];
     
-end
-
-set(handles.uitable1,'data',oldData);
-
+set(handles.uitable1,'data',oldData,'ColumnName',cnames);
 
 % --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
@@ -626,4 +635,29 @@ function checkbox11_Callback(hObject, eventdata, handles)
 global run_cb_files
 if get(handles.checkbox11,'Value')==1
      run_cb_files=2; 
+end
+
+
+% --- Executes on button press in checkbox12.
+function checkbox12_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox12
+global checkbox_result_table
+if get(handles.checkbox12,'Value')==1
+     checkbox_result_table=1; 
+end
+
+% --- Executes on button press in checkbox13.
+function checkbox13_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox13
+global checkbox_result_table
+if get(handles.checkbox13,'Value')==1
+     checkbox_result_table=2; 
 end

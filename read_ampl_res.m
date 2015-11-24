@@ -1,35 +1,12 @@
-clear;
-clc;
+b = [1 7 6 2 8 4 9 7 6 5 4 1 9 2 4];
 
- ampl_dir=dir('src/test/testdata/*_*');
- ampl_value = [];
- for i = 1:length(ampl_dir)
-         ampl_value = [ampl_value; cellstr(getfield(ampl_dir,{i},'name'))];
- end
 
-        
-for ampl_data_it=1:length(ampl_value)         
-data_res{ampl_data_it} = horzcat('src/test/testdata/',char(ampl_value(ampl_data_it)),'/');
-end
- S = char(data_res);
-
-ampl_value_2 = [];
-for dir_it = 1:length(ampl_value)
-ampl_data_dir(dit_it) = dir(S);
-ampl_value_2(dir_it) = [ampl_value_2; cellstr(getfield(ampl_data_dir,{i},'name'))];
+for LNS_res_it = 1:(length(b)/3)
+    
+       result_matrix_LNS(LNS_res_it,1) = LNS_res_it;
+       result_matrix_LNS(LNS_res_it,2) = b(1+3*(LNS_res_it-1));
+       result_matrix_LNS(LNS_res_it,3) = b(3+3*(LNS_res_it-1));
 end
 
-ampl_value_2
 
-%ampl_data_name = strcat(data_res,ampl_value_2
-            
-%          
-%             fin = fopen('LNSModel.run','rt');
-%             fout = fopen('LNSModel_clone.run','wt');
-%             while ~feof(fin)
-%                    s = fgets(fin);
-%                    s = strrep(s, '***FILE1***', char(ampl_data_name));
-%                    fprintf(fout,'%s\n',s);
-%             end
-%             fclose(fin);
-%             fclose(fout);
+result_matrix_LNS
