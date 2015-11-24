@@ -19,20 +19,10 @@ status = 0;
 
 % Tabu run setup
 % End after X iterations
-<<<<<<< HEAD
-=======
-
->>>>>>> devE
-nrIterations = 3000;
+nrIterations = 1500;
 sleeptime = 0.01;
-<<<<<<< HEAD
 PLOTON = 0;
-PLOTSOL = 0;
-FINALPLOTON = 1;
-=======
-PLOTON = 1;
 PLOTSOL = 1;
->>>>>>> vic
 
 % Add timing:
 tic
@@ -56,7 +46,7 @@ try
     % 5. Initial solution from model
     [status,data] = InitialSolutionLauncher(model,data,logfile);   
     
-	% 5. Initial figure
+	% 5. Initial figure ***DONE***
 	if PLOTON
 		titlename = 'NOT in use'; %strsplit(dataParameters.name(1:3),'_');
         titlestr = {char(titlename), ...
@@ -114,7 +104,14 @@ try
             
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
-            end            
+            end
+            
+            % 6.5 Dynamic weights calculated
+            if mod(nrIterations,50) == 0
+            model.instance{model.activePhaseIterator}. ...
+                instance.SetWeights(data);
+            end
+            
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);

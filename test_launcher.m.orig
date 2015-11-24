@@ -1,4 +1,4 @@
-  function varargout = test_launcher(varargin)
+function varargout = test_launcher(varargin)
 % TEST_LAUNCHER MATLAB code for test_launcher.fig
 %      TEST_LAUNCHER, by itself, creates a new TEST_LAUNCHER or raises the existing
 %      singleton*.
@@ -168,6 +168,11 @@ end
      
      
      elseif cb_checkbox_run==2
+<<<<<<< HEAD
+%           modelParameters.LNS = setfield(modelParameters.LNS,'active',1);
+%           modelParameters.LNS = setfield(modelParameters.LNS,'phases',input);
+=======
+>>>>>>> 0fbadfc87362f5d99eff04c332759b5ad0d34f81
             
          ampl_dir=dir('src/test/testdata/ampl_*');
          ampl_value = [];
@@ -194,7 +199,11 @@ ampl_data_name = strcat(data_res,ampl_value_2(3));
             fout = fopen('LNSModel_clone.run','wt');
             while ~feof(fin)
                    s = fgets(fin);
+<<<<<<< HEAD
+                   s = strrep(s, '***FILE1***', 'Goood.dat');
+=======
                    s = strrep(s, '***FILE1***', char(ampl_data_name));
+>>>>>>> 0fbadfc87362f5d99eff04c332759b5ad0d34f81
                    fprintf(fout,'%s\n',s);
             end
             fclose(fin);
@@ -205,6 +214,15 @@ ampl_data_name = strcat(data_res,ampl_value_2(3));
             msgbox('Finished')
             
             fid = fopen('LNSModel.res','r');
+<<<<<<< HEAD
+            v = fscanf(fid,'%s\n');
+            v = strrep(v,'current_solution=',sprintf('\n'));
+            v = strrep(v,'number_of_iterations=',sprintf('\n'));
+            v = strrep(v,'_solve_elapsed_time=',sprintf('\n'));
+            v = strrep(v,'iteration_time=',sprintf('\n'));
+            v = strrep(v,'best_solution=',sprintf('\n'));
+            x = str2num(sprintf(v,'%s'));
+=======
             initial_res_LNS_gui = fscanf(fid,'%s\n');
             initial_res_LNS_gui = strrep(initial_res_LNS_gui,'current_solution=',sprintf('\n'));
             initial_res_LNS_gui = strrep(initial_res_LNS_gui,'number_of_iterations=',sprintf('\n'));
@@ -212,6 +230,7 @@ ampl_data_name = strcat(data_res,ampl_value_2(3));
             initial_res_LNS_gui = strrep(initial_res_LNS_gui,'iteration_time=',sprintf('\n'));
             initial_res_LNS_gui = strrep(initial_res_LNS_gui,'best_solution=',sprintf('\n'));
             result_vector_LNS = str2num(sprintf(initial_res_LNS_gui,'%s'));
+>>>>>>> 0fbadfc87362f5d99eff04c332759b5ad0d34f81
             fclose(fid);
             
             
@@ -222,7 +241,13 @@ ampl_data_name = strcat(data_res,ampl_value_2(3));
             
             
      elseif cb_checkbox_run==3
+<<<<<<< HEAD
+%           modelParameters.ampl = setfield(modelParameters.ampl,'active',1);
+%           modelParameters.ampl = setfield(modelParameters.ampl,'phases',input);
+        
+=======
 
+>>>>>>> 0fbadfc87362f5d99eff04c332759b5ad0d34f81
             fin = fopen('Mathmodel.run','rt');
             fout = fopen('Mathmodel_clone.run','wt');
             while ~feof(fin)
@@ -241,6 +266,19 @@ end
 
 % 3. run launcher
 <<<<<<< HEAD
+
+
+
+
+
+=======
+% THIS 
+>>>>>>> 0fbadfc87362f5d99eff04c332759b5ad0d34f81
+%LNSmain(dataParameters)
+%system('ÄNDRA STRÄNGAR I FILEN')
+%system('module add cplex/12.5-fullampl; ampl < LNSModel.run')
+
+% OR THAT
 msgbox('Wait')
 
 status = mainlauncher(dataParameters, modelParameters);
@@ -248,23 +286,6 @@ delete(close_msgbox1);
 
 msgbox('Finished')
  % --- Executes on button press in checkbox1.
-=======
-
-
-
-
-
-%LNSmain(dataParameters)
-%system('ÄNDRA STRÄNGAR I FILEN')
-%system('module add cplex/12.5-fullampl; ampl < LNSModel.run')
-
-
-
-
-
-
-% --- Executes on button press in checkbox1.
->>>>>>> devE
 function checkbox1_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB

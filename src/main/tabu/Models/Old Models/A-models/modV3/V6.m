@@ -57,8 +57,8 @@ classdef V6 < handle
             % Iterate over and save posible solutions:
             try
                 posibleTaskActions = [-1.5E8, -5E7, -1E7, 1E7, 5E7, 1.5E8];
-                nrTasks = size(data.tasks,1);
-                nrActions = length(posibleTaskActions);
+                nrTasks = size(data.tasks,1)
+                nrActions = length(posibleTaskActions)
                 actionId = 1;
 
                 % Create empty actionList and costList:
@@ -72,7 +72,7 @@ classdef V6 < handle
                         % Copy all task positions
                         tempSolution = zeros(nrTasks,2);
                         tempSolution(:,1) = data.tasks(:,1);
-                        tempSolution(:,2) = data.tasks(:,6);
+                        tempSolution(:,2) = data.tasks(:,5);
                         % Move one solution
                         tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
 
