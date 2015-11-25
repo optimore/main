@@ -37,7 +37,6 @@ for new_val_it = 1:length(new_value)
 end
 
 s = char(new_value);
-a = 0;
 
 % Skapa en vektor, som för varje element 
 j=1;
@@ -47,49 +46,50 @@ for i = 1:length(new_value)-1
     
     
     b = s(i,3:1:5)==s(i+1,3:1:5);
-    c=and(b(1),b(2))==1;
-    if and(b(1),b(2))==1 %kuksnopp
+   
+    if and(and(b(1),b(2)),b(3))==1 %kuksnopp
         a(j) = a(j) + 1;
-        if i==length(new_value)-1
-           a(j) = a(j) + 1;
-        end
-    elseif and(b(1),b(2))==0
+        c=a;
+%         if i==length(new_value)-1
+%            a(j) = a(j) + 1;
+%            d=a
+%            end
+    elseif and(and(b(1),b(2)),b(3))==0
         a = [a 0];
+        e=a;
         j=j+1;
         a(j)=1;
     end
 end
-s(1,3:1:5)
-s(2,3:1:5)
-a
+
+a;
 
 % UNTITLED3 Summary of this function goes here
 % sample är massa test resultatsstruckar
 % a är a streck på whiteboarden
 %   Detailed explanation goes here
-l=1
     
-for i=1:length(a)
-    %en för iteration mean
-    %en för time mean
-    %en för iteration standardavikelse
-    %en för iteration standardavikelse
-    %en för iteration max
-    %en för iteration min
-    %en för time max
-    %en för time min
-    %en för failure kvot
-    meaniteration(i)=mean(temp_load(l:l-1+a(i),1));
-    meantime(i)=mean(temp_load(l:l-1+a(i),3));
-    iterationstandarddeviation(i)=std(temp_load(l:l-1+a(i),1));
-    timestandarddeviation(i)=std(temp_load(l:l-1+a(i),3));
-    iterationmax(i)=max(temp_load(l:l-1+a(i),1));
-    timemax(i)=max(temp_load(l:l-1+a(i),3));
-    iterationmin(i)=min(temp_load(l:l-1+a(i),1));
-    timemin(i)=min(temp_load(l:l-1+a(i),3));
-    failurekvot(i)=(a(i)-sum(temp_load(l:l-1+a(i))==0,2))/a(i);
-%     s=(a(i)-sum(temp_load(l:l-1+a(i))==0))/a(i)
-    l=l+a(i);
-   
-end
+% for i=1:length(a)
+%     %en för iteration mean
+%     %en för time mean
+%     %en för iteration standardavikelse
+%     %en för iteration standardavikelse
+%     %en för iteration max
+%     %en för iteration min
+%     %en för time max
+%     %en för time min
+%     %en för failure kvot
+%     meaniteration(i)=mean(temp_load(l:l-1+a(i),1));
+%     meantime(i)=mean(temp_load(l:l-1+a(i),3));
+%     iterationstandarddeviation(i)=std(temp_load(l:l-1+a(i),1));
+%     timestandarddeviation(i)=std(temp_load(l:l-1+a(i),3));
+%     iterationmax(i)=max(temp_load(l:l-1+a(i),1));
+%     timemax(i)=max(temp_load(l:l-1+a(i),3));
+%     iterationmin(i)=min(temp_load(l:l-1+a(i),1));
+%     timemin(i)=min(temp_load(l:l-1+a(i),3));
+%     failurekvot(i)=(a(i)-sum(temp_load(l:l-1+a(i))==0,2))/a(i);
+% %     s=(a(i)-sum(temp_load(l:l-1+a(i))==0))/a(i)
+%     l=l+a(i);
+%    
+% end
 

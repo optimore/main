@@ -161,10 +161,6 @@ end
           msgbox('Finished')
      
      
-     
-     
-     
-          
      elseif cb_checkbox_run==2
          modelParameters.LNS = setfield(modelParameters.LNS,'active',1);
          close_msgbox1 = msgbox('Wait');
@@ -414,6 +410,8 @@ global new_value
 
 global l_path_gui
 
+global value
+
 if (get(handles.pushbutton4,'Value'))==1
 
 B = dir('target/results/results_201*');
@@ -516,7 +514,7 @@ end
         
         for iter_2 = 1:length(new_value)
     
-        data_table= [cellstr(s(iter_2,1)),cellstr(s(iter_2,3:1:5)),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
+        data_table= [cellstr(s(iter_2,1)),cellstr(s(iter_2,3:1:6)),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
         oldData = [oldData;data_table];
         
         end
@@ -526,31 +524,28 @@ end
         
         s = char(new_value);
        
-
         
         j=1;
         a=[1];
-        for i = 1:length(new_value)-1
+           for i = 1:length(new_value)-1
 
-            
-            b = s(i,3:1:5)==s(i+1,3:1:5);
-            c=and(b(1),b(2))==1;
-            if and(b(1),b(2))==1 
-                a(j) = a(j) + 1;
-                if i==length(new_value)-1
-                   a(j) = a(j) + 1;
-                end
-            elseif and(b(1),b(2))==0
-                a = [a 0];
-                j=j+1;
-                a(j)=1;
-            end
+
+        b = s(i,3:1:5)==s(i+1,3:1:5);
+
+        if and(and(b(1),b(2)),b(3))==1 %kuksnopp
+            a(j) = a(j) + 1;
+            c=a;
+          elseif and(and(b(1),b(2)),b(3))==0
+            a = [a 0];
+            e=a;
+            j=j+1;
+            a(j)=1;
         end
-        
+    end
         l=1;
-    
+    a;
 for i=1:length(a)
-    max_iter
+    
     meaniteration(i)=mean(max_iter(l:l-1+a(i)));
     meantime(i)=mean(max_time(l:l-1+a(i)));
     iterationstandarddeviation(i)=std(max_iter(l:l-1+a(i)));
@@ -572,13 +567,6 @@ k=1;
         end
        
     end
-
-
-
-
-data_to_send=get(handles.uitable1,'Data');
-assignin('base','data',data_to_send);
-
 
     
     
