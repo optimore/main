@@ -130,7 +130,7 @@ modelParameters = struct( ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 
 input = get(handles.edit1,'String');
-input = str2num(input)
+input = str2num(input);
 
 global cb_checkbox_run
 
