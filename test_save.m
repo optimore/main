@@ -10,4 +10,11 @@ for i = 1:length(B)
 
 end
 
-fileID
+%-----------------------------------------------------------
+fileID = fopen('testtable.dat','w');
+fclose(fileID);
+%-----------------------------------------------------------
+a=value(end);
+
+movefile('testtable.dat',strcat('target/results/',a{1}));
+

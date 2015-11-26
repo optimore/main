@@ -455,6 +455,16 @@ global l_path_gui
 
 global checkbox_result_table
 
+B_2 = dir('target/results/results_201*');
+value_2 = [];
+
+for i = 1:length(B_2)
+
+    value_2 = [value_2; cellstr(getfield(B_2,{i},'name'))];
+
+end
+
+
 new_value_name = new_value;
 
 for new_val_it = 1:length(new_value)
@@ -519,6 +529,27 @@ end
         
         end
         
+        [m n]=size(oldData);
+b = [];
+ for i=1:m
+    row=oldData(i,1:end);
+    
+    a = strcat(row{1},{' '},row{2}, {' '},mat2str(row{3}), {' '},mat2str(row{4}), {' '},mat2str(row{5}));
+    b =[b a];
+ end
+
+ 
+%-----------------------------------------------------------
+ fileID = fopen('plain_table.dat','w');
+ 
+ fprintf(fileID,'%s\n',b{:});
+
+ fclose(fileID);
+%-----------------------------------------------------------
+a=value_2(end);
+
+movefile('plain_table.dat',strcat('target/results/',a{1}));
+        
     elseif checkbox_result_table==1
         cnames = {'Solve','Data set','Mean Iteration','Mean Time','Iteration standard deviation','Time standard deviation','Iteration Max','Time max','Iteration min','Time min','Failurekvot'};     
         
@@ -566,9 +597,32 @@ k=1;
             k=k+a(iter_3); 
         end
        
+        [m n]=size(oldData);
+b = [];
+ for i=1:m
+    row=oldData(i,1:end);
+    
+    a = strcat(row{1},{' '},row{2}, {' '},mat2str(row{3}), {' '},mat2str(row{4}), {' '},mat2str(row{5}),{' '},mat2str(row{6}),{' '},mat2str(row{7}),{' '},mat2str(row{8}),{' '},mat2str(row{9}),{' '},mat2str(row{10}),{' '},mat2str(row{11}));
+    b =[b a];
+ end
+
+ 
+%-----------------------------------------------------------
+ fileID = fopen('statistics_table.dat','w');
+ 
+ fprintf(fileID,'%s\n',b{:});
+
+ fclose(fileID);
+%-----------------------------------------------------------
+a=value_2(end);
+
+movefile('statistics_table.dat',strcat('target/results/',a{1}));
     end
 
     
+
+
+
     
 set(handles.uitable1,'data',oldData,'ColumnName',cnames);
 
