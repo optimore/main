@@ -80,12 +80,15 @@ classdef E5 < handle
                         
                         % Calculate cost *** Needs testing ***
                         action.cost = CostFunction(data,tempSolution,obj.CostWeight);
-                        action.totalcost = action.cost.total;
+                        %action.totalcost = action.cost.total;
                         action.actionSolution = tempSolution;
                         
                         % Save action to actionlist
                         actionList{actionId} = action;
-                        costList(actionId) = action.totalcost;
+                        costList(actionId) = action.cost.total;
+                        costListdep(actionId) = action.cost.dep;
+                        costListbound(actionId) = action.cost.bound;
+                        costListover(actionId) = action.cost.over;
                         
                         % Increase iterator
                         actionId = actionId + 1;
@@ -123,9 +126,9 @@ classdef E5 < handle
 %                             disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
-                                    num2str(costList(index)),' cost: ', ...
-                                    num2str(obj.LowestCost(2))])    
+%                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+%                                     num2str(costList(index)),' cost: ', ...
+%                                     num2str(obj.LowestCost(2))])    
                             else
                                 notintabu = 0;
                                 break;
@@ -141,7 +144,10 @@ classdef E5 < handle
                         obj.TabuList(1) = changedTask;
                         
                         % Perform action
-                        lowestCost = sortedCosts(i);
+                        lowestCost = costList(indexes(i)); %sortedCosts(i);
+                        lowestDep = costListdep(indexes(i));
+                        lowestBound = costListbound(indexes(i));
+                        lowestOver = costListover(indexes(i));
                         
                         % Save cost list
                         obj.CostList(2:end) = obj.CostList(1:end-1);
@@ -155,8 +161,14 @@ classdef E5 < handle
                         
 
                         % Log results
-                        timenow = toc;                     
-                        fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
+                        timenow = toc;
+                        fprintf(obj.Resultfile, [num2str(iterationId),',', ...
+                            num2str(lowestCost),',', ...
+                            num2str(timenow), ',', ...
+                            num2str(lowestDep),',', ...
+                            num2str(lowestBound),',', ...
+                            num2str(lowestOver), ...
+                            '\n']);
                         obj.IterationId = obj.IterationId + 1;
                         
                         break;

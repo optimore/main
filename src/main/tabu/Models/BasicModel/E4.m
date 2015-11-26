@@ -80,18 +80,21 @@ classdef E4 < handle
                         
                         
                         % Calculate cost
-                        action.cost = CostFunction(data,tempSolution,obj.CostWeight);
-                        action.totalcost = action.cost.total;
+                        action.cost = CostFunction(data,tempSolution,obj.CostWeight);  
                         action.actionSolution = tempSolution;
                         
                         % Save action to actionlist
                         actionList{actionId} = action;
-                        costList(actionId) = action.totalcost;
+                        costList(actionId) = action.cost.total;
+                        costListdep(actionId) = action.cost.dep;
+                        costListbound(actionId) = action.cost.bound;
+                        costListover(actionId) = action.cost.over;
                         
                         % Increase iterator
                         actionId = actionId + 1;
                     end
                 end
+                % coststruct=struct('overlap',costListover,'dependency',costListdep,'bound',costListbound)
             catch err
                 fprintf(obj.Logfile, getReport(err,'extended'));
                 rethrow(err)
@@ -122,9 +125,9 @@ classdef E4 < handle
                             % disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-                                disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
-                                    num2str(costList(index)),' cost: ', ...
-                                    num2str(obj.LowestCost(2))])
+%                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+%                                     num2str(costList(index)),' cost: ', ...
+%                                     num2str(obj.LowestCost(2))])
                             else
                                 notintabu = 0;
                                 break;
@@ -140,7 +143,10 @@ classdef E4 < handle
                             obj.TabuList(1) = changedTask;
                             
                             % Perform action
-                            lowestCost = sortedCosts(i);
+                            lowestCost = costList(indexes(i)); %sortedCosts(i);
+                            lowestDep = costListdep(indexes(i));
+                            lowestBound = costListbound(indexes(i));
+                            lowestOver = costListover(indexes(i));
                             
                             % save cost list
                             obj.CostList(2:end) = obj.CostList(1:end-1);
@@ -154,7 +160,13 @@ classdef E4 < handle
                             
                             % Log results
                             timenow = toc;
-                            fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
+                            fprintf(obj.Resultfile, [num2str(iterationId),',', ...
+                                num2str(lowestCost),',', ...
+                                num2str(timenow), ',', ...
+                                num2str(lowestDep),',', ...
+                                num2str(lowestBound),',', ...
+                                num2str(lowestOver), ...
+                                '\n']);
                             obj.IterationId = obj.IterationId + 1;
                             
                             break;
