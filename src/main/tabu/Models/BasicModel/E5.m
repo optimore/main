@@ -12,7 +12,7 @@ classdef E5 < handle
         Solution = 1;
         CostList
         ActionList
-        IterationId=1;
+        %IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
@@ -108,7 +108,7 @@ classdef E5 < handle
                 % Loop through min-solutions in ascending order, choose
                 % action if not in tabu
                 for i = 1:length(costList)
-                    
+                    i
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
@@ -138,6 +138,7 @@ classdef E5 < handle
                     
                     
                     if notintabu == 1
+                        iterationId
                         
                         % Add action to tabu list
                         obj.TabuList(2:end) = obj.TabuList(1:end-1);
@@ -156,7 +157,7 @@ classdef E5 < handle
                         data.tasks(:,6) = actionSolution;
                         
                         if lowestCost < obj.LowestCost(2)
-                            obj.LowestCost = [obj.IterationId,lowestCost];
+                            obj.LowestCost = [iterationId,lowestCost];
                         end
                         
 
@@ -169,7 +170,7 @@ classdef E5 < handle
                             num2str(lowestBound),',', ...
                             num2str(lowestOver), ...
                             '\n']);
-                        obj.IterationId = obj.IterationId + 1;
+                        %obj.IterationId = obj.IterationId + 1;
                         
                         break;
                     end
@@ -194,7 +195,7 @@ classdef E5 < handle
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
-                % Reset in current phase
+                % Reset in new phase
                 obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                 model.instance{model.activePhaseIterator}. ...
                     instance.SetTabulistCost(obj.TabuList, ...
@@ -211,9 +212,10 @@ classdef E5 < handle
         
         % Are conditions met 
         function [model, obj] = AreConditionsMet(obj,model)
-            try
+            try 
+                obj.LowestCost
                 if obj.LowestCost(2)==0
-                    model.conditionsAreNotMet = 0;
+                    model.conditionsAreNotMet = 0
                 end
             catch err
                 rethrow(err)

@@ -12,7 +12,7 @@ classdef E4 < handle
         NrTasks
         Solution = 1;
         CostList
-        IterationId=1;
+        %IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=3;
@@ -155,7 +155,7 @@ classdef E4 < handle
                             data.tasks(:,6) = actionSolution;
                             
                             if lowestCost < obj.LowestCost(2)
-                                obj.LowestCost = [obj.IterationId,lowestCost];
+                                obj.LowestCost = [iterationId,lowestCost];
                             end
                             
                             % Log results
@@ -167,7 +167,7 @@ classdef E4 < handle
                                 num2str(lowestBound),',', ...
                                 num2str(lowestOver), ...
                                 '\n']);
-                            obj.IterationId = obj.IterationId + 1;
+                            %obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end
@@ -191,7 +191,7 @@ classdef E4 < handle
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
-                    % Reset in current phase
+                    % Reset in new phase
                     obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
@@ -209,6 +209,7 @@ classdef E4 < handle
             % Are conditions met 
             function [model, obj] = AreConditionsMet(obj,model)
                 try
+                    obj.LowestCost
                     if obj.LowestCost(2)==0
                         model.conditionsAreNotMet = 0;
                     end

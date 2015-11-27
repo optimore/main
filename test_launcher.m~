@@ -443,7 +443,7 @@ end
     legend('Total Cost/Time','Dependency Cost/Time','Bounds Cost/Time','Overlap Cost/Time');
  
  
-
+ln_data_4(:)
 % --- Executes on selection change in listbox4.
 function listbox4_Callback(hObject, eventdata, handles)
 % hObject    handle to listbox4 (see GCBO)
@@ -770,7 +770,7 @@ if (get(handles.pushbutton6,'Value'))==1
         
         for p = 1:length(load_data(:,5))
     
-        if load_data(p,5)==0
+        if load_data(p,2)==0
             ln_data_3(p)=0;
         else
         ln_data_3(p)=log(load_data(p,5));
@@ -780,7 +780,7 @@ if (get(handles.pushbutton6,'Value'))==1
         
         for p = 1:length(load_data(:,6))
     
-        if load_data(p,6)==0
+        if load_data(p,2)==0
             ln_data_4(p)=0;
         else
         ln_data_4(p)=log(load_data(p,6));
