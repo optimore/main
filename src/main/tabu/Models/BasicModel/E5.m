@@ -138,7 +138,6 @@ classdef E5 < handle
                     
                     
                     if notintabu == 1
-                        iterationId
                         
                         % Add action to tabu list
                         obj.TabuList(2:end) = obj.TabuList(1:end-1);
