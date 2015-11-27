@@ -108,10 +108,10 @@ try
             end
             
             % 6.5 Dynamic weights calculated
-            if mod(nrIterations,50) == 0
-            model.instance{model.activePhaseIterator}. ...
-                instance.SetWeights(data);
-            end
+%             if mod(nrIterations,50) == 0
+%             model.instance{model.activePhaseIterator}. ...
+%                 instance.SetWeights(data);
+%             end
             
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')

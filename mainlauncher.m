@@ -38,6 +38,7 @@ if status.run
                 % Add path for tabu main files:
                 addpath(genpath('src/main/tabu')); %'src/main/tabu';
                 runId = runId +1;
+                disp(['Running iteration ', num2str(runId)]);
                 status.tabu = tabumain(dataParameters{i}, ...
                                        modelParameters.tabu, ...
                                        logfileParameters, ...
@@ -88,6 +89,7 @@ if status.run
         for i = 1:length(dataParameters)
             try
                 runId = runId +1;
+                disp(['Running', runId]);
                 % Add path for ampl main files:
                 addpath(genpath('src/main/ampl')); %'src/main/tabu';
                 status.ampl = amplmain(dataParameters{i}, ...
