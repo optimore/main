@@ -9,15 +9,15 @@ classdef E5 < handle
         Logfile
         Resultfile
         NrTasks
-        Solution = 1;
+        Solution = 1
         CostList
         ActionList
         %IterationId=1;
-        LowestCost = [0, inf];
+        LowestCost = [0, inf]
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=5;
+        NrOfBadIterationsBeforExit=5
         % dep overlap bounds
-        CostWeight = [5 1 1];
+        CostWeight = [5 1 1]
     end
 
     
@@ -108,7 +108,6 @@ classdef E5 < handle
                 % Loop through min-solutions in ascending order, choose
                 % action if not in tabu
                 for i = 1:length(costList)
-                    i
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
@@ -199,22 +198,22 @@ classdef E5 < handle
                 model.instance{model.activePhaseIterator}. ...
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
+                % *** Print
+                disp([num2str(model.iterations), num2str(obj.Name)])
             end
         end
         
-        function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
-            
+        function [obj] = SetTabulistCost(obj, tabulist, lowestcost)
             % obj.TabuList = tabulist;
-            obj.LowestCost = lowestcost;
-            
+            obj.LowestCost = lowestcost; 
         end
         
         % Are conditions met 
         function [model, obj] = AreConditionsMet(obj,model)
             try 
-                obj.LowestCost
+                % obj.LowestCost
                 if obj.LowestCost(2)==0
-                    model.conditionsAreNotMet = 0
+                    model.conditionsAreNotMet = 0;
                 end
             catch err
                 rethrow(err)

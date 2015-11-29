@@ -13,11 +13,11 @@ classdef E4 < handle
         Solution = 1;
         CostList
         %IterationId=1;
-        LowestCost = [0, inf];
+        LowestCost = [0, inf]
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3;
+        NrOfBadIterationsBeforExit=3
         % dep overlap bounds
-        CostWeight = [5 1 1];
+        CostWeight = [5 1 1]
     end
     
     methods
@@ -196,6 +196,8 @@ classdef E4 < handle
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
+                    % *** Print
+                    disp([num2str(model.iterations), num2str(obj.Name)])
                 end
             end
             
@@ -209,7 +211,7 @@ classdef E4 < handle
             % Are conditions met 
             function [model, obj] = AreConditionsMet(obj,model)
                 try
-                    obj.LowestCost
+                    % obj.LowestCost
                     if obj.LowestCost(2)==0
                         model.conditionsAreNotMet = 0;
                     end
