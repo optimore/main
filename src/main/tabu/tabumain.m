@@ -19,7 +19,7 @@ status = 0;
 
 % Tabu run setup
 % End after X iterations
-nrIterations = 1000;
+nrIterations = 2000;
 sleeptime = 0.01;
 PLOTON = 0;
 PLOTSOL = 0;
