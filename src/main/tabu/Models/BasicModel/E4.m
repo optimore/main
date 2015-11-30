@@ -25,7 +25,7 @@ classdef E4 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 20;
+                    listlength = min(20,obj.NrTasks-10);
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
