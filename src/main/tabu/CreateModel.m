@@ -9,7 +9,7 @@ function model=CreateModel(tabuParameters,resultfile,logfile)
 % 0.02: minor development, not tested
 % 0.01: file setup
 %
-% Linköping University, Linköping
+% Link?ping University, Link?ping
 
 nrTasks = tabuParameters.nrTasks;
 
@@ -49,59 +49,34 @@ try
                 instance.name = 'E6';
                 instance.instance = E6(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
-            case 7,
-                instance.name = 'E7';
-                instance.instance = E7(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
             case 101,
-                instance.name = 'V1';
-                instance.instance = V1(resultfile,logfile,nrTasks);
+                instance.name = 'C1_1';
+                instance.instance = C1_1(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 102,
-                instance.name = 'V2';
-                instance.instance = V2(resultfile,logfile,nrTasks);
+                instance.name = 'C1_2';
+                instance.instance = C1_2(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 103,
-                instance.name = 'V3';
-                instance.instance = V3(resultfile,logfile,nrTasks);
+                instance.name = 'C1_3';
+                instance.instance = C1_3(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 104,
-                instance.name = 'V4';
-                instance.instance = V4(resultfile,logfile,nrTasks);
+                instance.name = 'C1_4';
+                instance.instance = C1_4(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 105,
-                instance.name = 'V5';
-                instance.instance = V5(resultfile,logfile,nrTasks);
+                instance.name = 'C1_5';
+                instance.instance = C1_5(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 106,
-                instance.name = 'V6';
-                instance.instance = V6(resultfile,logfile,nrTasks);
+                instance.name = 'C1_6';
+                instance.instance = C1_6(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
-            case 107,
-                instance.name = 'V7';
-                instance.instance = V7(resultfile,logfile,nrTasks);
+            case 201,
+                instance.name = 'C2_1';
+                instance.instance = C2_1(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
-            case 108,
-                instance.name = 'V8';
-                instance.instance = V8(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
-            case 109,
-                instance.name = 'V9';
-                instance.instance = V9(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
-            case 110,
-                instance.name = 'V10';
-                instance.instance = V10(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
-            case 111,
-                instance.name = 'V11';
-                instance.instance = V11(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
-            case 112,
-                instance.name = 'V12';
-                instance.instance = V12(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
-            
             %case *,
                 
             otherwise,
