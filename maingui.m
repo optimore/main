@@ -1,10 +1,14 @@
 % MAIN launcher script, simulating GUI code
+% 1.0: Stable for running tabu searches on a variety of data and models
+%
+% Link?ping University, Link?ping
+
 
 clc; close all; clear all;
 
 %-------------------------------------------------------------------------
 % Reference run:
-B2 = [4, 5];
+M_Ref = [4, 5];
 
 %-------------------- M1 models: Neighbourhood & phases ------------------
 
@@ -13,6 +17,17 @@ M1_1 = [101,102];
 
 % Testing three stages of step length: long, mid, short
 M1_2 = [103,104,105];
+
+%------------------- M2 models: Tabu list representation -----------------
+
+M2_1 = [110, 111]
+M1_1; % Used for reference
+
+%----------------------- M3 models: Tabu list length ---------------------
+
+M1_1; % Used for reference of normal length
+M3_1 = [301,302]
+M3_2 = [303,304]
 
 %-------------------------------------------------------------------------
 

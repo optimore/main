@@ -8,6 +8,7 @@ function model=CreateModel(tabuParameters,resultfile,logfile)
 % 0.03: has everything but error handling, still needed!
 % 0.02: minor development, not tested
 % 0.01: file setup
+% 1.0: Stable for running tabu searches on a variety of data and models
 %
 % Link?ping University, Link?ping
 
@@ -69,11 +70,23 @@ try
                 instance.name = 'C1_5';
                 instance.instance = C1_5(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
-            case 106,
-                instance.name = 'C1_6';
-                instance.instance = C1_6(resultfile,logfile,nrTasks);
+            case 301,
+                instance.name = 'C3_1';
+                instance.instance = C3_1(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
-            case 201,
+            case 302,
+                instance.name = 'C3_2';
+                instance.instance = C3_2(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 303,
+                instance.name = 'C3_3';
+                instance.instance = C3_3(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 304,
+                instance.name = 'C3_4';
+                instance.instance = C3_4(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 305,
                 instance.name = 'C2_1';
                 instance.instance = C2_1(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;

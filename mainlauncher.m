@@ -1,7 +1,7 @@
 function status = mainlauncher(dataParameters, modelParameters)
 %MAINLAUNCHER This script is the over all launcher
 %   Detailed explanation goes here
-
+tic
 % 1. Variable setup:
 status.run = 0;
 runId=0;
@@ -113,6 +113,7 @@ end
 disp(['Launcher script successfully finished after ',num2str(runId), ...
     ' runs over selected models']);
 
+toc
 status.run = 1
 
 end

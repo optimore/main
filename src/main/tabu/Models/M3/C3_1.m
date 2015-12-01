@@ -1,4 +1,4 @@
-classdef C1_6 < handle
+classdef C3_1 < handle
     
     properties(GetAccess = 'public', SetAccess = 'private')
         Name
@@ -20,7 +20,7 @@ classdef C1_6 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = min(20,obj.NrTasks-10);
+                    listlength = min(10,obj.NrTasks-10);
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')

@@ -1,6 +1,9 @@
-classdef C1_7 < handle
+classdef C1_2 < handle
+    % E5 Intensification phase: both long and short steps possible
+    %
     
     properties(GetAccess = 'public', SetAccess = 'private')
+        
         Name
         TabuList
         Logfile
@@ -8,6 +11,8 @@ classdef C1_7 < handle
         NrTasks
         Solution = 1
         CostList
+        ActionList
+        %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5
@@ -15,6 +20,7 @@ classdef C1_7 < handle
         CostWeight = [5 1 1]
     end
 
+    
     methods
         % Create Tabu List
         function TabuList = CreateTabuList(obj)
@@ -32,7 +38,7 @@ classdef C1_7 < handle
         end
         
         % Constructor:
-        function obj = C1_7(resultfile,logfile,nrTasks)
+        function obj = C1_2(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
