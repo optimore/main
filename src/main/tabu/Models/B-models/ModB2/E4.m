@@ -1,5 +1,5 @@
 classdef E4 < handle
-    % E4 Summary of this class goes here
+    % E4 Diversification phase: only long steps
     %
     %
     
@@ -12,21 +12,13 @@ classdef E4 < handle
         NrTasks
         Solution = 1;
         CostList
-        ActionList
         IterationId=1;
         LowestCost = [0, inf];
-        ActionSolution = [];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=5;
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
-    
-    %     properties(Constant = true)
-    %
-    %
-    %
-    %     end
     
     methods
         % Create Tabu List
@@ -47,13 +39,12 @@ classdef E4 < handle
         % Constructor:
         function obj = E4(resultfile,logfile,nrTasks)
             name = class(obj);
-            % disp(['Running: ', num2str(name)])
+            disp(['Running: ', num2str(name)])
             obj.Name = name;
-            obj.NrTasks = nrTasks; % 8; % size(data.tasks,2)
+            obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
-            % Not used:
-            % obj.MaxPhaseIterations = round(nrTasks/5);
             obj.Resultfile = resultfile;
+            obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
             obj.TabuList = obj.CreateTabuList();
         end
         
@@ -61,6 +52,12 @@ classdef E4 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
+                % Dynamic weights calculated
+                % *** 50 can be changed
+%                 if mod(iterationId,100) == 0
+%                     obj.SetWeights(data);
+%                 end
+                
                 posibleTaskActions = [-1.5E8, -0.75E8,  0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
@@ -81,26 +78,28 @@ classdef E4 < handle
                         % Move one solution
                         tempSolution(i,2) = tempSolution(i,2)+posibleTaskActions(ii);
                         
-                        % Calculate cost *** Needs testing ***
-                        action.cost = CostFunction(data,tempSolution,obj.CostWeight);
-                        action.totalcost = action.cost.total;
+                        
+                        % Calculate cost
+                        action.cost = CostFunction(data,tempSolution,obj.CostWeight);  
                         action.actionSolution = tempSolution;
                         
                         % Save action to actionlist
                         actionList{actionId} = action;
-                        costList(actionId) = action.totalcost;
+                        costList(actionId) = action.cost.total;
+                        costListdep(actionId) = action.cost.dep;
+                        costListbound(actionId) = action.cost.bound;
+                        costListover(actionId) = action.cost.over;
                         
                         % Increase iterator
                         actionId = actionId + 1;
                     end
                 end
+                % coststruct=struct('overlap',costListover,'dependency',costListdep,'bound',costListbound)
             catch err
                 fprintf(obj.Logfile, getReport(err,'extended'));
                 rethrow(err)
             end
             
-            obj.CostList = costList;
-            obj.ActionList = actionList;
             
             % Do Action:
             try
@@ -116,7 +115,7 @@ classdef E4 < handle
                     % Find changed task
                     currentSolution = data.tasks(:,6);
                     changedTask = find(actionSolution - currentSolution);
-                    
+                                        
                     % Compare solution with tabu list solutions
                     for j = 1:size(obj.TabuList,1)
                         tabuTask = obj.TabuList(j);
@@ -126,9 +125,9 @@ classdef E4 < handle
                             % disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
-                                % disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
-                                %     num2str(costList(index)),' cost: ', ...
-                                %     num2str(obj.LowestCost(2))])
+%                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+%                                     num2str(costList(index)),' cost: ', ...
+%                                     num2str(obj.LowestCost(2))])
                             else
                                 notintabu = 0;
                                 break;
@@ -144,7 +143,14 @@ classdef E4 < handle
                             obj.TabuList(1) = changedTask;
                             
                             % Perform action
-                            lowestCost = sortedCosts(i);
+                            lowestCost = costList(indexes(i)); %sortedCosts(i);
+                            lowestDep = costListdep(indexes(i));
+                            lowestBound = costListbound(indexes(i));
+                            lowestOver = costListover(indexes(i));
+                            
+                            % save cost list
+                            obj.CostList(2:end) = obj.CostList(1:end-1);
+                            obj.CostList(1) = lowestCost;
                             
                             data.tasks(:,6) = actionSolution;
                             
@@ -152,20 +158,21 @@ classdef E4 < handle
                                 obj.LowestCost = [obj.IterationId,lowestCost];
                             end
                             
-                            obj.ActionSolution = actionSolution;
-                            
-                            % *** Add later ***
-                            timenow = toc;
-                            
                             % Log results
-                            fprintf(obj.Resultfile, [num2str(iterationId),',',num2str(lowestCost),',',num2str(timenow),'\n']);
+                            timenow = toc;
+                            fprintf(obj.Resultfile, [num2str(iterationId),',', ...
+                                num2str(lowestCost),',', ...
+                                num2str(timenow), ',', ...
+                                num2str(lowestDep),',', ...
+                                num2str(lowestBound),',', ...
+                                num2str(lowestOver), ...
+                                '\n']);
                             obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end
-                        
-                    end
-                                        
+                end
+                
                     catch err
                         disp('ERROR in do action class')
                         disp(err.stack)
@@ -175,27 +182,31 @@ classdef E4 < handle
             
             % Get stopping criteria:
             function [model,obj] = GetStoppingCriteria(obj, model)
-                % Print cost and phase exit criteria:
-                %fprintf([num2str(obj.LowestCost(1)), ' ' , ...
-                %    num2str(obj.IterationId-obj.NrOfBadIterationsBeforExit),'\n'])
                 
-                % If solution getting worse
-                if obj.IterationId > round(obj.NrTasks/5) && obj.LowestCost(1) < ...
-                        obj.IterationId - obj.NrOfBadIterationsBeforExit
-                    obj.IterationId = 0;
+                % If solution getting worse...
+                if diff(obj.CostList)<=0
                     
-                    % Recreate tabu when phase is over and set next phase:
-                    % obj.TabuList = obj.CreateTabuList();
-                    % obj.LowestCost = [0, inf];
-                    
-                    % Take next in phase order
+                    % ... move to next phase
                     nrPhases = size(model.phases,2);
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
+                    % Reset in current phase
+                    obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
+                    model.instance{model.activePhaseIterator}. ...
+                        instance.SetTabulistCost(obj.TabuList, ...
+                        obj.LowestCost);
                 end
             end
             
+            function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
+                
+                obj.TabuList = tabulist;
+                obj.LowestCost = lowestcost;
+                
+            end
+            
+            % Are conditions met 
             function [model, obj] = AreConditionsMet(obj,model)
                 try
                     if obj.LowestCost(2)==0
@@ -206,6 +217,7 @@ classdef E4 < handle
                 end
             end
             
+            % Dynamic weight changing function
             function [obj] = SetWeights(obj,data)
                 
                 curSolution = zeros(obj.NrTasks,2);
@@ -213,7 +225,6 @@ classdef E4 < handle
                 curSolution(:,2) = data.tasks(:,6);
                 
                 costStruct = CostFunction(data,curSolution,obj.CostWeight);
-                %costVec = [costStruct.total,costStruct.over,costStruct.dep,costStruct.bound];
                 
                 weightDep = max(0.01, costStruct.dep/costStruct.total);
                 weightOver = max(0.01, costStruct.over/costStruct.total);
@@ -222,8 +233,8 @@ classdef E4 < handle
                 obj.CostWeight = [weightDep, weightOver, weightBound];
             end
             
+            % Get Cost
             function [costVec, obj] = GetCost(obj,data)
-                % cost = obj.LowestCost(2);
                 
                 curSolution = zeros(obj.NrTasks,2);
                 curSolution(:,1) = data.tasks(:,1);
