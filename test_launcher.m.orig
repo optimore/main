@@ -264,8 +264,8 @@ global index_listbox2
 index_listbox2 = get(handles.listbox2,'Value');
 
 %--------------------------------------------------------------------------
-% H?MTA INFORMATION FR?N LISTAN VIA CALLBACK.
-% FYLL LISTBOX FR?N CREATFCN.
+% HÄMTA INFORMATION FRÅN LISTAN VIA CALLBACK.
+% FYLL LISTBOX FRÅN CREATFCN.
 %--------------------------------------------------------------------------
 
 
@@ -376,8 +376,11 @@ global index_listbox3
 
 global load_data
 
+<<<<<<< HEAD
+=======
 global cb_checkbox_run
 
+>>>>>>> guimaster
 new_past_value=[];
 for i=1:length(new_value)
     
@@ -398,10 +401,14 @@ end
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes3)
+<<<<<<< HEAD
+    for p = 1:length(load_data(:,2))
+=======
     
     if cb_checkbox_run==1
     
         for p = 1:length(load_data(1:end,2))
+>>>>>>> guimaster
     
         if load_data(p,2)==0
             ln_data_1(p)=0;
@@ -411,9 +418,15 @@ end
         end
     
         
+<<<<<<< HEAD
+        for p = 1:length(load_data(:,4))
+    
+        if load_data(p,4)==0
+=======
         for p = 1:length(load_data(1:end,4))
     
         if load_data(p,2)==0
+>>>>>>> guimaster
             ln_data_2(p)=0;
         else
         ln_data_2(p)=log(load_data(p,4));
@@ -422,9 +435,15 @@ end
        
         
         
+<<<<<<< HEAD
+        for p = 1:length(load_data(:,5))
+    
+        if load_data(p,5)==0
+=======
         for p = 1:length(load_data(1:end,5))
     
         if load_data(p,2)==0
+>>>>>>> guimaster
             ln_data_3(p)=0;
         else
         ln_data_3(p)=log(load_data(p,5));
@@ -432,14 +451,29 @@ end
         end
         
         
+<<<<<<< HEAD
+        for p = 1:length(load_data(:,6))
+    
+        if load_data(p,6)==0
+=======
         for p = 1:length(load_data(1:end,6))
     
         if load_data(p,2)==0
+>>>>>>> guimaster
             ln_data_4(p)=0;
         else
         ln_data_4(p)=log(load_data(p,6));
         end
         end
+<<<<<<< HEAD
+    end
+ end
+        
+        
+    plot(load_data(:,3),ln_data_1(:),'r',load_data(:,3),ln_data_2(:),'m',load_data(:,3),ln_data_3(:),'b',load_data(:,3),ln_data_4(:),'g');
+    legend('Total Cost/Time','Dependency Cost/Time','Bounds Cost/Time','Overlap Cost/Time');
+ 
+=======
         
         plot(load_data(:,3),ln_data_1(:),'r',load_data(:,3),ln_data_2(:),'m',load_data(:,3),ln_data_3(:),'b',load_data(:,3),ln_data_4(:),'g');
     legend('Total Cost/Time','Dependency Cost/Time','Bounds Cost/Time','Overlap Cost/Time');
@@ -464,6 +498,7 @@ end
  end
         
     
+>>>>>>> guimaster
  
 
 % --- Executes on selection change in listbox4.
@@ -639,6 +674,13 @@ end
                
         for iter_2 = 1:length(new_past_value)
         
+<<<<<<< HEAD
+        for iter_2 = 1:length(new_past_value)
+    
+        data_table= [cellstr(s(iter_2,1)),cellstr(s(iter_2,3:1:6)),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
+        oldData = [oldData;data_table];
+        
+=======
              if s(iter_2,4)=='0'
                
               data_table= [cellstr(s(iter_2,1)),cellstr(s(iter_2,3:1:6)),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
@@ -649,6 +691,7 @@ end
              end
               
               
+>>>>>>> guimaster
         end
         
         [m n]=size(oldData);
@@ -697,8 +740,11 @@ movefile('plain_table.dat',strcat('target/results/',a{1}));
     end
         l=1;
     a;
+<<<<<<< HEAD
+=======
     
     load_t_values=load('t_dist_values_095.dat');
+>>>>>>> guimaster
 for i=1:length(a)
     
     meaniteration(i)=mean(max_iter(l:l-1+a(i)));
@@ -731,13 +777,21 @@ k=1;
             end
             k=k+a(iter_3); 
         end
+<<<<<<< HEAD
+       
+=======
         
+>>>>>>> guimaster
         [m n]=size(oldData);
 b = [];
  for i=1:m
     row=oldData(i,1:end);
     
+<<<<<<< HEAD
+    a = strcat(row{1},{' '},row{2}, {' '},mat2str(row{3}), {' '},mat2str(row{4}), {' '},mat2str(row{5}),{' '},mat2str(row{6}),{' '},mat2str(row{7}),{' '},mat2str(row{8}),{' '},mat2str(row{9}),{' '},mat2str(row{10}),{' '},mat2str(row{11}));
+=======
     a = strcat(row{1}, {' '},row{2}, {' '},mat2str(row{3}), {' '},mat2str(row{4}), {' '},mat2str(row{5}),{' '},mat2str(row{6}),{' '},mat2str(row{7}),{' '},mat2str(row{8}),{' '},mat2str(row{9}),{' '},mat2str(row{10}),{' '},mat2str(row{11}),mat2str(row{12}), {' '},mat2str(row{13}), {' '});
+>>>>>>> guimaster
     b =[b a];
  end
 
@@ -769,8 +823,11 @@ global index_listbox3
 
 global load_data
 
+<<<<<<< HEAD
+=======
 global cb_checkbox_run
 
+>>>>>>> guimaster
 new_past_value=[];
 for i=1:length(new_value)
     
@@ -791,10 +848,14 @@ if (get(handles.pushbutton6,'Value'))==1
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes4)
+<<<<<<< HEAD
+        for p = 1:length(load_data(:,2))
+=======
     
     if cb_checkbox_run==1
     
         for p = 1:length(load_data(1:end,2))
+>>>>>>> guimaster
     
         if load_data(p,2)==0
             ln_data_1(p)=0;
@@ -804,9 +865,15 @@ if (get(handles.pushbutton6,'Value'))==1
         end
     
         
+<<<<<<< HEAD
+        for p = 1:length(load_data(:,4))
+    
+        if load_data(p,4)==0
+=======
         for p = 1:length(load_data(1:end,4))
     
         if load_data(p,2)==0
+>>>>>>> guimaster
             ln_data_2(p)=0;
         else
         ln_data_2(p)=log(load_data(p,4));
@@ -815,9 +882,15 @@ if (get(handles.pushbutton6,'Value'))==1
        
         
         
+<<<<<<< HEAD
+        for p = 1:length(load_data(:,5))
+    
+        if load_data(p,5)==0
+=======
         for p = 1:length(load_data(1:end,5))
     
         if load_data(p,2)==0
+>>>>>>> guimaster
             ln_data_3(p)=0;
         else
         ln_data_3(p)=log(load_data(p,5));
@@ -825,14 +898,28 @@ if (get(handles.pushbutton6,'Value'))==1
         end
         
         
+<<<<<<< HEAD
+        for p = 1:length(load_data(:,6))
+    
+        if load_data(p,6)==0
+=======
         for p = 1:length(load_data(1:end,6))
     
         if load_data(p,2)==0
+>>>>>>> guimaster
             ln_data_4(p)=0;
         else
         ln_data_4(p)=log(load_data(p,6));
         end
         end
+<<<<<<< HEAD
+       
+    end
+end
+plot(load_data(:,1),ln_data_1(:),'r',load_data(1:end,1),ln_data_2(:),'m',load_data(1:end,1),ln_data_3(:),'b',load_data(1:end,1),ln_data_4(:),'g');
+    legend('Total Cost/Iteration','Dependency Cost/Iteration','Bounds Cost/Iteration','Overlap Cost/Iteration');
+    
+=======
         
     plot(load_data(:,1),ln_data_1(:),'r',load_data(:,1),ln_data_2(:),'m',load_data(:,1),ln_data_3(:),'b',load_data(:,1),ln_data_4(:),'g');
     legend('Total Cost/Iteration','Dependency Cost/Iteration','Bounds Cost/Iteration','Overlap Cost/Iteration');
@@ -856,6 +943,7 @@ if (get(handles.pushbutton6,'Value'))==1
 end
 
 
+>>>>>>> guimaster
     
 % --- Executes on button press in checkbox10.
 function checkbox10_Callback(hObject, eventdata, handles)

@@ -9,15 +9,15 @@ classdef E5 < handle
         Logfile
         Resultfile
         NrTasks
-        Solution = 1
+        Solution = 1;
         CostList
         ActionList
         IterationId=1;
-        LowestCost = [0, inf]
+        LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
-        CostWeight = [5 1 1]
+        CostWeight = [5 1 1];
     end
 
     
@@ -26,7 +26,7 @@ classdef E5 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = min(20,obj.NrTasks-10);
+                    listlength = 20;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -108,6 +108,7 @@ classdef E5 < handle
                 % Loop through min-solutions in ascending order, choose
                 % action if not in tabu
                 for i = 1:length(costList)
+                    
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
@@ -155,7 +156,7 @@ classdef E5 < handle
                         data.tasks(:,6) = actionSolution;
                         
                         if lowestCost < obj.LowestCost(2)
-                            obj.LowestCost = [iterationId,lowestCost];
+                            obj.LowestCost = [obj.IterationId,lowestCost];
                         end
                         
 
@@ -210,8 +211,7 @@ classdef E5 < handle
         
         % Are conditions met 
         function [model, obj] = AreConditionsMet(obj,model)
-            try 
-                % obj.LowestCost
+            try
                 if obj.LowestCost(2)==0
                     model.conditionsAreNotMet = 0;
                 end

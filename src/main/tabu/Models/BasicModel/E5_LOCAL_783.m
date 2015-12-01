@@ -12,10 +12,10 @@ classdef E5 < handle
         Solution = 1
         CostList
         ActionList
-        IterationId=1;
+        %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3
+        NrOfBadIterationsBeforExit=5
         % dep overlap bounds
         CostWeight = [5 1 1]
     end
@@ -168,7 +168,7 @@ classdef E5 < handle
                             num2str(lowestBound),',', ...
                             num2str(lowestOver), ...
                             '\n']);
-                        obj.IterationId = obj.IterationId + 1;
+                        %obj.IterationId = obj.IterationId + 1;
                         
                         break;
                     end
@@ -193,19 +193,19 @@ classdef E5 < handle
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
-                % Reset in current phase
+                % Reset in new phase
                 obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                 model.instance{model.activePhaseIterator}. ...
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
+                % *** Print
+                disp([num2str(model.iterations), num2str(obj.Name)])
             end
         end
         
-        function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
-            
+        function [obj] = SetTabulistCost(obj, tabulist, lowestcost)
             % obj.TabuList = tabulist;
-            obj.LowestCost = lowestcost;
-            
+            obj.LowestCost = lowestcost; 
         end
         
         % Are conditions met 
