@@ -1,4 +1,4 @@
-classdef C1_2 < handle
+classdef C2_1 < handle
     % E5 Intensification phase: both long and short steps possible
     %
     
@@ -38,7 +38,7 @@ classdef C1_2 < handle
         end
         
         % Constructor:
-        function obj = C1_2(resultfile,logfile,nrTasks)
+        function obj = C2_1(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -118,24 +118,25 @@ classdef C1_2 < handle
                     currentSolution = data.tasks(:,6);
                     changedTask = find(actionSolution - currentSolution);
                     
+                    notintabu = 1;
                     % Compare solution with tabu list solutions
-                     for j = 1:size(obj.TabuList,1)
-                        tabuTask = obj.TabuList(j);
-                        
-                        % Break if action in tabulist
-                        if isequal(tabuTask, changedTask) == 1
-%                             disp(['Tabu hit!', obj.Name]);
-                            if costList(index) < obj.LowestCost(2)
-                                % Aspiration criteria
-%                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
-%                                     num2str(costList(index)),' cost: ', ...
-%                                     num2str(obj.LowestCost(2))])    
-                            else
-                                notintabu = 0;
-                                break;
-                            end
-                        end
-                    end
+%                      for j = 1:size(obj.TabuList,1)
+%                         tabuTask = obj.TabuList(j);
+%                         
+%                         % Break if action in tabulist
+%                         if isequal(tabuTask, changedTask) == 1
+% %                             disp(['Tabu hit!', obj.Name]);
+%                             if costList(index) < obj.LowestCost(2)
+%                                 % Aspiration criteria
+% %                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
+% %                                     num2str(costList(index)),' cost: ', ...
+% %                                     num2str(obj.LowestCost(2))])    
+%                             else
+%                                 notintabu = 0;
+%                                 break;
+%                             end
+%                         end
+%                     end
                     
                     
                     if notintabu == 1
@@ -201,7 +202,7 @@ classdef C1_2 < handle
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
                 % *** Print
-                disp([num2str(model.iterations), num2str(obj.Name)])
+                % disp([num2str(model.iterations), num2str(obj.Name)])
             end
         end
         
