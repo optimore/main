@@ -707,8 +707,6 @@ for i=1:length(a)
     upper_lim(i)=meantime(i)+load_t_values(a(i),2)*std(max_time(l:l-1+a(i)))*sqrt(1+1/a(i));
     lower_lim(i)=meantime(i)-load_t_values(a(i),2)*std(max_time(l:l-1+a(i)))*sqrt(1+1/a(i));
     
-    lower_lim(i) = max(lower_lim(i),0);
-    
     iterationstandarddeviation(i)=std(max_iter(l:l-1+a(i)));
     timestandarddeviation(i)=std(max_time(l:l-1+a(i)));
     iterationmax(i)=max(max_iter(l:l-1+a(i)));
@@ -719,6 +717,8 @@ for i=1:length(a)
     l=l+a(i);
    
 end
+
+
 
 k=1;
         for iter_3 = 1:length(a)
@@ -737,7 +737,7 @@ b = [];
  for i=1:m
     row=oldData(i,1:end);
     
-    a = strcat(row{1}, {' '},row{2}, {' '},mat2str(row{3}), {' '},mat2str(row{4}), {' '},mat2str(row{5}),{' '},mat2str(row{6}),{' '},mat2str(row{7}),{' '},mat2str(row{8}),{' '},mat2str(row{9}),{' '},mat2str(row{10}),{' '},mat2str(row{11}),mat2str(row{12}), {' '},mat2str(row{13}), {' '});
+    a = strcat(row{1}, {' '},row{2}, {' '},mat2str,mat2str(row{3}), {' '},mat2str(row{4}), {' '},mat2str(row{5}),{' '},mat2str(row{6}),{' '},mat2str(row{7}),{' '},mat2str(row{8}),{' '},mat2str(row{9}),{' '},mat2str(row{10}),{' '},mat2str(row{11}));
     b =[b a];
  end
 
