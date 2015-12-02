@@ -203,7 +203,7 @@ classdef C4_1 < handle
             
             function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
                 
-                % obj.TabuList = tabulist;
+                obj.TabuList = tabulist;
                 obj.LowestCost = lowestcost;
                 
             end

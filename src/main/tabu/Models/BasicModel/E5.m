@@ -2,6 +2,7 @@ classdef E5 < handle
     % E5 Intensification phase: both long and short steps possible
     %
     
+    
     properties(GetAccess = 'public', SetAccess = 'private')
         
         Name
@@ -10,12 +11,12 @@ classdef E5 < handle
         Resultfile
         NrTasks
         Solution = 1
-        CostList
         ActionList
         %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5
+        CostList 
         % dep overlap bounds
         CostWeight = [5 1 1]
     end
@@ -45,6 +46,7 @@ classdef E5 < handle
             obj.NrTasks = nrTasks; 
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
+            obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
             obj.TabuList = obj.CreateTabuList();
         end
         
@@ -122,7 +124,7 @@ classdef E5 < handle
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-%                             disp(['Tabu hit!', obj.Name]);
+                             disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
 %                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
@@ -151,6 +153,7 @@ classdef E5 < handle
                         % Save cost list
                         obj.CostList(2:end) = obj.CostList(1:end-1);
                         obj.CostList(1) = lowestCost;
+                        %obj.CostList
                         
                         data.tasks(:,6) = actionSolution;
                         
@@ -185,6 +188,7 @@ classdef E5 < handle
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
             
+           % obj.CostList
             % If solution getting worse...
             if diff(obj.CostList)<=0
                 
@@ -199,7 +203,7 @@ classdef E5 < handle
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
                 % *** Print
-                disp([num2str(model.iterations), num2str(obj.Name)])
+                disp(['Iteration ',num2str(model.iterations),',', num2str(obj.Name)])
             end
         end
         

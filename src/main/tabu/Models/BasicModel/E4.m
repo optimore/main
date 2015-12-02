@@ -3,6 +3,7 @@ classdef E4 < handle
     %
     %
     
+    
     properties(GetAccess = 'public', SetAccess = 'private')
         
         Name
@@ -11,14 +12,15 @@ classdef E4 < handle
         Resultfile
         NrTasks
         Solution = 1;
-        CostList
         %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
+        CostList
         NrOfBadIterationsBeforExit=3
         % dep overlap bounds
         CostWeight = [5 1 1]
     end
+    
     
     methods
         % Create Tabu List
@@ -122,7 +124,7 @@ classdef E4 < handle
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-                            % disp(['Tabu hit!', obj.Name]);
+                            disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
 %                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
@@ -151,6 +153,7 @@ classdef E4 < handle
                             % save cost list
                             obj.CostList(2:end) = obj.CostList(1:end-1);
                             obj.CostList(1) = lowestCost;
+                            %obj.CostList
                             
                             data.tasks(:,6) = actionSolution;
                             
@@ -183,6 +186,7 @@ classdef E4 < handle
             % Get stopping criteria:
             function [model,obj] = GetStoppingCriteria(obj, model)
                 
+                % obj.CostList
                 % If solution getting worse...
                 if diff(obj.CostList)<=0
                     
@@ -197,13 +201,13 @@ classdef E4 < handle
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
                     % *** Print
-                    disp([num2str(model.iterations), num2str(obj.Name)])
+                    disp(['Iteration ', num2str(model.iterations),',', num2str(obj.Name)])
                 end
             end
             
             function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
                 
-                obj.TabuList = tabulist;
+                % obj.TabuList = tabulist;
                 obj.LowestCost = lowestcost;
                 
             end

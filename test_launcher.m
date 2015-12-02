@@ -264,8 +264,8 @@ global index_listbox2
 index_listbox2 = get(handles.listbox2,'Value');
 
 %--------------------------------------------------------------------------
-% HÄMTA INFORMATION FRÅN LISTAN VIA CALLBACK.
-% FYLL LISTBOX FRÅN CREATFCN.
+% H?MTA INFORMATION FR?N LISTAN VIA CALLBACK.
+% FYLL LISTBOX FR?N CREATFCN.
 %--------------------------------------------------------------------------
 
 
@@ -376,6 +376,8 @@ global index_listbox3
 
 global load_data
 
+global cb_checkbox_run
+
 new_past_value=[];
 for i=1:length(new_value)
     
@@ -392,11 +394,14 @@ end
  if (get(handles.pushbutton3,'Value'))==1
     for k = 1:length(index_listbox3)
     temp_1=strcat('target/results/',l_path_gui);
-    temp_2=strcat(temp_1,'/',new_value(index_listbox3(k)));
+    temp_2=strcat(temp_1,'/',new_past_value(index_listbox3(k)));
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes3)
-    for p = 1:length(load_data(:,2))
+    
+    if cb_checkbox_run==1
+    
+        for p = 1:length(load_data(1:end,2))
     
         if load_data(p,2)==0
             ln_data_1(p)=0;
@@ -406,7 +411,7 @@ end
         end
     
         
-        for p = 1:length(load_data(:,4))
+        for p = 1:length(load_data(1:end,4))
     
         if load_data(p,4)==0
             ln_data_2(p)=0;
@@ -417,7 +422,7 @@ end
        
         
         
-        for p = 1:length(load_data(:,5))
+        for p = 1:length(load_data(1:end,5))
     
         if load_data(p,5)==0
             ln_data_3(p)=0;
@@ -427,7 +432,7 @@ end
         end
         
         
-        for p = 1:length(load_data(:,6))
+        for p = 1:length(load_data(1:end,6))
     
         if load_data(p,6)==0
             ln_data_4(p)=0;
@@ -435,13 +440,30 @@ end
         ln_data_4(p)=log(load_data(p,6));
         end
         end
+        
+        plot(load_data(:,3),ln_data_1(:),'r',load_data(:,3),ln_data_2(:),'m',load_data(:,3),ln_data_3(:),'b',load_data(:,3),ln_data_4(:),'g');
+    legend('Total Cost/Time','Dependency Cost/Time','Bounds Cost/Time','Overlap Cost/Time');
+        
+    else cb_checkbox_run==2
+        
+        for p = 1:length(load_data(1:end,2))
+    
+        if load_data(p,2)==0
+            ln_data_1(p)=0;
+        else
+        ln_data_1(p)=log(load_data(p,2));
+        end
+        end
+        
+        plot(load_data(:,3),load_data(:,2));
+    legend('Total Cost/Iteration');
+ 
+        
+    end
     end
  end
         
-        
-    plot(load_data(:,3),ln_data_1(:),'r',load_data(:,3),ln_data_2(:),'m',load_data(:,3),ln_data_3(:),'b',load_data(:,3),ln_data_4(:),'g');
-    legend('Total Cost/Time','Dependency Cost/Time','Bounds Cost/Time','Overlap Cost/Time');
- 
+    
  
 
 % --- Executes on selection change in listbox4.
@@ -614,12 +636,19 @@ end
         end
         
         l=1;
-        
+               
         for iter_2 = 1:length(new_past_value)
-    
-        data_table= [cellstr(s(iter_2,1)),cellstr(s(iter_2,3:1:6)),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
-        oldData = [oldData;data_table];
         
+             if s(iter_2,4)=='0'
+               
+              data_table= [cellstr(s(iter_2,1)),cellstr(s(iter_2,3:1:6)),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
+              oldData = [oldData;data_table]; 
+             else               
+                 data_table= [cellstr(s(iter_2,1)),cellstr(s(iter_2,3:1:7)),max_iter(iter_2),max_cost(iter_2),max_time(iter_2)];
+              oldData = [oldData;data_table];
+             end
+              
+              
         end
         
         [m n]=size(oldData);
@@ -644,7 +673,7 @@ a=value_2(end);
 movefile('plain_table.dat',strcat('target/results/',a{1}));
         
     elseif checkbox_result_table==1
-        cnames = {'Solve','Data set','Mean Iteration','Mean Time','Iteration standard deviation','Time standard deviation','Iteration Max','Time max','Iteration min','Time min','Failurekvot'};     
+        cnames = {'Solve','Data set','Upper prediction limit','Lower prediction limit','Mean Iteration','Mean Time','Iteration standard deviation','Time standard deviation','Iteration Max','Time max','Iteration min','Time min','Failurekvot'};     
         
         s = char(new_past_value);
        
@@ -668,10 +697,18 @@ movefile('plain_table.dat',strcat('target/results/',a{1}));
     end
         l=1;
     a;
+    
+    load_t_values=load('t_dist_values_095.dat');
 for i=1:length(a)
     
     meaniteration(i)=mean(max_iter(l:l-1+a(i)));
     meantime(i)=mean(max_time(l:l-1+a(i)));
+    
+    upper_lim(i)=meantime(i)+load_t_values(a(i),2)*std(max_time(l:l-1+a(i)))*sqrt(1+1/a(i));
+    lower_lim(i)=meantime(i)-load_t_values(a(i),2)*std(max_time(l:l-1+a(i)))*sqrt(1+1/a(i));
+    
+    lower_lim(i) = max(lower_lim(i),0);
+    
     iterationstandarddeviation(i)=std(max_iter(l:l-1+a(i)));
     timestandarddeviation(i)=std(max_time(l:l-1+a(i)));
     iterationmax(i)=max(max_iter(l:l-1+a(i)));
@@ -682,20 +719,25 @@ for i=1:length(a)
     l=l+a(i);
    
 end
+
 k=1;
         for iter_3 = 1:length(a)
-            
-            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:5)),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
+            if s(k,4)=='0'
+            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:6)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
             oldData = [oldData;data_table];
+            else
+            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:7)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
+            oldData = [oldData;data_table];
+            end
             k=k+a(iter_3); 
         end
-       
+        
         [m n]=size(oldData);
 b = [];
  for i=1:m
     row=oldData(i,1:end);
     
-    a = strcat(row{1},{' '},row{2}, {' '},mat2str(row{3}), {' '},mat2str(row{4}), {' '},mat2str(row{5}),{' '},mat2str(row{6}),{' '},mat2str(row{7}),{' '},mat2str(row{8}),{' '},mat2str(row{9}),{' '},mat2str(row{10}),{' '},mat2str(row{11}));
+    a = strcat(row{1}, {' '},row{2}, {' '},mat2str(row{3}), {' '},mat2str(row{4}), {' '},mat2str(row{5}),{' '},mat2str(row{6}),{' '},mat2str(row{7}),{' '},mat2str(row{8}),{' '},mat2str(row{9}),{' '},mat2str(row{10}),{' '},mat2str(row{11}),mat2str(row{12}), {' '},mat2str(row{13}), {' '});
     b =[b a];
  end
 
@@ -727,6 +769,8 @@ global index_listbox3
 
 global load_data
 
+global cb_checkbox_run
+
 new_past_value=[];
 for i=1:length(new_value)
     
@@ -743,11 +787,14 @@ end
 if (get(handles.pushbutton6,'Value'))==1
     for k = 1:length(index_listbox3)
     temp_1=strcat('target/results/',l_path_gui);
-    temp_2=strcat(temp_1,'/',new_value(index_listbox3(k)));
+    temp_2=strcat(temp_1,'/',new_past_value(index_listbox3(k)));
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes4)
-        for p = 1:length(load_data(:,2))
+    
+    if cb_checkbox_run==1
+    
+        for p = 1:length(load_data(1:end,2))
     
         if load_data(p,2)==0
             ln_data_1(p)=0;
@@ -757,7 +804,7 @@ if (get(handles.pushbutton6,'Value'))==1
         end
     
         
-        for p = 1:length(load_data(:,4))
+        for p = 1:length(load_data(1:end,4))
     
         if load_data(p,4)==0
             ln_data_2(p)=0;
@@ -768,7 +815,7 @@ if (get(handles.pushbutton6,'Value'))==1
        
         
         
-        for p = 1:length(load_data(:,5))
+        for p = 1:length(load_data(1:end,5))
     
         if load_data(p,5)==0
             ln_data_3(p)=0;
@@ -778,7 +825,7 @@ if (get(handles.pushbutton6,'Value'))==1
         end
         
         
-        for p = 1:length(load_data(:,6))
+        for p = 1:length(load_data(1:end,6))
     
         if load_data(p,6)==0
             ln_data_4(p)=0;
@@ -786,12 +833,29 @@ if (get(handles.pushbutton6,'Value'))==1
         ln_data_4(p)=log(load_data(p,6));
         end
         end
+        
+    plot(load_data(:,1),ln_data_1(:),'r',load_data(:,1),ln_data_2(:),'m',load_data(:,1),ln_data_3(:),'b',load_data(:,1),ln_data_4(:),'g');
+    legend('Total Cost/Iteration','Dependency Cost/Iteration','Bounds Cost/Iteration','Overlap Cost/Iteration');
+        
+         else cb_checkbox_run==2
+        
+        for p = 1:length(load_data(1:end,2))
+    
+        if load_data(p,2)==0
+            ln_data_1(p)=0;
+        else
+        ln_data_1(p)=log(load_data(p,2));
+        end
+        end
+        
+        plot(load_data(:,1),load_data(:,2));
+    legend('Total Cost/Iteration');
        
     end
+    end
 end
-plot(load_data(:,1),ln_data_1(:),'r',load_data(1:end,1),ln_data_2(:),'m',load_data(1:end,1),ln_data_3(:),'b',load_data(1:end,1),ln_data_4(:),'g');
-    legend('Total Cost/Iteration','Dependency Cost/Iteration','Bounds Cost/Iteration','Overlap Cost/Iteration');
-    
+
+
     
 % --- Executes on button press in checkbox10.
 function checkbox10_Callback(hObject, eventdata, handles)
