@@ -6,6 +6,8 @@ function status = mainlauncher(dataParameters, modelParameters)
 status.run = 0;
 runId=0;
 
+tichandle = tic;
+
 % 2. Functional setup:
 try
     % 2.1 Add paths for setup files:
@@ -141,6 +143,8 @@ end
 
 disp(['Launcher script successfully finished after ',num2str(runId), ...
     ' runs over selected models']);
+
+toc(tichandle)
 
 status.run = 1
 

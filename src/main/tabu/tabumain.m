@@ -19,14 +19,14 @@ status = 0;
 
 % Tabu run setup
 % End after X iterations
-nrIterations = 1500;
+nrIterations = 800;
 sleeptime = 0.01;
 PLOTON = 0;
 PLOTSOL = 0;
 FINALPLOTON = 0;
 
 % Add timing:
-timerVal = tic;
+tic;
 
 disp('============================ NEW RUN ===============================');
 
@@ -109,12 +109,6 @@ try
                 model.conditionsAreNotMet=0;
             end
             
-%             % 6.5 Dynamic weights calculated
-%             if mod(nrIterations,50) == 0
-%             model.instance{model.activePhaseIterator}. ...
-%                 instance.SetWeights(data);
-%             end
-            
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
             rethrow(err);
@@ -152,7 +146,7 @@ catch err
     fclose('all');
 end
 
-closetime = toc(timerVal);
+closetime = toc;
 
 
 end
