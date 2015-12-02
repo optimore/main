@@ -34,8 +34,8 @@ if status.run
     % 3.1 if tabu is active, run:
     if modelParameters.tabu.active
         for i = 1:length(dataParameters)
-%             Run nr.',num2str(i),' out of ', num2str(length(dataParameters)),
-            disp(['================ ', dataParameters{i}.name,' ============================'] );
+            disp(num2str(dataParameters{i}.))
+            disp(['================ Run nr.',num2str(i),' out of ', num2str(length(dataParameters)),' ============================'] );
             try
                 % Add path for tabu main files:
                 addpath(genpath('src/main/tabu')); %'src/main/tabu';
