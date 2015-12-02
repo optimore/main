@@ -38,9 +38,9 @@ option randseed 19;
 
 
 
-model src/main/ampl/LNSmodel.mod.mod;   # Läser in namnet på modellfilen. 
+model src/main/ampl/LNSmodel.mod;   # Läser in namnet på modellfilen. 
 
-data src/test/testdata/A0_7_2015-11-16T15-02-24/AMPL.dat.dat;    # Läser in namnet på datafilen. 
+data src/test/testdata/A0_7_2015-11-16T15-02-24/AMPL.dat;    # Läser in namnet på datafilen. 
 
 
 
@@ -282,7 +282,7 @@ solve LNS_search;
 
 #display _var, _varname;
 
-#display total_cost > src/main/ampl/LNSModel.res.res;
+#display total_cost > src/main/ampl/LNSModel.res;
 
 
 
@@ -410,7 +410,7 @@ let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 
 let times_at_optima := 0;
 
-display current_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res.res;
+display current_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
 
 ###############
 
@@ -694,7 +694,7 @@ repeat
 
 		printf "Did we do it???? Did we create unique unfixes??? \n\n\n";	
 
-		display K_list, I_list, J_list;
+		#display K_list, I_list, J_list;
 
 			#unfix y[randg, member(randi, I_g[randg]), member(randj, I_g[randg])];
 
@@ -762,7 +762,7 @@ repeat
 
 	let current_solution := total_violation;
 
-	display current_solution, number_of_iterations,  _solve_elapsed_time , iteration_time > src/main/ampl/LNSModel.res.res;
+	display current_solution, number_of_iterations,  _solve_elapsed_time , iteration_time > src/main/ampl/LNSModel.res;
 
 
 
@@ -920,7 +920,7 @@ repeat
 
 	#display total_cost;
 
-	display total_violation, C1, C2, C3, C4, C5;
+	#display total_violation, C1, C2, C3, C4, C5;
 
 	}
 
@@ -928,7 +928,7 @@ repeat
 
 
 
-display best_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res.res;
+display best_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
 
 #display best_solution, number_of_iterations,  time_elapsed , iteration_time;
 

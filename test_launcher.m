@@ -22,7 +22,7 @@ function varargout = test_launcher(varargin)
 
 % Edit the above text to modify the response to help test_launcher
 
-% Last Modified by GUIDE v2.5 20-Nov-2015 12:58:20
+% Last Modified by GUIDE v2.5 02-Dec-2015 13:49:10
 
 % Begin initialization code - DO NOT EDIT
 
@@ -107,13 +107,7 @@ global run_cb_files
 global index_listbox2
 
 dataParameters = struct('name',{},'path',{});
-% DataDir=dir('src/test/testdata/*_*');
-% pathname = [];
-% filename = [];
-% for i = 1:length(pathname)
-%     pathname = [pathname; cellstr(getfield(DataDir,{i},'name'))];
-%     filename = [filename; 'Name']
-% end
+
 
 A=dir('src/test/testdata/*_*');
 value = [];
@@ -127,7 +121,8 @@ end
 modelParameters = struct( ...
     'tabu', struct('active',0,'initial',1,'phases',[1]), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
-    'ampl', struct('active',0,'initial',1,'phases',[1]));
+    'LNSlist' , struct('active',0,'initial',1,'phases',[1]), ...
+    'MathModel', struct('active',0,'initial',1,'phases',[1]));
 
 input = get(handles.edit1,'String');
 input = str2num(input);
@@ -168,22 +163,23 @@ end
          status = mainlauncher(dataParameters, modelParameters);
          delete(close_msgbox1);
          msgbox('Finished')
-            
-     elseif cb_checkbox_run==3
 
-            fin = fopen('Mathmodel.run','rt');
-            fout = fopen('Mathmodel_clone.run','wt');
-            while ~feof(fin)
-                   s = fgets(fin);
-                   s = strrep(s, '***FILE1***', 'Goood.dat');
-                   fprintf(fout,'%s\n',s);
-            end
-            fclose(fin);
-            fclose(fout);
+     elseif cb_checkbox_run==3
+            modelParameters.MathModel = setfield(modelParameters.MathModel,'active',1);
             close_msgbox1 = msgbox('Wait');
-            system('module add cplex/12.5-fullampl; ampl < Mathmodel_clone.run')
+            
+            status = mainlauncher(dataParameters, modelParameters);
             delete(close_msgbox1);
             msgbox('Finished')
+            
+     elseif cb_checkbox_run==4
+         
+         modelParameters.LNSlist = setfield(modelParameters.LNSlist,'active',1);
+         close_msgbox1 = msgbox('Wait');
+         
+         status = mainlauncher(dataParameters, modelParameters);
+         delete(close_msgbox1);
+         msgbox('Finished')
      end
 end
 
@@ -264,8 +260,8 @@ global index_listbox2
 index_listbox2 = get(handles.listbox2,'Value');
 
 %--------------------------------------------------------------------------
-% H?MTA INFORMATION FR?N LISTAN VIA CALLBACK.
-% FYLL LISTBOX FR?N CREATFCN.
+% HÄMTA INFORMATION FRÅN LISTAN VIA CALLBACK.
+% FYLL LISTBOX FRÅN CREATFCN.
 %--------------------------------------------------------------------------
 
 
@@ -413,7 +409,7 @@ end
         
         for p = 1:length(load_data(1:end,4))
     
-        if load_data(p,2)==0
+        if load_data(p,4)==0
             ln_data_2(p)=0;
         else
         ln_data_2(p)=log(load_data(p,4));
@@ -424,7 +420,7 @@ end
         
         for p = 1:length(load_data(1:end,5))
     
-        if load_data(p,2)==0
+        if load_data(p,5)==0
             ln_data_3(p)=0;
         else
         ln_data_3(p)=log(load_data(p,5));
@@ -434,7 +430,7 @@ end
         
         for p = 1:length(load_data(1:end,6))
     
-        if load_data(p,2)==0
+        if load_data(p,6)==0
             ln_data_4(p)=0;
         else
         ln_data_4(p)=log(load_data(p,6));
@@ -806,7 +802,7 @@ if (get(handles.pushbutton6,'Value'))==1
         
         for p = 1:length(load_data(1:end,4))
     
-        if load_data(p,2)==0
+        if load_data(p,4)==0
             ln_data_2(p)=0;
         else
         ln_data_2(p)=log(load_data(p,4));
@@ -817,7 +813,7 @@ if (get(handles.pushbutton6,'Value'))==1
         
         for p = 1:length(load_data(1:end,5))
     
-        if load_data(p,2)==0
+        if load_data(p,5)==0
             ln_data_3(p)=0;
         else
         ln_data_3(p)=log(load_data(p,5));
@@ -827,7 +823,7 @@ if (get(handles.pushbutton6,'Value'))==1
         
         for p = 1:length(load_data(1:end,6))
     
-        if load_data(p,2)==0
+        if load_data(p,6)==0
             ln_data_4(p)=0;
         else
         ln_data_4(p)=log(load_data(p,6));
@@ -906,3 +902,18 @@ global checkbox_result_table
 if get(handles.checkbox13,'Value')==1
      checkbox_result_table=2; 
 end
+
+
+% --- Executes on button press in checkbox14.
+function checkbox14_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox14 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox14
+global cb_checkbox_run
+
+if get(handles.checkbox14,'Value')==1
+    cb_checkbox_run=4;
+end
+

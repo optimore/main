@@ -1,7 +1,7 @@
 function status = mainlauncher(dataParameters, modelParameters)
 %MAINLAUNCHER This script is the over all launcher
 %   Detailed explanation goes here
-tic
+
 % 1. Variable setup:
 status.run = 0;
 runId=0;
@@ -33,12 +33,14 @@ resultParameters = struct('path',resultPath,'id',0);
 if status.run    
     % 3.1 if tabu is active, run:
     if modelParameters.tabu.active
+        modelParameters.tabu.active
+        modelParameters.LNS.active
+        modelParameters.LNSlist.active
         for i = 1:length(dataParameters)
             try
                 % Add path for tabu main files:
                 addpath(genpath('src/main/tabu')); %'src/main/tabu';
                 runId = runId +1;
-                disp(['Running iteration ', num2str(runId)]);
                 status.tabu = tabumain(dataParameters{i}, ...
                                        modelParameters.tabu, ...
                                        logfileParameters, ...
@@ -84,16 +86,44 @@ if status.run
 
     end
 
-    % 3.3 if ampl is active, run:
-    if modelParameters.ampl.active
+    % 3.3 if LNS-list is active, run:
+    
+    if modelParameters.LNSlist.active
         for i = 1:length(dataParameters)
             try
                 runId = runId +1;
-                disp(['Running', runId]);
+                % Add path for LNS main files:
+                addpath(genpath('src/main/ampl')); %'src/main/tabu';
+                status.LNSlist = LNSlistmain(dataParameters{i}, ...
+                                     modelParameters.LNSlist, ...
+                                     logfileParameters, ...
+                                     setfield(resultParameters, ...
+                                            'id',runId));
+                rmpath(genpath('src/main/ampl')); % 'src/main/tabu';
+                % -----------------------------
+
+            catch err
+               fprintf(logfile,['\nFatal error in LNSlist search,', ...
+                   'quiting search run nr: ', ...
+                   num2str(runId),'\nContinouing test\n'])
+               status.LNSlist = -1;
+            end
+        end
+
+    end
+    
+    
+    
+    
+    % 3.5 if mathmodel is active, run:
+    if modelParameters.MathModel.active
+        for i = 1:length(dataParameters)
+            try
+                runId = runId +1;
                 % Add path for ampl main files:
                 addpath(genpath('src/main/ampl')); %'src/main/tabu';
-                status.ampl = amplmain(dataParameters{i}, ...
-                                       modelParameters.ampl, ...
+                status.MathModel = MathModelmain(dataParameters{i}, ...
+                                       modelParameters.MathModel, ...
                                        logfileParameters, ...
                                        setfield(resultParameters, ...
                                             'id',runId));
@@ -101,10 +131,10 @@ if status.run
                 % -----------------------------
 
             catch err
-               fprintf(logfile,['\nFatal error in ampl search,', ...
+               fprintf(logfile,['\nFatal error in MathModel search,', ...
                    'quiting search run nr: ', ...
                    num2str(runId),'\nContinouing test\n'])
-               status.ampl = -1;
+               status.MathModel = -1;
             end
         end
     end
@@ -113,7 +143,6 @@ end
 disp(['Launcher script successfully finished after ',num2str(runId), ...
     ' runs over selected models']);
 
-toc
 status.run = 1
 
 end
