@@ -2,6 +2,7 @@ classdef E5 < handle
     % E5 Intensification phase: both long and short steps possible
     %
     
+    
     properties(GetAccess = 'public', SetAccess = 'private')
         
         Name
@@ -9,22 +10,24 @@ classdef E5 < handle
         Logfile
         Resultfile
         NrTasks
-        Solution = 1
-        CostList
-        ActionList
 <<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
-        %IterationId=1;
-        LowestCost = [0, inf]
-        MaxPhaseIterations
-        NrOfBadIterationsBeforExit=5
+        Solution = 1
 =======
+        Solution = 1;
+        CostList
+>>>>>>> devH:src/main/tabu/Models/FastBasic/E5.m
+        ActionList
         IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
+<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
+        NrOfBadIterationsBeforExit=5
+        CostList 
+=======
         NrOfBadIterationsBeforExit=3;
->>>>>>> guimaster:src/main/tabu/Models/B-models/ModB2/E5.m
+>>>>>>> devH:src/main/tabu/Models/FastBasic/E5.m
         % dep overlap bounds
-        CostWeight = [5 1 1]
+        CostWeight = [5 1 1];
     end
 
     
@@ -33,7 +36,7 @@ classdef E5 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = min(20,obj.NrTasks-10);
+                    listlength = 20;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -52,6 +55,7 @@ classdef E5 < handle
             obj.NrTasks = nrTasks; 
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
+            obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
             obj.TabuList = obj.CreateTabuList();
         end
         
@@ -115,6 +119,7 @@ classdef E5 < handle
                 % Loop through min-solutions in ascending order, choose
                 % action if not in tabu
                 for i = 1:length(costList)
+                    
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
@@ -129,7 +134,7 @@ classdef E5 < handle
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-%                             disp(['Tabu hit!', obj.Name]);
+                             disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
 %                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
@@ -158,11 +163,12 @@ classdef E5 < handle
                         % Save cost list
                         obj.CostList(2:end) = obj.CostList(1:end-1);
                         obj.CostList(1) = lowestCost;
+                        %obj.CostList
                         
                         data.tasks(:,6) = actionSolution;
                         
                         if lowestCost < obj.LowestCost(2)
-                            obj.LowestCost = [iterationId,lowestCost];
+                            obj.LowestCost = [obj.IterationId,lowestCost];
                         end
                         
 
@@ -175,11 +181,7 @@ classdef E5 < handle
                             num2str(lowestBound),',', ...
                             num2str(lowestOver), ...
                             '\n']);
-<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
-                        %obj.IterationId = obj.IterationId + 1;
-=======
                         obj.IterationId = obj.IterationId + 1;
->>>>>>> guimaster:src/main/tabu/Models/B-models/ModB2/E5.m
                         
                         break;
                     end
@@ -196,6 +198,7 @@ classdef E5 < handle
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
             
+           % obj.CostList
             % If solution getting worse...
             if diff(obj.CostList)<=0
                 
@@ -204,25 +207,16 @@ classdef E5 < handle
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
-<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
-                % Reset in new phase
-=======
                 % Reset in current phase
->>>>>>> guimaster:src/main/tabu/Models/B-models/ModB2/E5.m
                 obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                 model.instance{model.activePhaseIterator}. ...
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
 <<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
                 % *** Print
-                disp([num2str(model.iterations), num2str(obj.Name)])
-            end
-        end
-        
-        function [obj] = SetTabulistCost(obj, tabulist, lowestcost)
-            % obj.TabuList = tabulist;
-            obj.LowestCost = lowestcost; 
+                disp(['Iteration ',num2str(model.iterations),',', num2str(obj.Name)])
 =======
+>>>>>>> devH:src/main/tabu/Models/FastBasic/E5.m
             end
         end
         
@@ -231,13 +225,11 @@ classdef E5 < handle
             % obj.TabuList = tabulist;
             obj.LowestCost = lowestcost;
             
->>>>>>> guimaster:src/main/tabu/Models/B-models/ModB2/E5.m
         end
         
         % Are conditions met 
         function [model, obj] = AreConditionsMet(obj,model)
-            try 
-                % obj.LowestCost
+            try
                 if obj.LowestCost(2)==0
                     model.conditionsAreNotMet = 0;
                 end

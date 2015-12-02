@@ -28,6 +28,8 @@ FINALPLOTON = 0;
 % Add timing:
 tic
 
+disp('============================ NEW RUN ===============================');
+
 try
     % 1. Setup logging:
     [status, logfile] = GetLog(logfileParameters);
