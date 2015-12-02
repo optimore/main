@@ -56,9 +56,9 @@ classdef E5 < handle
             try
                 % Dynamic weights calculated
                 % *** 50 can be changed
-%                 if mod(iterationId,100) == 0
-%                     obj.SetWeights(data);
-%                 end
+                if mod(iterationId,50) == 0
+                    obj.SetWeights(data);
+                end
                 
                 posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -4E5, 4E5, 8E6, 4E7, 0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
@@ -203,11 +203,8 @@ classdef E5 < handle
                 model.instance{model.activePhaseIterator}. ...
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
-<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
                 % *** Print
                 disp(['Iteration ',num2str(model.iterations),',', num2str(obj.Name)])
-=======
->>>>>>> devH:src/main/tabu/Models/FastBasic/E5.m
             end
         end
         

@@ -200,11 +200,8 @@ classdef E4 < handle
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
-<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E4.m
                     % *** Print
                     disp(['Iteration ', num2str(model.iterations),',', num2str(obj.Name)])
-=======
->>>>>>> devH:src/main/tabu/Models/BasicModel/E40.m
                 end
             end
             
