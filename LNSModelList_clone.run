@@ -44,9 +44,11 @@ data src/test/testdata/D0_3_2015-11-16T15-02-22/AMPL.dat;    # Läser in namnet p
 
 
 
-problem y_search: fake_cost, a1f, a2f, a3f, a4f, a5f, x_sf, x_ef, yf, y_sf, y_ef, uf, first_taskf, last_taskf, check_if_endtaskf, check_if_starttaskf, start_constraintf, task_lengthf, task_distancef, identical_indexf, interval_constraint1f, interval_constraint2f, dependency_constraint1f, dependency_constraint2f;
+problem y_search: fake_cost, a1f, a2f, a3f, a4f, a5f, x_sf, x_ef, yf, y_sf, y_ef, uf, first_taskf, last_taskf, check_if_endtaskf, check_if_starttaskf, start_constraintf, task_lengthf, task_distancef, identical_indexf, interval_constraint1f, interval_constraint2f, dependency_constraint1f, dependency_constraint2f, unique_start_endf;
 
 
+
+solve y_search;
 
 
 
@@ -60,43 +62,7 @@ let randj := 0;
 
 
 
-#for {i in I}
 
-#{
-
-#	let x_s[i] := (t_e[i] + t_s[i])/2 - l[i]/2;
-
-#	fix x_e[i] := x_s[i] + l[i];
-
-#	fix x_s[i];
-
-#	
-
-#
-
-#}
-
-
-
-#for {i in D}
-
-#{
-
-#	fix x_s[I_df[i]] := t_s[I_df[i]];
-
-#	fix x_e[I_df[i]] := t_s[I_df[i]] + l[I_df[i]];
-
-#
-
-#	fix x_s[I_dt[i]] := t_e[I_dt[i]] - l[I_dt[i]];
-
-#	fix x_e[I_dt[i]] := t_e[I_dt[i]];
-
-#
-
-#
-
-#}
 
 
 
@@ -176,7 +142,7 @@ solve y_search;
 
 
 
-display _var, _varname;
+#display _var, _varname;
 
 
 
@@ -258,7 +224,7 @@ display a1_violations, a2_violations, a3_violations, a4_violations, a5_violation
 
 
 
-problem LNS_search: total_cost, y, y_s, y_e, x_s, x_e, u, a1, a2, a3, a4, a5, first_task, last_task, check_if_endtask, check_if_starttask, start_constraint, task_distance, task_length, interval_constraint1, interval_constraint2, dependency_constraint1, dependency_constraint2, identical_index;
+problem LNS_search: total_cost, y, y_s, y_e, x_s, x_e, u, a1, a2, a3, a4, a5, first_task, last_task, check_if_endtask, check_if_starttask, start_constraint, task_distance, task_length, interval_constraint1, interval_constraint2, dependency_constraint1, dependency_constraint2, identical_index, unique_start_end;
 
 
 
@@ -278,11 +244,9 @@ solve LNS_search;
 
 
 
-
-
 #display _var, _varname;
 
-#display total_cost > src/main/ampl/LNSModel.res;
+display total_cost > LNSModel.res;
 
 
 
@@ -325,8 +289,6 @@ for {i in I}
 	}
 
 }
-
-
 
 for {d in D}
 
@@ -376,21 +338,19 @@ let sum_a5 := sum{d in D} a5[d];
 
 #Display the sum of artificial variables to see which constraint is violated the most
 
-display sum_a1;
+#display sum_a1;
 
-display sum_a2;
+#display sum_a2;
 
-display sum_a3;
+#display sum_a3;
 
-display sum_a4;
+#display sum_a4;
 
-display sum_a5;
+#display sum_a5;
 
 
 
 let total_violation := sum_a1 + sum_a2 + sum_a3 + sum_a4 + sum_a5; 
-
-
 
 
 
@@ -410,7 +370,7 @@ let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 
 let times_at_optima := 0;
 
-display current_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
+display current_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModelList.res;
 
 ###############
 
@@ -418,9 +378,13 @@ display current_solution, number_of_iterations,  time_elapsed , iteration_time >
 
 # Generate the degree of destruction from the interval [min_destroy, max_destroy] e.g. [0.1,0.3]. Note: read ropke
 
-let min_destroy := 0.8;
+let min_destroy := 0.5;
 
-let max_destroy := 0.9;
+let max_destroy := 0.5;
+
+
+
+
 
 
 
@@ -472,8 +436,6 @@ repeat
 
 	let number_of_iterations := number_of_iterations + 1;
 
-
-
 	
 
 	
@@ -486,7 +448,7 @@ repeat
 
 	#display y;
 
-	display destroy;
+	#display destroy;
 
 	#display destroy_degree;
 
@@ -494,11 +456,7 @@ repeat
 
 	
 
-	### Used for number of indices in K_list, I_list, J_list	
-
-	let S := 1..count;
-
-	#display S;
+	let S := 1..count;	
 
 
 
@@ -508,13 +466,43 @@ repeat
 
 	{
 
-		let K_list[Q] := 1;
+		let K_list[Q] := 0;
 
 		let I_list[Q] := 1;
 
 		let J_list[Q] := 1;
 
 	}
+
+
+
+	### Used for number of indices in K_list, I_list, J_list	
+
+
+
+	let S1 := setof {k in G, i in I_g[k], j in I_g[k]: i != j} a1[k,i,j];
+
+
+
+	let S21_temp := setof {i in I} a2[i];
+
+	let S22_temp := setof {i in I} a3[i];
+
+
+
+	let S31_temp := setof {d in D} a4[d];
+
+	let S32_temp := setof {d in D} a5[d];
+
+
+
+	let S2 := S21_temp union S22_temp;
+
+	let S3 := S31_temp union S32_temp; 	
+
+
+
+
 
 	###############
 
@@ -528,21 +516,375 @@ repeat
 
 		##Used later if we implement violation lists
 
-		#let S := setof {k in G, i in I_g[k], j in I_g[k]} a1[k,i,j];
+	
 
-		#for {i in S}
+		let n := 0;
 
-		#{
+		for {i in S1}
 
-		#unfix {k in G, L in I_g[k], j in I_g[k]: a1[k, L, j] = i && a1[k,L,j] > 0} y[k,L,j];
+		{	
 
-		#}
+			if elements_in_list != destroy then
+
+			{
+
+		
+
+				for {k in G, L in I_g[k], j in I_g[k]: a1[k, L, j] = i && a1[k,L,j] > 0 && L != j} 
+
+				{
+
+					unfix y[k,L,j];
+
+					let elements_in_list := elements_in_list + 1;
 
 
 
 
 
-		#unfix y;
+					let n := n + 1;				
+
+
+
+					let K_list[n] := k;
+
+					let I_list[n] := L;
+
+					let J_list[n] := j;
+
+
+
+				}
+
+			
+
+			}
+
+
+
+		
+
+		}
+
+		#printf "After the S1 unfix \n\n";
+
+		#display S2;
+
+		#display elements_in_list;
+
+		#display destroy, n;
+
+
+
+
+
+		for {i in S2}
+
+		{	
+
+
+
+			if elements_in_list != destroy then
+
+			{
+
+		
+
+				for {k in G, L in I_g[k], j in I_g[k]: a2[L] = i && L != j && y[k,L,j] = 1 && a2[L] > 0}
+
+				{ 
+
+					unfix y[k,L,j];
+
+					let elements_in_list := elements_in_list + 1;
+
+
+
+					let n := n + 1;				
+
+
+
+					let K_list[n] := k;
+
+					let I_list[n] := L;
+
+					let J_list[n] := j;
+
+
+
+
+
+					
+
+				}
+
+		
+
+				for {k in G, L in I_g[k], j in I_g[k]: a2[L] = i && L != j && y[k,j,L] = 1 && a2[L] > 0}
+
+				{ 
+
+					unfix y[k,j,L];
+
+					let elements_in_list := elements_in_list + 1;
+
+
+
+
+
+					let n := n + 1;				
+
+
+
+					let K_list[n] := k;
+
+					let I_list[n] := L;
+
+					let J_list[n] := j;
+
+
+
+				}
+
+
+
+			
+
+			}
+
+
+
+			if elements_in_list != destroy then
+
+			{
+
+		
+
+				for {k in G, L in I_g[k], j in I_g[k]: a3[L] = i && L != j && y[k,L,j] = 1 && a3[L] > 0}
+
+				{ 
+
+					unfix y[k,L,j];
+
+					let elements_in_list := elements_in_list + 1;
+
+
+
+					let n := n + 1;				
+
+
+
+					let K_list[n] := k;
+
+					let I_list[n] := L;
+
+					let J_list[n] := j;
+
+				}
+
+				
+
+				for {k in G, L in I_g[k], j in I_g[k]: a3[L] = i && L != j && y[k,j,L] = 1 && a3[L] > 0}
+
+				{ 
+
+					unfix y[k,j,L];
+
+					let elements_in_list := elements_in_list + 1;
+
+
+
+
+
+					let n := n + 1;				
+
+
+
+					let K_list[n] := k;
+
+					let I_list[n] := L;
+
+					let J_list[n] := j;
+
+				}				
+
+
+
+			
+
+			}
+
+		
+
+		}
+
+		#display n, y_s, y_e;
+
+
+
+		for {i in S3}
+
+		{	
+
+
+
+			if elements_in_list != destroy then
+
+			{
+
+		
+
+				for {d in D: a4[d] = i && a4[d] > 0}
+
+				{ 	
+
+					for {j in I_g[g[I_df[d]]]: y[g[I_df[d]],I_df[d],j] = 1 && I_df[d] != j}
+
+					{
+
+
+
+		
+
+						unfix y[g[I_df[d]],I_df[d],j];
+
+						#display I_df[d];
+
+						
+
+						let elements_in_list := elements_in_list + 1;
+
+	
+
+						let n := n + 1;				
+
+	
+
+						let K_list[n] := g[I_df[d]];
+
+						let I_list[n] := I_df[d];
+
+						let J_list[n] := j;
+
+
+
+					}
+
+					for {j in I_g[g[I_df[d]]]: y[g[I_df[d]],j,I_df[d]] = 1 && I_df[d] != j}
+
+					{
+
+
+
+		
+
+						unfix y[g[I_df[d]],j,I_df[d]];
+
+						
+
+						let elements_in_list := elements_in_list + 1;
+
+	
+
+						let n := n + 1;				
+
+	
+
+						let K_list[n] := g[I_df[d]];
+
+						let I_list[n] := I_df[d];
+
+						let J_list[n] := j;
+
+						
+
+						#display I_df[d];
+
+
+
+					}
+
+				}
+
+
+
+				for {d in D: a5[d] = i && a5[d] > 0}
+
+				{ 	
+
+					for {j in I_g[g[I_df[d]]]: y[g[I_df[d]],I_df[d],j] = 1 && I_df[d] != j}
+
+					{
+
+
+
+		
+
+						unfix y[g[I_df[d]],I_df[d],j];
+
+						
+
+						let elements_in_list := elements_in_list + 1;
+
+	
+
+						let n := n + 1;				
+
+	
+
+						let K_list[n] := g[I_df[d]];
+
+						let I_list[n] := I_df[d];
+
+						let J_list[n] := j;
+
+						#display I_df[d];				
+
+
+
+					}
+
+					for {j in I_g[g[I_df[d]]]: y[g[I_df[d]],j,I_df[d]] = 1 && I_df[d] != j}
+
+					{
+
+
+
+						#display I_df[d];
+
+						unfix y[g[I_df[d]],j,I_df[d]];
+
+						
+
+						let elements_in_list := elements_in_list + 1;
+
+	
+
+
+
+
+
+					}
+
+				}
+
+			}
+
+		}
+
+
+
+		#display S2, S3;
+
+		#display n, elements_in_list, K_list;
+
+
+
+		#exit;
+
+
+
+	
 
 		# Count after new insertion in destroy
 
@@ -550,7 +892,9 @@ repeat
 
 		{
 
-		let n := 1;
+
+
+
 
 		#let time_elapsed := _ampl_time + _total_solve_elapsed_time;
 
@@ -574,13 +918,13 @@ repeat
 
 				let J_list[n] := member(randj, I_g[randg]);
 
-				display n;
+				#display n;
 
-				display randg, member(randi, I_g[randg]), member(randj, I_g[randg]);
+				#display randg, member(randi, I_g[randg]), member(randj, I_g[randg]);
 
 				unfix y[randg, member(randi, I_g[randg]), member(randj, I_g[randg])];
 
-				printf "in here! \n\n";
+				#printf "in here! \n\n";
 
 				let elements_in_list := elements_in_list + 1; #Insert first element in list
 
@@ -590,7 +934,7 @@ repeat
 
 			else
 
-			{
+			{	let n := 1;
 
 				#Calculate a new y-variable to unfix
 
@@ -618,7 +962,7 @@ repeat
 
 					#let time_elapsed := _ampl_time + _total_solve_elapsed_time;
 
-					printf "Inside the for-loop \n\n";
+					#printf "Inside the for-loop \n\n";
 
 					if K_list[n] = randg && I_list[n] = member(randi, I_g[randg]) && J_list[n] = member(randj, I_g[randg]) then
 
@@ -626,7 +970,7 @@ repeat
 
 						#Generate a new y[k,i,j] by jumping to repeat
 
-						printf "before the break! \n\n";
+						#printf "before the break! \n\n";
 
 						break;
 
@@ -636,7 +980,7 @@ repeat
 
 					{
 
-						printf "inside the else \n\n";
+						#printf "inside the else \n\n";
 
 						if n = elements_in_list then
 
@@ -662,7 +1006,7 @@ repeat
 
 						{
 
-							display elements_in_list;
+							#display elements_in_list;
 
 							let n := n + 1;
 
@@ -674,7 +1018,7 @@ repeat
 
 					#display destroy, n;
 
-				} until n = destroy+100; #Should repeat until n = elements_in_list
+				} until n = destroy; #Should repeat until n = elements_in_list
 
 			#printf "After the first generation \n";
 
@@ -682,19 +1026,23 @@ repeat
 
 			#exit;
 
+			
+
 			}
 
 		#display elements_in_list;
 
 		#printf "check until it is equal to destroy \n";
 
+		let n := 1;
+
 		} while elements_in_list != destroy;
 
 
 
-		printf "Did we do it???? Did we create unique unfixes??? \n\n\n";	
+		#printf "Did we do it???? Did we create unique unfixes??? \n\n\n";	
 
-		display K_list, I_list, J_list;
+		#display K_list, I_list, J_list;
 
 			#unfix y[randg, member(randi, I_g[randg]), member(randj, I_g[randg])];
 
@@ -762,7 +1110,7 @@ repeat
 
 	let current_solution := total_violation;
 
-	display current_solution, number_of_iterations,  _solve_elapsed_time , iteration_time > src/main/ampl/LNSModel.res;
+	display current_solution, number_of_iterations,  _solve_elapsed_time , iteration_time > src/main/ampl/LNSModelList.res;
 
 
 
@@ -796,7 +1144,7 @@ repeat
 
 
 
-			#display C1, C2, C3, C4, C5 > src/main/ampl/LNSModel.res;
+			#display C1, C2, C3, C4, C5 > src/main/ampl/LNSModelList.res;
 
 
 
@@ -804,15 +1152,15 @@ repeat
 
 			{
 
-				let C1 := Uniform(1, 100)*(sum_a1+1)/total_violation;
+				let C1 := Uniform(1, 100)*(sum_a1+20)/total_violation;
 
-				let C2 := Uniform(1, 100)*(sum_a2+1)/total_violation;
+				let C2 := Uniform(1, 100)*(sum_a2+20)/total_violation;
 
-				let C3 := Uniform(1, 100)*(sum_a3+1)/total_violation;
+				let C3 := Uniform(1, 100)*(sum_a3+20)/total_violation;
 
-				let C4 := Uniform(1, 100)*(sum_a4+1)/total_violation;
+				let C4 := Uniform(1, 100)*(sum_a4+20)/total_violation;
 
-				let C5 := Uniform(1, 100)*(sum_a5+1)/total_violation;				
+				let C5 := Uniform(1, 100)*(sum_a5+20)/total_violation;				
 
 				
 
@@ -826,15 +1174,15 @@ repeat
 
 
 
-			let C1 := sum_a1/total_violation*100+1;
+			let C1 := sum_a1/total_violation*100+20;
 
-			let C2 := sum_a2/total_violation*100+1;
+			let C2 := sum_a2/total_violation*100+20;
 
-			let C3 := sum_a3/total_violation*100+1;
+			let C3 := sum_a3/total_violation*100+20;
 
-			let C4 := sum_a4/total_violation*100+1;
+			let C4 := sum_a4/total_violation*100+20;
 
-			let C5 := sum_a5/total_violation*100+1;
+			let C5 := sum_a5/total_violation*100+20;
 
 			let times_at_optima := 0;
 
@@ -842,7 +1190,7 @@ repeat
 
 			}
 
-			#display C1, C2, C3, C4, C5 > src/main/ampl/LNSModel.res;
+			display C1, C2, C3, C4, C5 > LNSModel.res;
 
 
 
@@ -894,7 +1242,7 @@ repeat
 
 		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
 
-		display best_solution, number_of_iterations > src/main/ampl/LNSModel.res;
+		display best_solution, number_of_iterations > src/main/ampl/LNSModelList.res;
 
 		#expand > LNSModel.exp;
 
@@ -918,17 +1266,17 @@ repeat
 
 	printf "We are at the end of the while!!!!! \n\n\n\n\n\n";
 
-	#display total_cost;
+	display total_cost;
 
 	#display total_violation, C1, C2, C3, C4, C5;
 
 	}
 
-	until total_violation = 0 || time_elapsed >= 600;
+	until total_violation = 0 || time_elapsed >= 1700;
 
 
 
-display best_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
+display best_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModelList.res;
 
 #display best_solution, number_of_iterations,  time_elapsed , iteration_time;
 

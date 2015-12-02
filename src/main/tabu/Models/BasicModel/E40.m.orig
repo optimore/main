@@ -12,11 +12,19 @@ classdef E4 < handle
         Resultfile
         NrTasks
         Solution = 1;
+<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E4.m
         %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
         CostList
         NrOfBadIterationsBeforExit=3
+=======
+        CostList
+        IterationId=1;
+        LowestCost = [0, inf];
+        MaxPhaseIterations
+        NrOfBadIterationsBeforExit=3;
+>>>>>>> devH:src/main/tabu/Models/BasicModel/E40.m
         % dep overlap bounds
         CostWeight = [5 1 1]
     end
@@ -170,7 +178,7 @@ classdef E4 < handle
                                 num2str(lowestBound),',', ...
                                 num2str(lowestOver), ...
                                 '\n']);
-                            %obj.IterationId = obj.IterationId + 1;
+                            obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end
@@ -195,13 +203,16 @@ classdef E4 < handle
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
-                    % Reset in new phase
+                    % Reset in current phase
                     obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
+<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E4.m
                     % *** Print
                     disp(['Iteration ', num2str(model.iterations),',', num2str(obj.Name)])
+=======
+>>>>>>> devH:src/main/tabu/Models/BasicModel/E40.m
                 end
             end
             

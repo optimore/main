@@ -1,4 +1,4 @@
-classdef C1_1 < handle
+classdef E4 < handle
     % E4 Diversification phase: only long steps
     %
     %
@@ -12,12 +12,12 @@ classdef C1_1 < handle
         NrTasks
         Solution = 1;
         CostList
-        %IterationId=1;
-        LowestCost = [0, inf]
+        IterationId=1;
+        LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
-        CostWeight = [5 1 1]
+        CostWeight = [5 1 1];
     end
     
     methods
@@ -25,7 +25,7 @@ classdef C1_1 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = min(20,obj.NrTasks-10);
+                    listlength = 20;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -37,15 +37,15 @@ classdef C1_1 < handle
         end
         
         % Constructor:
-        function obj = C1_1(resultfile,logfile,nrTasks)
+        function obj = E4(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
             obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
-            obj.TabuList = obj.CreateTabuList();
             obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
+            obj.TabuList = obj.CreateTabuList();
         end
         
         % Get Action list and do action
@@ -155,7 +155,7 @@ classdef C1_1 < handle
                             data.tasks(:,6) = actionSolution;
                             
                             if lowestCost < obj.LowestCost(2)
-                                obj.LowestCost = [iterationId,lowestCost];
+                                obj.LowestCost = [obj.IterationId,lowestCost];
                             end
                             
                             % Log results
@@ -167,7 +167,7 @@ classdef C1_1 < handle
                                 num2str(lowestBound),',', ...
                                 num2str(lowestOver), ...
                                 '\n']);
-                            %obj.IterationId = obj.IterationId + 1;
+                            obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end
@@ -191,13 +191,11 @@ classdef C1_1 < handle
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
-                    % Reset in new phase
+                    % Reset in current phase
                     obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
-                    % *** Print
-                    disp([num2str(model.iterations), num2str(obj.Name)])
                 end
             end
             
@@ -211,7 +209,6 @@ classdef C1_1 < handle
             % Are conditions met 
             function [model, obj] = AreConditionsMet(obj,model)
                 try
-                    % obj.LowestCost
                     if obj.LowestCost(2)==0
                         model.conditionsAreNotMet = 0;
                     end

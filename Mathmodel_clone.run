@@ -1,35 +1,70 @@
 #-----------------------------------
+
 # Kommandofil: LNSModel.run
+
 #-----------------------------------
+
 reset;                  # Nollställer
+
 option solver cplexamp;    # Val av lösare.
+
 #option presolve 0;      
+
 option omit_zero_cols 1;   # Skriver ej ut nollor i kolumner
+
 option omit_zero_rows 1;   # Skriver ej ut nollor i rader
+
 option display_1col 10000; # Skriver ut bara en kolumn (mer lättläst)
+
 option cplex_options "timing 1 mipdisplay 2"; #Tidtagning och utskrifter
 
+
+
 model src/main/ampl/MathModel.mod;   # Läser in namnet på modellfilen. 
-data src/test/testdata/A0_7_2015-11-16T15-02-24/AMPL.dat;    # Läser in namnet på datafilen. 
+
+data src/test/testdata/D0_3_2015-11-16T15-02-22/AMPL.dat;    # Läser in namnet på datafilen. 
+
+
 
 #let C1 := 20;
+
 #let C2 := 20;
+
 #let C3 := 20;
+
 #let C4 := 20;
+
 #let C5 := 20;
 
+
+
 #let best_solution := total_cost;
+
 #let total_violation := 1;
 
+
+
 # Count the number of y-, (y_s- and y_e)-variables
+
 #let count := 0;
+
 #for {k in G, i in I, j in I}
 
+
+
 solve;
+
 display total_cost;
+
 #display _varname, _var;
+
 display total_cost > src/main/ampl/MathModel.res;
+
 display _varname, _var > src/main/ampl/MathModel.res;
+
 #expand > Mathmodel.exp;
 
+
+
 exit;
+
