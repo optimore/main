@@ -94,6 +94,7 @@ try
                 instance.name = 'C3_4';
                 instance.instance = C3_4(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
+<<<<<<< HEAD
             case 305,
                 instance.name = 'C2_1';
                 instance.instance = C2_1(resultfile,logfile,nrTasks);
@@ -107,6 +108,8 @@ try
                 instance.instance = C4_2(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
                 
+=======
+>>>>>>> devH
             %case *,
                 
             otherwise,

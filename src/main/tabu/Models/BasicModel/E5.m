@@ -2,6 +2,7 @@ classdef E5 < handle
     % E5 Intensification phase: both long and short steps possible
     %
     
+    
     properties(GetAccess = 'public', SetAccess = 'private')
         
         Name
@@ -9,15 +10,15 @@ classdef E5 < handle
         Logfile
         Resultfile
         NrTasks
-        Solution = 1
+        Solution = 1;
         CostList
         ActionList
         IterationId=1;
-        LowestCost = [0, inf]
+        LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
-        CostWeight = [5 1 1]
+        CostWeight = [5 1 1];
     end
 
     
@@ -26,7 +27,7 @@ classdef E5 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = min(20,obj.NrTasks-10);
+                    listlength = 20;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -45,6 +46,7 @@ classdef E5 < handle
             obj.NrTasks = nrTasks; 
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
+            obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
             obj.TabuList = obj.CreateTabuList();
         end
         
@@ -54,9 +56,9 @@ classdef E5 < handle
             try
                 % Dynamic weights calculated
                 % *** 50 can be changed
-%                 if mod(iterationId,100) == 0
-%                     obj.SetWeights(data);
-%                 end
+                if mod(iterationId,50) == 0
+                    obj.SetWeights(data);
+                end
                 
                 posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -4E5, 4E5, 8E6, 4E7, 0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
@@ -108,6 +110,7 @@ classdef E5 < handle
                 % Loop through min-solutions in ascending order, choose
                 % action if not in tabu
                 for i = 1:length(costList)
+                    
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
@@ -122,7 +125,7 @@ classdef E5 < handle
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-%                             disp(['Tabu hit!', obj.Name]);
+                             disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
 %                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
@@ -151,11 +154,12 @@ classdef E5 < handle
                         % Save cost list
                         obj.CostList(2:end) = obj.CostList(1:end-1);
                         obj.CostList(1) = lowestCost;
+                        %obj.CostList
                         
                         data.tasks(:,6) = actionSolution;
                         
                         if lowestCost < obj.LowestCost(2)
-                            obj.LowestCost = [iterationId,lowestCost];
+                            obj.LowestCost = [obj.IterationId,lowestCost];
                         end
                         
 
@@ -185,6 +189,7 @@ classdef E5 < handle
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
             
+           % obj.CostList
             % If solution getting worse...
             if diff(obj.CostList)<=0
                 
@@ -198,6 +203,8 @@ classdef E5 < handle
                 model.instance{model.activePhaseIterator}. ...
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
+                % *** Print
+                disp(['Iteration ',num2str(model.iterations),',', num2str(obj.Name)])
             end
         end
         
@@ -210,8 +217,7 @@ classdef E5 < handle
         
         % Are conditions met 
         function [model, obj] = AreConditionsMet(obj,model)
-            try 
-                % obj.LowestCost
+            try
                 if obj.LowestCost(2)==0
                     model.conditionsAreNotMet = 0;
                 end

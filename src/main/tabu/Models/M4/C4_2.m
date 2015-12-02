@@ -1,5 +1,5 @@
-classdef E5 < handle
-    % E5 Intensification phase: both long and short steps possible
+classdef C4_2 < handle
+    % C4_2 Intensification phase: both long and short steps possible
     %
     
     properties(GetAccess = 'public', SetAccess = 'private')
@@ -12,17 +12,10 @@ classdef E5 < handle
         Solution = 1
         CostList
         ActionList
-<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
         %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5
-=======
-        IterationId=1;
-        LowestCost = [0, inf];
-        MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3;
->>>>>>> guimaster:src/main/tabu/Models/B-models/ModB2/E5.m
         % dep overlap bounds
         CostWeight = [5 1 1]
     end
@@ -45,13 +38,14 @@ classdef E5 < handle
         end
         
         % Constructor:
-        function obj = E5(resultfile,logfile,nrTasks)
+        function obj = C4_2(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
             obj.NrTasks = nrTasks; 
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
+            obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
             obj.TabuList = obj.CreateTabuList();
         end
         
@@ -175,11 +169,7 @@ classdef E5 < handle
                             num2str(lowestBound),',', ...
                             num2str(lowestOver), ...
                             '\n']);
-<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
                         %obj.IterationId = obj.IterationId + 1;
-=======
-                        obj.IterationId = obj.IterationId + 1;
->>>>>>> guimaster:src/main/tabu/Models/B-models/ModB2/E5.m
                         
                         break;
                     end
@@ -204,16 +194,11 @@ classdef E5 < handle
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
-<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
                 % Reset in new phase
-=======
-                % Reset in current phase
->>>>>>> guimaster:src/main/tabu/Models/B-models/ModB2/E5.m
                 obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                 model.instance{model.activePhaseIterator}. ...
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
-<<<<<<< HEAD:src/main/tabu/Models/BasicModel/E5.m
                 % *** Print
                 disp([num2str(model.iterations), num2str(obj.Name)])
             end
@@ -222,16 +207,6 @@ classdef E5 < handle
         function [obj] = SetTabulistCost(obj, tabulist, lowestcost)
             % obj.TabuList = tabulist;
             obj.LowestCost = lowestcost; 
-=======
-            end
-        end
-        
-        function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
-            
-            % obj.TabuList = tabulist;
-            obj.LowestCost = lowestcost;
-            
->>>>>>> guimaster:src/main/tabu/Models/B-models/ModB2/E5.m
         end
         
         % Are conditions met 
