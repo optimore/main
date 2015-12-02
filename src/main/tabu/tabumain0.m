@@ -11,15 +11,15 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % Version number 0.01
 % 0.02: better structure and always run with status 1
 % 0.03: OOD on instances to better handle multiple models and methods
+% 1.0: Stable for running tabu searches on a variety of data and models
 %
-%
-% Link�ping University, Link�ping
+% Link?ping University, Link?ping
 
 status = 0;
 
 % Tabu run setup
 % End after X iterations
-nrIterations = 3000;
+nrIterations = 1500;
 sleeptime = 0.01;
 PLOTON = 0;
 PLOTSOL = 0;
@@ -107,11 +107,6 @@ try
                 model.conditionsAreNotMet=0;
             end
             
-            % 6.5 Dynamic weights calculated
-            if mod(nrIterations,50) == 0
-            model.instance{model.activePhaseIterator}. ...
-                instance.SetWeights(data);
-            end
             
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
