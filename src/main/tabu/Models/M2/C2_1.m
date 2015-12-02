@@ -55,9 +55,9 @@ classdef C2_1 < handle
             try
                 % Dynamic weights calculated
                 % *** 50 can be changed
-%                 if mod(iterationId,100) == 0
-%                     obj.SetWeights(data);
-%                 end
+                if mod(iterationId,50) == 0
+                    obj.SetWeights(data);
+                end
                 
                 posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -4E5, 4E5, 8E6, 4E7, 0.75E8, 1.5E8];
                 % posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -2E6, 2E6, 8E6, 4E7, 0.75E8, 1.5E8];

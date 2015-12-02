@@ -13,20 +13,20 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % 0.03: OOD on instances to better handle multiple models and methods
 %
 %
-% Link�ping University, Link�ping
+% Link???ping University, Link???ping
 
 status = 0;
 
 % Tabu run setup
 % End after X iterations
-nrIterations = 3000;
+nrIterations = 1500;
 sleeptime = 0.01;
 PLOTON = 0;
 PLOTSOL = 0;
 FINALPLOTON = 0;
 
 % Add timing:
-tic
+timerVal = tic;
 
 disp('============================ NEW RUN ===============================');
 
@@ -152,7 +152,7 @@ catch err
     fclose('all');
 end
 
-closetime = toc;
+closetime = toc(timerVal);
 
 
 end
