@@ -6,7 +6,7 @@ classdef C2_2 < handle
     properties(GetAccess = 'public', SetAccess = 'private')
         
         Name
-        TabuListt
+        TabuList
         Logfile
         Resultfile
         NrTasks

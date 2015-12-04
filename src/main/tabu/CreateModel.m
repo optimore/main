@@ -70,6 +70,26 @@ try
                 instance.name = 'C1_5';
                 instance.instance = C1_5(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
+            case 106,
+                instance.name = 'C1_6';
+                instance.instance = C1_6(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 107,
+                instance.name = 'C1_7';
+                instance.instance = C1_7(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 108,
+                instance.name = 'C1_8';
+                instance.instance = C1_8(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 109,
+                instance.name = 'C1_9';
+                instance.instance = C1_9(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 110,
+                instance.name = 'C1_10';
+                instance.instance = C1_10(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
             case 201,
                 instance.name = 'C2_1';
                 instance.instance = C2_1(resultfile,logfile,nrTasks);

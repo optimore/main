@@ -1,6 +1,7 @@
-classdef C3_1 < handle
+classdef C1_8 < handle
     
     properties(GetAccess = 'public', SetAccess = 'private')
+        
         Name
         TabuList
         Logfile
@@ -20,7 +21,7 @@ classdef C3_1 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = min(10,obj.NrTasks-10);
+                    listlength = min(20,obj.NrTasks-10);
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -32,15 +33,15 @@ classdef C3_1 < handle
         end
         
         % Constructor:
-        function obj = C3_1(resultfile,logfile,nrTasks)
+        function obj = C1_8(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
             obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
-            obj.TabuList = obj.CreateTabuList();
             obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
+            obj.TabuList = obj.CreateTabuList();
         end
         
         % Get Action list and do action
@@ -53,7 +54,7 @@ classdef C3_1 < handle
                     obj.SetWeights(data);
                 end
                 
-                posibleTaskActions = [-1.5E8, -0.75E8,  0.75E8, 1.5E8];
+                posibleTaskActions = [-1E8, -5E7, -1E7, 1E7, 5E7, 1E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;

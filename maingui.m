@@ -4,7 +4,7 @@
 % Link?ping University, Link?ping
 
 
-clc; close all; clear all;
+% clc; close all; clear all;
 
 %-------------------------------------------------------------------------
 % Reference run:
