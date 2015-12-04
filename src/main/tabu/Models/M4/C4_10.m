@@ -1,5 +1,5 @@
-classdef E4 < handle
-    % E4 Diversification phase: only long steps
+classdef C4_1 < handle
+    % C4_1 Diversification phase: only long steps
     %
     %
     
@@ -12,10 +12,10 @@ classdef E4 < handle
         NrTasks
         Solution = 1;
         CostList
-        IterationId=1;
-        LowestCost = [0, inf];
+        %IterationId=1;
+        LowestCost = [0, inf]
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3;
+        NrOfBadIterationsBeforExit=3
         % dep overlap bounds
         CostWeight = [5 1 1]
     end
@@ -37,7 +37,7 @@ classdef E4 < handle
         end
         
         % Constructor:
-        function obj = E4(resultfile,logfile,nrTasks)
+        function obj = C4_1(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -167,7 +167,7 @@ classdef E4 < handle
                                 num2str(lowestBound),',', ...
                                 num2str(lowestOver), ...
                                 '\n']);
-                            obj.IterationId = obj.IterationId + 1;
+                            %obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end
@@ -191,11 +191,13 @@ classdef E4 < handle
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
-                    % Reset in current phase
+                    % Reset in new phase
                     obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
+                    % *** Print
+                    disp([num2str(model.iterations), num2str(obj.Name)])
                 end
             end
             

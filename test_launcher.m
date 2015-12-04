@@ -260,8 +260,8 @@ global index_listbox2
 index_listbox2 = get(handles.listbox2,'Value');
 
 %--------------------------------------------------------------------------
-% HÄMTA INFORMATION FRÅN LISTAN VIA CALLBACK.
-% FYLL LISTBOX FRÅN CREATFCN.
+% H?MTA INFORMATION FR?N LISTAN VIA CALLBACK.
+% FYLL LISTBOX FR?N CREATFCN.
 %--------------------------------------------------------------------------
 
 

@@ -28,6 +28,8 @@ FINALPLOTON = 0;
 % Add timing:
 tic
 
+disp('============================ NEW RUN ===============================');
+
 try
     % 1. Setup logging:
     [status, logfile] = GetLog(logfileParameters);
@@ -107,11 +109,11 @@ try
                 model.conditionsAreNotMet=0;
             end
             
-            % 6.5 Dynamic weights calculated
-            if mod(nrIterations,50) == 0
-            model.instance{model.activePhaseIterator}. ...
-                instance.SetWeights(data);
-            end
+%             % 6.5 Dynamic weights calculated
+%             if mod(nrIterations,50) == 0
+%             model.instance{model.activePhaseIterator}. ...
+%                 instance.SetWeights(data);
+%             end
             
         catch err
             fprintf(logfile,'\n\nFatal error in tabu search, quiting search\n')
