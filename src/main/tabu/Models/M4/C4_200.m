@@ -1,5 +1,5 @@
-classdef C4_2 < handle
-    % C4_2 Intensification phase: both long and short steps possible
+classdef C4_200 < handle
+    % C4_200 Intensification phase: both long and short steps possible
     %
     
     
@@ -10,13 +10,15 @@ classdef C4_2 < handle
         Logfile
         Resultfile
         NrTasks
+        CostResults = [10^9 10^9 10^9 10^9 10^9]
         Solution = 1;
         CostList
+        Mean5=[]
         ActionList
         IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=5;
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
@@ -39,7 +41,7 @@ classdef C4_2 < handle
         end
         
         % Constructor:
-        function obj = C4_2(resultfile,logfile,nrTasks)
+        function obj = C4_200(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -155,7 +157,11 @@ classdef C4_2 < handle
                         obj.CostList(2:end) = obj.CostList(1:end-1);
                         obj.CostList(1) = lowestCost;
                         %obj.CostList
-                        
+                        obj.CostResults=[obj.CostResults lowestCost];
+                        disp(obj.CostResults)
+                        %mean(obj.CostResults(length(obj.CostResults)-5:length(obj.CostResults)))
+                        obj.Mean5=[obj.Mean5 mean(obj.CostResults(length(obj.CostResults)-5:length(obj.CostResults)))];
+                        disp(obj.Mean5)
                         data.tasks(:,6) = actionSolution;
                         
                         if lowestCost < obj.LowestCost(2)

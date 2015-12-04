@@ -1,5 +1,5 @@
-classdef E4 < handle
-    % E4 Diversification phase: only long steps
+classdef C4_100 < handle
+    % C4_100 Diversification phase: only long steps
     %
     %
     
@@ -10,6 +10,8 @@ classdef E4 < handle
         Logfile
         Resultfile
         NrTasks
+        CostResults=[10^9 10^9 10^9 10^9 10^9]
+        Mean5=[]
         Solution = 1;
         CostList
         IterationId=1;
@@ -37,7 +39,7 @@ classdef E4 < handle
         end
         
         % Constructor:
-        function obj = E4(resultfile,logfile,nrTasks)
+        function obj = C4_100(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -155,7 +157,13 @@ classdef E4 < handle
                             data.tasks(:,6) = actionSolution;
                             
                             if lowestCost < obj.LowestCost(2)
-                                obj.LowestCost = [obj.IterationId,lowestCost];
+                                 obj.LowestCost = [obj.IterationId,lowestCost];
+                                 obj.CostResults=[obj.CostResults lowestCost];
+                                 disp(obj.CostResults)
+                                 %mean(obj.CostResults(length(obj.CostResults)-5:length(obj.CostResults)))
+                                 obj.Mean5=[obj.Mean5 mean(obj.CostResults(length(obj.CostResults)-5:length(obj.CostResults)))];
+                                 disp(obj.Mean5)
+                                 data.tasks(:,6) = actionSolution;
                             end
                             
                             % Log results
@@ -196,7 +204,7 @@ classdef E4 < handle
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
-                    disp(['Change phase to phaseiteration ',num2str(model.iterations),',', num2str(obj.Name)])
+                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             

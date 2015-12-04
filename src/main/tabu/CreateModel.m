@@ -126,8 +126,24 @@ try
                 instance.name = 'C4_2';
                 instance.instance = C4_2(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
+            case 403,
+                instance.name = 'C4_10';
+                instance.instance = C4_10(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 404,
+                instance.name = 'C4_20';
+                instance.instance = C4_20(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 405,
+                instance.name = 'C4_100';
+                instance.instance = C4_100(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 406,
+                instance.name = 'C4_200';
+                instance.instance = C4_200(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
                 
-            %case *,
+                %case *,
                 
             otherwise,
                 disp(['instance ', num2str(inst), ' not active.'])
