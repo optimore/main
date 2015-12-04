@@ -22,7 +22,7 @@ function varargout = test_launcher(varargin)
 
 % Edit the above text to modify the response to help test_launcher
 
-% Last Modified by GUIDE v2.5 02-Dec-2015 13:49:10
+% Last Modified by GUIDE v2.5 03-Dec-2015 10:02:43
 
 % Begin initialization code - DO NOT EDIT
 
@@ -916,4 +916,3 @@ global cb_checkbox_run
 if get(handles.checkbox14,'Value')==1
     cb_checkbox_run=4;
 end
-
