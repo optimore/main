@@ -719,10 +719,10 @@ end
 k=1;
         for iter_3 = 1:length(a)
             if s(k,4)=='0'
-            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:6)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
+            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:4)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
             oldData = [oldData;data_table];
             else
-            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:7)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
+            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:5)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
             oldData = [oldData;data_table];
             end
             k=k+a(iter_3); 
