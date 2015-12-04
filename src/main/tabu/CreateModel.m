@@ -126,6 +126,14 @@ try
                 instance.name = 'C4_2';
                 instance.instance = C4_2(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
+            case 402,
+                instance.name = 'C4_10';
+                instance.instance = C4_1(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 403,
+                instance.name = 'C4_20';
+                instance.instance = C4_2(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
                 
             %case *,
                 
