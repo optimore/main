@@ -40,7 +40,7 @@ option randseed 19;
 
 model src/main/ampl/LNSmodel.mod;   # Läser in namnet på modellfilen. 
 
-data src/test/testdata/D0_3_2015-11-16T15-02-22/AMPL.dat;    # Läser in namnet på datafilen. 
+data src/test/testdata/A0_6_2015-11-16T15-02-24/AMPL.dat;    # Läser in namnet på datafilen. 
 
 
 
@@ -762,7 +762,7 @@ repeat
 
 	let current_solution := total_violation;
 
-	display current_solution, number_of_iterations,  _solve_elapsed_time , iteration_time > src/main/ampl/LNSModel.res;
+    display current_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
 
 
 
@@ -894,7 +894,7 @@ repeat
 
 		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
 
-		display best_solution, number_of_iterations > src/main/ampl/LNSModel.res;
+		#display best_solution, number_of_iterations > src/main/ampl/LNSModel.res;
 
 		#expand > LNSModel.exp;
 
@@ -928,7 +928,7 @@ repeat
 
 
 
-display best_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
+#display current_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
 
 #display best_solution, number_of_iterations,  time_elapsed , iteration_time;
 
