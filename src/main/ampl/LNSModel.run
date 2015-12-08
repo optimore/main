@@ -29,25 +29,7 @@ let elements_in_list := 0; #Used for our unique random destroyer
 let n := 1;
 let randj := 0;
 
-#for {i in I}
-#{
-#	let x_s[i] := (t_e[i] + t_s[i])/2 - l[i]/2;
-#	fix x_e[i] := x_s[i] + l[i];
-#	fix x_s[i];
-#	
-#
-#}
 
-#for {i in D}
-#{
-#	fix x_s[I_df[i]] := t_s[I_df[i]];
-#	fix x_e[I_df[i]] := t_s[I_df[i]] + l[I_df[i]];
-#
-#	fix x_s[I_dt[i]] := t_e[I_dt[i]] - l[I_dt[i]];
-#	fix x_e[I_dt[i]] := t_e[I_dt[i]];
-#
-#
-#}
 
 let C1 := 20;
 let C2 := 20;
@@ -208,8 +190,8 @@ display current_solution, number_of_iterations,  time_elapsed , iteration_time >
 ###############
 
 # Generate the degree of destruction from the interval [min_destroy, max_destroy] e.g. [0.1,0.3]. Note: read ropke
-let min_destroy := 0.8;
-let max_destroy := 0.9;
+let min_destroy := 0.4;
+let max_destroy := 0.4;
 
 repeat
 {

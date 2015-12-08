@@ -150,36 +150,27 @@ end
      if cb_checkbox_run==1
           modelParameters.tabu = setfield(modelParameters.tabu,'active',1);
           modelParameters.tabu = setfield(modelParameters.tabu,'phases',input);
-          close_msgbox1 = msgbox('Wait');
+         
           status = mainlauncher(dataParameters, modelParameters);
-          delete(close_msgbox1);
-          msgbox('Finished')
-     
+         
      
      elseif cb_checkbox_run==2
          modelParameters.LNS = setfield(modelParameters.LNS,'active',1);
-         close_msgbox1 = msgbox('Wait');
-         
          status = mainlauncher(dataParameters, modelParameters);
-         delete(close_msgbox1);
-         msgbox('Finished')
+         
+         
 
      elseif cb_checkbox_run==3
             modelParameters.MathModel = setfield(modelParameters.MathModel,'active',1);
-            close_msgbox1 = msgbox('Wait');
-            
             status = mainlauncher(dataParameters, modelParameters);
-            delete(close_msgbox1);
-            msgbox('Finished')
+            
+            
             
      elseif cb_checkbox_run==4
          
          modelParameters.LNSlist = setfield(modelParameters.LNSlist,'active',1);
-         close_msgbox1 = msgbox('Wait');
-         
          status = mainlauncher(dataParameters, modelParameters);
-         delete(close_msgbox1);
-         msgbox('Finished')
+         
      end
 end
 

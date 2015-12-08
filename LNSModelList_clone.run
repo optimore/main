@@ -40,7 +40,7 @@ option randseed 19;
 
 model src/main/ampl/LNSmodel.mod;   # Läser in namnet på modellfilen. 
 
-data src/test/testdata/A0_6_2015-11-16T15-02-24/AMPL.dat;    # Läser in namnet på datafilen. 
+data src/test/testdata/D5_9_2015-11-16T15-02-30/AMPL.dat;    # Läser in namnet på datafilen. 
 
 
 
@@ -396,9 +396,9 @@ repeat
 
 	let n := 1;
 
-	let min_destroy := 1;
+	let min_destroy := 0.4;
 
-	let max_destroy := 1;
+	let max_destroy := 0.4;
 
 	
 
@@ -1150,7 +1150,7 @@ repeat
 
 	}
 
-	until total_violation = 0 || time_elapsed >= 1700;
+	until total_violation = 0 || time_elapsed >= 2000;
 
 
 

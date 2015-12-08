@@ -197,8 +197,8 @@ repeat
 	let number_of_iterations := number_of_iterations + 1;
 
 	let n := 1;
-	let min_destroy := 1;
-	let max_destroy := 1;
+	let min_destroy := 0.4;
+	let max_destroy := 0.4;
 	
 	#Calculate the destroy_degree
 	let destroy_degree := round(Uniform(min_destroy,max_destroy),2); #rounds the uniform value to 1 digit past the decimal point. 
@@ -574,7 +574,7 @@ repeat
 	display total_cost;
 	display total_violation, C1, C2, C3, C4, C5;
 	}
-	until total_violation = 0 || time_elapsed >= 1700;
+	until total_violation = 0 || time_elapsed >= 2000;
 
 #display best_solution, number_of_iterations,  time_elapsed , iteration_time > ***RESFILE***;
 #display best_solution, number_of_iterations,  time_elapsed , iteration_time;
