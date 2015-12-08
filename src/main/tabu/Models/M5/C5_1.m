@@ -1,5 +1,5 @@
-classdef C4_10 < handle
-    % C4_10 Diversification phase: only long steps
+classdef E4 < handle
+    % E4 Diversification phase: only long steps
     %
     %
     
@@ -15,7 +15,7 @@ classdef C4_10 < handle
         IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=5;
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
@@ -37,7 +37,7 @@ classdef C4_10 < handle
         end
         
         % Constructor:
-        function obj = C4_10(resultfile,logfile,nrTasks)
+        function obj = E4(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -197,7 +197,6 @@ classdef C4_10 < handle
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
                     disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
-                    
                 end
             end
             

@@ -1,5 +1,5 @@
-classdef C4_20 < handle
-    % C4_20 Intensification phase: both long and short steps possible
+classdef C6_200 < handle
+    % C6_200 Intensification phase: both long and short steps possible
     %
     
     
@@ -16,7 +16,7 @@ classdef C4_20 < handle
         IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=5;
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
@@ -39,7 +39,7 @@ classdef C4_20 < handle
         end
         
         % Constructor:
-        function obj = C4_20(resultfile,logfile,nrTasks)
+        function obj = C6_200(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -54,11 +54,11 @@ classdef C4_20 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                % Dynamic weights calculated
-                % *** 50 can be changed
-                if mod(iterationId,50) == 0
-                    obj.SetWeights(data);
-                end
+%                 % Dynamic weights calculated
+%                 % *** 50 can be changed
+%                 if mod(iterationId,10) == 0
+%                     obj.SetWeights(data);
+%                 end
                 
                 posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -4E5, 4E5, 8E6, 4E7, 0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
@@ -205,7 +205,6 @@ classdef C4_20 < handle
                     obj.LowestCost);
                 % *** Print
                 disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
-                
             end
         end
         

@@ -126,13 +126,37 @@ try
                 instance.name = 'C4_2';
                 instance.instance = C4_2(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
-            case 402,
-                instance.name = 'C4_10';
-                instance.instance = C4_1(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
             case 403,
+                instance.name = 'C4_10';
+                instance.instance = C4_10(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 404,
                 instance.name = 'C4_20';
-                instance.instance = C4_2(resultfile,logfile,nrTasks);
+                instance.instance = C4_20(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 601,
+                instance.name = 'C6_1';
+                instance.instance = C6_1(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 602,
+                instance.name = 'C6_2';
+                instance.instance = C6_2(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 603,
+                instance.name = 'C6_10';
+                instance.instance = C6_10(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 604,
+                instance.name = 'C6_20';
+                instance.instance = C6_20(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 605,
+                instance.name = 'C6_100';
+                instance.instance = C6_100(resultfile,logfile,nrTasks);
+                model.instance{instanceIterator} = instance;
+            case 606,
+                instance.name = 'C6_200';
+                instance.instance = C6_200(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
                 
             %case *,
