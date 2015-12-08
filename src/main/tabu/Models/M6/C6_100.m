@@ -1,6 +1,6 @@
 classdef C6_100 < handle
     % C6_100 Diversification phase: only long steps
-    %
+    % No dynamic weights 
     %
     
     properties(GetAccess = 'public', SetAccess = 'private')

@@ -1,6 +1,6 @@
 classdef C6_10 < handle
     % C6_10 Diversification phase: only long steps
-    %
+    % Dynamic weights update after 10 iterations
     %
     
     properties(GetAccess = 'public', SetAccess = 'private')

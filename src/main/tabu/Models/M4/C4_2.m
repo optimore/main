@@ -1,6 +1,6 @@
 classdef C4_2 < handle
     % C4_2 Intensification phase: both long and short steps possible
-    %
+    % NrOfBadIterationsBeforExit=3
     
     
     properties(GetAccess = 'public', SetAccess = 'private')
@@ -16,7 +16,7 @@ classdef C4_2 < handle
         %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3;
+        NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
         CostWeight = [5 1 1]
     end

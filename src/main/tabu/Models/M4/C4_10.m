@@ -1,6 +1,6 @@
 classdef C4_10 < handle
     % C4_10 Diversification phase: only long steps
-    %
+    % NrOfBadIterationsBeforExit=5
     %
     
     properties(GetAccess = 'public', SetAccess = 'private')

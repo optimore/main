@@ -1,6 +1,6 @@
 classdef C4_1 < handle
     % C4_1 Diversification phase: only long steps
-    %
+    % NrOfBadIterationsBeforExit=3
     %
     
     properties(GetAccess = 'public', SetAccess = 'private')
@@ -15,7 +15,7 @@ classdef C4_1 < handle
         %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=5;
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
         CostWeight = [5 1 1]
     end

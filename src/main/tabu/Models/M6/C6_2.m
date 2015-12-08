@@ -1,6 +1,6 @@
 classdef C6_2 < handle
     % C6_2 Intensification phase: both long and short steps possible
-    %
+    % Dynamic weights update after 25 iterations
     
     
     properties(GetAccess = 'public', SetAccess = 'private')

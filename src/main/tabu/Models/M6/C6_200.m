@@ -1,6 +1,6 @@
 classdef C6_200 < handle
     % C6_200 Intensification phase: both long and short steps possible
-    %
+    % No dynamic weights
     
     
     properties(GetAccess = 'public', SetAccess = 'private')
