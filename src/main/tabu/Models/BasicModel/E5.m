@@ -16,7 +16,7 @@ classdef E5 < handle
         IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3;
+        NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end

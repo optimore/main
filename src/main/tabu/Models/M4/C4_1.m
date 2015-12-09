@@ -197,7 +197,7 @@ classdef C4_1 < handle
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
                     % *** Print
-                    disp([num2str(model.iterations), num2str(obj.Name)])
+                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             
