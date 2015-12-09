@@ -36,39 +36,27 @@ try
                 model.instance{instanceIterator} = instance;
             case 3,
                 instance.name = 'MA_1';
-                instance.instance = MA_1(resultfile,logfile,nrTasks);
+                instance.instance = E1(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 4,
                 instance.name = 'MA_2';
-                instance.instance = MA_2(resultfile,logfile,nrTasks);
+                instance.instance = E2(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 5,
                 instance.name = 'MB_1';
-                instance.instance = MB_1(resultfile,logfile,nrTasks);
+                instance.instance = E3(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 6,
-                instance.name = 'MB_2';
-                instance.instance = MB_2(resultfile,logfile,nrTasks);
+                instance.name = 'E6';
+                instance.instance = E6(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
-            case 7,
-                instance.name = 'MC_1';
-                instance.instance = MC_1(resultfile,logfile,nrTasks);
+            case 5,
+                instance.name = 'E3';
+                instance.instance = E3(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
-            case 8,
-                instance.name = 'MC_2';
-                instance.instance = MC_2(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
-            case 9,
-                instance.name = 'MD_1';
-                instance.instance = MD_1(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
-            case 10,
-                instance.name = 'MD_2';
-                instance.instance = MD_2(resultfile,logfile,nrTasks);
-                model.instance{instanceIterator} = instance;
-            case 11,
-                instance.name = 'MD_3';
-                instance.instance = MD_3(resultfile,logfile,nrTasks);
+            case 6,
+                instance.name = 'E6';
+                instance.instance = E6(resultfile,logfile,nrTasks);
                 model.instance{instanceIterator} = instance;
             case 101,
                 instance.name = 'C1_1';

@@ -1,5 +1,5 @@
-classdef E5 < handle
-    % E5 Intensification phase: both long and short steps possible
+classdef MB_2 < handle
+    % MB_2 Intensification phase: both long and short steps possible
     %
     
     
@@ -16,7 +16,7 @@ classdef E5 < handle
         IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3;
+        NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
@@ -27,7 +27,7 @@ classdef E5 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 20;
+                    listlength = 10;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -39,7 +39,7 @@ classdef E5 < handle
         end
         
         % Constructor:
-        function obj = E5(resultfile,logfile,nrTasks)
+        function obj = MB_2(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -56,7 +56,7 @@ classdef E5 < handle
             try
                 % Dynamic weights calculated
                 % *** 50 can be changed
-                if mod(iterationId,50) == 0
+                if mod(iterationId,25) == 0
                     obj.SetWeights(data);
                 end
                 

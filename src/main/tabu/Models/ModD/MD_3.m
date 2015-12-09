@@ -1,7 +1,4 @@
-classdef E4 < handle
-    % E4 Diversification phase: only long steps
-    %
-    %
+classdef C1_5 < handle
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -12,12 +9,11 @@ classdef E4 < handle
         NrTasks
         Solution = 1;
         CostList
-        IterationId=1;
-        LowestCost = [0, inf];
+        LowestCost = [0, inf]
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3;
+        NrOfBadIterationsBeforExit=5
         % dep overlap bounds
-        CostWeight = [5 1 1];
+        CostWeight = [5 1 1]
     end
     
     methods
@@ -25,7 +21,7 @@ classdef E4 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 20;
+                    listlength = min(10,obj.NrTasks-10);
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -37,7 +33,7 @@ classdef E4 < handle
         end
         
         % Constructor:
-        function obj = E4(resultfile,logfile,nrTasks)
+        function obj = C1_5(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -54,11 +50,11 @@ classdef E4 < handle
             try
                 % Dynamic weights calculated
                 % *** 50 can be changed
-                if mod(iterationId,50) == 0
+                if mod(iterationId,25) == 0
                     obj.SetWeights(data);
                 end
                 
-                posibleTaskActions = [-1.5E8, -0.75E8,  0.75E8, 1.5E8];
+                posibleTaskActions = [-5E7, -1E7, -5E6, -1E6, -5E5, 5E5, 1E6, 5E6 1E7, 5E7];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -155,7 +151,7 @@ classdef E4 < handle
                             data.tasks(:,6) = actionSolution;
                             
                             if lowestCost < obj.LowestCost(2)
-                                obj.LowestCost = [obj.IterationId,lowestCost];
+                                obj.LowestCost = [iterationId,lowestCost];
                             end
                             
                             % Log results
@@ -167,7 +163,7 @@ classdef E4 < handle
                                 num2str(lowestBound),',', ...
                                 num2str(lowestOver), ...
                                 '\n']);
-                            obj.IterationId = obj.IterationId + 1;
+                            %obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end
@@ -191,12 +187,13 @@ classdef E4 < handle
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
-                    % Reset in current phase
+                    % Reset in new phase
                     obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
-                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
+                    % *** Print
+                    disp([num2str(model.iterations), num2str(obj.Name)])
                 end
             end
             
@@ -210,6 +207,7 @@ classdef E4 < handle
             % Are conditions met 
             function [model, obj] = AreConditionsMet(obj,model)
                 try
+                    % obj.LowestCost
                     if obj.LowestCost(2)==0
                         model.conditionsAreNotMet = 0;
                     end

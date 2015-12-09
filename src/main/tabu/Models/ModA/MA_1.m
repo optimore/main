@@ -1,5 +1,5 @@
-classdef E4 < handle
-    % E4 Diversification phase: only long steps
+classdef MA_1 < handle
+    % MA_1 Diversification phase: only long steps
     %
     %
     
@@ -15,7 +15,7 @@ classdef E4 < handle
         IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3;
+        NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
         CostWeight = [5 1 1];
     end
@@ -25,7 +25,7 @@ classdef E4 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = 20;
+                    listlength = 10;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -37,7 +37,7 @@ classdef E4 < handle
         end
         
         % Constructor:
-        function obj = E4(resultfile,logfile,nrTasks)
+        function obj = MA_1(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -54,7 +54,7 @@ classdef E4 < handle
             try
                 % Dynamic weights calculated
                 % *** 50 can be changed
-                if mod(iterationId,50) == 0
+                if mod(iterationId,10) == 0
                     obj.SetWeights(data);
                 end
                 
