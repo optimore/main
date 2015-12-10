@@ -1,4 +1,4 @@
-classdef C1_4 < handle
+classdef MD_2 < handle
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -34,7 +34,7 @@ classdef C1_4 < handle
         end
         
         % Constructor:
-        function obj = C1_4(resultfile,logfile,nrTasks)
+        function obj = MD_2(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
