@@ -40,7 +40,7 @@ option randseed 19;
 
 model src/main/ampl/LNSmodel.mod;   # Läser in namnet på modellfilen. 
 
-data src/test/testdata/B40_7_2015-11-16T15-05-13/AMPL.dat;    # Läser in namnet på datafilen. 
+data src/test/testdata/D5_9_2015-11-16T15-02-30/AMPL.dat;    # Läser in namnet på datafilen. 
 
 
 
