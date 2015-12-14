@@ -385,11 +385,9 @@ end
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes3)
-    disp('Cat0!')
     
     if cb_checkbox_run==1
         
-        disp('Cat1!')
         for p = 1:length(load_data(1:end,2))
             
             if load_data(p,2)==0
@@ -432,8 +430,7 @@ end
         
         plot(load_data(:,3),ln_data_1(:),'r',load_data(:,3),ln_data_2(:),'m',load_data(:,3),ln_data_3(:),'b',load_data(:,3),ln_data_4(:),'g');
         legend('Total Cost/Iteration','Dependency Cost/Iteration','Bounds Cost/Iteration','Overlap Cost/Iteration');
-        disp('Cat2!')
-        
+
     else cb_checkbox_run==2
         
         for p = 1:length(load_data(1:end,2))
@@ -447,7 +444,6 @@ end
         
         plot(load_data(:,3),load_data(:,2));
         legend('Total Cost/Time');
-        disp('Cat3!')
         
     end
     end
