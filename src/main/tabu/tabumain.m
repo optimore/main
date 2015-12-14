@@ -21,7 +21,7 @@ status = 0;
 % End after X iterations
 nrIterations = 5000;
 sleeptime = 0.01;
-PLOTON = 0;
+PLOTON = 1;
 PLOTSOL = 0;
 FINALPLOTON = 0;
 

@@ -385,93 +385,96 @@ end
     temp_path = sprintf('%s',temp_2{:});
     load_data = load(temp_path);
     axes(handles.axes3)
+    disp('Cat0!')
     
     if cb_checkbox_run==1
-    
+        
+        disp('Cat1!')
         for p = 1:length(load_data(1:end,2))
-    
-        if load_data(p,2)==0
-            ln_data_1(p)=0;
-        else
-        ln_data_1(p)=log(load_data(p,2));
+            
+            if load_data(p,2)==0
+                ln_data_1(p)=0;
+            else
+                ln_data_1(p)=log(load_data(p,2));
+            end
         end
-        end
-    
+        
         
         for p = 1:length(load_data(1:end,4))
-    
-        if load_data(p,4)==0
-            ln_data_2(p)=0;
-        else
-        ln_data_2(p)=log(load_data(p,4));
+            
+            if load_data(p,4)==0
+                ln_data_2(p)=0;
+            else
+                ln_data_2(p)=log(load_data(p,4));
+            end
         end
-        end
-       
+        
         
         
         for p = 1:length(load_data(1:end,5))
-    
-        if load_data(p,5)==0
-            ln_data_3(p)=0;
-        else
-        ln_data_3(p)=log(load_data(p,5));
-        end
+            
+            if load_data(p,5)==0
+                ln_data_3(p)=0;
+            else
+                ln_data_3(p)=log(load_data(p,5));
+            end
         end
         
         
         for p = 1:length(load_data(1:end,6))
-    
-        if load_data(p,6)==0
-            ln_data_4(p)=0;
-        else
-        ln_data_4(p)=log(load_data(p,6));
-        end
+            
+            if load_data(p,6)==0
+                ln_data_4(p)=0;
+            else
+                ln_data_4(p)=log(load_data(p,6));
+            end
         end
         
         plot(load_data(:,3),ln_data_1(:),'r',load_data(:,3),ln_data_2(:),'m',load_data(:,3),ln_data_3(:),'b',load_data(:,3),ln_data_4(:),'g');
-    legend('Total Cost/Time','Dependency Cost/Time','Bounds Cost/Time','Overlap Cost/Time');
+        legend('Total Cost/Iteration','Dependency Cost/Iteration','Bounds Cost/Iteration','Overlap Cost/Iteration');
+        disp('Cat2!')
         
     else cb_checkbox_run==2
         
         for p = 1:length(load_data(1:end,2))
-    
-        if load_data(p,2)==0
-            ln_data_1(p)=0;
-        else
-        ln_data_1(p)=log(load_data(p,2));
-        end
+            
+            if load_data(p,2)==0
+                ln_data_1(p)=0;
+            else
+                ln_data_1(p)=log(load_data(p,2));
+            end
         end
         
         plot(load_data(:,3),load_data(:,2));
-    legend('Total Cost/Iteration');
- 
+        legend('Total Cost/Time');
+        disp('Cat3!')
         
     end
     end
  end
-        
-    
  
-
-% --- Executes on selection change in listbox4.
-function listbox4_Callback(hObject, eventdata, handles)
-% hObject    handle to listbox4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns listbox4 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from listbox4
-
-
-% --- Executes during object creation, after setting all properties.
-function listbox4_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to listbox4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+ 
+ 
+ 
+ % --- Executes on selection change in listbox4.
+ function listbox4_Callback(hObject, eventdata, handles)
+     % hObject    handle to listbox4 (see GCBO)
+     % eventdata  reserved - to be defined in a future version of MATLAB
+     % handles    structure with handles and user data (see GUIDATA)
+     
+     % Hints: contents = cellstr(get(hObject,'String')) returns listbox4 contents as cell array
+     %        contents{get(hObject,'Value')} returns selected item from listbox4
+     
+     
+     % --- Executes during object creation, after setting all properties.
+     function listbox4_CreateFcn(hObject, eventdata, handles)
+         % hObject    handle to listbox4 (see GCBO)
+         % eventdata  reserved - to be defined in a future version of MATLAB
+         % handles    empty - handles not created until after all CreateFcns called
+         
+         % Hint: listbox controls usually have a white background on Windows.
+         %       See ISPC and COMPUTER.
+         if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
