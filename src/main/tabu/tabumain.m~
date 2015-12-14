@@ -90,9 +90,8 @@ try
                     DisplayCurrentSolution(data,top,figdata);
                 end
                 pause(sleeptime);
-                if model.iterations == 1
+                if 
                 pause(5);
-                end
                 
                 figdata.iteration = model.iterations;
                 figdata.phase = [num2str(model.activePhaseIterator),' (', ...
