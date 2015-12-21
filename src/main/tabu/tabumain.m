@@ -25,6 +25,8 @@ PLOTON = 1;
 PLOTSOL = 1;
 FINALPLOTON = 0;
 
+disp('Hello!');
+
 % Add timing:
 tic;
 

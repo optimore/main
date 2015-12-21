@@ -14,7 +14,6 @@ try
     addpath(genpath('src/main/guitest'));
     [status, logPath,logfile] = CreateLog();
     [status.result, resultPath] = CreateResultStructure();
-    rmpath(genpath('src/main/guitest'));
     % -----------------------------
     
     status.logPath = logPath;
@@ -39,6 +38,7 @@ if status.run
 %             Run nr.',num2str(i),' out of ', num2str(length(dataParameters)),
             disp(['================ ', dataParameters{i}.name,' ============================'] );
             try
+                disp('Cat');
                 % Add path for tabu main files:
                 addpath(genpath('src/main/tabu')); %'src/main/tabu';
                 runId = runId +1;
