@@ -196,7 +196,7 @@ classdef E4 < handle
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
-                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
+                    disp(['Change phase to phaseiteration ',num2str(model.iterations),',', num2str(obj.Name)])
                 end
             end
             

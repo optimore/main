@@ -125,7 +125,7 @@ classdef E5 < handle
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-                             disp(['Tabu hit!', obj.Name]);
+%                              disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
 %                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
@@ -204,7 +204,7 @@ classdef E5 < handle
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
                 % *** Print
-                disp(['Iteration ',num2str(model.iterations),',', num2str(obj.Name)])
+                disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
             end
         end
         
