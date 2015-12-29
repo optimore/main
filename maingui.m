@@ -8,7 +8,11 @@
 
 %-------------------------------------------------------------------------
 % Reference run:
-M_Ref = [4, 5];
+M_Ref = [1, 2];
+
+%-------------------------------------------------------------------------
+% ModD:
+M_D = [9, 10, 11];
 
 %-------------------- M1 models: Neighbourhood & phases ------------------
 
@@ -33,7 +37,7 @@ M3_2 = [303,304]
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',M1_1), ...
+    'tabu', struct('active',1,'initial',1,'phases',M_D), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'ampl', struct('active',0,'initial',1,'phases',[1]));
 

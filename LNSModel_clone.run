@@ -40,7 +40,7 @@ option randseed 19;
 
 model src/main/ampl/LNSmodel.mod;   # Läser in namnet på modellfilen. 
 
-data src/test/testdata/D0_3_2015-11-16T15-02-22/AMPL.dat;    # Läser in namnet på datafilen. 
+data src/test/testdata/D5_9_2015-11-16T15-02-30/AMPL.dat;    # Läser in namnet på datafilen. 
 
 
 
@@ -60,43 +60,7 @@ let randj := 0;
 
 
 
-#for {i in I}
 
-#{
-
-#	let x_s[i] := (t_e[i] + t_s[i])/2 - l[i]/2;
-
-#	fix x_e[i] := x_s[i] + l[i];
-
-#	fix x_s[i];
-
-#	
-
-#
-
-#}
-
-
-
-#for {i in D}
-
-#{
-
-#	fix x_s[I_df[i]] := t_s[I_df[i]];
-
-#	fix x_e[I_df[i]] := t_s[I_df[i]] + l[I_df[i]];
-
-#
-
-#	fix x_s[I_dt[i]] := t_e[I_dt[i]] - l[I_dt[i]];
-
-#	fix x_e[I_dt[i]] := t_e[I_dt[i]];
-
-#
-
-#
-
-#}
 
 
 
@@ -418,9 +382,9 @@ display current_solution, number_of_iterations,  time_elapsed , iteration_time >
 
 # Generate the degree of destruction from the interval [min_destroy, max_destroy] e.g. [0.1,0.3]. Note: read ropke
 
-let min_destroy := 0.8;
+let min_destroy := 0.4;
 
-let max_destroy := 0.9;
+let max_destroy := 0.4;
 
 
 
@@ -762,7 +726,7 @@ repeat
 
 	let current_solution := total_violation;
 
-	display current_solution, number_of_iterations,  _solve_elapsed_time , iteration_time > src/main/ampl/LNSModel.res;
+    display current_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
 
 
 
@@ -894,7 +858,7 @@ repeat
 
 		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
 
-		display best_solution, number_of_iterations > src/main/ampl/LNSModel.res;
+		#display best_solution, number_of_iterations > src/main/ampl/LNSModel.res;
 
 		#expand > LNSModel.exp;
 
@@ -928,7 +892,7 @@ repeat
 
 
 
-display best_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
+#display current_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
 
 #display best_solution, number_of_iterations,  time_elapsed , iteration_time;
 

@@ -1,5 +1,12 @@
 function [] = DisplayCurrentSolution(data,fig,figdata)
+%% DisplayCurrentSolution shows the current solution
 % Displays the temporary solution on a graphical timeline
+%
+% Created by: Victor Bergelin and Emelie Karlsson
+% 
+% Version number: 1.0
+% 0.01: Working implementation
+% 1.0: Clean and commented code
 
 % Set current plot
 subplot(fig);

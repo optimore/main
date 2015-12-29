@@ -39,25 +39,24 @@ try
     initial_res_LNS_gui = strrep(initial_res_LNS_gui,'current_solution=',sprintf('\n'));
     initial_res_LNS_gui = strrep(initial_res_LNS_gui,'number_of_iterations=',sprintf('\n'));
     initial_res_LNS_gui = strrep(initial_res_LNS_gui,'time_elapsed=',sprintf('\n'));
-    initial_res_LNS_gui = strrep(initial_res_LNS_gui,'_solve_elapsed_time=',sprintf('\n'));
     initial_res_LNS_gui = strrep(initial_res_LNS_gui,'iteration_time=',sprintf('\n'));
-    initial_res_LNS_gui = strrep(initial_res_LNS_gui,'best_solution=',sprintf('\n'));
     result_vector_LNS = str2num(sprintf(initial_res_LNS_gui,'%s'));
     
-    for LNS_res_it = 1:(length(result_vector_LNS)/3)
+    for LNS_res_it = 1:(length(result_vector_LNS)/4)
     
-       result_matrix_LNS(LNS_res_it,1) = LNS_res_it;
-       result_matrix_LNS(LNS_res_it,2) = result_vector_LNS(1+3*(LNS_res_it-1));
-       result_matrix_LNS(LNS_res_it,3) = result_vector_LNS(3+3*(LNS_res_it-1));
+       result_matrix_LNS(LNS_res_it,1) = result_vector_LNS(2+4*(LNS_res_it-1));
+       result_matrix_LNS(LNS_res_it,2) = result_vector_LNS(1+4*(LNS_res_it-1));
+       result_matrix_LNS(LNS_res_it,3) = result_vector_LNS(3+4*(LNS_res_it-1));
     end
     fclose(fid);
+
     
     % Save result
     resultPath = resultParameters.path;
     
     % 2. Create result file
     filename = strsplit(dataParameters.path,'/');
-    resultPath = [resultPath,'/L_',char(filename(end-1))];
+    resultPath = [resultPath,'/LL',char(filename(end-1))];
     
     try
         Resultfile = fopen(resultPath, 'wt');

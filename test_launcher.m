@@ -22,7 +22,7 @@ function varargout = test_launcher(varargin)
 
 % Edit the above text to modify the response to help test_launcher
 
-% Last Modified by GUIDE v2.5 02-Dec-2015 13:49:10
+% Last Modified by GUIDE v2.5 03-Dec-2015 10:02:43
 
 % Begin initialization code - DO NOT EDIT
 
@@ -150,36 +150,27 @@ end
      if cb_checkbox_run==1
           modelParameters.tabu = setfield(modelParameters.tabu,'active',1);
           modelParameters.tabu = setfield(modelParameters.tabu,'phases',input);
-          close_msgbox1 = msgbox('Wait');
+         
           status = mainlauncher(dataParameters, modelParameters);
-          delete(close_msgbox1);
-          msgbox('Finished')
-     
+         
      
      elseif cb_checkbox_run==2
          modelParameters.LNS = setfield(modelParameters.LNS,'active',1);
-         close_msgbox1 = msgbox('Wait');
-         
          status = mainlauncher(dataParameters, modelParameters);
-         delete(close_msgbox1);
-         msgbox('Finished')
+         
+         
 
      elseif cb_checkbox_run==3
             modelParameters.MathModel = setfield(modelParameters.MathModel,'active',1);
-            close_msgbox1 = msgbox('Wait');
-            
             status = mainlauncher(dataParameters, modelParameters);
-            delete(close_msgbox1);
-            msgbox('Finished')
+            
+            
             
      elseif cb_checkbox_run==4
          
          modelParameters.LNSlist = setfield(modelParameters.LNSlist,'active',1);
-         close_msgbox1 = msgbox('Wait');
-         
          status = mainlauncher(dataParameters, modelParameters);
-         delete(close_msgbox1);
-         msgbox('Finished')
+         
      end
 end
 
@@ -396,91 +387,90 @@ end
     axes(handles.axes3)
     
     if cb_checkbox_run==1
-    
+        
         for p = 1:length(load_data(1:end,2))
-    
-        if load_data(p,2)==0
-            ln_data_1(p)=0;
-        else
-        ln_data_1(p)=log(load_data(p,2));
+            
+            if load_data(p,2)==0
+                ln_data_1(p)=0;
+            else
+                ln_data_1(p)=log(load_data(p,2));
+            end
         end
-        end
-    
+        
         
         for p = 1:length(load_data(1:end,4))
-    
-        if load_data(p,4)==0
-            ln_data_2(p)=0;
-        else
-        ln_data_2(p)=log(load_data(p,4));
+            
+            if load_data(p,4)==0
+                ln_data_2(p)=0;
+            else
+                ln_data_2(p)=log(load_data(p,4));
+            end
         end
-        end
-       
+        
         
         
         for p = 1:length(load_data(1:end,5))
-    
-        if load_data(p,5)==0
-            ln_data_3(p)=0;
-        else
-        ln_data_3(p)=log(load_data(p,5));
-        end
+            
+            if load_data(p,5)==0
+                ln_data_3(p)=0;
+            else
+                ln_data_3(p)=log(load_data(p,5));
+            end
         end
         
         
         for p = 1:length(load_data(1:end,6))
-    
-        if load_data(p,6)==0
-            ln_data_4(p)=0;
-        else
-        ln_data_4(p)=log(load_data(p,6));
-        end
+            
+            if load_data(p,6)==0
+                ln_data_4(p)=0;
+            else
+                ln_data_4(p)=log(load_data(p,6));
+            end
         end
         
         plot(load_data(:,3),ln_data_1(:),'r',load_data(:,3),ln_data_2(:),'m',load_data(:,3),ln_data_3(:),'b',load_data(:,3),ln_data_4(:),'g');
-    legend('Total Cost/Time','Dependency Cost/Time','Bounds Cost/Time','Overlap Cost/Time');
-        
+        legend('Total Cost/Iteration','Dependency Cost/Iteration','Bounds Cost/Iteration','Overlap Cost/Iteration');
+
     else cb_checkbox_run==2
         
         for p = 1:length(load_data(1:end,2))
-    
-        if load_data(p,2)==0
-            ln_data_1(p)=0;
-        else
-        ln_data_1(p)=log(load_data(p,2));
-        end
+            
+            if load_data(p,2)==0
+                ln_data_1(p)=0;
+            else
+                ln_data_1(p)=log(load_data(p,2));
+            end
         end
         
         plot(load_data(:,3),load_data(:,2));
-    legend('Total Cost/Iteration');
- 
+        legend('Total Cost/Time');
         
     end
     end
  end
-        
-    
  
-
-% --- Executes on selection change in listbox4.
-function listbox4_Callback(hObject, eventdata, handles)
-% hObject    handle to listbox4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns listbox4 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from listbox4
-
-
-% --- Executes during object creation, after setting all properties.
-function listbox4_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to listbox4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+ 
+ 
+ 
+ % --- Executes on selection change in listbox4.
+ function listbox4_Callback(hObject, eventdata, handles)
+     % hObject    handle to listbox4 (see GCBO)
+     % eventdata  reserved - to be defined in a future version of MATLAB
+     % handles    structure with handles and user data (see GUIDATA)
+     
+     % Hints: contents = cellstr(get(hObject,'String')) returns listbox4 contents as cell array
+     %        contents{get(hObject,'Value')} returns selected item from listbox4
+     
+     
+     % --- Executes during object creation, after setting all properties.
+     function listbox4_CreateFcn(hObject, eventdata, handles)
+         % hObject    handle to listbox4 (see GCBO)
+         % eventdata  reserved - to be defined in a future version of MATLAB
+         % handles    empty - handles not created until after all CreateFcns called
+         
+         % Hint: listbox controls usually have a white background on Windows.
+         %       See ISPC and COMPUTER.
+         if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
@@ -719,10 +709,10 @@ end
 k=1;
         for iter_3 = 1:length(a)
             if s(k,4)=='0'
-            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:6)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
+            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:4)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
             oldData = [oldData;data_table];
             else
-            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:7)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
+            data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:5)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
             oldData = [oldData;data_table];
             end
             k=k+a(iter_3); 
@@ -916,4 +906,3 @@ global cb_checkbox_run
 if get(handles.checkbox14,'Value')==1
     cb_checkbox_run=4;
 end
-

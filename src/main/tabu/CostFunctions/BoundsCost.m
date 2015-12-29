@@ -1,8 +1,14 @@
 function C = BoundsCost(data,tempSolution)
-%% Tasks are outside their designated interval
-%   Detailed explanation goes here
-
+%% Calculate BoundsCost
+% Calulates cost for tasks that are outside their bounds on the timeline
+% 
+% Created by: Victor Bergelin and Emelie Karlsson
+% 
+% Version number: 1.0
+% 0.01: minimal usage implementation
+% 1.0: Clean and commented code
 % Initially 0 cost
+
 C = 0;
 overlap= 0;
 

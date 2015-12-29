@@ -1,7 +1,5 @@
 classdef C2_1 < handle
-    % E5 Intensification phase: both long and short steps possible
-    %
-    
+
     properties(GetAccess = 'public', SetAccess = 'private')
         
         Name

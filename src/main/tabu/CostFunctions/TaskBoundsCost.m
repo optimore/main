@@ -1,6 +1,12 @@
 function C = TaskBoundsCost(data)
-%% Tasks are outside their designated interval
-%   Detailed explanation goes here
+%% Calculate TaskBoundsCost
+% Calulates cost for tasks that are outside their bounds on the timeline
+% 
+% Created by: Victor Bergelin and Emelie Karlsson
+% 
+% Version number: 1.0
+% 0.01: minimal usage implementation
+% 1.0: Clean and commented code
 
 % Initially 0 cost
 C = zeros(size(data,1), 1);

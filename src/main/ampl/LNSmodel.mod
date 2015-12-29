@@ -7,6 +7,19 @@ set D;			#Set of index for dependencies
 #set I_d{D};		#Set of dependencies e.g. {{1,4},{3,5},...}
 
 set S ordered by Reals;
+
+set S1 ordered by Reals;
+
+set S21_temp ordered by Reals;
+set S22_temp ordered by Reals;
+
+set S2 ordered by Reals;
+
+set S31_temp ordered by Reals;
+set S32_temp ordered by Reals;
+
+set S3 ordered by Reals;
+
 set A1 ordered;
 set Listset;
 
@@ -76,7 +89,7 @@ param iteration_time;
 
 
 
-var u{d in D} >= 0, integer;	#distance between index i and j in dependency D
+var u{d in D} ;	#distance between index i and j in dependency D
 var x_s {i in I} >= 0, integer; 	#?!?!?!??
 var x_e {i in I} >= 0, integer;
 var y {k in G, i in I,j in I} binary;
@@ -88,7 +101,7 @@ var a3{i in I} >= 0, integer;
 var a4{d in D} >= 0, integer;
 var a5{d in D} >= 0, integer;
 
-var uf{d in D} >= 0, integer;	#distance between index i and j in dependency D
+var uf{d in D};	#distance between index i and j in dependency D
 var x_sf {i in I} >= 0, integer; 	#?!?!?!??
 var x_ef {i in I} >= 0, integer;
 var yf {k in G, i in I,j in I} binary;
@@ -161,6 +174,13 @@ subject to dependency_constraint2{d in D}:
 subject to identical_index{k in G, i in I}:
 	y[k,i,i] = 0;
 
+subject to unique_start_end{k in G, i in I_g[k]}:
+	y_s[k,i] + y_e[k,i] <= 1;
+
+
+
+
+
 ### Constraints for subproblem ###
 
 subject to first_taskf{k in G}:
@@ -197,4 +217,9 @@ subject to dependency_constraint2f{d in D}:
 	uf[d] <= f_max[d] + a5f[d];
 
 subject to identical_indexf{k in G, i in I}:
-	yf[k,i,i] = 0; 
+	yf[k,i,i] = 0;
+
+subject to unique_start_endf{k in G, i in I_g[k]}:
+	 y_sf[k,i] + y_ef[k,i] <= 1;
+
+

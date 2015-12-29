@@ -1,6 +1,6 @@
 classdef C4_1 < handle
     % C4_1 Diversification phase: only long steps
-    %
+    % NrOfBadIterationsBeforExit=3
     %
     
     properties(GetAccess = 'public', SetAccess = 'private')
@@ -15,7 +15,7 @@ classdef C4_1 < handle
         %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
         CostWeight = [5 1 1]
     end
@@ -54,9 +54,9 @@ classdef C4_1 < handle
             try
                 % Dynamic weights calculated
                 % *** 50 can be changed
-%                 if mod(iterationId,100) == 0
-%                     obj.SetWeights(data);
-%                 end
+                if mod(iterationId,50) == 0
+                    obj.SetWeights(data);
+                end
                 
                 posibleTaskActions = [-1.5E8, -0.75E8,  0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
@@ -197,7 +197,7 @@ classdef C4_1 < handle
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
                     % *** Print
-                    disp([num2str(model.iterations), num2str(obj.Name)])
+                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             

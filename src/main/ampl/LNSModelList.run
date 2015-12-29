@@ -122,7 +122,7 @@ for {k in G, i in I_g[k], j in I_g[k]}
 solve LNS_search;
 
 #display _var, _varname;
-display total_cost > LNSModel.res;
+#display total_cost > ***RESFILE***;
 
 
 for {k in G, i in I_g[k], j in I_g[k]}
@@ -168,18 +168,17 @@ let sum_a4 := sum{d in D} a4[d];
 let sum_a5 := sum{d in D} a5[d];
 	
 #Display the sum of artificial variables to see which constraint is violated the most
-#display sum_a1;
-#display sum_a2;
-#display sum_a3;
-#display sum_a4;
-#display sum_a5;
+display sum_a1;
+display sum_a2;
+display sum_a3;
+display sum_a4;
+display sum_a5;
 
 let total_violation := sum_a1 + sum_a2 + sum_a3 + sum_a4 + sum_a5; 
 
 
 let best_solution := total_violation;
 display best_solution;
-let number_of_iterations := number_of_iterations + 1;
 let current_solution := best_solution;
 let time_elapsed := _ampl_time + _total_solve_elapsed_time;
 let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
@@ -188,13 +187,24 @@ display current_solution, number_of_iterations,  time_elapsed , iteration_time >
 ###############
 
 # Generate the degree of destruction from the interval [min_destroy, max_destroy] e.g. [0.1,0.3]. Note: read ropke
-let min_destroy := 0.5;
-let max_destroy := 0.5;
+
 
 
 
 repeat
-{
+{	
+	### Add another iteration
+	let number_of_iterations := number_of_iterations + 1;
+
+	let n := 1;
+	let min_destroy := 0.4;
+	let max_destroy := 0.4;
+	
+	#Calculate the destroy_degree
+	let destroy_degree := round(Uniform(min_destroy,max_destroy),2); #rounds the uniform value to 1 digit past the decimal point. 
+	let destroy := round(destroy_degree*count);
+
+
 	#Start with the empty lists
 	let elements_in_list := 0;
 	if min_destroy > max_destroy then
@@ -202,12 +212,10 @@ repeat
 		printf "min_destroy should be lower than max_destroy! \n";
 		exit;
 	}
-	
+
 	# Set the previous solution
 	if number_of_iterations = 1 then
 	{
-		#Calculate the first destroy_degree
-		let destroy_degree := round(Uniform(min_destroy,max_destroy),2); #rounds the uniform value to 1 digit past the decimal point.
 		let previous_solution := best_solution;
 	}
 	else
@@ -215,13 +223,12 @@ repeat
 		let previous_solution := current_solution;
 	}
 	
-	### Add another iteration
-	let number_of_iterations := number_of_iterations + 1;
+
 	
 	
 	### Destroy function ###
-	#display count;
-	let destroy := round(destroy_degree*count);
+	display count;
+
 	#display y;
 	#display destroy;
 	#display destroy_degree;
@@ -441,91 +448,23 @@ repeat
 
 		#exit;
 
-	
-		# Count after new insertion in destroy
-		repeat
-		{
-
-
-		#let time_elapsed := _ampl_time + _total_solve_elapsed_time;
-			if elements_in_list = 0 then
+		let destroy_degree := round((destroy - elements_in_list)/count,2);
+		for {k in G, i in I_g[k], j in I_g[k]}
+		{	
+			if i != j then
 			{
-				let randg := round(Uniform(1, timelines));
-				let randi := round(Uniform(1, p[randg]));
-				repeat{
-					let randj := round(Uniform(1, p[randg]));
-				} until randj != randi;
-				let K_list[n] := randg;
-				let I_list[n] := member(randi, I_g[randg]);
-				let J_list[n] := member(randj, I_g[randg]);
-				#display n;
-				#display randg, member(randi, I_g[randg]), member(randj, I_g[randg]);
-				unfix y[randg, member(randi, I_g[randg]), member(randj, I_g[randg])];
-				#printf "in here! \n\n";
-				let elements_in_list := elements_in_list + 1; #Insert first element in list
-				
+				if Uniform(1,100) <= destroy_degree*100 then
+				{	
+					
+					unfix y[k,i,j];
+
+
+				}
 			}
-			else
-			{	let n := 1;
-				#Calculate a new y-variable to unfix
-				let randg := round(Uniform(1, timelines));
-				let randi := round(Uniform(1, p[randg]));
-				repeat
-				{
-					let randj := round(Uniform(1, p[randg]));
-				} until randj != randi;
-	
-				#display randg, randi, randj;
-				#display destroy;
-				repeat
-				{
-					#let time_elapsed := _ampl_time + _total_solve_elapsed_time;
-					#printf "Inside the for-loop \n\n";
-					if K_list[n] = randg && I_list[n] = member(randi, I_g[randg]) && J_list[n] = member(randj, I_g[randg]) then
-					{
-						#Generate a new y[k,i,j] by jumping to repeat
-						#printf "before the break! \n\n";
-						break;
-					}
-					else
-					{
-						#printf "inside the else \n\n";
-						if n = elements_in_list then
-						{
-							#display n, elements_in_list;
-							let K_list[n+1] := randg;
-							let I_list[n+1] := member(randi, I_g[randg]);
-							let J_list[n+1] := member(randj, I_g[randg]);
-							unfix y[randg, member(randi, I_g[randg]), member(randj, I_g[randg])];
-							let elements_in_list := elements_in_list + 1;
-							break; #calculate new y-variable unless elements_in_list = destroy
-						}
-						else
-						{
-							#display elements_in_list;
-							let n := n + 1;
-						}
-					}
-					#printf "Here we are 123 \n\n\n";
-					#display destroy, n;
-				} until n = destroy; #Should repeat until n = elements_in_list
-			#printf "After the first generation \n";
-			#display K_list, I_list, J_list;
-			#exit;
-			
-			}
-		#display elements_in_list;
-		#printf "check until it is equal to destroy \n";
-		let n := 1;
-		} while elements_in_list != destroy;
+		}
 
-		#printf "Did we do it???? Did we create unique unfixes??? \n\n\n";	
-		#display K_list, I_list, J_list;
-			#unfix y[randg, member(randi, I_g[randg]), member(randj, I_g[randg])];
 
-			#display y[randg, member(randi, I_g[randg]), member(randj, I_g[randg])];
-
-		printf "Hej Jonathan!\n\n\n";
+	printf "Hej Jonathan!\n\n\n";
 	### Solve the problem aka Repair function ###
 	solve LNS_search;
 	#display total_cost; 
@@ -554,7 +493,7 @@ repeat
 
 
 	let current_solution := total_violation;
-	display current_solution, number_of_iterations,  _solve_elapsed_time , iteration_time > ***RESFILE***;
+	display current_solution, number_of_iterations,  time_elapsed , iteration_time > ***RESFILE***;
 
 	if current_solution = previous_solution then
 	{
@@ -594,7 +533,7 @@ repeat
 			let times_at_optima := 0;
 			
 			}
-			display C1, C2, C3, C4, C5 > LNSModel.res;
+			#display C1, C2, C3, C4, C5 > ***RESFILE***;
 
 
 		}
@@ -620,7 +559,7 @@ repeat
 		### display the variables ###
 		#display _varname, _var;
 		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
-		display best_solution, number_of_iterations > ***RESFILE***;
+		#display best_solution, number_of_iterations > ***RESFILE***;
 		#expand > LNSModel.exp;
 		printf "In else before exit! \n\n\n\n\n";
 		printf "Number of iterations: ";
@@ -633,11 +572,11 @@ repeat
 	let time_elapsed := _ampl_time + _total_solve_elapsed_time;
 	printf "We are at the end of the while!!!!! \n\n\n\n\n\n";
 	display total_cost;
-	#display total_violation, C1, C2, C3, C4, C5;
+	display total_violation, C1, C2, C3, C4, C5;
 	}
-	until total_violation = 0 || time_elapsed >= 1700;
+	until total_violation = 0 || time_elapsed >= 2000;
 
-display best_solution, number_of_iterations,  time_elapsed , iteration_time > ***RESFILE***;
+#display best_solution, number_of_iterations,  time_elapsed , iteration_time > ***RESFILE***;
 #display best_solution, number_of_iterations,  time_elapsed , iteration_time;
 #display y;
 
