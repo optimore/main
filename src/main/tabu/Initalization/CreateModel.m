@@ -5,22 +5,18 @@ function model=CreateModel(tabuParameters,resultfile,logfile)
 % Date created: 28/10/2015
 %
 % Version number
-% 0.03: has everything but error handling, still needed!
-% 0.02: minor development, not tested
 % 0.01: file setup
+% 0.02: minor development, not tested
+% 0.03: has everything but error handling, still needed!
 % 1.0: Stable for running tabu searches on a variety of data and models
 %
 % Link?ping University, Link?ping
 
 nrTasks = tabuParameters.nrTasks;
-
 model.initialSolution = tabuParameters.initial;
-
 model.phaseChanges = [];
-
 model.phases = tabuParameters.phases;
 model.activePhaseIterator = 1;
-
 instanceIterator = 1;
 try
     model.instance = struct('name',{},'id',{},'instance',{});

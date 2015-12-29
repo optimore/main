@@ -1,13 +1,18 @@
 function [status,data] = SimpleSortAndPlace(data,model)
-%% Put the task in the middle of the allowed area
-%   Detailed explanation goes here
-% v.0.01: simplest possible, lacks status/error handling
+%% SimpleSortAndPlace initial solution solver
+% Put the task in the middle of the allowed area
+%
+% Created by: Victor Bergelin and Emelie Karlsson
 % 
-% 1. This can later be used for error reporting
+% Version number: 1.0
+% 0.01: simplest possible, lacks status/error handling
+% 0.02: error and status handling implemented
+% 1.0: Clean and commented code
+
 status = 0;
 
 try
-    % 2. Put tasks in place
+    % Put tasks in place
     nrtasks = size(data.tasks,1);
     for i = 1:nrtasks
         meanplace = mean(data.tasks(i,2:3));

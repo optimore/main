@@ -1,8 +1,5 @@
 classdef C1_1 < handle
-    % E4 Diversification phase: only long steps
-    %
-    %
-    
+
     properties(GetAccess = 'public', SetAccess = 'private')
         
         Name

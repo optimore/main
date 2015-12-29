@@ -1,12 +1,14 @@
 function [status, logfile] = GetLog(logfileParameters)
 %% Get log file from path
-% This function fetches the log and prepare it for logging test runs)
-% Created by: Victor Bergelin
-% Date created: 28/10/2015
-% Version number 
-% 0.02: minor development, not tested
+% This function fetches the log and prepare it for logging test runs
+%
+% Created by: Victor Bergelin and Emelie Karlsson
+%
+% Version number: 1.0
 % 0.01: file setup
-% Linköping University, Linköping
+% 0.02: minor improvements
+% 1.0 Clean and commented code
+
 
 status.tabulog = 0;
 try

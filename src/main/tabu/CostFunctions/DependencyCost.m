@@ -1,9 +1,18 @@
 function C = DependencyCost(data,tempSolution)
+
+%% Calculate DependencyCost
 % Calculates cost for pairs of dependenent tasks
 % Finds the interval in which the second task in the dependency should start.
 % Calculates how much the placement of task two differes from this
 % interval.
-% First version 2015-11-02
+% 
+% Created by: Victor Bergelin and Emelie Karlsson
+% 
+% Version number: 1.0
+% 0.01: minimal usage implementation
+% 1.0: Clean and commented code
+
+
 
 % Initially 0 cost
 C = 0;

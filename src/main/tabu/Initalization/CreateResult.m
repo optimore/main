@@ -1,9 +1,15 @@
-function [result,resultId] = CreateResult(resultParameters,dataParameters,logfile)
-%CREATERESULT Summary of this function goes here
-%   Detailed explanation goes here
+function [fileobject,resultId] = CreateResult(resultParameters,dataParameters,logfile)
+%% CreateResult file for this test instance
+% By initiating a file and passing its object, results can continously be
+% logged to it.
 %
-% v0.01: file setup done, needs implementation and error handling!
-
+% Created by: Victor Bergelin and Emelie Karlsson
+%
+% Version: 1.0 
+% 0.01: file setup done, needs implementation and error handling!
+% 0.02: functional implementation with error handling and status
+% 1.0: clean and commented code
+% 
 
 % 1. Get path
 resultPath = resultParameters.path;
@@ -14,7 +20,7 @@ filename = strsplit(dataParameters.path,'/');
 resultPath = [resultPath,'/T_',char(filename(end-1))];
 
 try
-    result = fopen(resultPath, 'w');
+    fileobject = fopen(resultPath, 'w');
     fprintf(logfile, ['Result file created: ', resultPath, ...
         '\n\n']);
     status = 1;
@@ -23,6 +29,6 @@ catch err
     rethrow(err)
 end
 
-% 3. Return file path and name
+% Return file object and it's id
 
 end

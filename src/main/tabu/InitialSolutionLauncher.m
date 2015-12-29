@@ -1,9 +1,14 @@
 function [status,data] = InitialSolutionLauncher(model,data,logfile)
 % This launcher initiates a given starting solution from a function call
 %
-% v 0.01 Launches SimpleSortAndPlace
+% Created by: Victor Bergelin and Emelie Karlsson
 %
-% Victor Bergelin
+% Requested features for next version:
+% - More initial solutions
+% 
+% Version number: 1.0
+% 0.01: minimal usage implementation for one initial solution
+% 1.0: Clean and commented code
 
 try
     switch model.initialSolution

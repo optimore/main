@@ -2,7 +2,6 @@ classdef C4_20 < handle
     % C4_20 Intensification phase: both long and short steps possible
     % NrOfBadIterationsBeforExit=5
     
-    
     properties(GetAccess = 'public', SetAccess = 'private')
         
         Name

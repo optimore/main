@@ -1,9 +1,16 @@
 function cost = CostFunction(data, tempSolution, weights)
-% This is wrapper for all cost functions, dependencies, overlap and bounds
-%   
+%% CostFunction wrapper script
+% This script is the wrapper for calculating all cost functions 
+% and cost weights
+%
+% Created by: Victor Bergelin and Emelie Karlsson
+% 
+% Version number: 1.0
+% 0.01: minimal usage implementation for one instance and phase
+% 1.0: Clean and commented code
+
 
 % Calculate different cost functions
-
 costDependencies = DependencyCost(data,tempSolution);
 costOverlap = OverlapCost(data,tempSolution);
 costBounds = BoundsCost(data,tempSolution);

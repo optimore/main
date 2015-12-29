@@ -1,8 +1,15 @@
 function C=OverlapCost(data)
+%% Calculate OverlapCost
 % Calulates cost for tasks that are overlapping on timeline
 % Compares the starting and ending time of all tasks in the data.
 % Accumulates result in C. One time unit overlap is one cost unit in C.
-% First version 2015-11-02
+% 
+% Created by: Victor Bergelin and Emelie Karlsson
+% 
+% Version number: 1.0
+% 0.01: minimal usage implementation
+% 1.0: Clean and commented code
+
 
 % Initially 0 cost
 C = zeros(size(data,1), 1);
