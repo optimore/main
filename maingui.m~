@@ -52,7 +52,7 @@ noQuit = 1;
 
 while noQuit
     try
-        data_not_found = true;
+        data_not_found = True;
         prompt = 'Select one option: ';
         nr = input(prompt,'s');
         disp(' ');
@@ -106,7 +106,7 @@ while noQuit
                                 type(status.logPath);
                             end
                         end
-                        data_not_found = false;
+                        data_not_found = False;
                     else
                         disp(['No data found for: ',selected_data,'. Try again.'])
                     end
