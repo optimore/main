@@ -1,4 +1,12 @@
-classdef C1_4 < handle
+classdef C5_200 < handle
+    % Model M5_3
+    % C5_200: Long steps with no dynamic weights
+    
+    % Created by: Emelie Karlsson
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -7,13 +15,14 @@ classdef C1_4 < handle
         Logfile
         Resultfile
         NrTasks
-        Solution = 1
+        Solution = 1;
         CostList
-        LowestCost = [0, inf]
+        ActionList
+        LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=5
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
-        CostWeight = [5 1 1]
+        CostWeight = [5 1 1];
     end
 
     
@@ -22,7 +31,7 @@ classdef C1_4 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = min(20,obj.NrTasks-10);
+                    listlength = 20;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -34,28 +43,28 @@ classdef C1_4 < handle
         end
         
         % Constructor:
-        function obj = C1_4(resultfile,logfile,nrTasks)
+        function obj = C5_200(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
             obj.NrTasks = nrTasks; 
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
-            obj.TabuList = obj.CreateTabuList();
             obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
+            obj.TabuList = obj.CreateTabuList();
         end
         
         % Get Action list and do action
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                % Dynamic weights calculated
-                % *** 50 can be changed
-                if mod(iterationId,50) == 0
-                    obj.SetWeights(data);
-                end
+%                 % Dynamic weights calculated
+%                 % *** 50 can be changed
+%                 if mod(iterationId,10) == 0
+%                     obj.SetWeights(data);
+%                 end
                 
-                posibleTaskActions = [-0.75E8, -2E8, -5E7, 5E7, 2E8, 0.75E8];
+                posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -4E5, 4E5, 8E6, 4E7, 0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -105,6 +114,7 @@ classdef C1_4 < handle
                 % Loop through min-solutions in ascending order, choose
                 % action if not in tabu
                 for i = 1:length(costList)
+                    
                     notintabu = 1;
                     index = indexes(i);
                     actionSolution = actionList{index}.actionSolution(:,2);
@@ -119,7 +129,7 @@ classdef C1_4 < handle
                         
                         % Break if action in tabulist
                         if isequal(tabuTask, changedTask) == 1
-%                             disp(['Tabu hit!', obj.Name]);
+%                              disp(['Tabu hit!', obj.Name]);
                             if costList(index) < obj.LowestCost(2)
                                 % Aspiration criteria
 %                                 disp(['Asipiration criteria: ', obj.Name, ' tabu: ', ...
@@ -148,6 +158,7 @@ classdef C1_4 < handle
                         % Save cost list
                         obj.CostList(2:end) = obj.CostList(1:end-1);
                         obj.CostList(1) = lowestCost;
+                        %obj.CostList
                         
                         data.tasks(:,6) = actionSolution;
                         
@@ -165,7 +176,7 @@ classdef C1_4 < handle
                             num2str(lowestBound),',', ...
                             num2str(lowestOver), ...
                             '\n']);
-                        %obj.IterationId = obj.IterationId + 1;
+                        % obj.IterationId = obj.IterationId + 1;
                         
                         break;
                     end
@@ -182,6 +193,7 @@ classdef C1_4 < handle
         % Get stopping criteria:
         function [model,obj] = GetStoppingCriteria(obj, model)
             
+           % obj.CostList
             % If solution getting worse...
             if diff(obj.CostList)<=0
                 
@@ -190,25 +202,26 @@ classdef C1_4 < handle
                 model.activePhaseIterator= ...
                     mod(model.activePhaseIterator,nrPhases)+1;
                 
-                % Reset in new phase
+                % Reset in current phase
                 obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                 model.instance{model.activePhaseIterator}. ...
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
                 % *** Print
-                disp([num2str(model.iterations), num2str(obj.Name)])
+                disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
             end
         end
         
-        function [obj] = SetTabulistCost(obj, tabulist, lowestcost)
+        function [obj] = SetTabulistCost(obj,tabulist, lowestcost)
+            
             % obj.TabuList = tabulist;
-            obj.LowestCost = lowestcost; 
+            obj.LowestCost = lowestcost;
+            
         end
         
         % Are conditions met 
         function [model, obj] = AreConditionsMet(obj,model)
-            try 
-                % obj.LowestCost
+            try
                 if obj.LowestCost(2)==0
                     model.conditionsAreNotMet = 0;
                 end

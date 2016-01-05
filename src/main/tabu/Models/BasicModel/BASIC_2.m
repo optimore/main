@@ -1,6 +1,12 @@
-classdef E5 < handle
-    % E5 Intensification phase: both long and short steps possible
-    %
+classdef BASIC_2 < handle
+    % BasicModel
+    % BASIC_2 Intensification phase: both long and short steps possible
+    
+    % Created by: Victor Bergelin and Emelie Karlsson
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     
     properties(GetAccess = 'public', SetAccess = 'private')
@@ -39,7 +45,7 @@ classdef E5 < handle
         end
         
         % Constructor:
-        function obj = E5(resultfile,logfile,nrTasks)
+        function obj = BASIC_2(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;

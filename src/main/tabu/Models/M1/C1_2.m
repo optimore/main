@@ -1,4 +1,12 @@
 classdef C1_2 < handle
+    % Model M1_1
+    % C1_2: Short and long steps
+    
+    % Created by: Victor Bergelin
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -10,7 +18,6 @@ classdef C1_2 < handle
         Solution = 1
         CostList
         ActionList
-        %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5
@@ -58,7 +65,6 @@ classdef C1_2 < handle
                 end
                 
                 posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -4E5, 4E5, 8E6, 4E7, 0.75E8, 1.5E8];
-                % posibleTaskActions = [-1.5E8, -0.75E8, -4E7, -8E6, -2E6, 2E6, 8E6, 4E7, 0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -199,7 +205,7 @@ classdef C1_2 < handle
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
                 % *** Print
-                disp([num2str(model.iterations), num2str(obj.Name)])
+                disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
             end
         end
         

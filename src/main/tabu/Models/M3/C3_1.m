@@ -1,4 +1,12 @@
 classdef C3_1 < handle
+    % Model M3_1
+    % C3_1: Long steps with tabu list length 10
+    
+    % Created by: Victor Bergelin
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     properties(GetAccess = 'public', SetAccess = 'private')
         Name
@@ -192,7 +200,7 @@ classdef C3_1 < handle
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
                     % *** Print
-                    disp([num2str(model.iterations), num2str(obj.Name)])
+                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             

@@ -1,4 +1,12 @@
-classdef C1_5 < handle
+classdef C3_10 < handle
+    % Model M3_2
+    % C3_10: Long steps with tabu list length numberOfTasks/2 + 10
+    
+    % Created by: Victor Bergelin
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -21,7 +29,7 @@ classdef C1_5 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = min(20,obj.NrTasks-10);
+                    listlength = round(obj.NrTasks/2)+10;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -33,15 +41,15 @@ classdef C1_5 < handle
         end
         
         % Constructor:
-        function obj = C1_5(resultfile,logfile,nrTasks)
+        function obj = C3_10(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
             obj.NrTasks = nrTasks;
             obj.Logfile = logfile;
             obj.Resultfile = resultfile;
-            obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
             obj.TabuList = obj.CreateTabuList();
+            obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
         end
         
         % Get Action list and do action
@@ -54,7 +62,7 @@ classdef C1_5 < handle
                     obj.SetWeights(data);
                 end
                 
-                posibleTaskActions = [-5E7, -1E7, -5E6, -1E6, -5E5, 5E5, 1E6, 5E6 1E7, 5E7];
+                posibleTaskActions = [-1.5E8, -0.75E8,  0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -193,7 +201,7 @@ classdef C1_5 < handle
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
                     % *** Print
-                    disp([num2str(model.iterations), num2str(obj.Name)])
+                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             

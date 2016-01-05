@@ -141,7 +141,7 @@ if status.run
 end   
 
 disp(['Launcher script successfully finished after ',num2str(runId), ...
-    ' runs over selected models']);
+    ' runs over selected model.']);
 
 toc(tichandle)
 

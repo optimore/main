@@ -1,18 +1,26 @@
 % MAIN launcher script, simulating GUI code
 % 1.0: Stable for running tabu searches on a variety of data and models
 %
-% Link?ping University, Link?ping
+% Linköping University, Linköping
 
 
 % clc; close all; clear all;
 
 %-------------------------------------------------------------------------
-% Reference run:
-M_Ref = [1, 2];
-
+% BasicModel:
+M_Base = [1,2];
+%-------------------------------------------------------------------------
+% ModA:
+M_A = [3,4];
+%-------------------------------------------------------------------------
+% ModB:
+M_B = [5,6];
+%-------------------------------------------------------------------------
+% ModC:
+M_C = [7,8];
 %-------------------------------------------------------------------------
 % ModD:
-M_D = [9, 10, 11];
+M_D = [9,10,11];
 
 %-------------------- M1 models: Neighbourhood & phases ------------------
 
@@ -24,20 +32,41 @@ M1_2 = [103,104,105];
 
 %------------------- M2 models: Tabu list representation -----------------
 
-M2_1 = [110, 111];
-M1_1; % Used for reference
+% Tabu list with solutions
+M2_1 = [201, 202];
 
 %----------------------- M3 models: Tabu list length ---------------------
 
-M1_1; % Used for reference of normal length
+% Tabu list length 10
 M3_1 = [301,302];
+
+% Tabu list length numberOfTasks/2 + 10
 M3_2 = [303,304];
+
+%-------- M4 models: Varying NrOfBadIterationsBeforExit -----------------
+
+% NrOfBadIterationsBeforExit short in both phases
+M4_1 = [401,402];
+
+% NrOfBadIterationsBeforExit long in both phases
+M4_2 = [403,404];
+
+%-------------- M5 models: No of it. before weight update -----------------
+
+% Updated weights after 25 iterations in both phases
+M5_1 = [501,502];
+
+% Updated weights after 10 iterations in both phases
+M5_2 = [503,504];
+
+% No dynamic weights
+M5_3 = [505,506];
 
 %-------------------------------------------------------------------------
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',M_D), ...
+    'tabu', struct('active',1,'initial',1,'phases',M2_1), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'LNSlist' , struct('active',0,'initial',1,'phases',[1]), ...
     'MathModel', struct('active',0,'initial',1,'phases',[1]));

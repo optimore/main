@@ -1,6 +1,12 @@
 classdef C4_20 < handle
-    % C4_20 Intensification phase: both long and short steps possible
-    % NrOfBadIterationsBeforExit=5
+    % Model M4_2
+    % C4_20: All steps with NrOfBadIterationsBeforExit=5
+    
+    % Created by: Emelie Karlsson
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -12,7 +18,6 @@ classdef C4_20 < handle
         Solution = 1;
         CostList
         ActionList
-        IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
@@ -158,7 +163,7 @@ classdef C4_20 < handle
                         data.tasks(:,6) = actionSolution;
                         
                         if lowestCost < obj.LowestCost(2)
-                            obj.LowestCost = [obj.IterationId,lowestCost];
+                            obj.LowestCost = [iterationId,lowestCost];
                         end
                         
 
@@ -171,7 +176,7 @@ classdef C4_20 < handle
                             num2str(lowestBound),',', ...
                             num2str(lowestOver), ...
                             '\n']);
-                        obj.IterationId = obj.IterationId + 1;
+                       %  obj.IterationId = obj.IterationId + 1;
                         
                         break;
                     end

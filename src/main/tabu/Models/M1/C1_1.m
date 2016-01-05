@@ -1,4 +1,12 @@
 classdef C1_1 < handle
+    % Model M1_1
+    % C1_1: Long steps
+    
+    % Created by: Victor Bergelin
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
 
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -9,7 +17,6 @@ classdef C1_1 < handle
         NrTasks
         Solution = 1;
         CostList
-        %IterationId=1;
         LowestCost = [0, inf]
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=3
@@ -194,7 +201,7 @@ classdef C1_1 < handle
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
                     % *** Print
-                    disp([num2str(model.iterations), num2str(obj.Name)])
+                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             

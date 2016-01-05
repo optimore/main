@@ -1,7 +1,12 @@
 classdef C4_10 < handle
-    % C4_10 Diversification phase: only long steps
-    % NrOfBadIterationsBeforExit=5
-    %
+    % Model M4_2
+    % C4_10: Long steps with NrOfBadIterationsBeforExit=5
+    
+    % Created by: Emelie Karlsson
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -12,7 +17,6 @@ classdef C4_10 < handle
         NrTasks
         Solution = 1;
         CostList
-        IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
@@ -155,7 +159,7 @@ classdef C4_10 < handle
                             data.tasks(:,6) = actionSolution;
                             
                             if lowestCost < obj.LowestCost(2)
-                                obj.LowestCost = [obj.IterationId,lowestCost];
+                                obj.LowestCost = [iterationId,lowestCost];
                             end
                             
                             % Log results
@@ -167,7 +171,7 @@ classdef C4_10 < handle
                                 num2str(lowestBound),',', ...
                                 num2str(lowestOver), ...
                                 '\n']);
-                            obj.IterationId = obj.IterationId + 1;
+                           %  obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end

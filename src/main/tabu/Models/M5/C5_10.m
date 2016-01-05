@@ -1,7 +1,12 @@
-classdef E4 < handle
-    % E4 Diversification phase: only long steps
-    %
-    %
+classdef C5_10 < handle
+    % Model M5_2
+    % C5_10: Long steps with updated weights after 10 iterations
+    
+    % Created by: Emelie Karlsson
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -12,7 +17,6 @@ classdef E4 < handle
         NrTasks
         Solution = 1;
         CostList
-        IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=3;
@@ -37,7 +41,7 @@ classdef E4 < handle
         end
         
         % Constructor:
-        function obj = E4(resultfile,logfile,nrTasks)
+        function obj = C5_10(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -53,8 +57,8 @@ classdef E4 < handle
             % Iterate over and save posible solutions:
             try
                 % Dynamic weights calculated
-                % *** 50 can be changed
-                if mod(iterationId,50) == 0
+                % 10 can be changed
+                if mod(iterationId,10) == 0
                     obj.SetWeights(data);
                 end
                 
@@ -155,7 +159,7 @@ classdef E4 < handle
                             data.tasks(:,6) = actionSolution;
                             
                             if lowestCost < obj.LowestCost(2)
-                                obj.LowestCost = [obj.IterationId,lowestCost];
+                                obj.LowestCost = [iterationId,lowestCost];
                             end
                             
                             % Log results
@@ -167,7 +171,7 @@ classdef E4 < handle
                                 num2str(lowestBound),',', ...
                                 num2str(lowestOver), ...
                                 '\n']);
-                            obj.IterationId = obj.IterationId + 1;
+                            % obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end

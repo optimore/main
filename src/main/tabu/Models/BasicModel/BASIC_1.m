@@ -1,7 +1,13 @@
-classdef C6_100 < handle
-    % C6_100 Diversification phase: only long steps
-    % No dynamic weights 
-    %
+classdef BASIC_1 < handle
+    % BasicModel
+    % BASIC_1 Diversification phase: only long steps
+    
+    % Created by: Victor Bergelin and Emelie Karlsson
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
+
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -37,7 +43,7 @@ classdef C6_100 < handle
         end
         
         % Constructor:
-        function obj = C6_100(resultfile,logfile,nrTasks)
+        function obj = BASIC_1(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -52,11 +58,11 @@ classdef C6_100 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-%                 % Dynamic weights calculated
-%                 % *** 50 can be changed
-%                 if mod(iterationId,10) == 0
-%                     obj.SetWeights(data);
-%                 end
+                % Dynamic weights calculated
+                % 50 can be changed
+                if mod(iterationId,50) == 0
+                    obj.SetWeights(data);
+                end
                 
                 posibleTaskActions = [-1.5E8, -0.75E8,  0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
@@ -94,7 +100,6 @@ classdef C6_100 < handle
                         actionId = actionId + 1;
                     end
                 end
-                % coststruct=struct('overlap',costListover,'dependency',costListdep,'bound',costListbound)
             catch err
                 fprintf(obj.Logfile, getReport(err,'extended'));
                 rethrow(err)

@@ -1,4 +1,12 @@
-classdef C1_6 < handle
+classdef C5_100 < handle
+    % Model M5_3
+    % C5_100: Long steps with no dynamic weights
+    
+    % Created by: Emelie Karlsson
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -9,12 +17,11 @@ classdef C1_6 < handle
         NrTasks
         Solution = 1;
         CostList
-        %IterationId=1;
-        LowestCost = [0, inf]
+        LowestCost = [0, inf];
         MaxPhaseIterations
-        NrOfBadIterationsBeforExit=3
+        NrOfBadIterationsBeforExit=3;
         % dep overlap bounds
-        CostWeight = [5 1 1]
+        CostWeight = [5 1 1];
     end
     
     methods
@@ -22,7 +29,7 @@ classdef C1_6 < handle
         function TabuList = CreateTabuList(obj)
             if(nargin > 0)
                 try
-                    listlength = min(20,obj.NrTasks-10);
+                    listlength = 20;
                     TabuList = zeros(listlength,1);
                 catch err
                     disp('error')
@@ -34,7 +41,7 @@ classdef C1_6 < handle
         end
         
         % Constructor:
-        function obj = C1_6(resultfile,logfile,nrTasks)
+        function obj = C5_100(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -49,11 +56,11 @@ classdef C1_6 < handle
         function [data,obj] = GetAndPerformAction(obj,data,iterationId)
             % Iterate over and save posible solutions:
             try
-                % Dynamic weights calculated
-                % *** 50 can be changed
-                if mod(iterationId,50) == 0
-                    obj.SetWeights(data);
-                end
+%                 % Dynamic weights calculated
+%                 % *** 50 can be changed
+%                 if mod(iterationId,10) == 0
+%                     obj.SetWeights(data);
+%                 end
                 
                 posibleTaskActions = [-1.5E8, -0.75E8,  0.75E8, 1.5E8];
                 nrTasks = size(data.tasks,1);
@@ -164,7 +171,7 @@ classdef C1_6 < handle
                                 num2str(lowestBound),',', ...
                                 num2str(lowestOver), ...
                                 '\n']);
-                            %obj.IterationId = obj.IterationId + 1;
+                           % obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end
@@ -188,13 +195,12 @@ classdef C1_6 < handle
                     model.activePhaseIterator= ...
                         mod(model.activePhaseIterator,nrPhases)+1;
                     
-                    % Reset in new phase
+                    % Reset in current phase
                     obj.CostList = repmat(inf,obj.NrOfBadIterationsBeforExit,1);
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
-                    % *** Print
-                    disp([num2str(model.iterations), num2str(obj.Name)])
+                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             
@@ -208,7 +214,6 @@ classdef C1_6 < handle
             % Are conditions met 
             function [model, obj] = AreConditionsMet(obj,model)
                 try
-                    % obj.LowestCost
                     if obj.LowestCost(2)==0
                         model.conditionsAreNotMet = 0;
                     end

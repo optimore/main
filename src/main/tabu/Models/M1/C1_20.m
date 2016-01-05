@@ -1,5 +1,12 @@
-classdef C1_7 < handle
+classdef C1_20 < handle
+    % Model M1_2
+    % C1_20: Mid range steps
     
+    % Created by: Victor Bergelin
+    % Date created: 28/10/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping    
     properties(GetAccess = 'public', SetAccess = 'private')
         
         Name
@@ -34,7 +41,7 @@ classdef C1_7 < handle
         end
         
         % Constructor:
-        function obj = C1_7(resultfile,logfile,nrTasks)
+        function obj = C1_20(resultfile,logfile,nrTasks)
             name = class(obj);
             disp(['Running: ', num2str(name)])
             obj.Name = name;
@@ -55,7 +62,7 @@ classdef C1_7 < handle
                     obj.SetWeights(data);
                 end
                 
-                posibleTaskActions = [-0.75E8, -2E8, -1E8, 1E8, 2E8, 0.75E8];
+                posibleTaskActions = [-0.75E8, -2E8, -5E7, 5E7, 2E8, 0.75E8];
                 nrTasks = size(data.tasks,1);
                 nrActions = length(posibleTaskActions);
                 actionId = 1;
@@ -196,7 +203,7 @@ classdef C1_7 < handle
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
                 % *** Print
-                disp([num2str(model.iterations), num2str(obj.Name)])
+                disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
             end
         end
         
