@@ -47,8 +47,8 @@ try
 
 	% 5. Initial figure
 	if PLOTON
-        titlepathvector = strsplit(dataParameters.path,'/');
-		titlename = titlepathvector(4);
+        titlepathvector = strsplit(dataParameters.path,'/')
+		titlename = titlepathvector(4)
         titlestr = {char(titlename), ...
                     num2str(tabuParameters.nrTasks), ...
                     num2str(tabuParameters.nrTimels), ...

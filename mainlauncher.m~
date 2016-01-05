@@ -140,6 +140,8 @@ if status.run
     end
 end   
 
+disp('Finished cat')
+
 disp(['Launcher script successfully finished after ',num2str(runId), ...
     ' runs over selected models']);
 

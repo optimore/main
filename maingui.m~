@@ -70,6 +70,7 @@ while noQuit
                     
                     prompt = 'Select data (A, B, C, D: 1-50: as A0,B20 etc.): ';
                     selected_data = input(prompt,'s');
+                    
                     pathdir = 'src/test/testdata/';
                     DataDir=dir([pathdir,'*_*']);
                     pathname = [];
@@ -95,11 +96,13 @@ while noQuit
                     end
                     
                     if foundstr
+                        disp('Hello')
                         % 3. run launcher
                         status = mainlauncher(dataParameters, modelParameters);
+                        disp('cat');
                         % 4. Print errors if they occure:
-                        SNames = fieldnames(status);
-                        nFields = length(SNames);
+                        SNames = fieldnames(status)
+                        nFields = length(SNames)
                         
                         for i = 1:nFields
                             % SNames{i}
