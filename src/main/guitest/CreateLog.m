@@ -5,7 +5,7 @@ function logpath = CreateLog()
 % Date created: 28/10/2015
 % Version number 
 % 0.01: file setup
-% Linköping University, Linköping
+% Linkï¿½ping University, Linkï¿½ping
 
 % 1. Get path and name:
 relativeLogPath = 'target/logs/';
@@ -18,6 +18,7 @@ logpath = [dateName,'.log'];
 try
     fclose(fopen([relativeLogPath,logpath], 'w'));
 catch ME
+    disp('Error in Create Log');
      
 end
 

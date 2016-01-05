@@ -52,7 +52,7 @@ noQuit = 1;
 
 while noQuit
     try
-        data_not_found = True;
+        data_not_found = true;
         prompt = 'Select one option: ';
         nr = input(prompt,'s');
         disp(' ');
@@ -78,6 +78,7 @@ while noQuit
                         thisfilename = cellstr(getfield(DataDir,{i},'name'));
                         pathname = [pathname; strcat(pathdir,thisfilename,'/')];
                         filename = [filename; thisfilename];
+                        disp('Cat');
                     end
                     
                     dataParameters = struct('name',{},'path',{});
@@ -91,6 +92,7 @@ while noQuit
                             dataObj.path = char(pathname(ii));
                             dataParameters{1} = dataObj;
                             foundstr=1;
+                            Disp(
                         end
                     end
                     
@@ -106,7 +108,7 @@ while noQuit
                                 type(status.logPath);
                             end
                         end
-                        data_not_found = False;
+                        data_not_found = false;
                     else
                         disp(['No data found for: ',selected_data,'. Try again.'])
                     end

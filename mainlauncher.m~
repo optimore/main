@@ -11,9 +11,8 @@ tichandle = tic;
 % 2. Functional setup:
 try
     % 2.1 Add paths for setup files:
-    addpath(genpath('src/main/guitest'))
-    % [status, logPath, logfile] = CreateLog();
-    logPath = CreateLog();
+    addpath(genpath('src/main/guitest'));
+    [status, logPath,logfile] = CreateLog();
     [status.result, resultPath] = CreateResultStructure();
     % -----------------------------
     
@@ -39,6 +38,7 @@ if status.run
 %             Run nr.',num2str(i),' out of ', num2str(length(dataParameters)),
             disp(['================ ', dataParameters{i}.name,' ============================'] );
             try
+                disp('Cat');
                 % Add path for tabu main files:
                 addpath(genpath('src/main/tabu')); %'src/main/tabu';
                 runId = runId +1;

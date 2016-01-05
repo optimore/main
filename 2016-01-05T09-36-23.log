@@ -1,0 +1,18 @@
+---------------------------------------
+Tabu-log initiated: 05-Jan-2016 09:36:23
+
+Result file created: target/results/results_2016-01-05T09-36-23/T_A15_9_2015-11-16T15-02-48
+
+Index exceeds matrix dimensions.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('tabumain', '/home/emelie/tata62/main/src/main/tabu/tabumain.m', 53)" style="font-weight:bold">tabumain</a> (<a href="matlab: opentoline('/home/emelie/tata62/main/src/main/tabu/tabumain.m',53,0)">line 53</a>)
+		titlename = titlepathvector(6)
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mainlauncher', '/home/emelie/tata62/main/mainlauncher.m', 45)" style="font-weight:bold">mainlauncher</a> (<a href="matlab: opentoline('/home/emelie/tata62/main/mainlauncher.m',45,0)">line 45</a>)
+                status.tabu = tabumain(dataParameters{i}, ...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('maingui', '/home/emelie/tata62/main/maingui.m', 99)" style="font-weight:bold">maingui</a> (<a href="matlab: opentoline('/home/emelie/tata62/main/maingui.m',99,0)">line 99</a>)
+                        status = mainlauncher(dataParameters, modelParameters);
+
+Closing tabu-log due to fatal error: 05-Jan-2016 09:36:23
+---------------------------------------
