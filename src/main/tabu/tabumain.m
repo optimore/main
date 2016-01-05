@@ -44,14 +44,11 @@ try
 
     % 5. Initial solution from model
     [status,data] = InitialSolutionLauncher(model,data,logfile);
-    disp('Cat1')
 
 	% 5. Initial figure
 	if PLOTON
         titlepathvector = strsplit(dataParameters.path,'/')
-        disp('Cat1.5')
-		titlename = titlepathvector(6)
-        disp('Cat1.2')
+		titlename = titlepathvector(3)
         titlestr = {char(titlename), ...
                     num2str(tabuParameters.nrTasks), ...
                     num2str(tabuParameters.nrTimels), ...
@@ -90,7 +87,6 @@ try
                 end
                 pause(sleeptime);
                 if model.iterations == 1
-                pause(5);
                 end
 
                 figdata.iteration = model.iterations;
@@ -112,7 +108,6 @@ try
             end
 
             if model.conditionsAreNotMet == 0
-               pause(10);
             end
 
 
@@ -122,7 +117,7 @@ try
         end
         model.iterations = model.iterations + 1;
     end
-
+    
     % Final plot
     if FINALPLOTON
         figdata.iteration = model.iterations;
@@ -133,14 +128,17 @@ try
 
     % If all was successful, then set statuscode to 1
     status = 1;
+    disp('Cat2')
 
     fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ...
         datestr(now()), '\n---------------------------------------\n']);
-
+    disp('Cat3')
+    
     % Close files:
     fclose(resultfile);
     fclose(logfile);
-
+    disp('Cat4')
+    
 catch err
     % In case of an error, set statuscode to -1
     status = -1;
