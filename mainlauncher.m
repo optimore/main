@@ -12,8 +12,7 @@ tichandle = tic;
 try
     % 2.1 Add paths for setup files:
     addpath(genpath('src/main/guitest'))
-    % [status, logPath, logfile] = CreateLog();
-    logPath = CreateLog();
+    [status, logPath, logfile] = CreateLog();
     [status.result, resultPath] = CreateResultStructure();
     % -----------------------------
     

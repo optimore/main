@@ -98,15 +98,17 @@ while noQuit
                         % 3. run launcher
                         status = mainlauncher(dataParameters, modelParameters);
                         % 4. Print errors if they occure:
-                        SNames = fieldnames(status);
-                        nFields = length(SNames);
+                        SNames = fieldnames(status)
+                        nFields = length(SNames)
                         for i = 1:nFields
                             % SNames{i}
                             if (status.(SNames{i})==-1)
                                 type(status.logPath);
                             end
                         end
+                        disp('Hello')
                         data_not_found = false;
+                        disp('cat');
                     else
                         disp(['No data found for: ',selected_data,'. Try again.'])
                     end

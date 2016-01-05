@@ -47,8 +47,8 @@ try
 
 	% 5. Initial figure
 	if PLOTON
-        titlepathvector = strsplit(dataParameters.path,'/')
-		titlename = titlepathvector(3)
+        titlepathvector = strsplit(dataParameters.path,'/');
+		titlename = titlepathvector(4);
         titlestr = {char(titlename), ...
                     num2str(tabuParameters.nrTasks), ...
                     num2str(tabuParameters.nrTimels), ...
@@ -58,7 +58,6 @@ try
 		DisplayIntervals(data,bot_left,figdata);
     end
 
-    disp('Cat2')
 	% 6. Perform tabu search:
 	model.conditionsAreNotMet = 1;
 	model.iterations = 1;
@@ -128,16 +127,13 @@ try
 
     % If all was successful, then set statuscode to 1
     status = 1;
-    disp('Cat2')
 
     fprintf(logfile, ['Tabu search finished successfully.\nClosing log: ', ...
         datestr(now()), '\n---------------------------------------\n']);
-    disp('Cat3')
     
     % Close files:
     fclose(resultfile);
     fclose(logfile);
-    disp('Cat4')
     
 catch err
     % In case of an error, set statuscode to -1
