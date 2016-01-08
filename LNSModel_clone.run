@@ -1,8 +1,8 @@
 ### Tankar om projektet: 
 
-#Skapa en parameter som håller koll på hur många villkor som bryts -> ta reda på vilka som är störst av a1-a5 och göra en if-sats som kollar om vi ska förstöra fler variabler än summan av a1-a5violations. Om vi ska förstöra fler -> #randomförstör y-variabler, annars förstör från listan med en eventuell random om vi fastnar i loop.
+#Skapa en parameter som hï¿½ler koll pï¿½hur mï¿½ga villkor som bryts -> ta reda pï¿½vilka som ï¿½ stï¿½st av a1-a5 och gï¿½a en if-sats som kollar om vi ska fï¿½stï¿½a fler variabler ï¿½ summan av a1-a5violations. Om vi ska fï¿½stï¿½a fler -> #randomfï¿½stï¿½ y-variabler, annars fï¿½stï¿½ frï¿½ listan med en eventuell random om vi fastnar i loop.
 
-# Lägga in tidstagningsoption
+# Lï¿½ga in tidstagningsoption
 
 # 
 
@@ -18,9 +18,9 @@
 
 #-----------------------------------
 
-reset;                  # Nollställer
+reset;                  # Nollstï¿½ler
 
-option solver cplexamp;    # Val av lösare.
+option solver cplexamp;    # Val av lï¿½are.
 
 #option presolve 0;
 
@@ -28,9 +28,9 @@ option omit_zero_cols 1;   # Skriver ej ut nollor i kolumner
 
 option omit_zero_rows 1;   # Skriver ej ut nollor i rader
 
-option display_1col 10000; # Skriver ut bara en kolumn (mer lättläst)
+option display_1col 10000; # Skriver ut bara en kolumn (mer lï¿½tlï¿½t)
 
-option cplex_options "timing 1 mipdisplay 2 time=3"; #Tidtagning och utskrifter, lägg till time limit
+option cplex_options "timing 1 mipdisplay 2 time=3"; #Tidtagning och utskrifter, lï¿½g till time limit
 
 option display_precision 5;
 
@@ -38,9 +38,9 @@ option randseed 19;
 
 
 
-model src/main/ampl/LNSmodel.mod;   # Läser in namnet på modellfilen. 
+model src/main/ampl/LNSmodel.mod;   # Lï¿½er in namnet pï¿½modellfilen. 
 
-data src/test/testdata/D5_9_2015-11-16T15-02-30/AMPL.dat;    # Läser in namnet på datafilen. 
+data src/test/testdata/A15_9_2015-11-16T15-02-48/AMPL.dat;    # Lï¿½er in namnet pï¿½datafilen. 
 
 
 
@@ -856,7 +856,7 @@ repeat
 
 		#display _varname, _var;
 
-		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
+		#Skriver ut hela problem pï¿½fil, ej nï¿½vï¿½digt men bra fï¿½ kontroll.
 
 		#display best_solution, number_of_iterations > src/main/ampl/LNSModel.res;
 

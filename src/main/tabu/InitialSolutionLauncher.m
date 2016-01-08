@@ -1,5 +1,5 @@
 function [status,data] = InitialSolutionLauncher(model,data,logfile)
-% This launcher initiates a given starting solution from a function call
+%% This launcher initiates a given starting solution from a function call
 %
 % Created by: Victor Bergelin and Emelie Karlsson
 %

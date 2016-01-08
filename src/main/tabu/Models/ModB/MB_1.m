@@ -1,7 +1,12 @@
 classdef MB_1 < handle
-    % MB_1 Diversification phase: only long steps
-    %
-    %
+    % Model MB
+    % MB_1: Long steps with parameters specified for B data
+    
+    % Created by: Victor Bergelin and Emelie Karlsson
+    % Date created: 15/12/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -12,7 +17,6 @@ classdef MB_1 < handle
         NrTasks
         Solution = 1;
         CostList
-        IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
@@ -155,7 +159,7 @@ classdef MB_1 < handle
                             data.tasks(:,6) = actionSolution;
                             
                             if lowestCost < obj.LowestCost(2)
-                                obj.LowestCost = [obj.IterationId,lowestCost];
+                                obj.LowestCost = [iterationId,lowestCost];
                             end
                             
                             % Log results
@@ -167,7 +171,7 @@ classdef MB_1 < handle
                                 num2str(lowestBound),',', ...
                                 num2str(lowestOver), ...
                                 '\n']);
-                            obj.IterationId = obj.IterationId + 1;
+                            % obj.IterationId = obj.IterationId + 1;
                             
                             break;
                         end
@@ -196,7 +200,7 @@ classdef MB_1 < handle
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
-                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
+                    disp(['Switched from ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             

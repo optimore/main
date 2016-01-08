@@ -12,13 +12,15 @@ function status = tabumain(dataParameters, tabuParameters, logfileParameters, re
 % 0.03: OOD on instances to better handle multiple models and methods
 % 1.0: Stable and clean
 %
-% Linköping University, Link?ping
+% Linköping University, Linköping
 
 status = 0;
 
 % Tabu run setup
 nrIterations = 2000;
 sleeptime = 0.01;
+
+% Enable and disable dynamic ploting
 PLOTON = 1;
 PLOTSOL = 1;
 FINALPLOTON = 0;
@@ -49,6 +51,7 @@ try
 	if PLOTON
         titlepathvector = strsplit(dataParameters.path,'/');
 		titlename = titlepathvector(4);
+        titlename = strrep(titlename, '_', '\_');
         titlestr = {char(titlename), ...
                     num2str(tabuParameters.nrTasks), ...
                     num2str(tabuParameters.nrTimels), ...
@@ -70,7 +73,7 @@ try
             data = model.instance{model.activePhaseIterator}. ...
                 instance.GetAndPerformAction(data, model.iterations);
 
-            % Save costs
+            % 6.2 Save costs
             if model.iterations == 1
                 cost = model.instance{model.activePhaseIterator}. ...
                     instance.GetCost(data);

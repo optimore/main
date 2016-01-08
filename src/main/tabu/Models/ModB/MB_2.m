@@ -1,6 +1,12 @@
 classdef MB_2 < handle
-    % MB_2 Intensification phase: both long and short steps possible
-    %
+    % Model MB
+    % MB_2: Long steps with parameters specified for B data
+    
+    % Created by: Victor Bergelin and Emelie Karlsson
+    % Date created: 15/12/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping
     
     
     properties(GetAccess = 'public', SetAccess = 'private')
@@ -13,7 +19,6 @@ classdef MB_2 < handle
         Solution = 1;
         CostList
         ActionList
-        IterationId=1;
         LowestCost = [0, inf];
         MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
@@ -159,7 +164,7 @@ classdef MB_2 < handle
                         data.tasks(:,6) = actionSolution;
                         
                         if lowestCost < obj.LowestCost(2)
-                            obj.LowestCost = [obj.IterationId,lowestCost];
+                            obj.LowestCost = [iterationId,lowestCost];
                         end
                         
 
@@ -172,7 +177,7 @@ classdef MB_2 < handle
                             num2str(lowestBound),',', ...
                             num2str(lowestOver), ...
                             '\n']);
-                        obj.IterationId = obj.IterationId + 1;
+                       %  obj.IterationId = obj.IterationId + 1;
                         
                         break;
                     end
@@ -204,7 +209,7 @@ classdef MB_2 < handle
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
                 % *** Print
-                disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
+                disp(['Switched from  ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
             end
         end
         

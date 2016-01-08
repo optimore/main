@@ -201,7 +201,7 @@ classdef BASIC_1 < handle
                     model.instance{model.activePhaseIterator}. ...
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
-                    disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
+                    disp(['Switched from ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             

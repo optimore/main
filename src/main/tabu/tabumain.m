@@ -20,7 +20,7 @@ status = 0;
 nrIterations = 2000;
 sleeptime = 0.01;
 
-% Disable dynamic ploting
+% Enable and disable dynamic ploting
 PLOTON = 1;
 PLOTSOL = 1;
 FINALPLOTON = 0;
@@ -49,7 +49,7 @@ try
 
 	% 5. Initial figure
 	if PLOTON
-        titlepathvector = strsplit(dataParameters.path,'/')
+        titlepathvector = strsplit(dataParameters.path,'/');
 		titlename = titlepathvector(4);
         titlename = strrep(titlename, '_', '\_');
         titlestr = {char(titlename), ...
@@ -73,7 +73,7 @@ try
             data = model.instance{model.activePhaseIterator}. ...
                 instance.GetAndPerformAction(data, model.iterations);
 
-            % Save costs
+            % 6.2 Save costs
             if model.iterations == 1
                 cost = model.instance{model.activePhaseIterator}. ...
                     instance.GetCost(data);
@@ -82,7 +82,7 @@ try
                     instance.GetCost(data)];
             end
 
-            % 6.2 Display updated solution
+            % 6.3 Display updated solution
             if PLOTON
                 if PLOTSOL || model.iterations == 1
                     DisplayCurrentSolution(data,top,figdata);
@@ -98,18 +98,15 @@ try
 
             end
 
-            % 6.3 Evaluate current phase and phase change:
+            % 6.4 Evaluate current phase and phase change:
             model = model.instance{model.activePhaseIterator}. ...
                 instance.GetStoppingCriteria(model);
 
-            % 6.4 Evaluate if condation are met:
+            % 6.5 Evaluate if condation are met:
             model = model.instance{model.activePhaseIterator}.instance.AreConditionsMet(model);
 
             if model.iterations > nrIterations
                 model.conditionsAreNotMet=0;
-            end
-
-            if model.conditionsAreNotMet == 0
             end
 
 
@@ -120,7 +117,7 @@ try
         model.iterations = model.iterations + 1;
     end
     
-    % Final plot
+    % 7. Final plot
     if FINALPLOTON
         figdata.iteration = model.iterations;
         figdata.phase = [num2str(model.activePhaseIterator),' (', ...

@@ -200,7 +200,7 @@ classdef C2_2 < handle
                     instance.SetTabulistCost(obj.TabuList, ...
                     obj.LowestCost);
                 % *** Print
-                disp(['Change to ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
+                disp(['Switched from ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
             end
         end
         

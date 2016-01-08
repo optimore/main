@@ -1,6 +1,8 @@
-% MAIN launcher script, simulating GUI code
+% TEST LAUNCHER - non-graphical
+% Created by Victor Bergelin
 % 1.0: Stable for running tabu searches on a variety of data and models
-%
+% Currently working only for Tabu
+
 % Linköping University, Linköping
 
 
@@ -11,16 +13,16 @@
 M_Base = [1,2];
 %-------------------------------------------------------------------------
 % ModA:
-M_A = [3,4];
+MA = [3,4];
 %-------------------------------------------------------------------------
 % ModB:
-M_B = [5,6];
+MB = [5,6];
 %-------------------------------------------------------------------------
 % ModC:
-M_C = [7,8];
+MC = [7,8];
 %-------------------------------------------------------------------------
 % ModD:
-M_D = [9,10,11];
+MD = [9,10,11];
 
 %-------------------- M1 models: Neighbourhood & phases ------------------
 
@@ -66,7 +68,7 @@ M5_3 = [505,506];
 
 % 2. Create models when user selects them:
 modelParameters = struct( ...
-    'tabu', struct('active',1,'initial',1,'phases',M2_1), ...
+    'tabu', struct('active',1,'initial',1,'phases',MC), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
     'LNSlist' , struct('active',0,'initial',1,'phases',[1]), ...
     'MathModel', struct('active',0,'initial',1,'phases',[1]));

@@ -1,4 +1,12 @@
 classdef MD_3 < handle
+    % Model MD
+    % MD_3: Short steps with parameters specified for D data
+    
+    % Created by: Victor Bergelin and Emelie Karlsson
+    % Date created: 15/12/2015
+    % Version number 1.0
+    
+    % Linköping University, Linköping 
     
     properties(GetAccess = 'public', SetAccess = 'private')
         
@@ -193,7 +201,7 @@ classdef MD_3 < handle
                         instance.SetTabulistCost(obj.TabuList, ...
                         obj.LowestCost);
                     % *** Print
-                    disp([num2str(model.iterations), num2str(obj.Name)])
+                    disp(['Switched from ',num2str(obj.Name), ' at iteration ',num2str(model.iterations)])
                 end
             end
             
