@@ -21,8 +21,8 @@ nrIterations = 2000;
 sleeptime = 0.01;
 
 % Enable and disable dynamic ploting
-PLOTON = 1;
-PLOTSOL = 1;
+PLOTON = 0;
+PLOTSOL = 0;
 FINALPLOTON = 0;
 
 % Add timing:
