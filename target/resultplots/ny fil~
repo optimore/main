@@ -1,9 +1,0 @@
-Model, instances, data, iterations, done?
-
-A3 = [101,102], F25, 257it, OK
-Changed to shorter forced V2 -> V2 and more and longer task actions for V2.
-A3 = [101,102], F25, 182it, OK x 2
-Longer V2 change criteria nrTask/2
-A3 = [101,102], F25, 162it, OK x 2
-
-A3 = [101,102], F35, 162it, OK x 2
