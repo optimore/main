@@ -15,11 +15,8 @@ classdef C4_20 < handle
         Logfile
         Resultfile
         NrTasks
-        Solution = 1;
         CostList
-        ActionList
         LowestCost = [0, inf];
-        MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
         CostWeight = [5 1 1];

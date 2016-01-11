@@ -1,9 +1,30 @@
 function varargout = test_launcher(varargin)
-% This code handles every button, checkbox and listbox in the GUI. The
-% only files the user needs is test_launcher.m, test_launcher.fig and
-% t_dist_values_095.dat.
+% TEST_LAUNCHER MATLAB code for test_launcher.fig
+%      TEST_LAUNCHER, by itself, creates a new TEST_LAUNCHER or raises the existing
+%      singleton*.
 %
-% Made by: Hendric Kjellström
+%      H = TEST_LAUNCHER returns the handle to a new TEST_LAUNCHER or the handle to
+%      the existing singleton*.
+%
+%      TEST_LAUNCHER('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in TEST_LAUNCHER.M with the given input arguments.
+%
+%      TEST_LAUNCHER('Property','Value',...) creates a new TEST_LAUNCHER or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before test_launcher_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to test_launcher_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help test_launcher
+
+% Last Modified by GUIDE v2.5 03-Dec-2015 10:02:43
+
+% Begin initialization code - DO NOT EDIT
 
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
@@ -21,26 +42,56 @@ if nargout
 else
     gui_mainfcn(gui_State, varargin{:});
 end
+% End initialization code - DO NOT EDIT
+
 
 % --- Executes just before test_launcher is made visible.
 function test_launcher_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to test_launcher (see VARARGIN)
 
+% Choose default command line output for test_launcher
 handles.output = hObject;
 
+% Update handles structure
 guidata(hObject, handles);
+
+% UIWAIT makes test_launcher wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
 
 % --- Outputs from this function are returned to the command line.
 function varargout = test_launcher_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
+% Get default command line output from handles structure
 varargout{1} = handles.output;
 
 
 % --- Executes on selection change in listbox1.
 function listbox1_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listbox1 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox1
+
 
 % --- Executes during object creation, after setting all properties.
 function listbox1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
 
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -48,6 +99,9 @@ end
 
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
 % When pushed, selected sets and phase are used as inputs for
 % mainlauncher. This button starts the selected solver.
@@ -65,7 +119,7 @@ for i = 1:length(A)
 
 end
 
-% Create models when user selects them:
+% 2. Create models when user selects them:
 modelParameters = struct( ...
     'tabu', struct('active',0,'initial',1,'phases',[1]), ...
     'LNS' , struct('active',0,'initial',1,'phases',[1]), ...
@@ -125,6 +179,11 @@ end
 
 % --- Executes on button press in checkbox1.
 function checkbox1_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox1
 
 % Checks which heuristic to use along with checkbox2, checkbox3 and checkbox14.
 
@@ -135,6 +194,11 @@ end
 
 % --- Executes on button press in checkbox2.
 function checkbox2_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox2
 
 global cb_checkbox_run
 if get(handles.checkbox2,'Value')==1
@@ -143,6 +207,11 @@ end
 
 % --- Executes on button press in checkbox3.
 function checkbox3_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox3
 
 global cb_checkbox_run
 if get(handles.checkbox3,'Value')==1
@@ -150,10 +219,22 @@ if get(handles.checkbox3,'Value')==1
 end
 
 function edit1_Callback(hObject, eventdata, handles)
+% hObject    handle to edit1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit1 as text
+%        str2double(get(hObject,'String')) returns contents of edit1 as a double
+
 
 % --- Executes during object creation, after setting all properties.
 function edit1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
 
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -161,14 +242,26 @@ end
 
 % --- Executes on selection change in listbox2.
 function listbox2_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listbox2 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox2
 
 global index_listbox2
+
 
 index_listbox2 = get(handles.listbox2,'Value');
 
 % --- Executes during object creation, after setting all properties.
 function listbox2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
 
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -190,15 +283,27 @@ set(hObject,'String',test_data_value);
 
 % --- Executes on selection change in listbox3.
 function listbox3_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listbox3 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox3
 
 global index_listbox3
+
 
 index_listbox3 = get(handles.listbox3,'Value');
 
 
 % --- Executes during object creation, after setting all properties.
 function listbox3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
 
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -248,6 +353,9 @@ set(hObject,'String',new_past_value);
 
 % --- Executes on button press in pushbutton3.
 function pushbutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
 % When the user selects a result, this part loads the data 
 % and plots objective function / time.
@@ -351,10 +459,22 @@ end
  
  % --- Executes on selection change in listbox4.
  function listbox4_Callback(hObject, eventdata, handles)
+     % hObject    handle to listbox4 (see GCBO)
+     % eventdata  reserved - to be defined in a future version of MATLAB
+     % handles    structure with handles and user data (see GUIDATA)
+     
+     % Hints: contents = cellstr(get(hObject,'String')) returns listbox4 contents as cell array
+     %        contents{get(hObject,'Value')} returns selected item from listbox4
+     
      
      % --- Executes during object creation, after setting all properties.
      function listbox4_CreateFcn(hObject, eventdata, handles)
-     
+         % hObject    handle to listbox4 (see GCBO)
+         % eventdata  reserved - to be defined in a future version of MATLAB
+         % handles    empty - handles not created until after all CreateFcns called
+         
+         % Hint: listbox controls usually have a white background on Windows.
+         %       See ISPC and COMPUTER.
          if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -362,6 +482,9 @@ end
 
 % --- Executes on button press in pushbutton4.
 function pushbutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
 % The user can refresh the result-listbox if new results are 
 % present. 
@@ -416,6 +539,9 @@ set(handles.listbox3,'String',new_past_value);
 
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
 % Checks which checkbox that's been pushed and then presents
 % either statistical data or plain data. Each time the Show-
@@ -630,6 +756,9 @@ set(handles.uitable1,'data',oldData,'ColumnName',cnames);
 
 % --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
 % Plots the results chosen by the user (objective function /
 % iteration).
@@ -732,6 +861,11 @@ end
     
 % --- Executes on button press in checkbox10.
 function checkbox10_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox10
 
 % Checks along with checkbox11 if the user wants to solve with
 % all sets or some specific sets.
@@ -743,7 +877,11 @@ end
 
 % --- Executes on button press in checkbox11.
 function checkbox11_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
+% Hint: get(hObject,'Value') returns toggle state of checkbox11
 global run_cb_files
 if get(handles.checkbox11,'Value')==1
      run_cb_files=2; 
@@ -752,10 +890,14 @@ end
 
 % --- Executes on button press in checkbox12.
 function checkbox12_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
 % Checks along with checkbox13 if the user wants to present
 % statistical results on the table or plain results.
 
+% Hint: get(hObject,'Value') returns toggle state of checkbox12
 global checkbox_result_table
 if get(handles.checkbox12,'Value')==1
      checkbox_result_table=1; 
@@ -763,7 +905,11 @@ end
 
 % --- Executes on button press in checkbox13.
 function checkbox13_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
+% Hint: get(hObject,'Value') returns toggle state of checkbox13
 global checkbox_result_table
 if get(handles.checkbox13,'Value')==1
      checkbox_result_table=2; 
@@ -772,7 +918,11 @@ end
 
 % --- Executes on button press in checkbox14.
 function checkbox14_Callback(hObject, eventdata, handles)
-    
+% hObject    handle to checkbox14 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox14
 global cb_checkbox_run
 
 if get(handles.checkbox14,'Value')==1

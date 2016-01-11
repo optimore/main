@@ -15,10 +15,8 @@ classdef MC_1 < handle
         Logfile
         Resultfile
         NrTasks
-        Solution = 1;
         CostList
         LowestCost = [0, inf];
-        MaxPhaseIterations
         NrOfBadIterationsBeforExit=5;
         % dep overlap bounds
         CostWeight = [5 1 1];
@@ -57,7 +55,7 @@ classdef MC_1 < handle
             % Iterate over and save posible solutions:
             try
                 % Dynamic weights calculated
-                % *** 50 can be changed
+                % *** 25 can be changed
                 if mod(iterationId,25) == 0
                     obj.SetWeights(data);
                 end

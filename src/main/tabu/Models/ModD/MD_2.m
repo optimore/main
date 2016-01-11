@@ -16,10 +16,8 @@ classdef MD_2 < handle
         Logfile
         Resultfile
         NrTasks
-        Solution = 1
         CostList
         LowestCost = [0, inf]
-        MaxPhaseIterations
         NrOfBadIterationsBeforExit=5
         % dep overlap bounds
         CostWeight = [5 1 1]
