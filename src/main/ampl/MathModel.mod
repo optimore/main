@@ -1,9 +1,13 @@
+## MathModel.mod file
+# Model file for aviation problem, most simple mathematical model
+# Created by: Claes Arvidson and Akdas Hossain
+
+
 set G ordered;			#Set of modules (timelines)
 set I ordered;			#Set of tasks
 set I_g{G} ordered;		#Set of tasks on module g
-#set J_ig{I cross G};	#Set of tasks that can be placed after task i on module g
 set D;			#Set of index for dependencies
-#set I_d{D};		#Set of dependencies e.g. {{1,4},{3,5},...}
+
 
 set S ordered by Reals;
 set A1 ordered;

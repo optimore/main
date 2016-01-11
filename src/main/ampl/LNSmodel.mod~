@@ -3,6 +3,7 @@
 # Created by: Claes Arvidson and Akdas Hossain
 
 
+
 set G ordered;			#Set of modules (timelines)
 set I ordered;			#Set of tasks
 set I_g{G} ordered;		#Set of tasks on module g
