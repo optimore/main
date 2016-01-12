@@ -1,10 +1,11 @@
+% Created by: Isak Bohman, 2015
 function [DependencyMatrix, DependencyAttribute] = Dependencygenerator(TimelineSolution,Generatedependencymatrix,Generatedependencyattributes, ...
-    Ndependencies, variance, mu, L, N, T, rectify, distrib6, std6, mu4, std2, distrib2, mu2,constrain)
+    Ndependencies, variance, mu, L, N, T, rectify, distrib6, std6, mu4, std2, distrib2, mu2,constrain, chains)
 
-%UNTITLED8 Summary of this function goes here
-%   Detailed explanation goes here
+% Calls for the creation of a dependency matrix and a dependency attributes
+% matrix.
 
-DependencyMatrix=Generatedependencymatrix(TimelineSolution, Ndependencies, variance, mu, rectify,constrain);
+DependencyMatrix=Generatedependencymatrix(TimelineSolution, Ndependencies, variance, mu, rectify,constrain,L, chains);
 
 
 % if 

@@ -1,3 +1,4 @@
+% Created by: Isak Bohman, 2015
 function [ TimelineAttribute ] = Attributegenerator_uniform(TimelineSolution,L,variance,mu)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
