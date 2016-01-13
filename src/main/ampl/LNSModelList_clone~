@@ -441,18 +441,22 @@ repeat
 	let current_solution := total_violation;
     	display current_solution, number_of_iterations,  time_elapsed , iteration_time > LNSModelList.res;
 
-    ### Incase solver gets stuck, setting different weights
 	if current_solution = previous_solution then
-	{   
+	{
 		if times_at_optima < 3 then
 		{
 			let destroy_degree := min_destroy + times_at_optima*(max_destroy-min_destroy)/2;
 			let times_at_optima := times_at_optima + 1;
+			printf "Hej Akdas %d \n \n", times_at_optima;
 
 
 		}
 		else
 		{
+			printf "Inside the else \n\n";
+			# Okey way to calculate the C-parameters?
+
+			#display C1, C2, C3, C4, C5 > LNSModel.res;
 
 			if C1 = sum_a1/total_violation*100 && C2 = sum_a2/total_violation*100 && C3 = sum_a3/total_violation*100 && C4 = sum_a4/total_violation*100 && C5 = sum_a5/total_violation*100 then
 			{
@@ -475,6 +479,7 @@ repeat
 			let times_at_optima := 0;
 			
 			}
+			#display C1, C2, C3, C4, C5 > LNSModel.res;
 
 
 		}
@@ -493,10 +498,14 @@ repeat
 	}
 	
 
-	#Recalculate the weight parameters when suited, else if all are 0 then we have found the solution and will stop iterating. Also an accept function.
+	#Recalculate the weight parameters when suited, else if all are 0 then we have found the solution and will stop iterating.
 	if total_violation = 0 then
 	{
 		printf "Time elapsed is: ";
+		### display the variables ###
+		#display _varname, _var;
+		#Skriver ut hela problem på fil, ej nödvändigt men bra för kontroll.
+        #display current_solution, number_of_iterations,  time_elapsed , iteration_time > LNSModelList.res;
 		printf "In else before exit! \n\n\n\n\n";
 		printf "Number of iterations: ";
 		print number_of_iterations;
@@ -506,10 +515,20 @@ repeat
 
 	let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 	let time_elapsed := _ampl_time + _total_solve_elapsed_time;
+	printf "We are at the end of the while!!!!! \n\n\n\n\n\n";
 	display total_cost;
 	display total_violation, C1, C2, C3, C4, C5;
 	}
-	until total_violation = 0 || time_elapsed >= 2000; #Timelimit set at 2000
+	until total_violation = 0 || time_elapsed >= 1700;
+
+#display current_solution, number_of_iterations,  time_elapsed , iteration_time > LNSModelList.res;
+
+#display best_solution, number_of_iterations,  time_elapsed , iteration_time;
+#display y;
+
+# Only gets here if total_violation != 0 and time_elapsed >= t.
+#printf "We have looped for %d seconds and done %d number of iterations without having found any solution... \n \n", time_elapsed, number_of_iterations;
+#printf "Best solution found was: %d \n \n", best_solution;
 
 exit;
 

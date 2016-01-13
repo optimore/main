@@ -16,8 +16,8 @@ option cplex_options "timing 1 mipdisplay 2 time=3"; # To record time
 option display_precision 5;
 option randseed 19;
 
-model ***MODFILE***;   #Read in the model file
-data ***DATAFILE***;   #Read in the data file 
+model src/main/ampl/LNSmodel.mod;   # Läser in namnet på modellfilen.
+data src/test/testdata/A0_7_2015-11-16T15-02-24/AMPL.dat;    # Läser in namnet på datafilen. 
 
 #Define a complete problem using names of conditions and objective functions found in the model file
 problem y_search: fake_cost, a1f, a2f, a3f, a4f, a5f, x_sf, x_ef, yf, y_sf, y_ef, uf, first_taskf, last_taskf, check_if_endtaskf, check_if_starttaskf, start_constraintf, task_lengthf, task_distancef, identical_indexf, interval_constraint1f, interval_constraint2f, dependency_constraint1f, dependency_constraint2f;
@@ -160,8 +160,8 @@ display sum_a3;
 display sum_a4;
 display sum_a5;
 
-let total_violation := sum_a1 + sum_a2 + sum_a3 + sum_a4 + sum_a5; 
 
+let total_violation := sum_a1 + sum_a2 + sum_a3 + sum_a4 + sum_a5;
 
 #Display and save some results, same lines will be used later
 let best_solution := total_violation;
@@ -171,7 +171,7 @@ let current_solution := best_solution;
 let time_elapsed := _ampl_time + _total_solve_elapsed_time;
 let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 let times_at_optima := 0;
-display current_solution, number_of_iterations,  time_elapsed , iteration_time > ***RESFILE***;
+display current_solution, number_of_iterations,  time_elapsed , iteration_time > src/main/ampl/LNSModel.res;
 ###############
 
 # Generate the degree of destruction from the interval [min_destroy, max_destroy] e.g. [0.1,0.3]. Note: read ropke
@@ -302,9 +302,11 @@ repeat
 
 
 	let current_solution := total_violation;
-   	display current_solution, number_of_iterations,  time_elapsed , iteration_time > ***RESFILE***;
+	display current_solution, number_of_iterations,  _solve_elapsed_time , iteration_time > src/main/ampl/LNSModel.res;
 
-    ### Incase solver gets stuck, setting different weights
+
+
+  ### Incase solver gets stuck, setting different weights
 	if current_solution = previous_solution then
 	{   
 		if times_at_optima < 3 then
@@ -343,18 +345,19 @@ repeat
 		}
 	}
 	else
+
 	{
+
 		#Calculate new destroy_degree for next iteration
 		let destroy_degree := round(Uniform(min_destroy,max_destroy),2); #rounds the uniform value to 1 digit past the decimal point.
+
 	}		
 
-	
 	# Check if the current solution is the best solution found
 	if current_solution < best_solution then
 	{
 		let best_solution := current_solution;
 	}
-	
 
 	#Recalculate the weight parameters when suited, else if all are 0 then we have found the solution and will stop iterating.
 

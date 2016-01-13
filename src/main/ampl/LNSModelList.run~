@@ -1,32 +1,32 @@
-## LNSmodelList_clone.run file
+## LNSModelList.run file
 # Run file for LNS heuristic using so called 'active destroy'.
 # Created by: Claes Arvidson and Akdas Hossain
 
 #-----------------------------------
-# Command file: LNSmodelList_clone.run
+# Command file: LNSmodelList.run
 #-----------------------------------
 
-reset;                  # Nollställer
-option solver cplexamp;    # Val av lösare.
+reset;                     
+option solver cplexamp;    # Choice of CPLEX
 #option presolve 0;
-option omit_zero_cols 1;   # Skriver ej ut nollor i kolumner
-option omit_zero_rows 1;   # Skriver ej ut nollor i rader
-option display_1col 10000; # Skriver ut bara en kolumn (mer lättläst)
-option cplex_options "timing 1 mipdisplay 2 time=3"; #Tidtagning och utskrifter, lägg till time limit
+option omit_zero_cols 1;   # Formatting options
+option omit_zero_rows 1;   
+option display_1col 10000; 
+option cplex_options "timing 1 mipdisplay 2 time=3"; # To record time
 option display_precision 5;
 option randseed 19;
 
-model LNSmodel.mod;   # Läser in namnet på modellfilen. 
-data Data/91tasks.dat;    # Läser in namnet på datafilen. 
+model ***MODFILE***;   # Read in the model file 
+data ***DATAFILE***;   # Read in the data file 
 
-#Define a complete problem using names of conditions and objective functions found in the model file, solving this problem finds the first solution
+#Define a complete problem using names of conditions and objective functions found in the model file
 problem y_search: fake_cost, a1f, a2f, a3f, a4f, a5f, x_sf, x_ef, yf, y_sf, y_ef, uf, first_taskf, last_taskf, check_if_endtaskf, check_if_starttaskf, start_constraintf, task_lengthf, task_distancef, identical_indexf, interval_constraint1f, interval_constraint2f, dependency_constraint1f, dependency_constraint2f, unique_start_endf;
 
 solve y_search;
 
 let number_of_iterations := 0;
 let elements_in_list := 0; #Used for our unique random destroyer
-let n := 1;
+let n := 1; #counter
 let randj := 0;
 
 
@@ -54,6 +54,7 @@ for {k in G, i in I_g[k], j in I_g[k]}
 		let count := count + 1;
 	}
 }
+
 
 #Parameters used for randomizing y-variables to unfix
 let timelines := 0;
@@ -102,8 +103,16 @@ for {d in D}
 
 let a_violations := a1_violations + a2_violations + a3_violations + a4_violations + a5_violations;
 
-#Define the real problem
+
 problem LNS_search: total_cost, y, y_s, y_e, x_s, x_e, u, a1, a2, a3, a4, a5, first_task, last_task, check_if_endtask, check_if_starttask, start_constraint, task_distance, task_length, interval_constraint1, interval_constraint2, dependency_constraint1, dependency_constraint2, identical_index, unique_start_end;
+
+for {k in G, i in I_g[k], j in I_g[k]}
+{
+	fix y[k,i,j] := yf[k,i,j];
+
+}
+
+solve LNS_search;
 
 for {k in G, i in I_g[k], j in I_g[k]}
 {
@@ -152,7 +161,7 @@ display sum_a3;
 display sum_a4;
 display sum_a5;
 
-let total_violation := sum_a1 + sum_a2 + sum_a3 + sum_a4 + sum_a5;
+let total_violation := sum_a1 + sum_a2 + sum_a3 + sum_a4 + sum_a5; 
 
 #Display and save some results, same lines will be used later
 let best_solution := total_violation;
@@ -161,7 +170,7 @@ let current_solution := best_solution;
 let time_elapsed := _ampl_time + _total_solve_elapsed_time;
 let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 let times_at_optima := 0;
-display current_solution, number_of_iterations,  time_elapsed , iteration_time > LNSModelList.res;
+display current_solution, number_of_iterations,  time_elapsed , iteration_time > ***RESFILE***;
 ###############
 
 repeat
@@ -332,7 +341,6 @@ repeat
 		}
 		#display n, y_s, y_e;
 
-
 		for {i in S3}
 		{	
 
@@ -439,7 +447,7 @@ repeat
 
 
 	let current_solution := total_violation;
-    	display current_solution, number_of_iterations,  time_elapsed , iteration_time > LNSModelList.res;
+	display current_solution, number_of_iterations,  time_elapsed , iteration_time > ***RESFILE***;
 
     ### Incase solver gets stuck, setting different weights
 	if current_solution = previous_solution then
