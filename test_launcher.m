@@ -49,14 +49,13 @@ end
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
 
-% When pushed, selected sets and phase are used as inputs for
-% mainlauncher. This button starts the selected solver.
+% Important global values.
 global run_cb_files
 global index_listbox2
 
 dataParameters = struct('name',{},'path',{});
 
-
+% Retrieve name from data-sets.
 A=dir('src/test/testdata/*_*');
 value = [];
 for i = 1:length(A)
@@ -77,6 +76,7 @@ input = str2num(input);
 
 global cb_checkbox_run
 
+% Runs solver with all data-sets.
 if (get(handles.pushbutton1,'Value'))==1
 if run_cb_files==2
     for i = 1:length(value)
@@ -85,7 +85,8 @@ if run_cb_files==2
         dataObj.path;
         dataParameters{i} = dataObj;
     end
-    
+
+% Checks global variable index_listbox2 which data-sets to use.
 elseif run_cb_files==1
     for k = 1:length(index_listbox2)
     dataObj.name = value(index_listbox2(k));
@@ -94,26 +95,26 @@ elseif run_cb_files==1
     dataParameters{k} = dataObj;
     end
 end
-
+     % Setup for Tabu search.
      if cb_checkbox_run==1
           modelParameters.tabu = setfield(modelParameters.tabu,'active',1);
           modelParameters.tabu = setfield(modelParameters.tabu,'phases',input);
          
           status = mainlauncher(dataParameters, modelParameters);
          
-     
+     % Setup for LNS.
      elseif cb_checkbox_run==2
          modelParameters.LNS = setfield(modelParameters.LNS,'active',1);
          status = mainlauncher(dataParameters, modelParameters);
          
          
-
+     % Setup for the mathematical model.
      elseif cb_checkbox_run==3
             modelParameters.MathModel = setfield(modelParameters.MathModel,'active',1);
             status = mainlauncher(dataParameters, modelParameters);
             
             
-            
+     % Setup for LNS-list.
      elseif cb_checkbox_run==4
          
          modelParameters.LNSlist = setfield(modelParameters.LNSlist,'active',1);
@@ -162,6 +163,7 @@ end
 % --- Executes on selection change in listbox2.
 function listbox2_Callback(hObject, eventdata, handles)
 
+% Gathers the selected data-sets if run_cb_files == 1.
 global index_listbox2
 
 index_listbox2 = get(handles.listbox2,'Value');
@@ -173,10 +175,9 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-% Fills listbox2 with all the data-sets.
-
 global test_data_value
 
+% Retrieve name of data-sets.
 A=dir('src/test/testdata/*_*');
 test_data_value = [];
 for i = 1:length(A)
@@ -185,6 +186,7 @@ for i = 1:length(A)
 
 end
 
+% Fills listbox2 with all the data-sets.
 set(hObject,'String',test_data_value);
 
 
@@ -193,6 +195,8 @@ function listbox3_Callback(hObject, eventdata, handles)
 
 global index_listbox3
 
+% index_listbox3 is set to the value in the result-listbox in order to
+% plot.
 index_listbox3 = get(handles.listbox3,'Value');
 
 
@@ -203,25 +207,31 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-% Fills the listbox3 with results from previous run.
 
 B = dir('target/results/results_201*');
 value = [];
 
-for i = 1:length(B)
+% This loop might be obsolete.
 
-    value = [value; cellstr(getfield(B,{i},'name'))];
+% for i = 1:length(B)
+% 
+%     value = [value; cellstr(getfield(B,{i},'name'))];
+% 
+% end
 
-end
-
+% Pick out the name and skip all other information.
 p = B(end);
 l = p.name;
+
+% Puts together the latest path to the results.
 temp_1=strcat('target/results/',l);
 temp_2=strcat(temp_1,'/*_*');
 
 new_path = dir(temp_2);
 
 past_value=[];
+
+% Creates a cell array of names from the result.
 for i = 1:length(new_path)
 
     past_value = [past_value; cellstr(getfield(new_path,{i},'name'))];
@@ -229,6 +239,8 @@ for i = 1:length(new_path)
 end
 
 new_past_value=[];
+
+% Makes sure that correct results gets in to the listbox.
 for i=1:length(past_value)
     
     b = past_value(i);
@@ -241,6 +253,7 @@ for i=1:length(past_value)
     end
 end
 
+% Fills the listbox3 with results from previous run.
 set(hObject,'String',new_past_value);
 
 
@@ -263,6 +276,8 @@ global load_data
 global cb_checkbox_run
 
 new_past_value=[];
+
+% Same loop as in listbox3.
 for i=1:length(new_value)
     
     b = new_value(i);
@@ -275,6 +290,7 @@ for i=1:length(new_value)
     end
 end
 
+ % Finds path of the result file to plot.
  if (get(handles.pushbutton3,'Value'))==1
     for k = 1:length(index_listbox3)
     temp_1=strcat('target/results/',l_path_gui);
@@ -283,6 +299,10 @@ end
     load_data = load(temp_path);
     axes(handles.axes3)
     
+    % Loops every row of designated column (obj function, time, iteration,
+    % etc). Uses natural log to plot. Special case if 0.
+    
+    % cb_checkbox_run==1 targets the Tabu search.
     if cb_checkbox_run==1
         
         for p = 1:length(load_data(1:end,2))
@@ -328,6 +348,7 @@ end
         plot(load_data(:,3),ln_data_1(:),'r',load_data(:,3),ln_data_2(:),'m',load_data(:,3),ln_data_3(:),'b',load_data(:,3),ln_data_4(:),'g');
         legend('Total Cost/Time','Dependency Cost/Time','Bounds Cost/Time','Overlap Cost/Time');
 
+    % cb_checkbox_run==2 targets LNS, LNS-list and mathematical model.
     else cb_checkbox_run==2
         
         for p = 1:length(load_data(1:end,2))
@@ -364,7 +385,7 @@ end
 function pushbutton4_Callback(hObject, eventdata, handles)
 
 % The user can refresh the result-listbox if new results are 
-% present. 
+% present. Same procedure as listbox3 but waits for pushbutton.
 
 global new_value
 
@@ -441,6 +462,7 @@ end
 
 new_value_name = new_value;
 
+% Removes unwanted strings.
 for new_val_it = 1:length(new_value)
     new_value_temp_1 = strrep(new_value(new_val_it),'result_',' ');
     
@@ -466,6 +488,7 @@ for i=1:length(new_value)
     end
 end
 
+ % Loads all the result files and targets each columns last row.
 for iter_1 = 1:length(new_past_value)
     
     temp_1=strcat('target/results/',l_path_gui);
@@ -481,6 +504,8 @@ for iter_1 = 1:length(new_past_value)
     max_time(iter_1) = temp_load(end,3);
     
 end
+
+    % checkbox_result_table==2 will display a simple data-table.
     if checkbox_result_table==2
         cnames = {'Solve','Data set','Max Iteration','Max Cost','Max Time'};
         
@@ -490,6 +515,8 @@ end
         
         j=1;
         a=[1];
+        
+        % Counts the amount of same data-sets.
         for i = 1:length(new_past_value)-1
 
             
@@ -508,7 +535,8 @@ end
         end
         
         l=1;
-               
+         
+        % Builds the table with full data-set name, e.g. "A10_4".
         for iter_2 = 1:length(new_past_value)
         
              if s(iter_2,4)=='0'
@@ -525,6 +553,8 @@ end
         
         [m n]=size(oldData);
 b = [];
+
+ % Converts everything to strings to that uitable can use it.
  for i=1:m
     row=oldData(i,1:end);
     
@@ -532,7 +562,7 @@ b = [];
     b =[b a];
  end
 
- 
+ % Creates a file with the data-table "Plain Table".
 %-----------------------------------------------------------
  fileID = fopen('plain_table.dat','w');
  
@@ -542,8 +572,10 @@ b = [];
 %-----------------------------------------------------------
 a=value_2(end);
 
+ % Moves file from current directory to current result path.
 movefile('plain_table.dat',strcat('target/results/',a{1}));
         
+    % check_result_table==1 displays statistical table.
     elseif checkbox_result_table==1
         cnames = {'Solve','Data set','Upper prediction limit','Lower prediction limit','Mean Iteration','Mean Time','Iteration standard deviation','Time standard deviation','Iteration Max','Time max','Iteration min','Time min','Failurekvot'};     
         
@@ -571,6 +603,8 @@ movefile('plain_table.dat',strcat('target/results/',a{1}));
     a;
     
     load_t_values=load('t_dist_values_095.dat');
+    
+ % Computes statistical data for every data-type.
 for i=1:length(a)
     
     meaniteration(i)=mean(max_iter(l:l-1+a(i)));
@@ -593,6 +627,7 @@ for i=1:length(a)
 end
 
 k=1;
+        % Builds the table with full data-set name, e.g. "A10_4".
         for iter_3 = 1:length(a)
             if s(k,4)=='0'
             data_table= [cellstr(s(k,1)),cellstr(s(k,3:1:4)),upper_lim(iter_3),lower_lim(iter_3),meaniteration(iter_3),meantime(iter_3),iterationstandarddeviation(iter_3),timestandarddeviation(iter_3),iterationmax(iter_3),timemax(iter_3),iterationmin(iter_3),timemin(iter_3),failurekvot(iter_3)];
@@ -606,6 +641,8 @@ k=1;
         
         [m n]=size(oldData);
 b = [];
+
+ % Converts everything to strings to that uitable can use it.
  for i=1:m
     row=oldData(i,1:end);
     
@@ -613,7 +650,7 @@ b = [];
     b =[b a];
  end
 
- 
+ % Creates a file with the data-table "Statistics Table".
 %-----------------------------------------------------------
  fileID = fopen('statistics_table.dat','w');
  
@@ -623,6 +660,7 @@ b = [];
 %-----------------------------------------------------------
 a=value_2(end);
 
+ % Moves file from current directory to current result path.
 movefile('statistics_table.dat',strcat('target/results/',a{1}));
     end
 
@@ -643,6 +681,8 @@ global index_listbox3
 global load_data
 
 global cb_checkbox_run
+
+ % Same procedure as in pushbutton3.
 
 new_past_value=[];
 for i=1:length(new_value)
