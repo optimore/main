@@ -349,7 +349,7 @@ repeat
 	}		
 
 	
-	# Check if the current solution is the best solution found
+	# Check if the current solution is the best solution found, accept function
 	if current_solution < best_solution then
 	{
 		let best_solution := current_solution;

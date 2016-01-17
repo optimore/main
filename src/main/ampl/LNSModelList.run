@@ -19,7 +19,7 @@ option randseed 19;
 model ***MODFILE***;   # Read in the model file 
 data ***DATAFILE***;   # Read in the data file 
 
-#Define a complete problem using names of conditions and objective functions found in the model file
+#Define a complete problem using names of conditions and objective functions found in the model file, solving this problem finds the first solution
 problem y_search: fake_cost, a1f, a2f, a3f, a4f, a5f, x_sf, x_ef, yf, y_sf, y_ef, uf, first_taskf, last_taskf, check_if_endtaskf, check_if_starttaskf, start_constraintf, task_lengthf, task_distancef, identical_indexf, interval_constraint1f, interval_constraint2f, dependency_constraint1f, dependency_constraint2f, unique_start_endf;
 
 solve y_search;
@@ -64,7 +64,7 @@ for{k in G}
 	let timelines := card(G);
 }
 
-display x_sf, x_ef;
+#display x_sf, x_ef;
 
 ### Solve first iteration to get start solution ###
 solve y_search;
@@ -100,11 +100,10 @@ for {d in D}
 		let a5_violations := a5_violations + 1;
 	}	
 }
+
 let a_violations := a1_violations + a2_violations + a3_violations + a4_violations + a5_violations;
 
-display a1_violations, a2_violations, a3_violations, a4_violations, a5_violations;
-
-
+#Define the real problem
 problem LNS_search: total_cost, y, y_s, y_e, x_s, x_e, u, a1, a2, a3, a4, a5, first_task, last_task, check_if_endtask, check_if_starttask, start_constraint, task_distance, task_length, interval_constraint1, interval_constraint2, dependency_constraint1, dependency_constraint2, identical_index, unique_start_end;
 
 for {k in G, i in I_g[k], j in I_g[k]}

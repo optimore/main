@@ -1,4 +1,4 @@
-## Mathmodel_clone.run file
+## Mathmodel.run file
 # Run file for solving problem using bare boned CPLEX (No heuristic)
 # Created by: Claes Arvidson and Akdas Hossain
 
@@ -49,5 +49,7 @@ let number_of_iterations := number_of_iterations + 1;
 let iteration_time := _ampl_time + _total_solve_elapsed_time - time_elapsed;
 let time_elapsed := _ampl_time + _total_solve_elapsed_time;
 display total_cost, number_of_iterations, time_elapsed, iteration_time > ***RESFILE***;
+#display _varname, _var > Mathmodel.res;
+expand > Mathmodel.exp;
 
 exit;
