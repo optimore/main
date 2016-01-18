@@ -1,5 +1,5 @@
 % Created by: Isak Bohman, 2015
-function [ TimelineAttribute ] = createtimelineattribute(TimelineSolution,Attributegenerator,L, variance, mu, std3, distrib3, mu11, ...
+function [ TimelineAttribute ] = createtimelineattribute(TimelineSolution, L, std3, distrib3, mu11, ...
         distrib5, std5, mu3)
 % Creates time-line attributes, i.e. the allowed intervals where task may
 % be placed on a time-line.

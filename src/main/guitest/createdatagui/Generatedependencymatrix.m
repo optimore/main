@@ -1,5 +1,5 @@
 % Created by: Isak Bohman, 2015
-function [ DependencyMatrix ] = Generatedependencymatrix(TimelineSolution, Ndependencies, variance, mu, rectify,constrain,L, chains)
+function [ DependencyMatrix ] = Generatedependencymatrix(TimelineSolution, Ndependencies, rectify,constrain,L, chains)
 % A function for generating a dependency matrix. Many different cases, and
 % could probably be reduced a lot in size.
 
@@ -267,14 +267,6 @@ while i <= Ndependencies
                         
                     end
                     
-%                     disp('X')
-%                     constrain
-%                     first_pass
-%                     direction
-%                     timeline_jumps
-%                     cur_task
-%                     disp('Y')
-%                     candidate2
                     
                     % We have expended our chance to jump.
                     if cur_task(2) ~= candidate2(2)
@@ -290,44 +282,13 @@ while i <= Ndependencies
                     
                     %                             to_be_removed = find(ismember(DependencyMatrix(:,1:2),candidate2,'rows'));
                     tasks_left = subtract_element(tasks_left, candidate2(1),candidate2(2));
-%                     to_be_removed = ConvertToLong(candidate2(1),candidate2(2));
-%                     
-%                     if ~isempty(to_be_removed)
-%                         % Can become special cases if either
-%                         % half of the lis is empty.
-%                         % tasks_left is updated.
-%                         candidate2_row_equiv = Tsol(ConvertToLong(candidate2(1),candidate2(2)),:);
-% %                         tasks_left = subtract_row(tasks_left, ConvertToLong(candidate2(1),candidate2(2)));
-%                         tasks_left = subtract_element(tasks_left, candidate2(1),candidate2(2));
-%                     end
-                    %                                 end
-                    
-                    %                             end
-                    %                                 end
-                    
                     % Update j, tasks remaining
                     
                     j=j+1;
                     i=i+1;
-                    %                             if j > chain_length
-                    %                                 chain_bool = 0;
-                    %                             end
-                    
-                    %                         elseif check_iterator >= max_chain_length
-                    %                         elseif j > max_chain_length
                 else
-                    % Terminate chain
-                    %                             bool = 1;
                     chain_bool = 0;
                 end
-                %                     end
-                
-                % Update tasks remaining, cur_task = the task added to the
-                % chain.
-                
-                
-                %                     j=j+1;
-                %                     i=i+1;
                 if j > max_chain_length
                     chain_bool = 0;
                 end
@@ -606,13 +567,6 @@ end
         end
     end
 
-%     function direction = check_direction()
-%
-%
-%     end
-%
-%
-
 % The procedure for removing tasks depends only on if we look at all tasks or if we are only at the current time-line.
 
 % TimelineSolution will look different depending on if we may only be
@@ -668,27 +622,6 @@ end
                         cur_dep_matr_begin_ind = DependencyMatrix(cur_dep_matr_begin,1);
                         cur_dep_matr_end_ind = DependencyMatrix(cur_dep_matr_end,3);
                         
-                        % Remove the current task from there. Not here
-                        % though!
-                        
-%                         cur_dep_matr_begin_ind = setdiff(cur_dep_matr_begin_ind,task_index);
-%                         cur_dep_matr_end_ind = setdiff(cur_dep_matr_end_ind,task_index);
-                        
-                        % For the current task it must be checked if there
-                        % are sufficiently many free other tasks to become
-                        % dependent upon.
-                        
-%                         dep_set = find(DependencyMatrix(:,1:2)==(task_index,task_timeline) || DependencyMatrix(:,3:4)==(task_index,task_timeline));
-                        
-%                         dep_set_begin = find(ismember(DependencyMatrix(:,1:2),[task_index,task_timeline]),1);
-%                         dep_set_begin_ind = DependencyMatrix(dep_set_begin,1);
-                        
-                        % The following is unnecessary when looking
-                        % forward.
-%                         dep_set_end = find(ismember(TimelineSolution{task_timeline}(:,3:4),[task_index,task_timeline]),1);
-                        
-
-                        
                         
                         admissible_set = setdiff(admissible_set,cur_dep_matr_begin_ind);
                         admissible_set = setdiff(admissible_set,cur_dep_matr_end_ind);
@@ -719,39 +652,7 @@ end
                             admissible_set = find(start_times >= task_start+task_length & ...
                                 start_times <= round(ad_count*(L-(task_start+task_length))/max_chain_length));
                             
-                            % Subtract tasks with at least one dependency,
-                            % except for the current one.
                             
-                            %                         cur_dep_matr_begin = find(DependencyMatrix(:,2)==task_timeline);
-                            %                         cur_dep_matr_end = find(DependencyMatrix(:,4)==task_timeline);
-                            %
-                            %                         cur_dep_matr_begin_ind = DependencyMatrix(cur_dep_matr_begin,1);
-                            %                         cur_dep_matr_end_ind = DependencyMatrix(cur_dep_matr_end,3);
-                            
-                            % Remove the current task from there. Not here
-                            % though!
-                            
-                            %                         cur_dep_matr_begin_ind = setdiff(cur_dep_matr_begin_ind,task_index);
-                            %                         cur_dep_matr_end_ind = setdiff(cur_dep_matr_end_ind,task_index);
-                            
-                            % For the current task, it must be checked that
-                            % there are sufficiently many tasks to become
-                            % dependent upon.
-                            
-                            %                         dep_set = find(DependencyMatrix(:,1:2)==(task_index,task_timeline) || DependencyMatrix(:,3:4)==(task_index,task_timeline));
-                            
-%                             dep_set_begin = find(ismember(DependencyMatrix(:,1:2),[task_index,task_timeline]),1);
-%                             dep_set_begin_ind = DependencyMatrix(dep_set_begin,1);
-                            
-                            % Unnecessary when looking forward.
-                            %                         dep_set_end = find(ismember(TimelineSolution{task_timeline}(:,3:4),[task_index,task_timeline]),1);
-                            
-                            
-                            
-                            
-                            %                         admissible_set = setdiff(admissible_set,cur_dep_matr_begin_ind);
-                            %                         admissible_set = setdiff(admissible_set,cur_dep_matr_end_ind);
-%                             admissible_set = setdiff(admissible_set,dep_set_begin_ind);
                             
 
                             admissible_set = setdiff(admissible_set,task_index);
@@ -800,11 +701,6 @@ end
                         % Subtract tasks with at least one dependency,
                         % except for the current one.
                         
-%                         cur_dep_matr_begin = find(DependencyMatrix(:,2)==task_timeline);
-%                         cur_dep_matr_end = find(DependencyMatrix(:,4)==task_timeline);
-%                         
-%                         cur_dep_matr_begin_ind = DependencyMatrix(cur_dep_matr_begin,1:2);
-%                         cur_dep_matr_end_ind = DependencyMatrix(cur_dep_matr_end,3:4);
                         
                         tasks_in_dep = [];
                         non_zero_dep_matrix = DependencyMatrix;
@@ -902,20 +798,7 @@ end
                     
                 end
                 
-                %%%%%%%%%%%
                 
-%                 if size(admissible_set,1) > 0
-%                     for it=1:size(admissible_set,1)
-%                         cand = ConvertLongIndex(admissible_set(i));
-%                         dependencies_beginning_with = find(ismember(DependencyMatrix(:,1:2),cand,'rows'));
-%                         dependencies_ending_with = find(ismember(DependencyMatrix(:,3:4),cand,'rows'));
-%                         if size(dependencies_beginning_with,1)+size(dependencies_ending_with,1) >= 2
-%                             admissible_set = subtract_row(admissible_set,i);
-%                         end
-%                         
-%                     end
-%                     
-%                 end
                 
                 %%%%%%%%%%
                 % Tasks may have several dependencies (here, we should make
@@ -1235,31 +1118,6 @@ end
                         admissible_set = find(end_times <= cur_task(1) & ...
                             end_times >= cur_task(1)-round(ad_count*cur_task(1)/max_chain_length));
                         
-%                         cand = [find(ismember(TimelineSolution{cur_task(end)},cur_task),1) cur_task(end)];
-
-
-%                         cand=[task_index, task_timeline];
-%                         currently_dep1 = find(ismember(DependencyMatrix(:,2:4),[task_timeline, cand],'rows'));
-%                         % No need to specify time-line as already given.
-%                         currently_dep_set1 = DependencyMatrix(currently_dep1,1);
-%                         
-%                         currently_dep2 = find(ismember(DependencyMatrix(:,[1:2,4]),[cand, task_timeline],'rows'));
-%                         % No need to specify time-line as already given.
-%                         currently_dep_set2 = DependencyMatrix(currently_dep2,3);
-%                         currently_dep = [currently_dep1; currently_dep2];
-%                         currently_dep_set = [currently_dep_set1; currently_dep_set2];
-                        
-%                         currently_dep_set_aug = [];
-%                         if ~isempty(currently_dep_set)
-%                             for xyz=1:size(currently_dep_set,1)
-%                                 currently_dep_set_aug = [currently_dep_set_aug; ConvertToLong(currently_dep_set(xyz,1),currently_dep_set(xyz,2))];
-%                             end
-%                         end
-                        
-                        % What to include in currently_dep_set_aug? Current
-                        % task task dependencies, surely!
-                        
-%                         admissible_set = setdiff(admissible_set,currently_dep_set_aug);
                         
                         %%%%%%%%%%%%%%%% Nytt %%%%%%%%%%%%%%%%%
                         cur_task_deps_left = find(ismember(DependencyMatrix(:,2:4),[task_timeline, task_index, task_timeline],'rows'));
@@ -1302,12 +1160,7 @@ end
                         
                         %                         cand = [find(ismember(TimelineSolution{cur_task(end)},cur_task),1) cur_task(end)];
                         cand=[task_index, task_timeline];
-%                         task_index
-%                         task_timeline
-%                         size(cand)
-%                         size(DependencyMatrix)
-% size(DependencyMatrix,1)
-% DependencyMatrix
+%                       
                         currently_dep1 = find(ismember(DependencyMatrix(:,3:4),cand,'rows'));
 %                         ismember(DependencyMatrix(:,3:4),cand,'rows')'
                         currently_dep_set1 = DependencyMatrix(currently_dep1,1:2);
@@ -1341,57 +1194,6 @@ end
             
         end
         
-%         disp('Converting')
-%         ConvertToLong(task_index,task_timeline)
-%         admissible_set
-        
-%         if first_pass == 1 && i <= Ntasks && size(tasks_left,1) > 0
-%             if constrain == 1
-%                 
-%                 task_start = cur_task(1);
-%                 task_length = cur_task(2);
-%                 task_timeline = cur_task(end);
-%                 
-%                 start_times = TimelineSolution{task_timeline}(:,1);
-%                 
-%                 admissible_set = find(start_times >= task_start+task_length && ...
-%                     start_times <= round(check_iterator*(L-(task_start+task_length))/max_chain_length));
-%                 
-%                 if ~isempty(admissible_set)
-%                     admissible_set = admissible_set+prev_indices(task_timeline);
-%                 end
-%             else
-%                 admissible_set = find(starting_times >= cur_task(1)+cur_task(2) && ...
-%                     starting_times <= round(check_iterator*(L-(cur_task(1)+cur_task(2)))/max_chain_length));
-%             end
-%             if size(admissible_set,1) > 0
-%                 for it=1:size(admissible_set,1)
-%                     candidate = ConvertLongIndex(admissible_set(i));
-%                     dependencies_beginning_with = find(ismember(DependencyMatrix(:,1:2),candidate,'rows'));
-%                     dependencies_ending_with = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
-%                     if size(dependencies_beginning_with,1)+size(dependencies_ending_with,1) >= 2
-%                         admissible_set = subtract_row(admissible_set,i);
-%                     end
-%                     
-%                 end
-%                 
-%             else
-%                 bool = 1;
-%                 direction=2;
-%             end
-%             
-%         else
-%             
-%             
-%             
-%         end
-%         
-%         if size(admissible_set,1) > size(currently_dependent_upon,1)
-%             bool =1;
-%         elseif check_iterator >= max_chain_length
-%             direction = 2;
-%             bool = 1;
-%         end
         
         
     end
@@ -1421,157 +1223,5 @@ end
 
 end
 
-%             while bool == 0
-%                 if first_pass == 1 && i <= Ntasks && size(tasks_left,1) > 0
-%                     if constrain == 1
-%
-%                         task_start = cur_task(1);
-%                         task_length = cur_task(2);
-%                         task_timeline = cur_task(end);
-%
-%                         start_times = TimelineSolution{task_timeline}(:,1);
-%
-%                         admissible_set = find(start_times >= task_start+task_length && ...
-%                             start_times <= round(check_iterator*(L-(task_start+task_length))/max_chain_length));
-%
-%                         if ~isempty(admissible_set)
-%                             admissible_set = admissible_set+prev_indices(task_timeline);
-%                         end
-%                     else
-%                         admissible_set = find(starting_times >= cur_task(1)+cur_task(2) && ...
-%                             starting_times <= round(check_iterator*(L-(cur_task(1)+cur_task(2)))/max_chain_length));
-%                     end
-%                     
-%                     if size(admissible_set,1) > 0
-%                         for it=1:size(admissible_set,1)
-%                             candidate = ConvertLongIndex(admissible_set(i));
-%                             dependencies_beginning_with = find(ismember(DependencyMatrix(:,1:2),candidate,'rows'));
-%                             dependencies_ending_with = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
-%                             if size(dependencies_beginning_with,1)+size(dependencies_ending_with,1) >= 2
-%                                 admissible_set = subtract_row(admissible_set,i);
-%                             end
-%
-%                         end
-%
-%
-%
-%                     else
-%                         bool = 1;
-%                         direction=2;
-%                     end
-%
-%                 else
-%
-%                 end
-%
-%                 if size(admissible_set,1) > size(currently_dependent_upon,1)
-%                     bool =1;
-%                 elseif check_iterator >= max_chain_length
-%                     direction = 2;
-%                     bool = 1;
-%                 end
-%
-%             end
 
-
-
-
-% Check if we may create a backwards-going chain.
-%             if direction == 2
-%                 bool = 0;
-%                 while bool == 0
-%                     
-%                     if first_pass == 1 && i <= Ntasks && size(tasks_left,1) > 0
-%                     admissible_set = find(ending_times <= cur_task(1) && ...
-%                         ending_times >= cur_task(1)-round(check_iterator*cur_task(1)/max_chain_length));
-%                     else
-%
-%                     end
-%                     currently_dependent_upon = find(ismember(DependencyMatrix(:,3:4),candidate,'rows'));
-%
-%                     if size(admissible_set,1) > size(currently_dependent_upon,1)
-%                         bool =1;
-%                     elseif check_iterator >= max_chain_length
-%                         no_admissible_chain = 1;
-%                         chain_bool = 0;
-%                         bool = 1;
-%                     end
-%                 end
-%             end
-
-
-
-
-%                             if timeline_jumps == 0
-%                                 if first_pass == 1 && i <= Ntasks && size(tasks_left,1) > 0
-%                                     
-%                                     admissible_set = find(starting_times >= cur_task(1)+cur_task(2) && starting_times <= round(check_iterator*(L-(cur_task(1)+cur_task(2)))/max_chain_length));
-%                                     
-%                                 end
-%                                 start_times = TimelineSolution{candidate(2)}(:,1);
-%                                 admissible_set = find(start_times >= TimelineSolution{candidate(2)}(candidate(1),1)+ ...
-%                                     TimelineSolution{candidate(2)}(candidate(1),2));
-%                                 if ~isempty(admissible_set)
-%                                     admissible_set = admissible_set+prev_indices(candidate(2));
-%                                 end
-%                                 
-%                                 
-%                             else 
-%                                 %  Enlarge
-%                                 %  the probability of finding a task on the
-%                                 %  current time-line using number of
-%                                 %  timelines*expected length of the chain/2.
-%                                 %  Must do similar checks here.
-%                                 
-%                                 if first_pass == 1 && i <= Ntasks && size(tasks_left,1) > 0
-%                                     
-%                                     admissible_set = find(starting_times >= cur_task(1)+cur_task(2) && starting_times <= round(check_iterator*(L-(cur_task(1)+cur_task(2)))/max_chain_length));
-%                                 else
-%                                     
-%                                     
-%                                     
-%                                 end
-%                             end
-
-
-%                 elseif no_admissible_chain == 0
-%                     %
-%                     % Create chain by searching backwards
-%                     while chain_bool == 1
-%                         
-%                         bool = 0;
-%                         admissible_set = [];
-%                         check_iterator =1;
-%                         while bool == 0
-%                             %                     admissible_set = find(starting_times >= TimelineSolution{cur_task(end)}(candidate(1),1)+ ...
-%                             %                     TimelineSolution{candidate(2)}(candidate(1),2));
-%                             admissible_set = find(starting_times >= cur_task(1)+cur_task(2) && starting_times <= round(check_iterator*(L-(cur_task(1)+cur_task(2)))/max_chain_length));
-%                             
-%                             if ~isempty(admissible_set)
-%                                 bool =1;
-%                             elseif check_iterator >= max_chain_length
-%                                 % Attempt to go backwards. If not even
-%                                 % that succeeds, then go regular.
-%                                 direction = 2;
-%                             end
-%                             
-%                             if direction == 2
-%                                 % Might need an iterator here, so that we
-%                                 % always get a sufficiently long chain.
-%                                 admissible_set = find(ending_times <= cur_task(1) && ending_times >= cur_task(1)-round(check_iterator*cur_task(1)/max_chain_length));
-%                                 
-%                                 
-%                             end
-%                         end
-%                         % Dependencies should be on the current
-%                         % time-line, mainly. So begin by checking if it
-%                         % works on the own time-line, given no chain.
-%                         
-%                         j=j+1;
-%                         if j > chain_length
-%                             chain_bool = 0;
-%                         end
-%                     end
-%                 else
-%                     % Cannot create a chain
 

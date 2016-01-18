@@ -1,5 +1,5 @@
 % Created by: Isak Bohman, 2015
-function [DependencyAttribute] = Generatedependencyattributes(TimelineSolution, DependencyMatrix, variance, mu, L, N, T, distrib6, std6, mu4, std2, distrib2, mu2)
+function [DependencyAttribute] = Generatedependencyattributes(TimelineSolution, DependencyMatrix, L, N, T, distrib6, std6, mu4, std2, distrib2, mu2)
 % Generates dependency attributes with the desired characteristics.
 
 % This is simple, given a dependency. Very similar to the other attributes

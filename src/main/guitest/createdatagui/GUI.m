@@ -1,6 +1,4 @@
 % Created by: Isak Bohman, 2015
-% Here, it might be that we should be able to read data from test data
-% files as well
 
 function GUI
 
@@ -147,17 +145,11 @@ unif_distr = @(mu, sigma) uniform_distribution(mu, sigma);
 chi2_distr = @(mu, sigma) chi2_distribution(mu, sigma);
 
 % Function objects for functions to be used.
-genlistoflen = @(listofstartingpoints,L) generatelistoflength(listofstartingpoints,L);
 genlistoflst = @(L, N, occupancy, distrib4, std4, std7, distrib7) genlistoflengths_startpts(L, N, occupancy, distrib4, std4, std7, distrib7);
-genlistofstartpts = @(L, N) generatelistofstartingpoints(L, N);
 gentasks = @( Ntasks, Ntimelines, distrib8, std8 ) generateNumberoftasksinTimelinevector( Ntasks, Ntimelines, distrib8, std8 );
-attrgen_unif = @(TimelineSolution,L,variance,mu) Attributegenerator_uniform(TimelineSolution,L,variance,mu);
-attrgen_norm = @(TimelineSolution,L,variance,mu) Attributegenerator_norm(TimelineSolution,L,variance,mu);
-gendepmatrix = @(TimelineSolution, Ndependencies, variance, mu, rectify,constrain,L, chains) Generatedependencymatrix(TimelineSolution, Ndependencies, variance, mu, rectify,constrain,L, chains);
-gendepattr = @(TimelineSolution,DependencyMatrix, variance, mu, L, N, T, distrib6, std6, mu4, std2, distrib2, mu2) Generatedependencyattributes(TimelineSolution,DependencyMatrix, variance, mu, L, N, T, distrib6, std6, mu4, std2, distrib2, mu2);
+gendepmatrix = @(TimelineSolution, Ndependencies, rectify,constrain,L, chains) Generatedependencymatrix(TimelineSolution, Ndependencies, rectify,constrain,L, chains);
+gendepattr = @(TimelineSolution,DependencyMatrix, L, N, T, distrib6, std6, mu4, std2, distrib2, mu2) Generatedependencyattributes(TimelineSolution,DependencyMatrix, L, N, T, distrib6, std6, mu4, std2, distrib2, mu2);
 
-% Current choice of distribution for attributes generator
-attrgen = attrgen_norm;
 
 % Various choices of distributions. 
 % The numbering here corresponds to the numbering used for standard deviations
@@ -206,34 +198,15 @@ diff_type = 0;
 
 dummies_selector = 1;
 
-% bool2 = 0;
-% while bool2==0
-%     testfile = strcat('../../../test/testdata/TimelineSolution','B',num2str(testdataiterator(2)), '.dat');
-%     if exist(testfile, 'file') == 2
-%         testdataiterator(2) = testdataiterator(2) + 1;
-%     else
-%         bool2 = 1;
-%     end
-% end
-% 
-% bool3 = 0;
-% while bool3==0
-%     testfile = strcat('../../../test/testdata/TimelineSolution','C',num2str(testdataiterator(3)), '.dat');
-%     if exist(testfile, 'file') == 2
-%         testdataiterator(3) = testdataiterator(3) + 1;
-%     else
-%         bool3 = 1;
-%     end
-% end
-
 %%%%%%%%%% Figure displaying tasks and dependencies
-f2 = figure('Visible','on','Position',[10,100,1400,1000]);
+f2 = figure('Visible','on','Position',[10,100,1000,800]);
+set(gcf,'numbertitle','off','name','Window 1')
 
 % Checkbox for activating the display of dependencies.
 checkbox = uicontrol(f2,'Style','checkbox',...
     'String','Display dependencies (dot denotes the endpoint of a dependency)',...
     'Units','normalized', ...
-    'Value',0,'Position',[0.35 0.03 0.3 0.05], ...
+    'Value',0,'Position',[0.3 0.02 0.4 0.05], ...
     'Callback', @checkbox_callback);
 
 % Callback for the checkbox above.
@@ -254,7 +227,8 @@ checkbox = uicontrol(f2,'Style','checkbox',...
 ha2 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
 
 %%%%%%%%%% Figure exhibiting task deadlines and minimum starting times.
-f3 = figure('Visible','on','Position',[10,100,1400,1000]);
+f3 = figure('Visible','on','Position',[10,100,800,600]);
+set(gcf,'numbertitle','off','name','Window 2')
 
 % Axes object for the display of task deadlines and minimum starting times.
 ha3 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.7,0.85]);
@@ -280,12 +254,14 @@ timeline_selection = 1;
     end
 
 %%%%%%%%%% Figure displaying dependency attributes
-f4 = figure('Visible','on','Position',[10,100,1400,1000]);
+f4 = figure('Visible','on','Position',[10,100,950,600]);
+set(gcf,'numbertitle','off','name','Window 3')
 
 ha4 = axes('Units','pixels', 'Units','normalized','Position',[0.05,0.1,0.9,0.85]);
 
 %%%%%%%%%% Figure for the main GUI
 f = figure('Visible','on','Position',[160,200,1600,800]);
+set(gcf,'numbertitle','off','name','Window 4')
 
 % Data creation panel.
 p = uipanel('Title','Data creation',...
@@ -495,19 +471,11 @@ testdatasave    = uicontrol('Style','pushbutton',...
                 
                 if bool0 == 1
                     % Folder is empty.
-                    %                 UserFile1 = strcat(dir,'/TimelineSolution', '.dat');
-                    %                 UserFile2 = strcat(dir,'/TimelineAttributes', '.dat');
-                    %                 UserFile3 = strcat(dir,'/DependencyMatrix', '.dat');
-                    %                 UserFile4 = strcat(dir,'/DependencyAttributes', '.dat');
                     UserFile5 = strcat(dir,'/Testinfo', '.dat');
                     mod_UserFile1 = strcat(dir,'/Tasks', '.dat');
                     mod_UserFile2 = strcat(dir,'/Dependencies', '.dat');
                     mod_UserFile3 = strcat(dir,'/AMPL', '.dat');
                 else
-                    %                 UserFile1 = strcat(dir,'/TimelineSolution',num2str(testdataiterator), '.dat');
-                    %                 UserFile2 = strcat(dir,'/TimelineAttributes',num2str(testdataiterator), '.dat');
-                    %                 UserFile3 = strcat(dir,'/DependencyMatrix',num2str(testdataiterator), '.dat');
-                    %                 UserFile4 = strcat(dir,'/DependencyAttributes',num2str(testdataiterator), '.dat');
                     % Multiple test data already in folder
                     UserFile5 = strcat(dir,'/Testinfo',num2str(testdataiterator), '.dat');
                     mod_UserFile1 = strcat(dir,'/Tasks',num2str(testdataiterator), '.dat');
@@ -515,19 +483,6 @@ testdatasave    = uicontrol('Style','pushbutton',...
                     mod_UserFile3 = strcat(dir,'/AMPL',num2str(testdataiterator), '.dat');
                 end
                 
-                %         fil1 = [];
-                %         fil2 = [];
-                %         for it=1:length(TimelineSolution)
-                %             fil1 = [fil1; TimelineSolution{it}, it*ones(size(TimelineSolution{it},1),1)];
-                %             fil2 = [fil2; attributes{it}, it*ones(size(TimelineSolution{it},1),1)];
-                %         end
-                
-                
-                %             fil1 = TimelineSolution_mater;
-                %             fil2 = attributes_mater;
-                %             %             fil3 = DependencyMatrix_mater;
-                %             fil3 = Modified_DependencyMatrix_mater;
-                %             fil4 = DependencyAttribute_mater;
                 
                 % Add the time-line matrix
                 fil1_mod_orig = [TimelineSolution_mater(:,1), attributes_mater(:,1:3), TimelineSolution_mater(:,3) TimelineSolution_mater(:,end)];
@@ -542,13 +497,6 @@ testdatasave    = uicontrol('Style','pushbutton',...
                 fil1_mod = fil1_mod_orig(indices1,1:end-1);
                 fil2_mod = fil2_mod_orig(indices2,1:end-1);
                 
-                % Två olika lägen beroende på vad användaren har valt!
-                
-                % Ska det exakta antalet tasks och deps. skrivas in eller
-                % räcker väntevärdet?
-                %             fil5 = [N, L, T, Num_data, Ndeps, occupancy, constrain, rectify, std1, std2, std3, std4, std5, std6, std7, std8, std9, ...
-                %                 mu1, mu2, mu3, mu4, difficulty_number, dist_sel1, dist_sel2, dist_sel3, dist_sel4, dist_sel5, dist_sel6, dist_sel7, dist_sel8, ...
-                %                 dist_sel9]';
                 
                 % Save test information.
                 fil5 = [dummy2_selector, N, L, T, Num_data, Ndeps, occupancy, constrain, rectify, std1, std2, std3, std4, std5, std6, std7, std8, std9, ...
@@ -556,18 +504,6 @@ testdatasave    = uicontrol('Style','pushbutton',...
                     dist_sel9]';
                 
                 
-                %         fil5 = strcat('N = ', num2str(N), '\n', ...
-                %             'L = ', num2str(L), '\n', ...
-                %             'T = ', num2str(T), '\n', ...
-                %             'Num_data = ', num2str(Num_data), '\n', ...
-                %             'Ndeps = ', num2str(Ndeps), '\n', ...
-                %             'occupancy = ', num2str(occupancy), '\n');
-                %         fil5 = strcat('N');
-                
-                %             save(UserFile1, 'fil1', '-ascii')
-                %             save(UserFile2, 'fil2', '-ascii')
-                %             save(UserFile3, 'fil3', '-ascii')
-                %             save(UserFile4, 'fil4', '-ascii')
                 
                 % Save the test data
                 save(UserFile5, 'fil5', '-ascii')
@@ -581,7 +517,7 @@ testdatasave    = uicontrol('Style','pushbutton',...
         end
     end
 
-% LAunch testing GUI. Not used
+% Launch testing GUI. Not used
 launch_test_gui_btn    = uicontrol('Style','pushbutton',...
     'String','Launch testing GUI', 'Units','normalized','Position',button_pos,...
     'Callback',@launch_test_gui_callback);
@@ -716,13 +652,11 @@ distr6 = uicontrol(distribution3_group,'Style','radiobutton','String','Uniform',
     'Tag', 'rab2', 'BackgroundColor',color1);
 
     function distr5_callback(source,eventdata)
-        attrgen = attrgen_norm;
         distrib3 = norm_distr;
         dist_sel3 = 0;
     end
 
     function distr6_callback(source,eventdata)
-        attrgen = attrgen_unif;
         distrib3 = unif_distr;
         dist_sel3 = 1;
     end
@@ -1236,7 +1170,7 @@ depattr_long = uicontrol(depattr_group,'Style','radiobutton','String','Long',...
     end
 %% Simple 2 GUI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dummy2_group = uibuttongroup(f,'Title','For dummies II',...
+dummy2_group = uibuttongroup(f,'Title','Further Simplified Mode',...
     'Position',[.725 .5 .20 .12], 'BackgroundColor',color3);
 
 % Many dependencies data
@@ -2150,43 +2084,6 @@ depspat_slider = uicontrol(f,'Style','slider',...
 set(allchild(depspat_group),'Enable','off');
 set(depspat_slider,'Enable','off');
 set(depspat_text,'Enable','off');
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% htext3  = uicontrol('Style','text','String','Sparseness:', 'Units','normalized',...
-%     'Position',[0.81,0.9,0.08,0.03]);
-
-
-% txtbox1 = uicontrol('Style','edit',...
-%     'String',num2str(12), 'Units','normalized',...
-%     'Position',[0.735 0.82 0.03 0.02],...
-%     'Callback',@txtbox1_callback);
-
-% uicontrol(f,'Style','slider',...
-%                 'Min',0,'Max',100,'Value',25,...
-%                 'SliderStep',[0.05 0.2], ...
-%                 'Units','normalized',...
-%                 'Position',[0.71 0.87 0.08 0.02]);
-            
-% uicontrol(f,'Style','slider',...
-%                 'Min',0,'Max',100,'Value',25,...
-%                 'SliderStep',[0.05 0.2], ...
-%                 'Units','normalized',...
-%                 'Position',[0.81 0.87 0.08 0.02]);
-
-
-% uicontrol(f,'Style','slider',...
-%                 'Min',0,'Max',100,'Value',25,...
-%                 'SliderStep',[0.05 0.2], ...
-%                 'Units','normalized',...
-%                 'Position',[0.71 0.67 0.08 0.02]);
-% 
-% uicontrol(f,'Style','slider',...
-%                 'Min',0,'Max',100,'Value',25,...
-%                 'SliderStep',[0.05 0.2], ...
-%                 'Units','normalized',...
-%                 'Position',[0.71 0.77 0.08 0.02]);
-            
             
 %%%%%%%%%%%%%%%%%%%%%%%%%%% Level of occupancy %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -2230,9 +2127,8 @@ slider5 = uicontrol(f,'Style','slider',...
         
         % We need to iterate across the number of test data to be created.
         for it=1:Num_data
-            [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, genlistoflen, ...
-                genlistofstartpts,gentasks, attrgen, ...
-                gendepmatrix,gendepattr, Ndeps, 1, 1, 1, 1, occupancy, genlistoflst, rectify, std1,std2,std3,std4,std5,std6,std7,std8, ...
+            [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, gentasks, ...
+                gendepmatrix,gendepattr, Ndeps, occupancy, genlistoflst, rectify, std1,std2,std3,std4,std5,std6,std7,std8, ...
                 std9,mu1,mu2,mu3,mu4,distrib1,distrib2,distrib3,distrib4,distrib5,distrib6,distrib7,distrib8,distrib9,constrain, chains);
             
             % Clear colors
@@ -2359,9 +2255,8 @@ data_sets = 10;
                 
                 % We need to iterate across the number of test data to be created.
                 for it=1:Num_data
-                    [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, genlistoflen, ...
-                        genlistofstartpts,gentasks, attrgen, ...
-                        gendepmatrix,gendepattr, Ndeps, 1, 1, 1, 1, occupancy, genlistoflst, rectify, std1,std2,std3,std4,std5,std6,std7,std8, ...
+                    [ TimelineSolution, attributes, DependencyMatrix, DependencyAttribute ] = Testdatagenerator(N, L, T, gentasks, ...
+                        gendepmatrix,gendepattr, Ndeps, occupancy, genlistoflst, rectify, std1,std2,std3,std4,std5,std6,std7,std8, ...
                         std9,mu1,mu2,mu3,mu4,distrib1,distrib2,distrib3,distrib4,distrib5,distrib6,distrib7,distrib8,distrib9,constrain);
                     
                     % Clear colors
